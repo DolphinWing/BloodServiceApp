@@ -1,0 +1,18 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/title_open_source">
+        <Preference
+            android:key="open_okhttp"
+            android:title="@string/title_open_source_okhttp"/>
+        <Preference
+            android:key="open_stickygridheaders"
+            android:title="@string/title_open_source_stickygridheaders"/>
+        <Preference
+            android:key="open_markushi_android_ui"
+            android:title="@string/title_open_source_markushi_android_ui"/>
+        <Preference
+            android:key="open_circleimageview"
+            android:title="@string/title_open_source_circleimageview"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

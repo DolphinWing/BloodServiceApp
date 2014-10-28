@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
+    <item android:id="@+id/action_facebook"
+        android:title="@string/action_go_to_facebook"
+        android:icon="@drawable/facebook"
+        app:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_go_next_week"
+        android:title="@string/action_go_next_week"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_go_last_week"
+        android:title="@string/action_go_last_week"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_go_back_today"
+        android:title="@string/action_go_back_today"
+        app:showAsAction="never" />
+</menu>

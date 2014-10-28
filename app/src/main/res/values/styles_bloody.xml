@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Bloody" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <!-- Remove system title bars; we will add the action bar ourselves. -->
+        <item name="android:windowNoTitle">true</item>
+        
+        <!-- Text colors -->
+        <item name="android:textColorSecondary">@color/abc_secondary_text_material_dark</item>
+        <item name="android:textColorSecondaryInverse">@color/abc_secondary_text_material_light</item>
+
+        <item name="android:listChoiceIndicatorMultiple">@drawable/bloody_btn_check_holo_light</item>
+        <item name="android:buttonStyle">@style/ButtonBloody</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonBloody</item>
+    </style>
+
+    <style name="Theme.Bloody.Settings" parent="Theme.AppCompat.Light">
+        <item name="windowActionBar">true</item>
+
+        <item name="android:buttonStyle">@style/ButtonBloody</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonBloody</item>
+    </style>
+
+    <style name="Theme.Bloody.TextAppearance" parent="@android:style/TextAppearance.Holo"/>
+
+    <style name="Theme.Bloody.TextAppearance.Large" parent="@style/TextAppearance.AppCompat.Large" />
+
+    <style name="Theme.Bloody.TextAppearance.Medium" parent="@style/TextAppearance.AppCompat.Medium.Inverse" />
+    
+    <style name="Theme.Bloody.TextAppearance.Title" parent="@style/TextAppearance.AppCompat.Title.Inverse"/>
+
+    <style name="Theme.Bloody.TextAppearance.Title.Storage" parent="@style/TextAppearance.AppCompat.Title"/>
+    
+    <style name="Theme.Bloody.Widget" />
+    
+    <style name="Theme.Bloody.Widget.ActionBar" parent="@style/Widget.AppCompat.Toolbar"/>
+    
+    <style name="Theme.Bloody.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"/>
+
+    <style name="ButtonBloody" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@drawable/bloody_btn_colored_holo_light</item>
+    </style>
+
+    <style name="ImageButtonBloody" parent="android:Widget.Holo.Light.ImageButton">
+        <item name="android:background">@drawable/bloody_btn_default_holo_light</item>
+    </style>
+
+</resources>

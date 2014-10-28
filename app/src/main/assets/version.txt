@@ -1,0 +1,130 @@
+快速查詢最近的捐血活動，以及台灣各血液中心目前的庫存狀態。
+
+資料來源為醫療財團法人台灣血液基金會(http://www.blood.org.tw/)
+程式需要網路連線來抓取最新資料，以便提供最即時資訊。
+
+如果您不喜歡廣告，請到設置中將廣告取消。不會收取任何費用:)
+
+----
+[18] @ 2014-10-27
+    show/hide ads when change preference
+    add facebook link design (need to tweak the icon)
+
+[17] @ 2014-10-26
+    add preferences
+
+[16] @ 2014-10-25
+    add analytic data
+    update layout for tablets/phones
+    change AdView size to SMART_BANNER in large screen
+    many small tweaks
+
+[15] @ 2014-10-24
+    overflow button color is made by secondary color
+
+[14] @ 2014-10-23
+    Device rotation results in NullPointerException
+    http://stackoverflow.com/a/12967721/2673859
+    
+    use AppCompat to have Toolbar implementation
+
+    add CircleImageView
+
+TODO: try to find out why overflow button cannot be white
+    https://chromium.googlesource.com/android_tools/+/master/sdk/extras/android/support/v7/appcompat/res/
+
+[13] @ 2014-10-22
+    add Google AdMob
+    build a new demo app for testing
+
+Known issue:
+    ViewPager will FC when screen rotation
+        Caused by: java.lang.NullPointerException
+            at MainActivity.onUpdateStart(MainActivity.java:172)
+    temporary solution: set orientation to locked
+
+[12] @ 2014-10-21 @ work
+    add at.markushi.ui.ActionView library
+    
+    Using the Material Theme
+    https://developer.android.com/training/material/theme.html
+    
+    Defining Shadows and Clipping Views
+    https://developer.android.com/training/material/shadows-clipping.html
+    
+    UA-4163873-10
+    
+    Google Analytics SDK v4 for Android - Getting Started
+    https://developers.google.com/analytics/devguides/collection/android/v4/
+    
+    fix click on donation force close: mListener.onFragmentInteraction
+        at dolphin.android.apps.BloodServiceApp.ui.BaseListFragment.onItemClick(BaseListFragment.java:126)
+
+[11] @ 2014-10-17
+    fix no connection => no data => java.lang.NullPointerException in BloodDataHelper.java:105
+
+[10] @ 2014-10-16
+    change tablet layout
+
+[9] @ 2014-10-15 @ work
+    material design layout, add dimens.xml
+    change drawer and location icon
+
+[8] @ 2014-10-14 @ home
+    add StickyHeaderGridView
+        adjust the fragment for tablet and phone
+    adjust navigation drawer background
+    tab click switch done
+
+[7] @ 2014-10-14 @ work
+    compile 'com.tonicartos:stickygridheaders:1.0.1'
+    put sorted data to StickyGridHeadersSimpleArrayAdapter will be OK!
+
+[6] @ 2014-10-13
+    fix tablet layout using grid/list view check
+        FIXME: currently we can only use ListView since we didn't implement Header!
+
+[5] @ 2014-10-12
+    adjust layouts
+
+TODO:
+    1) click to change viewpager
+    2) FB link (if possible)
+    3) slide up to hide action bar, slide down to show
+    4) GridView in tablet layout?
+    5) navigation drawer menu icon click animation
+    6) debug/release eng_mode flag
+    7) round storage icon
+
+[4] @ 2014-10-11
+    donation activity layout
+    blood storage layout
+    navigation drawer
+    adjust icon and layouts
+
+[3] @ 2014-10-10
+    add ViewPagerIndicator
+        https://github.com/JakeWharton/Android-ViewPagerIndicator
+    add style
+    add layout for data
+
+TODO:
+    1) donation activity layout
+    2) blood storage layout (need improvement)
+    3) navigation drawer
+	
+Reference:
+	Calculating distance between two geographic locations
+		http://stackoverflow.com/a/8050255
+	Blood Center location
+		http://www.blood.org.tw/Internet/main/map.aspx?spotID=68
+
+[2] @ 2014-10-08
+    use OkHttp module to download html
+    complete the blood storage parsing
+    complete weekly blood donation activity parsing
+
+[1] @ 2014-10-06
+    initial project
+
+    add MyUtilsLibrary and some basic classes

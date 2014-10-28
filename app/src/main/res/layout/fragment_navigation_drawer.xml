@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dolphin.android.apps.BloodServiceApp.ui.NavigationDrawerFragment"
+    android:background="#ffefefef">
+
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_appbar_height"
+        android:background="@color/bloody_color"
+        android:text="@string/title_section3"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/material_horizontal_margin"
+        style="@style/Theme.Bloody.Widget.ActionBar.Title" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:id="@android:id/list"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ripple_material_light" />
+
+    <TextView
+        android:id="@android:id/edit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/material_horizontal_margin"
+        android:text="@string/action_settings"
+        android:background="@drawable/abc_list_selector_holo_light" />
+
+</LinearLayout>

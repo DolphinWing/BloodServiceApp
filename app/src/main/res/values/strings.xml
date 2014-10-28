@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">捐血活動快查</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">設定</string>
+
+    <!--  -->
+    <string name="pattern_separator">：</string>
+    <string name="title_activity_main">主程式</string>
+    <string name="title_section1">庫存</string>
+    <string name="title_section2">活動</string>
+    <string name="title_section3">血液中心</string>
+
+    <!--  -->
+    <string-array name="blood_storage_status">
+        <item>庫存量0</item>
+        <item>庫存量4日以下</item>
+        <item>庫存量4~7日</item>
+        <item>庫存量7日以上</item>
+    </string-array>
+    <string-array name="blood_type">
+        <item>A型</item>
+        <item>B型</item>
+        <item>0型</item>
+        <item>AB型</item>
+    </string-array>
+    <string-array name="blood_center">
+        <item>台灣血液基金會</item>
+        <item>台北捐血中心</item>
+        <item>新竹捐血中心</item>
+        <item>台中捐血中心</item>
+        <item>台南捐血中心</item>
+        <item>高雄捐血中心</item>
+        <item>花蓮捐血中心</item>
+    </string-array>
+
+    <string name="title_data_not_available">目前暫無資料</string>
+    <string name="action_go_next_week">下一周</string>
+    <string name="action_go_last_week">上一周</string>
+    <string name="action_go_back_today">回到今日</string>
+
+    <string name="title_activity_settings">設置</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">一般設定</string>
+    <string name="app_version">版本</string>
+    <string name="app_build_info">版本資訊</string>
+    <string name="app_change_log">更新紀錄</string>
+    <!--<string name="title_copyright">版權</string>
+    <string name="title_about_app">關於程式</string>-->
+    <string name="title_open_source">Open source</string>
+    <string name="title_open_source_okhttp">OkHttp</string>
+    <string name="title_open_source_stickygridheaders">StickyGridHeaders</string>
+    <string name="title_open_source_markushi_android_ui">markushi android-ui</string>
+    <string name="title_open_source_circleimageview">CircleImageView</string>
+    <string name="title_adview">廣告</string>
+    <string name="title_enable_adview">顯示廣告</string>
+    <string name="title_enable_adview_in_storage_list">在主頁顯示廣告</string>
+    <string name="action_go_to_facebook">前往粉絲團</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+</resources>
+

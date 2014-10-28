@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="default_line_indicator_snap">false</bool>
+
+    <string-array name="blood_type_value">
+        <item>A</item>
+        <item>B</item>
+        <item>O</item>
+        <item>AB</item>
+    </string-array>
+    <integer-array name="blood_center_id">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
+    
+    <!--
+    <string name="ga_trackingId">UA-4163873-10</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7557398389502445/8240645785</string>
+    -->
+
+</resources>

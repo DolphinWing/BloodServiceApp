@@ -1,0 +1,17 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header
+        android:fragment="dolphin.android.apps.BloodServiceApp.pref.GeneralPreferenceFragment"
+        android:title="@string/pref_header_general" />
+
+    <header
+        android:fragment="dolphin.android.apps.BloodServiceApp.pref.SettingsActivity$NotificationPreferenceFragment"
+        android:title="@string/pref_header_notifications" />
+
+    <header
+        android:fragment="dolphin.android.apps.BloodServiceApp.pref.OpenSourceFragment"
+        android:title="@string/title_open_source" />
+
+</preference-headers>

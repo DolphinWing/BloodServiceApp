@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bloody_color">#cc2211</color>
+    <color name="bloody_darker_color">#cc2211</color>
+    <color name="bloody_accent_color">#cc2211</color>
+    <color name="bloody_stacked_color">#151515</color>
+    <color name="bloody_popup_color">#303030</color>
+</resources>

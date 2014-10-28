@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="TypographyDashes">
+    <bool name="eng_mode">false</bool>
+    <bool name="feature_notification">false</bool>
+
+    <string name="ga_trackingId">UA-4163873-10</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7557398389502445/8240645785</string>
+</resources>
