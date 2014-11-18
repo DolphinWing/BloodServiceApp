@@ -1,6 +1,9 @@
 package dolphin.android.apps.BloodServiceApp.provider;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -197,5 +200,34 @@ public class BloodDataHelper {
             }
         }
         return mContext.getResources().getStringArray(R.array.blood_center)[i];
+    }
+
+    private final static String FACEBOOK_PACKAGE = "com.facebook.katana";
+    private final static String FACEBOOK_URL = "https://www.facebook.com";
+
+    //Opening facebook app on specified profile page
+    //http://stackoverflow.com/a/10788387/2673859
+    public static Intent getOpenFacebookIntent(Context context, int siteId) {
+        final int[] Ids = context.getResources().getIntArray(R.array.blood_center_id);
+        int i;
+        for (i = Ids.length - 1; i > 0; i--) {
+            if (Ids[i] == siteId) {
+                break;
+            }
+        }
+        final String fbIds = context.getResources().getStringArray(R.array.blood_center_facebook)[i];
+        Intent intent;
+        try {
+            //Checks if FB is even installed.
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(FACEBOOK_PACKAGE, 0);
+            //Trys to make intent with FB's URI
+            intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(String.format("fb://page/%s", fbIds.split(":")[1])));
+            intent.setPackage(pInfo.packageName);
+        } catch (Exception e) {//catches and opens a url to the desired page
+            intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(String.format("%s/%s", FACEBOOK_URL, fbIds.split(":")[0])));
+        }
+        return intent;
     }
 }

@@ -159,8 +159,20 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_facebook:
+				{//statics of click on Facebook button
+					String siteName = null;
+					TextView title = (TextView) findViewById(R.id.blood_center);
+					if (title != null) {
+						siteName = title.getText().toString();
+					}
+					sendGANavigationChanged("Facebook", siteName);
+				}
+                startActivity(BloodDataHelper.getOpenFacebookIntent(this, mSiteId));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
