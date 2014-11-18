@@ -19,9 +19,13 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 import java.util.Locale;
 
+import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 
 /**
@@ -151,6 +155,10 @@ public class SettingsActivity extends PreferenceActivity {
     public void onBuildHeaders(List<Header> target) {
         if (!isSimplePreferences(this)) {
             loadHeadersFromResource(R.xml.pref_headers, target);
+
+            if (!getResources().getBoolean(R.bool.feature_notification)) {
+                target.remove(1);
+            }
         }
     }
 
@@ -252,5 +260,18 @@ public class SettingsActivity extends PreferenceActivity {
             pref.setSummary(String.format(Locale.US, "%s (r%d)",
                     pInfo.versionName, pInfo.versionCode));
         }
+    }
+    
+    private void sendGAOpenActivity() {
+        // Get tracker.
+        Tracker t = ((MyApplication) getApplication()).getTracker(
+                MyApplication.TrackerName.APP_TRACKER);
+        // Set screen name.
+        // Where path is a String representing the screen name.
+        t.setScreenName("BloodServiceApp.SettingsActivity");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+        // Clear the screen name field when we're done.
+        t.setScreenName(null);
     }
 }

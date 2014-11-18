@@ -50,7 +50,6 @@ public class MyApplication extends Application {
                             ? analytics.newTracker(R.xml.tracker_global)
                             : analytics.newTracker(R.xml.tracker_ecommerce);
             mTrackers.put(trackerId, t);
-
         }
         return mTrackers.get(trackerId);
     }

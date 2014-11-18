@@ -118,6 +118,7 @@ public class NavigationDrawerFragment extends Fragment {
         ArrayList<String> list = new ArrayList<String>(Arrays.asList(centre));
         list.remove(0);
         mDrawerListView.setAdapter(new MyAdapter(getActivity(), list));
+        mDrawerListView.setItemsCanFocus(false);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         View pref = layout.findViewById(android.R.id.edit);
         pref.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +167,7 @@ public class NavigationDrawerFragment extends Fragment {
 
                 if (slideOffset < 0.5 && mActionView.getAction() instanceof BackAction) {
                     mActionView.setAction(new DrawerAction(), ActionView.ROTATE_CLOCKWISE);
-                } else if (slideOffset > 0.5 && mActionView.getAction() instanceof DrawerAction) {
+                } else if (slideOffset > 0.3 && mActionView.getAction() instanceof DrawerAction) {
                     mActionView.setAction(new BackAction(), ActionView.ROTATE_COUNTER_CLOCKWISE);
                 }
             }
@@ -178,7 +179,10 @@ public class NavigationDrawerFragment extends Fragment {
 
         SharedPreferences sp = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        sp.edit().putInt(PREF_USER_NEAR_BY_CENTER, position).apply();
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(PREF_USER_NEAR_BY_CENTER, position);
+        editor.putBoolean(PREF_USER_LEARNED_DRAWER, true);
+        editor.apply();
 
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
@@ -256,7 +260,6 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private class MyAdapter extends ArrayAdapter<String> {
-
         public MyAdapter(Context context, List<String> objects) {
             //android.R.layout.simple_list_item_activated_1
             super(context, R.layout.listview_blood_center,

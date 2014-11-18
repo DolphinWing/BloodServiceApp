@@ -2,6 +2,8 @@ package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
  * interface.
  */
 public class StorageFragment extends BaseListFragment {
+    private final static String TAG = "StorageFragment";
     private AdView mAdView;
 
     // TODO: Rename and change types of parameters
@@ -57,6 +60,7 @@ public class StorageFragment extends BaseListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d(TAG, "onCreate");
         mBloodType = getResources().getStringArray(R.array.blood_type_value);
         mBloodTypeName = getResources().getStringArray(R.array.blood_type);
         mBloodStorage = getResources().getStringArray(R.array.blood_storage_status);
@@ -78,10 +82,12 @@ public class StorageFragment extends BaseListFragment {
         }
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        mListView.setEmptyView(view.findViewById(android.R.id.empty));
 
         mAdView = (AdView) view.findViewById(R.id.adView);
         //hide ADs if user choose not to show it
         if (!PrefsUtil.isEnableAdView(getActivity())) {
+            Log.w(TAG, "no ads...");
             mAdView.setVisibility(View.GONE);
         }
 
@@ -92,19 +98,12 @@ public class StorageFragment extends BaseListFragment {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
 
-        if (mAdView == null/* || mAdView.getVisibility() != View.VISIBLE*/) {
+        Log.d(TAG, String.format("onActivityCreated %d", mAdView.getVisibility()));
+        if (mAdView == null || mAdView.getVisibility() != View.VISIBLE) {
             return;//to avoid possible NullPointerException
         }
 
-        // Create an ad request. Check logcat output for the hashed device ID to
-        // get test ads on a physical device. e.g.
-        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
-
-        // Start loading the ad in the background.
-        mAdView.loadAd(adRequest);
+        loadAds();
     }
 
     /**
@@ -112,7 +111,8 @@ public class StorageFragment extends BaseListFragment {
      */
     @Override
     public void onPause() {
-        if (mAdView != null) {
+        Log.d(TAG, "onPause");
+        if (mAdView != null && mAdView.getVisibility() == View.VISIBLE) {
             mAdView.pause();
         }
         super.onPause();
@@ -124,16 +124,43 @@ public class StorageFragment extends BaseListFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        Log.d(TAG, String.format("onResume %d %s", mAdView.getVisibility(),
+                PrefsUtil.isEnableAdView(getActivity())));
         if (mAdView != null) {
-            mAdView.resume();
-            if (PrefsUtil.isEnableAdView(getActivity())) {//no -> yes
-                mAdView.setVisibility(View.VISIBLE);
-            } else {//yes -> no
-                mAdView.setVisibility(View.GONE);
-                //mAdView.destroy();
-                //mAdView = null;
+            if (mAdView.getVisibility() == View.VISIBLE) {//previous yes
+                if (PrefsUtil.isEnableAdView(getActivity())) {//yes -> yes
+                    mAdView.resume();
+                } else {//yes -> no
+                    Log.v(TAG, "yes to no... that's fine");
+                    mAdView.setVisibility(View.GONE);
+                    mAdView.destroy();
+                }
+            } else {//previous no
+                if (PrefsUtil.isEnableAdView(getActivity())) {//no -> yes
+                    Log.v(TAG, "no to yes... THANK YOU!!!");
+                    //send a request to server
+                    loadAds();
+                }
             }
         }
+    }
+
+    private void loadAds() {
+        // Create an ad request. Check logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        final AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        // Start loading the ad in the background.
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                mAdView.loadAd(adRequest);
+            }
+        });
     }
 
     /**
@@ -151,6 +178,9 @@ public class StorageFragment extends BaseListFragment {
     public void updateFragment(int siteID, long timeInMillis) {
         super.updateFragment(siteID, timeInMillis);
         setFragmentBusy(true);
+        setEmptyText(getText(R.string.title_downloading_data));
+        setListAdapter(new MyAdapter(getActivity(), new ArrayList<Integer>()));
+        //setListAdapter(null);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -163,17 +193,15 @@ public class StorageFragment extends BaseListFragment {
         long start = System.currentTimeMillis();
 
         BloodDataHelper helper = new BloodDataHelper(getActivity());
-        SparseArray<HashMap<String, Integer>> array = helper.getBloodStorage();
+        SparseArray<HashMap<String, Integer>> array = helper.getBloodStorage(false);
         HashMap<String, Integer> map = array.get(getSiteId());
         if (map == null) {
             sendDownloadException("storage array empty", false);
             return;
         }
         final ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int i = 0; i < mBloodType.length; i++) {
-//            list.add(String.format("%s %s", mBloodTypeName[i],
-//                    mBloodStorage[map.get(mBloodType[i])]));
-            list.add(map.get(mBloodType[i]));
+        for (String bloodType : mBloodType) {
+            list.add(map.get(bloodType));
         }
 
         long cost = System.currentTimeMillis() - start;
@@ -183,6 +211,7 @@ public class StorageFragment extends BaseListFragment {
             @Override
             public void run() {
                 setListAdapter(new MyAdapter(getActivity(), list));
+                setEmptyText(getText(R.string.title_data_not_available));
                 setFragmentBusy(false);
             }
         });
@@ -191,9 +220,9 @@ public class StorageFragment extends BaseListFragment {
     private final static int[] Icons = {
             //Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN
             android.R.color.black,
-            android.R.color.holo_red_dark,//R.drawable.ic_storage_1,
-            android.R.color.holo_orange_dark,//R.drawable.ic_storage_2,
-            android.R.color.holo_green_dark,//R.drawable.ic_storage_3
+            R.drawable.ic_storage_stock1,
+            R.drawable.ic_storage_stock2,
+            R.drawable.ic_storage_stock3
     };
 
     private class MyAdapter extends ArrayAdapter<Integer> {
@@ -208,8 +237,9 @@ public class StorageFragment extends BaseListFragment {
             int index = getItem(position);
             ImageView icon = (ImageView) layout.findViewById(android.R.id.icon);
             icon.setImageResource(Icons[index]);
+            //icon.setBackgroundResource(Icons[index]);
             TextView title = (TextView) layout.findViewById(android.R.id.title);
-            title.setText(String.format("%s %s", mBloodTypeName[position],
+            title.setText(String.format("%s%s", mBloodTypeName[position],
                     mBloodStorage[index]));
             return layout;
         }

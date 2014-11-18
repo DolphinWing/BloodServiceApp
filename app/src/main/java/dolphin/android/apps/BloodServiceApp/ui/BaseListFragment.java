@@ -95,6 +95,7 @@ public class BaseListFragment extends Fragment
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        mListView.setEmptyView(view.findViewById(android.R.id.empty));
 
         return view;
     }
@@ -162,7 +163,7 @@ public class BaseListFragment extends Fragment
 
     public void setListAdapter(ListAdapter adapter) {
         mAdapter = adapter;
-        if (mAdapter != null) {
+        if (mAdapter != null && mListView != null) {
             ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
         }
     }

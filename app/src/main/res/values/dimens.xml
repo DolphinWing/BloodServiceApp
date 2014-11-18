@@ -14,5 +14,11 @@
     <dimen name="material_listivew_icon_text_margin">72dp</dimen>
     <dimen name="material_listview_header_height">48dp</dimen>
     <dimen name="material_listview_item_height">72dp</dimen>
+    
+    <dimen name="toolbar_extra_margin">0dp</dimen>
+
+    <dimen name="multi_pane_shadow_size">4dp</dimen>
+    <dimen name="multi_pane_margin_top">52dp</dimen>
+    <dimen name="multi_pane_margin_top_shadow">55dp</dimen>
 
 </resources>

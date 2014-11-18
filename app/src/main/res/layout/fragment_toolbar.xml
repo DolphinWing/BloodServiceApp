@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_appbar_height"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin">
 
         <at.markushi.ui.ActionView
             android:id="@+id/nav_icon"
@@ -17,7 +18,9 @@
             android:padding="4dp"
             app:av_color="@color/abc_primary_text_material_dark"
             app:av_action="drawer"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/bloody_item_background_holo_light"
+            android:visibility="invisible" />
 
         <TextView
             android:layout_width="match_parent"
@@ -52,7 +55,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp">
+        android:paddingBottom="4dp"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin">
 
         <TextView
             style="@style/Theme.Bloody.TextAppearance.Medium"
@@ -89,5 +93,6 @@
         app:gapWidth="8dp"
         app:unselectedColor="@android:color/transparent"
         app:selectedColor="@color/abc_primary_text_material_dark"
-        app:centered="false" />
+        app:centered="false"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin" />
 </LinearLayout>

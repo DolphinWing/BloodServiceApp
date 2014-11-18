@@ -7,7 +7,7 @@
     <bool name="ga_autoActivityTracking">true</bool>
 
     <!-- The screen names that will appear in reports -->
-    <screenName name="dolphin.android.apps.BloodServiceApp.MainActivity">
+    <screenName name="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
         BloodServiceApp.MainActivity
     </screenName>
     

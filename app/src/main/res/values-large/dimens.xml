@@ -4,7 +4,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="navigation_drawer_width">240dp</dimen>
+    <dimen name="navigation_drawer_width">320dp</dimen>
     
     <dimen name="material_horizontal_margin">24dp</dimen>
     <dimen name="material_appbar_height">64dp</dimen>
@@ -14,5 +14,11 @@
     <dimen name="material_listivew_icon_text_margin">104dp</dimen>
     <dimen name="material_listview_header_height">64dp</dimen>
     <dimen name="material_listview_item_height">72dp</dimen>
+    
+    <dimen name="toolbar_extra_margin">8dp</dimen>
+
+    <dimen name="multi_pane_shadow_size">4dp</dimen>
+    <dimen name="multi_pane_margin_top">60dp</dimen>
+    <dimen name="multi_pane_margin_top_shadow">62dp</dimen>
 
 </resources>

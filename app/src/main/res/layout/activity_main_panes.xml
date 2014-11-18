@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        style="@style/Theme.Bloody.Widget.StorageFrame"
+        android:id="@android:id/widget_frame"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="@dimen/multi_pane_margin_top">
+
+        <ImageView
+            style="@style/Theme.Bloody.Shadow.Vertical"
+            android:scaleY="-1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/multi_pane_shadow_size" />
+
+        <TextView
+            style="@style/Theme.Bloody.Widget.Storage.Title"
+            android:background="@color/bloody_accent_color" />
+
+        <fragment
+            android:id="@+id/fragment1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:name="dolphin.android.apps.BloodServiceApp.ui.StorageFragment"
+            tools:layout="@layout/fragment_storage_list" />
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:name="dolphin.android.apps.BloodServiceApp.ui.DonationFragment"
+        android:layout_below="@+id/toolbar"
+        android:layout_toLeftOf="@android:id/widget_frame"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        tools:layout="@layout/fragment_donation_sticky_grid" />
+
+    <ImageView
+        style="@style/Theme.Bloody.Shadow.Horizontal"
+        android:layout_width="@dimen/multi_pane_shadow_size"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="28dp"
+        android:layout_marginTop="@dimen/multi_pane_margin_top_shadow" />
+
+    <ImageView
+        style="@style/Theme.Bloody.Shadow.Horizontal"
+        android:scaleX="-1"
+        android:layout_width="@dimen/multi_pane_shadow_size"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/multi_pane_margin_top_shadow"
+        android:layout_toLeftOf="@android:id/widget_frame" />
+
+</RelativeLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
+<?xml version="1.0" encoding="utf-8"?><!-- File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
@@ -23,45 +22,103 @@
         <item name="windowActionBar">false</item>
         <!-- Remove system title bars; we will add the action bar ourselves. -->
         <item name="android:windowNoTitle">true</item>
-        
-        <!-- Text colors -->
-        <item name="android:textColorSecondary">@color/abc_secondary_text_material_dark</item>
-        <item name="android:textColorSecondaryInverse">@color/abc_secondary_text_material_light</item>
 
-        <item name="android:listChoiceIndicatorMultiple">@drawable/bloody_btn_check_holo_light</item>
-        <item name="android:buttonStyle">@style/ButtonBloody</item>
-        <item name="android:imageButtonStyle">@style/ImageButtonBloody</item>
+        <item name="colorPrimary">@color/bloody_color</item>
+        <!--<item name="colorPrimaryDark">@color/bloody_color</item>-->
+        <item name="colorAccent">@color/material_light_green_700</item>
+
+        <!-- Holo style generator -->
+        <item name="android:listChoiceBackgroundIndicator">@drawable/bloody_list_selector_holo_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/bloody_activated_background_holo_light</item>
+
+        <!-- http://stackoverflow.com/a/26531643/2673859 -->
+        <item name="toolbarStyle">@style/Theme.Bloody.Toolbar</item>
     </style>
 
     <style name="Theme.Bloody.Settings" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">true</item>
 
-        <item name="android:buttonStyle">@style/ButtonBloody</item>
-        <item name="android:imageButtonStyle">@style/ImageButtonBloody</item>
+        <item name="colorPrimary">@color/bloody_color</item>
+        <!--<item name="colorPrimaryDark">@color/bloody_color</item>-->
+        <item name="colorAccent">@color/material_light_green_700</item>
+
+        <!-- Holo style generator -->
+        <item name="android:listChoiceBackgroundIndicator">@drawable/bloody_list_selector_holo_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/bloody_activated_background_holo_light</item>
     </style>
 
-    <style name="Theme.Bloody.TextAppearance" parent="@android:style/TextAppearance.Holo"/>
+    <style name="Theme.Bloody.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/bloody_color</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="Theme.Bloody.TextAppearance" parent="@android:style/TextAppearance.Holo" />
 
     <style name="Theme.Bloody.TextAppearance.Large" parent="@style/TextAppearance.AppCompat.Large" />
 
-    <style name="Theme.Bloody.TextAppearance.Medium" parent="@style/TextAppearance.AppCompat.Medium.Inverse" />
-    
-    <style name="Theme.Bloody.TextAppearance.Title" parent="@style/TextAppearance.AppCompat.Title.Inverse"/>
+    <style name="Theme.Bloody.TextAppearance.Medium" parent="@style/TextAppearance.AppCompat.Medium" />
 
-    <style name="Theme.Bloody.TextAppearance.Title.Storage" parent="@style/TextAppearance.AppCompat.Title"/>
-    
+    <style name="Theme.Bloody.TextAppearance.Title" parent="@style/TextAppearance.AppCompat.Title.Inverse" />
+
     <style name="Theme.Bloody.Widget" />
-    
-    <style name="Theme.Bloody.Widget.ActionBar" parent="@style/Widget.AppCompat.Toolbar"/>
-    
-    <style name="Theme.Bloody.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"/>
 
-    <style name="ButtonBloody" parent="android:Widget.Holo.Light.Button">
-        <item name="android:background">@drawable/bloody_btn_colored_holo_light</item>
+    <style name="Theme.Bloody.Widget.ActionBar" parent="@style/Widget.AppCompat.Toolbar" />
+
+    <style name="Theme.Bloody.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse" />
+
+    <style name="Theme.Bloody.Widget.Storage" parent="@style/TextAppearance.AppCompat.Title" />
+
+    <style name="Theme.Bloody.Widget.Donation" parent="@style/TextAppearance.AppCompat.Subhead">
+        <item name="android:singleLine">true</item>
     </style>
 
-    <style name="ImageButtonBloody" parent="android:Widget.Holo.Light.ImageButton">
-        <item name="android:background">@drawable/bloody_btn_default_holo_light</item>
+    <style name="Theme.Bloody.Widget.Donation.Date" parent="@style/TextAppearance.AppCompat.Subhead">
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Theme.Bloody.Widget.Donation.Time" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.Bloody.Widget.Donation.Location" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    <style name="Theme.Bloody.Widget.Storage.Title" parent="@style/TextAppearance.AppCompat.Title.Inverse" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/material_appbar_height</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">@string/title_section1</item>
+        <item name="android:paddingLeft">@dimen/material_horizontal_margin</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    
+    <style name="Theme.Bloody.Widget.StorageFrame">
+        <item name="android:layout_width">360dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Theme.Bloody.Widget.EmptyText" parent="@style/TextAppearance.AppCompat.Title">
+        <item name="android:text">@string/title_downloading_data</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+    
+    <style name="Theme.Bloody.Shadow">
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:contentDescription">@null</item>
+    </style>
+    
+    <style name="Theme.Bloody.Shadow.Horizontal" parent="@style/Theme.Bloody.Shadow">
+        <item name="android:src">@drawable/drawer_shadow</item>
+    </style>
+    <style name="Theme.Bloody.Shadow.Vertical" parent="@style/Theme.Bloody.Shadow">
+        <item name="android:src">@drawable/drawer_shadow_vert</item>
     </style>
 
 </resources>

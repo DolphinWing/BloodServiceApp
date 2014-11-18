@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity;
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
@@ -70,19 +71,34 @@ public class DonationFragment extends BaseListFragment {
             ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
         }
         if (mListView instanceof StickyGridHeadersGridView) {
-            ((StickyGridHeadersGridView) mListView).setAreHeadersSticky(false);
+            ((StickyGridHeadersGridView) mListView).setAreHeadersSticky(
+                    PrefsUtil.isHeaderSticky(getActivity()));
         }
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        mListView.setEmptyView(view.findViewById(android.R.id.empty));
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mListView != null && mListView instanceof StickyGridHeadersGridView) {
+            ((StickyGridHeadersGridView) mListView).setAreHeadersSticky(
+                    PrefsUtil.isHeaderSticky(getActivity()));
+        }
     }
 
     @Override
     public void updateFragment(int siteID, long timeInMillis) {
         super.updateFragment(siteID, timeInMillis);
         setFragmentBusy(true);
+        setEmptyText(getText(R.string.title_downloading_data));
+        setListAdapter(new MyStickyAdapter(getActivity(), new ArrayList<MyItem>()));
+        //setListAdapter(null);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -122,6 +138,7 @@ public class DonationFragment extends BaseListFragment {
             @Override
             public void run() {
                 setListAdapter(new MyStickyAdapter(getActivity(), list));
+                setEmptyText(getText(R.string.title_data_not_available));
                 setFragmentBusy(false);
             }
         });
@@ -146,10 +163,12 @@ public class DonationFragment extends BaseListFragment {
     }
 
     private class MyStickyAdapter extends StickyGridHeadersSimpleArrayAdapter<MyItem> {
+        private Context mContext;
 
         public MyStickyAdapter(Context context, List<MyItem> items) {
             super(context, items, R.layout.listview_donation_date,
                     R.layout.listview_donation_activity);
+            mContext = context;
         }
 
         @Override
@@ -165,7 +184,7 @@ public class DonationFragment extends BaseListFragment {
             HeaderViewHolder holder = (HeaderViewHolder) view.getTag();
             MyItem item = getItem(position);
             holder.textView.setText(
-                    DonateDay.getSimpleDateString(item.Donation.getStartTime()));
+                    DonateDay.getDefaultDateString(item.Donation.getStartTime()));
             return view;
         }
 
@@ -178,7 +197,7 @@ public class DonationFragment extends BaseListFragment {
             TextView tv1 = (TextView) layout.findViewById(android.R.id.text1);
             TextView tv2 = (TextView) layout.findViewById(android.R.id.text2);
             title.setText(item.Donation.getName());
-            tv1.setText(item.Donation.getDuration());
+            tv1.setText(item.Donation.getDuration(mContext));
             tv2.setText(item.Donation.getLocation());
             return layout;//super.getView(position, convertView, parent);
         }

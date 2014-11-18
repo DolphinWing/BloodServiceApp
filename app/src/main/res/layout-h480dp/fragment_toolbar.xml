@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_appbar_height"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin">
 
         <at.markushi.ui.ActionView
             android:id="@+id/nav_icon"
@@ -17,7 +18,9 @@
             android:padding="4dp"
             app:av_color="@color/abc_primary_text_material_dark"
             app:av_action="drawer"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/bloody_item_background_holo_light"
+            android:visibility="invisible" />
 
         <TextView
             style="@style/Theme.Bloody.Widget.ActionBar.Title"
@@ -43,6 +46,7 @@
         style="@style/Theme.Bloody.TextAppearance.Title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_appbar_extended_height"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin"
         android:text="@string/app_name"
         android:id="@+id/blood_center"
         android:gravity="left|center_vertical"
@@ -53,6 +57,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin"
         android:paddingBottom="4dp">
 
         <TextView
@@ -85,6 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/page_indicator"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin"
         app:strokeWidth="3dp"
         app:lineWidth="40dp"
         app:gapWidth="8dp"

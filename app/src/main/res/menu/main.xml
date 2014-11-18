@@ -4,8 +4,8 @@
     tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
     <item android:id="@+id/action_facebook"
         android:title="@string/action_go_to_facebook"
-        android:icon="@drawable/facebook"
-        app:showAsAction="always|withText"/>
+        android:icon="@drawable/ic_action_facebook"
+        app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_listview_item_height">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:layout_width="@dimen/material_listview_primary_icon_width"
         android:layout_height="@dimen/material_listview_primary_icon_width"
         android:padding="@dimen/material_listview_primary_icon_padding"
@@ -15,7 +15,7 @@
         android:layout_marginLeft="@dimen/material_horizontal_margin" />
 
     <TextView
-        style="@style/Theme.Bloody.TextAppearance.Title.Storage"
+        style="@style/Theme.Bloody.Widget.Storage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_section1"

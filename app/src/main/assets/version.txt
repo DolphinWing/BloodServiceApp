@@ -5,7 +5,106 @@
 
 如果您不喜歡廣告，請到設置中將廣告取消。不會收取任何費用:)
 
+https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceApp
+http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
+
 ----
+[30] @ 2014-11-14
+    change ListView activated color
+
+    @2014-11-15
+
+    fix no storage in English pages
+    add return cached storage data if exists
+
+[29] @ 2014-11-13
+    set StickyHeader in option and default = true
+    fix Settings layout_height as ListView in Drawer
+    change date and time format as system settings
+
+[28] @ 2014-11-12
+    ListView blood center selected highlight color
+    StickyGridView stick header in phone layout
+    PlayServicesStrip-plugin in Settings/Open Source
+    fix multi pane top shadow
+
+[27] @ 2014-11-10
+    update PlayServicesStrip-plugin to 1.0.2
+
+[26] @ 2014-11-07
+    fix elevation of widget frame
+    
+    http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Using-sourceCompatibility-1.7
+        try to fix we can't strip google play service @ dolphin-Home-PC
+
+    https://github.com/evant/gradle-retrolambda
+
+[25] @ 2014-11-05
+    Filtering resources from the Play Services monolith to make your APK smaller
+    http://stackoverflow.com/a/24746323/2673859
+    
+    https://github.com/castorflex/PlayServicesStrip-plugin
+        this is not suitable for my home pc setup, need to try later
+    
+    update gradle to 0.13.3
+
+    add empty text for ListView/GridView
+
+TODO: check ListView checked style in NavigationDrawer
+
+[24] @ 2014-11-04
+    use round drawable to replace CircleImageView
+        I guess I can't use it because I didn't give the size before.
+    put all storage frame related style to xml
+    add SettingsActivity tracker
+    modify MainActivity tracker as global tracker (original app tracker)
+        to test different tracker in Google Analytics
+    fix cannot load ads when put fragment directly in the view
+    
+    Another floating action button that has multiple action animations
+    https://github.com/futuresimple/android-floating-action-button
+    
+    Reduce apk size by strip unnecessary api in Google Play Services
+    https://gist.github.com/Takhion/10a37046b9e6d259bb31
+        (2014-11-05: only working in 5.0.89)
+
+[23]
+    where background2.jpg from
+    https://www.flickr.com/photos/makelessnoise/2562431372/
+
+    where background3.jpg from
+    http://www.minizap.fr/bourgoin/actualites/infos-locales/don-du-sang_585.html
+    http://www.directmatin.fr/france/2012-06-14/le-don-de-sang-bientot-autorise-aux-homosexuels-38612
+
+    where background4.jpg from
+    http://www.defense.gouv.fr/actualites/articles/don-du-sang-au-profit-des-militaires-blesses
+
+[22] @ 2014-11-01
+    tablet toolbar padding (use marginLeft in every view)
+
+[21] @ 2014-10-30
+    fix Facebook app launch error
+    fix Nexus 7 landscape layout
+    fix elevation of v21 tablets
+        v21 still needs extra shadow (need to check)
+    FIXME: ads still not show in pane layout
+    FIXME: v21 cannot show circle image pure color
+
+    change primary color to orange 800
+    http://www.google.com/design/spec/style/color.html#color-ui-color-palette
+
+    where background1.jpg from
+    http://www.epochtimes.com/b5/13/6/14/n3894359.htm
+
+[20] @ 2014-10-29
+    add v16 font-family
+    new xxlarge layout (include shadows)
+
+[19] @ 2014-10-28
+    add facebook url
+    change w820dp layout
+    add v16 font family (in progress)
+
 [18] @ 2014-10-27
     show/hide ads when change preference
     add facebook link design (need to tweak the icon)

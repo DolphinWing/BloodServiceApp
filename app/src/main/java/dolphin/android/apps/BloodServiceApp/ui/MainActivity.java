@@ -2,7 +2,6 @@ package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +41,7 @@ public class MainActivity extends ActionBarActivity
     private final static String TAG = "MainActivity";
     private int[] mBloodCenterId;
     private int mSiteId = 5;
+    private final List<OnBloodCenterChanged> mListener = new ArrayList<OnBloodCenterChanged>();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
 
         mBloodCenterId = getResources().getIntArray(R.array.blood_center_id);
-        mListener = new ArrayList<OnBloodCenterChanged>();
+        //mListener = new ArrayList<OnBloodCenterChanged>();
 
         setContentView(R.layout.activity_navigation_drawer);
 
@@ -108,27 +108,35 @@ public class MainActivity extends ActionBarActivity
                 mNavigationDrawerFragment.openDrawer();
             }
         });
+        mActionView.setVisibility(View.INVISIBLE);//set invisible at start
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout), mActionView);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        LinePageIndicator indicator = (LinePageIndicator) findViewById(R.id.page_indicator);
-        indicator.setViewPager(mViewPager);
-
         mProgress = findViewById(android.R.id.progress);
 
-        View text1 = findViewById(android.R.id.text1);
-        text1.setTag(0);
-        text1.setOnClickListener(onTabClickListener);
-        View text2 = findViewById(android.R.id.text2);
-        text2.setTag(1);
-        text2.setOnClickListener(onTabClickListener);
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        if (mViewPager != null) {//use ViewPager
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+
+            LinePageIndicator indicator = (LinePageIndicator) findViewById(R.id.page_indicator);
+            indicator.setViewPager(mViewPager);
+
+            View text1 = findViewById(android.R.id.text1);
+            text1.setTag(0);
+            text1.setOnClickListener(onTabClickListener);
+            View text2 = findViewById(android.R.id.text2);
+            text2.setTag(1);
+            text2.setOnClickListener(onTabClickListener);
+        } else {//use panes
+            View header = findViewById(R.id.page_header);
+            header.setVisibility(View.GONE);
+            View indicator = findViewById(R.id.page_indicator);
+            indicator.setVisibility(View.GONE);
+        }
 
         BloodDataHelper helper = new BloodDataHelper(this);
         TextView title = (TextView) findViewById(R.id.blood_center);
@@ -208,7 +216,7 @@ public class MainActivity extends ActionBarActivity
         for (OnBloodCenterChanged listener : mListener) {
             listener.notifyChanged(mSiteId, 0);
         }
-        sendGANavigationChanged(siteName);
+        sendGANavigationChanged(getString(R.string.title_section3), siteName);
     }
 
     @Override
@@ -224,6 +232,7 @@ public class MainActivity extends ActionBarActivity
         if (mProgress != null) {
             mProgress.setVisibility(View.VISIBLE);
             mActionView.setVisibility(View.INVISIBLE);
+            mActionView.setEnabled(false);
         }
     }
 
@@ -234,6 +243,7 @@ public class MainActivity extends ActionBarActivity
         mSectionsPagerAdapter.setSectionBusy(id, false);
         if (mProgress != null && !mSectionsPagerAdapter.isAnySectionBusy()) {
             mProgress.setVisibility(View.GONE);
+            mActionView.setEnabled(true);
             mActionView.setVisibility(View.VISIBLE);
         }
     }
@@ -338,20 +348,18 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    private List<OnBloodCenterChanged> mListener;
-
     public void registerOnBloodCenterChanged(OnBloodCenterChanged listener) {
-        if (mListener == null) {
-            Log.w(TAG, "registerOnBloodCenterChanged null");
-            mListener = new ArrayList<OnBloodCenterChanged>();
-        }
+        //if (mListener == null) {
+        //    Log.w(TAG, "registerOnBloodCenterChanged null");
+        //    mListener = new ArrayList<OnBloodCenterChanged>();
+        //}
         if (listener != null) {
             mListener.add(listener);
         }
     }
 
     public void unregisterOnBloodCenterChanged(OnBloodCenterChanged listener) {
-        if (mListener != null && listener != null) {
+        if (listener != null) {
             mListener.remove(listener);
         }
     }
@@ -386,32 +394,40 @@ public class MainActivity extends ActionBarActivity
     private void sendGAOpenActivity() {
         // Get tracker.
         Tracker t = ((MyApplication) getApplication()).getTracker(
-                MyApplication.TrackerName.APP_TRACKER);
+                MyApplication.TrackerName.GLOBAL_TRACKER);
         // Set screen name.
         // Where path is a String representing the screen name.
-        t.setScreenName("dolphin.android.apps.BloodServiceApp.MainActivity");
+        t.setScreenName("BloodServiceApp.MainActivity");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
         // Clear the screen name field when we're done.
         t.setScreenName(null);
     }
 
-    private void sendGANavigationChanged(String name) {
+    private void sendGANavigationChanged(String action, String name) {
         // Get tracker.
         Tracker t = ((MyApplication) getApplication()).getTracker(
-                MyApplication.TrackerName.APP_TRACKER);
+                MyApplication.TrackerName.GLOBAL_TRACKER);
         // Set screen name.
         // Where path is a String representing the screen name.
-        t.setScreenName("dolphin.android.apps.BloodServiceApp.MainActivity");
+        t.setScreenName("BloodServiceApp.MainActivity");
         // This event will also be sent with &cd=Home%20Screen.
         // Build and send an Event.
         t.send(new HitBuilders.EventBuilder()
                 .setCategory("UI")
-                .setAction(getString(R.string.title_section3))
+                .setAction(action)
                 .setLabel(name)
                 .build());
         // Clear the screen name field when we're done.
         t.setScreenName(null);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mNavigationDrawerFragment.isDrawerOpen()) {
+            mNavigationDrawerFragment.closeDrawer();
+            return;
+        }
+        super.onBackPressed();
+    }
 }

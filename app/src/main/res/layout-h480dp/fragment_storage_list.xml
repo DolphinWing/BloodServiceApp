@@ -13,9 +13,7 @@
 
     <TextView
         android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" />
+        style="@style/Theme.Bloody.Widget.EmptyText" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

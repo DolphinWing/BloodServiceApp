@@ -2,6 +2,7 @@ package dolphin.android.apps.BloodServiceApp.provider;
 
 import android.text.format.DateUtils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -68,6 +69,10 @@ public class DonateDay {
     public static String getSimpleDateTimeString(Calendar cal) {
         return new SimpleDateFormat("MM/dd HH:mm",
                 Locale.TAIWAN).format(cal.getTime());
+    }
+
+    public static String getDefaultDateString(Calendar cal) {
+        return DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime());
     }
 
     public List<DonateActivity> getActivities() {

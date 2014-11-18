@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +31,8 @@ public class BloodDataHelper {
 
     private final static String URL_BASE_BLOOD_ORG = "http://www.blood.org.tw";
     private final static String URL_BLOOD_STORAGE =
-            URL_BASE_BLOOD_ORG + "/Internet/english/index.aspx";
+            //URL_BASE_BLOOD_ORG + "/Internet/english/index.aspx";
+            URL_BASE_BLOOD_ORG + "/Internet/main/index.aspx";
     private final static String URL_LOCAL_BLOOD_CENTER_WEEK =
             URL_BASE_BLOOD_ORG + "/Internet/mobile/docs/local_blood_center_week.aspx?" +
                     "site_id={site}&date={date}";//yyyy/MM/dd
@@ -44,7 +47,8 @@ public class BloodDataHelper {
     public BloodDataHelper(Context context) {
         mContext = context;
         mClient = new OkHttpClient();
-        mStartDate = Calendar.getInstance();
+        mClient.setReadTimeout(10, TimeUnit.SECONDS);
+        mStartDate = Calendar.getInstance(Locale.TAIWAN);
 
         mBloodCenterId = mContext.getResources().getIntArray(R.array.blood_center_id);
         mBloodType = mContext.getResources().getStringArray(R.array.blood_type_value);
@@ -65,7 +69,7 @@ public class BloodDataHelper {
     }
 
     public ArrayList<DonateDay> getLatestWeekCalendar(int siteID) {
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(Locale.TAIWAN);
         while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             cal.add(Calendar.DAY_OF_WEEK, -1);
         }
@@ -158,10 +162,18 @@ public class BloodDataHelper {
     private SparseArray<HashMap<String, Integer>> mBloodStorage;
 
     public SparseArray<HashMap<String, Integer>> getBloodStorage() {
+        return getBloodStorage(true);
+    }
+
+    public SparseArray<HashMap<String, Integer>> getBloodStorage(boolean forceRefresh) {
+        if (!forceRefresh && mBloodStorage != null && mBloodStorage.size() > 0) {
+            return mBloodStorage;
+        }
+
         long startTime = System.currentTimeMillis();
 
         if (mBloodStorage == null) {
-            mBloodStorage = new SparseArray<HashMap<String, Integer>>();
+            mBloodStorage = new SparseArray<>();
         } else {
             mBloodStorage.clear();
         }
@@ -185,6 +197,8 @@ public class BloodDataHelper {
                 }
                 mBloodStorage.put(mBloodCenterId[i], storageMap);
             }
+        } else {
+            Log.w(TAG, "no storage data?");
         }
 
         Log.v(TAG, String.format("end storage wasted %d ms",

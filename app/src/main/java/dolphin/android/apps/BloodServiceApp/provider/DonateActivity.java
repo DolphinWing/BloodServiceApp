@@ -1,5 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.provider;
 
+import android.content.Context;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -95,6 +97,16 @@ public class DonateActivity {
         return String.format("%s ~ %s",
                 sdf.format(StartTime.getTime()),
                 sdf.format(EndTime.getTime()));
+    }
+
+    public String getDuration(Context context) {
+        if (DateFormat.is24HourFormat(context)) {
+            return getDuration();
+        }
+        java.text.DateFormat timeFormatter = DateFormat.getTimeFormat(context);
+        return String.format("%s ~ %s",
+                timeFormatter.format(StartTime.getTime()),
+                timeFormatter.format(EndTime.getTime()));
     }
 
     private String getSimpleDateTimeString(Calendar cal) {

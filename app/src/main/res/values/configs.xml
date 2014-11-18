@@ -18,9 +18,29 @@
         <item>7</item>
     </integer-array>
     
-    <!--
-    <string name="ga_trackingId">UA-4163873-10</string>
-    <string name="banner_ad_unit_id">ca-app-pub-7557398389502445/8240645785</string>
-    -->
+    <!-- http://stackoverflow.com/a/10212751/2673859 -->
+    <string-array name="blood_center_facebook">
+        <item>0</item>
+        <item>taipeiblood:262897963732105</item>
+        <item>scblood:108096985986769</item>
+        <item>tcblood:223119054413668</item>
+        <item>tnblood:150539295008812</item>
+        <item>TBSFksblood:255030234579199</item>
+        <item>Hualienblood:151343784959694</item>
+    </string-array>
+    
+    <!-- Open Source link -->
+    <string name="title_open_source_okhttp">OkHttp</string>
+    <string name="summary_open_source_okhttp">http://square.github.io/okhttp/</string>
+    <string name="title_open_source_stickygridheaders">StickyGridHeaders</string>
+    <string name="summary_open_source_stickygridheaders">https://github.com/TonicArtos/StickyGridHeaders</string>
+    <string name="title_open_source_markushi_android_ui">markushi android-ui</string>
+    <string name="summary_open_source_markushi_android_ui">https://github.com/markushi/android-ui</string>
+    <!--<string name="title_open_source_circleimageview">CircleImageView</string>
+    <string name="summary_open_source_circleimageview">https://github.com/hdodenhof/CircleImageView</string>-->
+    <string name="title_open_source_play_services_strip">PlayServicesStrip-plugin</string>
+    <string name="summary_open_source_play_services_strip">https://github.com/castorflex/PlayServicesStrip-plugin</string>
+    <string name="title_credit_background2">makelessnoise@flickr</string>
+    <string name="summary_credit_background2">https://www.flickr.com/photos/makelessnoise/2562431372/</string>
 
 </resources>

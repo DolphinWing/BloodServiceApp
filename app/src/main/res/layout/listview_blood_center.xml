@@ -2,16 +2,19 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/material_listview_header_height">
+    android:layout_height="@dimen/material_listview_header_height"
+    android:background="@drawable/bloody_list_selector_holo_light">
 
     <TextView
-        style="Theme.Bloody.TextAppearance.Medium"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_section2"
         android:id="@android:id/title"
         android:layout_marginLeft="@dimen/material_horizontal_margin"
         android:singleLine="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
 </RelativeLayout>

@@ -30,6 +30,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
     private static final String VERSION_FILE = "version.txt";
     private static final String VERSION_FILE_ENCODE = "UTF-8";
     public final static String KEY_ENABLE_ADVIEW = "enable_adview";
+    public final static String KEY_HEADER_STICKY = "enable_sticky_header";
 
     private boolean mEngMode = false;
 

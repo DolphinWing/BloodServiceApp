@@ -9,6 +9,9 @@
     -->
     <item name="fragment_donation" type="layout">@layout/fragment_donation_grid</item>
 
-    <integer name="fragment_donation_sticky_grid_column">3</integer>
+    <item name="activity_main" type="layout">@layout/activity_main_panes</item>
+
+    <integer name="fragment_donation_sticky_grid_column">2</integer>
+    <bool name="fragment_donation_sticky_grid_header_sticky">true</bool>
 
 </resources>

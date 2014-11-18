@@ -24,29 +24,24 @@
         android:gravity="center_vertical">
 
         <TextView
+            style="@style/Theme.Bloody.Widget.Donation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_section2"
-            android:id="@android:id/title"
-            android:textColor="?android:attr/textColorPrimary"
-            android:singleLine="true" />
+            android:id="@android:id/title" />
 
         <TextView
+            style="@style/Theme.Bloody.Widget.Donation.Time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_section2"
-            android:textSize="12sp"
-            android:id="@android:id/text1"
-            android:textColor="?android:attr/textColorSecondaryInverse"
-            android:singleLine="true" />
+            android:id="@android:id/text1" />
 
         <TextView
+            style="@style/Theme.Bloody.Widget.Donation.Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_section2"
-            android:textSize="12sp"
-            android:id="@android:id/text2"
-            android:textColor="?android:attr/textColorSecondaryInverse"
-            android:singleLine="true" />
+            android:id="@android:id/text2" />
     </LinearLayout>
 </RelativeLayout>
