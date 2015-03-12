@@ -182,9 +182,9 @@ public class BloodDataHelper {
         Log.v(TAG, String.format("get storage wasted %d ms",
                 ((System.currentTimeMillis() - startTime))));
 
-        if (html.contains("tool_blood_cube") && html.contains("StorageBoard.jpg")) {
-            html = html.substring(html.indexOf("tool_blood_cube"),
-                    html.indexOf("StorageBoard.jpg"));
+        //StorageBoard.jpg
+        if (html.contains("tool_blood_cube") && html.contains("tool_danger")) {
+            html = html.substring(html.indexOf("tool_blood_cube"), html.indexOf("tool_danger"));
             String[] storages = html.split("StorageHeader");
             for (int i = 1; i < storages.length; i++) {
                 //Log.d(TAG, String.format("site=%d", mBloodCenterId[i]));

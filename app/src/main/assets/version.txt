@@ -9,6 +9,18 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[32] @ 2015-03-13
+    update build tool and libraries
+        targetSdk to 22
+        build tool 22
+        gradle 1.1.0
+        play service 6.5.87
+        okhttp 2.2.0
+        oki0 1.1.0
+        support v4, v13, v7 22.0
+    fix blood storage no data
+        parsing text changed, use "tool_danger" to replace "StorageBoard.jpg"
+
 [30] @ 2014-11-14
     change ListView activated color
 
