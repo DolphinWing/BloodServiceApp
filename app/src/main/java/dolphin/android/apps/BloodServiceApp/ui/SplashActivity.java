@@ -2,14 +2,12 @@ package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.StrictMode;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import java.util.Locale;
 
 import dolphin.android.apps.BloodServiceApp.R;
-import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
 
 public class SplashActivity extends Activity {
@@ -18,6 +16,12 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //set default locale
+        //http://stackoverflow.com/a/4239680
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        config.locale = Locale.TAIWAN;
+        Locale.setDefault(config.locale);
 
 //        if (getResources().getBoolean(R.bool.eng_mode)) {
         startActivity(new Intent(this, MainActivity.class));
