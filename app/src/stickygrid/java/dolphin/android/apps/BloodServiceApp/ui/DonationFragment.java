@@ -34,7 +34,6 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
  */
 public class DonationFragment extends BaseListFragment {
 
-    // TODO: Rename and change types of parameters
     public static DonationFragment newInstance(int siteId, long timeInMillis) {
         DonationFragment fragment = new DonationFragment();
         Bundle args = BaseListFragment.getArgBundle(siteId, timeInMillis);

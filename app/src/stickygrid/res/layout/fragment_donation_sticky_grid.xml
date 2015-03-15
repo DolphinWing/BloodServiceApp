@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dolphin.android.apps.BloodServiceApp.ui.DonationFragment">
+    tools:context="dolphin.android.apps.BloodServiceApp.DonationFragment">
 
     <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
         android:id="@android:id/list"

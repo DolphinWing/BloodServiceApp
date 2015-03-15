@@ -20,9 +20,9 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
 //        if (getResources().getBoolean(R.bool.eng_mode)) {
-            startActivity(new Intent(this, MainActivity.class));
-            this.finish();
-            return;
+        startActivity(new Intent(this, MainActivity.class));
+        this.finish();
+//        return;
 //        }
 
 /*        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
