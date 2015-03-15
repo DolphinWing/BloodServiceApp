@@ -1,18 +1,17 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +30,7 @@ import java.util.Locale;
 
 import at.markushi.ui.ActionView;
 import at.markushi.ui.action.DrawerAction;
+import dolphin.android.apps.BloodServiceApp.DonationFragment;
 import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -170,17 +170,16 @@ public class MainActivity extends ActionBarActivity
         switch (id) {
             case R.id.action_settings:
                 return true;
-            case R.id.action_facebook:
-				{//statics of click on Facebook button
-					String siteName = null;
-					TextView title = (TextView) findViewById(R.id.blood_center);
-					if (title != null) {
-						siteName = title.getText().toString();
-					}
-					sendGANavigationChanged("Facebook", siteName);
-				}
-                startActivity(BloodDataHelper.getOpenFacebookIntent(this, mSiteId));
-                return true;
+            case R.id.action_facebook: {//statics of click on Facebook button
+                String siteName = null;
+                TextView title = (TextView) findViewById(R.id.blood_center);
+                if (title != null) {
+                    siteName = title.getText().toString();
+                }
+                sendGANavigationChanged("Facebook", siteName);
+            }
+            startActivity(BloodDataHelper.getOpenFacebookIntent(this, mSiteId));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
