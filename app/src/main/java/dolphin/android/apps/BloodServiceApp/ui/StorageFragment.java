@@ -129,19 +129,20 @@ public class StorageFragment extends BaseListFragment {
                 PrefsUtil.isEnableAdView(getActivity())));
         if (mAdView != null) {
             if (mAdView.getVisibility() == View.VISIBLE) {//previous yes
-                if (PrefsUtil.isEnableAdView(getActivity())) {//yes -> yes
-                    mAdView.resume();
-                } else {//yes -> no
+                mAdView.resume();
+                if (!PrefsUtil.isEnableAdView(getActivity())) {//yes -> no
                     Log.v(TAG, "yes to no... that's fine");
                     mAdView.setVisibility(View.GONE);
-                    mAdView.destroy();
+                    try {
+                        mAdView.destroy();
+                    } catch (Exception e) {
+                        Log.e(TAG, "destroy ads exception: " + e.getMessage());
+                    }
                 }
-            } else {//previous no
-                if (PrefsUtil.isEnableAdView(getActivity())) {//no -> yes
-                    Log.v(TAG, "no to yes... THANK YOU!!!");
-                    //send a request to server
-                    loadAds();
-                }
+            } else if (PrefsUtil.isEnableAdView(getActivity())) {//no -> yes
+                Log.v(TAG, "no to yes... THANK YOU!!!");
+                //send a request to server
+                loadAds();
             }
         }
     }
