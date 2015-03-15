@@ -11,4 +11,6 @@
     <color name="bloody_accent_color">@color/material_blue_400</color>
     <color name="bloody_stacked_color">#151515</color>
     <color name="bloody_popup_color">#303030</color>
+
+    <color name="bloody_donate_date_background">#ccffe0b2</color>
 </resources>

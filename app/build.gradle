@@ -32,6 +32,10 @@ android {
             versionCode 33
             versionName "1.1.1"
         }
+        superslim {
+            versionCode 34
+            versionName "1.2.0"
+        }
     }
     
     // maybe https://github.com/evant/gradle-retrolambda
@@ -57,6 +61,8 @@ dependencies {
     //compile 'de.hdodenhof:circleimageview:1.2.0'
 
     stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
+    superslimCompile 'com.android.support:recyclerview-v7:22.0.0'
+    superslimCompile 'com.tonicartos:superslim:0.4.5'
 }
 
 ////https://github.com/castorflex/PlayServicesStrip-plugin

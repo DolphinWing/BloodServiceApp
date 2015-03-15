@@ -1,0 +1,20 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/app_build_info">
+        <Preference
+            android:key="app_version"
+            android:title="@string/app_version" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_display">
+        <CheckBoxPreference
+            android:key="enable_sticky_header"
+            android:title="@string/title_sticky_header"
+            android:summary="@string/title_sticky_header_in_gridview"
+            android:defaultValue="@bool/fragment_donation_sticky_grid_header_sticky"
+            android:enabled="false" />
+        <CheckBoxPreference
+            android:key="enable_adview"
+            android:title="@string/title_enable_adview"
+            android:summary="@string/title_enable_adview_in_storage_list"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

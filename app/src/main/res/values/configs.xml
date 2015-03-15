@@ -42,5 +42,7 @@
     <string name="summary_open_source_play_services_strip">https://github.com/castorflex/PlayServicesStrip-plugin</string>
     <string name="title_credit_background2">makelessnoise@flickr</string>
     <string name="summary_credit_background2">https://www.flickr.com/photos/makelessnoise/2562431372/</string>
+    <string name="title_open_source_super_slim">SuperSLiM</string>
+    <string name="summary_open_source_super_slim">https://github.com/TonicArtos/SuperSLiM</string>
 
 </resources>
