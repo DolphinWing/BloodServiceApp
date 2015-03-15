@@ -228,6 +228,7 @@ public class BaseListFragment extends Fragment
                 .setCategory("Network")
                 .setAction(action)
                 .setLabel(label)
+                .setValue(timeInMillis) //[33]dolphin++
                 .build());
         // Clear the screen name field when we're done.
         t.setScreenName(null);
