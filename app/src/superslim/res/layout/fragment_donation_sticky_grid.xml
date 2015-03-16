@@ -13,8 +13,21 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="false" />
 
-    <!--<TextView
+    <FrameLayout
+        android:id="@android:id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:drawable/screen_background_dark_transparent">
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <TextView
         android:id="@android:id/empty"
-        style="@style/Theme.Bloody.Widget.EmptyText" />-->
+        style="@style/Theme.Bloody.Widget.EmptyText" />
 
 </FrameLayout>

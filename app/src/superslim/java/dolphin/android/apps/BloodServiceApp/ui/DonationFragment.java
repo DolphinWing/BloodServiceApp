@@ -11,7 +11,6 @@ import com.tonicartos.superslim.LayoutManager;
 import java.util.ArrayList;
 
 import dolphin.android.apps.BloodServiceApp.R;
-import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
 
@@ -23,6 +22,8 @@ public class DonationFragment extends BaseListFragment {
 
     private RecyclerView mRecyclerView;
     private DonationListAdapter mAdapter;
+    private View mProgressView;
+    private View mEmptyView;
 
     public static DonationFragment newInstance(int siteId, long timeInMillis) {
         DonationFragment fragment = new DonationFragment();
@@ -54,6 +55,8 @@ public class DonationFragment extends BaseListFragment {
         View rootView = inflater.inflate(R.layout.fragment_donation_sticky_grid, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LayoutManager(getActivity()));
+        mProgressView = rootView.findViewById(android.R.id.progress);//[35]
+        mEmptyView = rootView.findViewById(android.R.id.empty);//[35]
         return rootView;
     }
 
@@ -89,9 +92,22 @@ public class DonationFragment extends BaseListFragment {
             @Override
             public void run() {
                 mRecyclerView.setAdapter(mAdapter);
+                if (mEmptyView != null) {//[35]
+                    mEmptyView.setVisibility(mAdapter == null || mAdapter.getItemCount() <= 0
+                            ? View.VISIBLE : View.GONE);
+                }
                 //setEmptyText(getText(R.string.title_data_not_available));
                 setFragmentBusy(false);
             }
         });
+    }
+
+    @Override
+    public void setFragmentBusy(boolean busy) {
+        super.setFragmentBusy(busy);
+
+        if (mProgressView != null) {//[35]
+            mProgressView.setVisibility(busy ? View.VISIBLE : View.GONE);
+        }
     }
 }

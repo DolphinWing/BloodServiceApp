@@ -9,6 +9,9 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[35] @ 2015-03-16
+    add empty view and progress view to fragments
+
 [33/34] @ 2015-03-15
     adjust layout for bigger AdView
     use SuperSLiM to implement StickyGrid

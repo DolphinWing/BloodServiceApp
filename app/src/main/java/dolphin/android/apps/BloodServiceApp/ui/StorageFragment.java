@@ -36,6 +36,7 @@ import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 public class StorageFragment extends BaseListFragment {
     private final static String TAG = "StorageFragment";
     private AdView mAdView;
+    private View mProgressView;
 
     // TODO: Rename and change types of parameters
     public static StorageFragment newInstance(int siteId, long timeInMillis) {
@@ -83,6 +84,8 @@ public class StorageFragment extends BaseListFragment {
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
+
+        mProgressView = view.findViewById(android.R.id.progress);//[35]
 
         mAdView = (AdView) view.findViewById(R.id.adView);
         //hide ADs if user choose not to show it
@@ -243,6 +246,15 @@ public class StorageFragment extends BaseListFragment {
             title.setText(String.format("%s%s", mBloodTypeName[position],
                     mBloodStorage[index]));
             return layout;
+        }
+    }
+
+    @Override
+    public void setFragmentBusy(boolean busy) {
+        super.setFragmentBusy(busy);
+
+        if (mProgressView != null) {//[35]
+            mProgressView.setVisibility(busy ? View.VISIBLE : View.GONE);
         }
     }
 }

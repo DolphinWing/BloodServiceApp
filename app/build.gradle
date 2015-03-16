@@ -9,8 +9,6 @@ android {
         applicationId "dolphin.android.apps.BloodServiceApp"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 32
-        versionName "1.1.0"
     }
 
     //http://stackoverflow.com/a/19210105/2673859
@@ -33,7 +31,7 @@ android {
             versionName "1.1.1"
         }
         superslim {
-            versionCode 34
+            versionCode 35
             versionName "1.2.0"
         }
     }
