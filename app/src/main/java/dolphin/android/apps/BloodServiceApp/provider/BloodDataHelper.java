@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.util.PackageUtils;
 
 /**
  * Created by dolphin on 2014/10/6.
@@ -234,14 +235,25 @@ public class BloodDataHelper {
         try {
             //Checks if FB is even installed.
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(FACEBOOK_PACKAGE, 0);
-            //Trys to make intent with FB's URI
+            //try to make intent with Facebook URI
             intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(String.format("fb://page/%s", fbIds.split(":")[1])));
             intent.setPackage(pInfo.packageName);
+            if (!PackageUtils.isCallable(context, intent)) {
+                throw new Exception("can't support Facebook app");
+            }
         } catch (Exception e) {//catches and opens a url to the desired page
             intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(String.format("%s/%s", FACEBOOK_URL, fbIds.split(":")[0])));
         }
         return intent;
+    }
+
+    public static Intent getOpenBloodCalendarSourceUrl(Context context, int siteId) {
+        String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
+        url = url.replace("&date={date}", "");//don't specify date
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        return PackageUtils.isCallable(context, intent) ? intent : null;
     }
 }

@@ -9,6 +9,18 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[37] @ 2015-04-05
+    fix Facebook app installed but disabled
+    minimize appbar extended size
+    fix open source show SuperSLiM
+    fix NullPointerException report in Google Play
+        java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.Object android.content.Context.getSystemService(java.lang.String)' on a null object reference
+        at android.widget.ArrayAdapter.init(ArrayAdapter.java:310)
+        at android.widget.ArrayAdapter.<init>(ArrayAdapter.java:166)
+        at dolphin.android.apps.BloodServiceApp.ui.StorageFragment$MyAdapter.<init>(StorageFragment.java:235)
+        at dolphin.android.apps.BloodServiceApp.ui.StorageFragment$3.run(StorageFragment.java:217)
+    add go to website in option menu
+
 [35] @ 2015-03-16
     add empty view and progress view to fragments
 

@@ -5,14 +5,14 @@
             android:key="open_okhttp"
             android:title="@string/title_open_source_okhttp"
             android:summary="@string/summary_open_source_okhttp" />
-        <Preference
+        <!--<Preference
             android:key="open_stickygridheaders"
             android:title="@string/title_open_source_stickygridheaders"
-            android:summary="@string/summary_open_source_stickygridheaders" />
-        <!--<Preference
+            android:summary="@string/summary_open_source_stickygridheaders" />-->
+        <Preference
             android:key="open_super_slim"
             android:title="@string/title_open_source_super_slim"
-            android:summary="@string/summary_open_source_super_slim" />-->
+            android:summary="@string/summary_open_source_super_slim" />
         <Preference
             android:key="open_markushi_android_ui"
             android:title="@string/title_open_source_markushi_android_ui"

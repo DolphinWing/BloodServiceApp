@@ -62,6 +62,7 @@
     <string name="title_enable_adview">顯示廣告</string>
     <string name="title_enable_adview_in_storage_list">在主頁顯示廣告</string>
     <string name="action_go_to_facebook">前往粉絲團</string>
+    <string name="action_go_to_website">行動版</string>
 
     <!--<string name="pref_title_social_recommendations">Enable social recommendations</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact

@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -179,6 +180,13 @@ public class MainActivity extends ActionBarActivity
             }
             startActivity(BloodDataHelper.getOpenFacebookIntent(this, mSiteId));
             return true;
+            case R.id.action_go_to_website:
+                Intent intent = BloodDataHelper.getOpenBloodCalendarSourceUrl(this, mSiteId);
+                if (intent != null) {
+                    startActivity(intent);
+                    return true;
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);

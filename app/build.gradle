@@ -31,8 +31,8 @@ android {
             versionName "1.1.1"
         }
         superslim {
-            versionCode 36
-            versionName "1.2.0"
+            versionCode 37
+            versionName "1.2.1"
         }
     }
     

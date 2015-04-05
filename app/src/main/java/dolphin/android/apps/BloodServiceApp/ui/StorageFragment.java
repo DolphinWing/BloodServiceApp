@@ -211,14 +211,18 @@ public class StorageFragment extends BaseListFragment {
         long cost = System.currentTimeMillis() - start;
         sendDownloadCost(getString(R.string.title_section1), cost);
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setListAdapter(new MyAdapter(getActivity(), list));
-                setEmptyText(getText(R.string.title_data_not_available));
-                setFragmentBusy(false);
-            }
-        });
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() != null) {
+                        setListAdapter(new MyAdapter(getActivity(), list));
+                    }
+                    setEmptyText(getText(R.string.title_data_not_available));
+                    setFragmentBusy(false);
+                }
+            });
+        }
     }
 
     private final static int[] Icons = {
