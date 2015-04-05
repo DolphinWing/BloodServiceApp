@@ -86,20 +86,24 @@ public class DonationFragment extends BaseListFragment {
         mAdapter = new DonationListAdapter(getActivity(), days);
 
         long cost = System.currentTimeMillis() - start;
-        sendDownloadCost(getString(R.string.title_section2), cost);
+        if (getActivity() != null) {
+            sendDownloadCost(getString(R.string.title_section2), cost);
+        }
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mRecyclerView.setAdapter(mAdapter);
-                if (mEmptyView != null) {//[35]
-                    mEmptyView.setVisibility(mAdapter == null || mAdapter.getItemCount() <= 0
-                            ? View.VISIBLE : View.GONE);
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerView.setAdapter(mAdapter);
+                    if (mEmptyView != null) {//[35]
+                        mEmptyView.setVisibility(mAdapter == null || mAdapter.getItemCount() <= 0
+                                ? View.VISIBLE : View.GONE);
+                    }
+                    //setEmptyText(getText(R.string.title_data_not_available));
+                    setFragmentBusy(false);
                 }
-                //setEmptyText(getText(R.string.title_data_not_available));
-                setFragmentBusy(false);
-            }
-        });
+            });
+        }
     }
 
     @Override

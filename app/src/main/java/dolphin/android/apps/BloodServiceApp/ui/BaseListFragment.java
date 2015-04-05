@@ -1,8 +1,8 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,7 +130,7 @@ public class BaseListFragment extends Fragment
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-//            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
     }
 
@@ -217,35 +217,45 @@ public class BaseListFragment extends Fragment
         }
 
         // Get tracker.
-        Tracker t = ((MyApplication) getActivity().getApplication())
-                .getTracker(MyApplication.TrackerName.APP_TRACKER);
-        // Set screen name.
-        // Where path is a String representing the screen name.
-        t.setScreenName("dolphin.android.apps.BloodServiceApp.MainActivity");
-        // This event will also be sent with &cd=Home%20Screen.
-        // Build and send an Event.
-        t.send(new HitBuilders.EventBuilder()
-                .setCategory("Network")
-                .setAction(action)
-                .setLabel(label)
-                .setValue(timeInMillis) //[33]dolphin++
-                .build());
-        // Clear the screen name field when we're done.
-        t.setScreenName(null);
+        Tracker t = null;
+        if (getActivity() != null) {
+            t = ((MyApplication) getActivity().getApplication())
+                    .getTracker(MyApplication.TrackerName.APP_TRACKER);
+        }
+        if (t != null) {
+            // Set screen name.
+            // Where path is a String representing the screen name.
+            t.setScreenName("dolphin.android.apps.BloodServiceApp.MainActivity");
+            // This event will also be sent with &cd=Home%20Screen.
+            // Build and send an Event.
+            t.send(new HitBuilders.EventBuilder()
+                    .setCategory("Network")
+                    .setAction(action)
+                    .setLabel(label)
+                    .setValue(timeInMillis) //[33]dolphin++
+                    .build());
+            // Clear the screen name field when we're done.
+            t.setScreenName(null);
+        }
     }
 
     public void sendDownloadException(String desc, boolean fatal) {
         // Get tracker.
-        Tracker t = ((MyApplication) getActivity().getApplication())
-                .getTracker(MyApplication.TrackerName.APP_TRACKER);
-        // Set screen name.
-        // Where path is a String representing the screen name.
-        t.setScreenName("dolphin.android.apps.BloodServiceApp.MainActivity");
-        t.send(new HitBuilders.ExceptionBuilder()
-                .setDescription(desc)
-                .setFatal(fatal)
-                .build());
-        // Clear the screen name field when we're done.
-        t.setScreenName(null);
+        Tracker t = null;
+        if (getActivity() != null) {
+            t = ((MyApplication) getActivity().getApplication())
+                    .getTracker(MyApplication.TrackerName.APP_TRACKER);
+        }
+        if (t != null) {
+            // Set screen name.
+            // Where path is a String representing the screen name.
+            t.setScreenName("dolphin.android.apps.BloodServiceApp.MainActivity");
+            t.send(new HitBuilders.ExceptionBuilder()
+                    .setDescription(desc)
+                    .setFatal(fatal)
+                    .build());
+            // Clear the screen name field when we're done.
+            t.setScreenName(null);
+        }
     }
 }

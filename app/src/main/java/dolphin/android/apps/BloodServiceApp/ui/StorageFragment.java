@@ -209,7 +209,9 @@ public class StorageFragment extends BaseListFragment {
         }
 
         long cost = System.currentTimeMillis() - start;
-        sendDownloadCost(getString(R.string.title_section1), cost);
+        if (getActivity() != null) {
+            sendDownloadCost(getString(R.string.title_section1), cost);
+        }
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {

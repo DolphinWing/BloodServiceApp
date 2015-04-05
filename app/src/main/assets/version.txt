@@ -9,6 +9,8 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[38] @ 2015-04-05
+    add more attach to Activity check
 [37] @ 2015-04-05
     fix Facebook app installed but disabled
     minimize appbar extended size
