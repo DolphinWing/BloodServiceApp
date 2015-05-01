@@ -22,6 +22,7 @@
         <item name="windowActionBar">false</item>
         <!-- Remove system title bars; we will add the action bar ourselves. -->
         <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
 
         <item name="colorPrimary">@color/bloody_color</item>
         <!--<item name="colorPrimaryDark">@color/bloody_color</item>-->
@@ -35,7 +36,7 @@
         <item name="toolbarStyle">@style/Theme.Bloody.Toolbar</item>
     </style>
 
-    <style name="Theme.Bloody.Settings" parent="Theme.AppCompat.Light">
+    <style name="Theme.Bloody.Settings" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">true</item>
 
         <item name="colorPrimary">@color/bloody_color</item>
@@ -49,8 +50,10 @@
 
     <style name="Theme.Bloody.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:background">@color/bloody_color</item>
-        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <!--<item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>-->
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <!--<item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <style name="Theme.Bloody.TextAppearance" parent="@android:style/TextAppearance.Holo" />

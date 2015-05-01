@@ -195,10 +195,12 @@ public class BaseListFragment extends Fragment
     }
 
     public void setFragmentBusy(boolean busy) {
-        if (busy) {
-            mListener.onUpdateStart(getFragmentId());
-        } else {
-            mListener.onUpdateComplete(getFragmentId());
+        if (mListener != null) {
+            if (busy) {
+                mListener.onUpdateStart(getFragmentId());
+            } else {
+                mListener.onUpdateComplete(getFragmentId());
+            }
         }
     }
 

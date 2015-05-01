@@ -9,6 +9,13 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[39] @ 2015-05-01
+    update library
+    fix possible null pointers when screen rotation
+    fix Upgraded to AppCompat v22.1.0 and now getting IllegalArgumentException:
+        AppCompat does not support the current theme features
+    ==> http://stackoverflow.com/a/29790071
+
 [38] @ 2015-04-05
     add more attach to Activity check
 [37] @ 2015-04-05
