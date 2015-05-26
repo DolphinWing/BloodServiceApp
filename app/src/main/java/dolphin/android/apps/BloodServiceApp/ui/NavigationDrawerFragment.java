@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -115,7 +116,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         String[] centre = getResources().getStringArray(R.array.blood_center);
-        ArrayList<String> list = new ArrayList<String>(Arrays.asList(centre));
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(centre));
         list.remove(0);
         mDrawerListView.setAdapter(new MyAdapter(getActivity(), list));
         mDrawerListView.setItemsCanFocus(false);
@@ -235,7 +236,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         //return getActivity().getActionBar();
-        return ((ActionBarActivity) getActivity()).getSupportActionBar();
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     /**

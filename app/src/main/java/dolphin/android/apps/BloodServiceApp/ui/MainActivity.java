@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,7 +35,7 @@ import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity//ActionBarActivity
         implements OnFragmentInteractionListener,
         NavigationDrawerFragment.NavigationDrawerCallbacks {
     private final static String TAG = "MainActivity";
@@ -277,7 +277,7 @@ public class MainActivity extends ActionBarActivity
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            mSectionMap = new HashMap<String, Boolean>();
+            mSectionMap = new HashMap<>();
         }
 
         @Override
@@ -371,7 +371,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     public interface OnBloodCenterChanged {
-        public void notifyChanged(int siteId, long timeInMillis);
+        void notifyChanged(int siteId, long timeInMillis);
     }
 
     private View.OnClickListener onTabClickListener = new View.OnClickListener() {
@@ -391,9 +391,9 @@ public class MainActivity extends ActionBarActivity
         super.onConfigurationChanged(newConfig);
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
+            //FIXME: do something?
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-
+            //FIXME: do something?
         }
     }
 

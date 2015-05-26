@@ -60,7 +60,7 @@ dependencies {
 
     stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
     superslimCompile 'com.android.support:recyclerview-v7:22.0.0'
-    superslimCompile 'com.tonicartos:superslim:0.4.10.1'
+    superslimCompile 'com.tonicartos:superslim:0.4.13'
 }
 
 ////https://github.com/castorflex/PlayServicesStrip-plugin
