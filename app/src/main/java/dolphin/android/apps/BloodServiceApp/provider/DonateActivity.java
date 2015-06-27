@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
+ * Donation activity
+ * <p/>
  * Created by dolphin on 2014/10/7.
  */
 public class DonateActivity {
@@ -24,42 +26,90 @@ public class DonateActivity {
         EndTime = Calendar.getInstance(Locale.TAIWAN);
     }
 
+    /**
+     * Get activity title
+     *
+     * @return title string
+     */
     public String getName() {
         return Name;
     }
 
+    /**
+     * Get activity location
+     *
+     * @return location string
+     */
     public String getLocation() {
         return Location;
     }
 
+    /**
+     * Get activity start time
+     *
+     * @return start time
+     */
     public Calendar getStartTime() {
         return StartTime;
     }
 
+    /**
+     * Set activity start time
+     *
+     * @param millis time in milliseconds
+     */
     public void setStartTime(long millis) {
         StartTime.setTimeInMillis(millis);
     }
 
+    /**
+     * Set activity start time
+     *
+     * @param cal      reference Calendar
+     * @param time_str time string
+     */
     public void setStartTime(Calendar cal, String time_str) {
         setStartTime(cal.getTimeInMillis());
         parseTime(StartTime, time_str);
         //Log.d("BloodDataHelper", "start: " + StartTime.getTime().toString());
     }
 
+    /**
+     * Get activity end time
+     *
+     * @return end time
+     */
     public Calendar getEndTime() {
         return EndTime;
     }
 
+    /**
+     * Set activity end time
+     *
+     * @param millis time in milliseconds
+     */
     public void setEndTime(long millis) {
         EndTime.setTimeInMillis(millis);
     }
 
+    /**
+     * Set activity end time
+     *
+     * @param cal      reference Calendar
+     * @param time_str time string
+     */
     public void setEndTime(Calendar cal, String time_str) {
         setEndTime(cal.getTimeInMillis());
         parseTime(EndTime, time_str);
         //Log.d("BloodDataHelper", "end: " + EndTime.getTime().toString());
     }
 
+    /**
+     * parse time string to Calendar
+     *
+     * @param cal      reference Calendar
+     * @param time_str time string
+     */
     private void parseTime(Calendar cal, String time_str) {
         //Log.d("BloodDataHelper", time_str);
         try {
@@ -81,6 +131,12 @@ public class DonateActivity {
         //Log.d("BloodDataHelper", cal.getTime().toString());
     }
 
+    /**
+     * Set activity duration
+     *
+     * @param cal          reference Calendar
+     * @param duration_str duration string
+     */
     public void setDuration(Calendar cal, String duration_str) {
         String[] ts = duration_str.split("~");
         if (ts.length < 2) {//try Hsinchu pattern
@@ -90,6 +146,11 @@ public class DonateActivity {
         setEndTime(cal, ts[1]);
     }
 
+    /**
+     * Get activity duration
+     *
+     * @return duration string
+     */
     public String getDuration() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.TAIWAN);
         //Log.d("BloodDataHelper", "start: " + StartTime.getTime().toString());
@@ -99,6 +160,12 @@ public class DonateActivity {
                 sdf.format(EndTime.getTime()));
     }
 
+    /**
+     * Get activity duration
+     *
+     * @param context Context
+     * @return duration string by system settings
+     */
     public String getDuration(Context context) {
         if (DateFormat.is24HourFormat(context)) {
             return getDuration();
@@ -109,6 +176,12 @@ public class DonateActivity {
                 timeFormatter.format(EndTime.getTime()));
     }
 
+    /**
+     * Get simple date time string
+     *
+     * @param cal Calendar
+     * @return time string
+     */
     private String getSimpleDateTimeString(Calendar cal) {
         return DonateDay.getSimpleDateTimeString(cal);
     }

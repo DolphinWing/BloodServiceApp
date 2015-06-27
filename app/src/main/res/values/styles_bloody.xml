@@ -44,6 +44,8 @@
         <!-- Holo style generator -->
         <item name="android:listChoiceBackgroundIndicator">@drawable/bloody_list_selector_holo_light</item>
         <item name="android:activatedBackgroundIndicator">@drawable/bloody_activated_background_holo_light</item>
+
+        <item name="toolbarStyle">@style/Theme.Bloody.Toolbar</item>
     </style>
 
     <style name="Theme.Bloody.Toolbar" parent="@style/Widget.AppCompat.Toolbar">

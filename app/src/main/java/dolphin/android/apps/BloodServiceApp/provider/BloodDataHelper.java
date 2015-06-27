@@ -69,6 +69,12 @@ public class BloodDataHelper {
         return "(empty)";
     }
 
+    /**
+     * Get donation activities within this week
+     *
+     * @param siteID site id
+     * @return donation activity list
+     */
     public ArrayList<DonateDay> getLatestWeekCalendar(int siteID) {
         Calendar cal = Calendar.getInstance(Locale.TAIWAN);
         while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
@@ -95,6 +101,13 @@ public class BloodDataHelper {
     private final static String PATTERN_ACTIVITY = "<h3>([^<]+)</h3>" +
             "[^<]*<p><strong>([^<]+)</strong></p>[^<]*<p><strong>([^<]+)";
 
+    /**
+     * Get donation activities by days in a week
+     *
+     * @param calendar start date
+     * @param site_id  site id
+     * @return donation activity list
+     */
     public ArrayList<DonateDay> getWeekCalendar(Calendar calendar, String site_id) {
         mStartDate.setTimeInMillis(calendar.getTimeInMillis());
         //Log.d(TAG, mStartDate.getTime().toString());
@@ -166,6 +179,12 @@ public class BloodDataHelper {
         return getBloodStorage(true);
     }
 
+    /**
+     * Get blood center storage
+     *
+     * @param forceRefresh true if to refresh data from server
+     * @return storage list by blood center
+     */
     public SparseArray<HashMap<String, Integer>> getBloodStorage(boolean forceRefresh) {
         if (!forceRefresh && mBloodStorage != null && mBloodStorage.size() > 0) {
             return mBloodStorage;
@@ -207,6 +226,12 @@ public class BloodDataHelper {
         return mBloodStorage;
     }
 
+    /**
+     * Get blood center name by ID
+     *
+     * @param siteID site id
+     * @return blood center name
+     */
     public String getBloodCenterName(int siteID) {
         int i = 0;
         for (i = mBloodCenterId.length - 1; i > 0; i--) {
@@ -220,9 +245,17 @@ public class BloodDataHelper {
     private final static String FACEBOOK_PACKAGE = "com.facebook.katana";
     private final static String FACEBOOK_URL = "https://www.facebook.com";
 
-    //Opening facebook app on specified profile page
-    //http://stackoverflow.com/a/10788387/2673859
+
+    /**
+     * Get Intent to Facebook app or website
+     *
+     * @param context Context
+     * @param siteId  site id
+     * @return Intent
+     */
     public static Intent getOpenFacebookIntent(Context context, int siteId) {
+        //Opening facebook app on specified profile page
+        //http://stackoverflow.com/a/10788387/2673859
         final int[] Ids = context.getResources().getIntArray(R.array.blood_center_id);
         int i;
         for (i = Ids.length - 1; i > 0; i--) {
@@ -249,6 +282,13 @@ public class BloodDataHelper {
         return intent;
     }
 
+    /**
+     * Get Intent to website
+     *
+     * @param context Context
+     * @param siteId  site id
+     * @return Intent
+     */
     public static Intent getOpenBloodCalendarSourceUrl(Context context, int siteId) {
         String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
         url = url.replace("&date={date}", "");//don't specify date

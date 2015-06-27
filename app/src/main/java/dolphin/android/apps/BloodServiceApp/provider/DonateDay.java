@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ * Donation activities in a day.
+ * <p/>
  * Created by dolphin on 2014/10/7.
  */
 public class DonateDay {
@@ -29,15 +31,30 @@ public class DonateDay {
         Day.set(year, month - 1, dayOfMonth);
     }
 
+    /**
+     * Set date
+     *
+     * @param calendar Calendar
+     */
     public void setDate(Calendar calendar) {
         Day.setTimeInMillis(calendar.getTimeInMillis());
         Day = resetToMidNight(Day);
     }
 
+    /**
+     * Get date time in milliseconds
+     *
+     * @return time in milliseconds
+     */
     public long getTimeInMillis() {
         return Day.getTimeInMillis();
     }
 
+    /**
+     * Indicate if the time is in the future.
+     *
+     * @return true if the time is in the future
+     */
     public boolean isFuture() {
         if (Day.after(Calendar.getInstance(Locale.TAIWAN))) {
             return true;
@@ -47,6 +64,12 @@ public class DonateDay {
         return false;
     }
 
+    /**
+     * Set date time to midnight
+     *
+     * @param calendar Calendar
+     * @return formatted time
+     */
     public static Calendar resetToMidNight(Calendar calendar) {
         Calendar cal = Calendar.getInstance(Locale.TAIWAN);
         cal.setTimeInMillis(calendar.getTimeInMillis());
@@ -57,28 +80,61 @@ public class DonateDay {
         return cal;
     }
 
+    /**
+     * Get date string
+     *
+     * @return date string
+     */
     public String getDateString() {
         return getSimpleDateString(Day);
     }
 
+    /**
+     * Get simple date string
+     *
+     * @param cal Calendar
+     * @return date string
+     */
     public static String getSimpleDateString(Calendar cal) {
         return new SimpleDateFormat("yyyy/MM/dd (E)",
                 Locale.TAIWAN).format(cal.getTime());
     }
 
+    /**
+     * Get simple date and time string
+     *
+     * @param cal Calendar
+     * @return date and time string
+     */
     public static String getSimpleDateTimeString(Calendar cal) {
         return new SimpleDateFormat("MM/dd HH:mm",
                 Locale.TAIWAN).format(cal.getTime());
     }
 
+    /**
+     * Get date string in default format
+     *
+     * @param cal Calendar
+     * @return date string
+     */
     public static String getDefaultDateString(Calendar cal) {
         return DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime());
     }
 
+    /**
+     * Get activity list
+     *
+     * @return activity list
+     */
     public List<DonateActivity> getActivities() {
         return Activities;
     }
 
+    /**
+     * Get activity count
+     *
+     * @return activity count
+     */
     public int getActivityCount() {
         return Activities.size();
     }

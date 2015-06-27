@@ -161,18 +161,20 @@ public class NavigationDrawerFragment extends Fragment {
             openDrawer();
         }
 
-        mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
+        if (mActionView != null) {
+            mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+                    super.onDrawerSlide(drawerView, slideOffset);
 
-                if (slideOffset < 0.5 && mActionView.getAction() instanceof BackAction) {
-                    mActionView.setAction(new DrawerAction(), ActionView.ROTATE_CLOCKWISE);
-                } else if (slideOffset > 0.3 && mActionView.getAction() instanceof DrawerAction) {
-                    mActionView.setAction(new BackAction(), ActionView.ROTATE_COUNTER_CLOCKWISE);
+                    if (slideOffset < 0.5 && mActionView.getAction() instanceof BackAction) {
+                        mActionView.setAction(new DrawerAction(), ActionView.ROTATE_CLOCKWISE);
+                    } else if (slideOffset > 0.3 && mActionView.getAction() instanceof DrawerAction) {
+                        mActionView.setAction(new BackAction(), ActionView.ROTATE_COUNTER_CLOCKWISE);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void selectItem(int position) {
