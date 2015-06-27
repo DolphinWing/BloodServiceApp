@@ -34,8 +34,12 @@ android {
             versionCode 40
             versionName "1.2.3"
         }
+        design {
+            versionCode 41
+            versionName "1.3.0"
+        }
     }
-    
+
     // maybe https://github.com/evant/gradle-retrolambda
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -61,6 +65,9 @@ dependencies {
     stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
     superslimCompile 'com.android.support:recyclerview-v7:22.0.0'
     superslimCompile 'com.tonicartos:superslim:0.4.13'
+    designCompile 'com.android.support:recyclerview-v7:22.0.0'
+    designCompile 'com.tonicartos:superslim:0.4.13'
+    designCompile 'com.android.support:design:22.2.0'
 }
 
 ////https://github.com/castorflex/PlayServicesStrip-plugin

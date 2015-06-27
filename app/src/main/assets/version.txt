@@ -9,6 +9,11 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[41] @ 2015-06-03
+    add new flavor design to use Android Design Support Library
+    update layout and style for new flavor
+    add comments for provider classes
+
 [40] @ 2015-05-26
     fix AppCompat Toolbar color style incorrect
     change the highlighted color

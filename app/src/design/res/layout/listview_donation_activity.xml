@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/material_listview_item_height"
+    android:background="@drawable/bloody_list_selector_holo_light">
+
+    <ImageView
+        android:layout_width="@dimen/material_listview_primary_icon_width"
+        android:layout_height="@dimen/material_listview_primary_icon_width"
+        android:padding="@dimen/material_listview_primary_icon_padding"
+        android:id="@android:id/icon"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/material_horizontal_margin"
+        android:src="@drawable/ic_action_maps_local_attraction" />
+
+    <LinearLayout
+        android:id="@android:id/message"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/material_listivew_icon_text_margin"
+        android:layout_marginRight="@dimen/material_horizontal_margin"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/Theme.Bloody.Widget.Donation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_section2"
+            android:id="@android:id/title" />
+
+        <TextView
+            style="@style/Theme.Bloody.Widget.Donation.Time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_section2"
+            android:id="@android:id/text1" />
+
+        <TextView
+            style="@style/Theme.Bloody.Widget.Donation.Location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_section2"
+            android:id="@android:id/text2" />
+    </LinearLayout>
+</RelativeLayout>
