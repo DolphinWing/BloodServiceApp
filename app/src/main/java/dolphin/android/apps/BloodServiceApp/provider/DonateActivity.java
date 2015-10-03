@@ -142,6 +142,14 @@ public class DonateActivity {
         if (ts.length < 2) {//try Hsinchu pattern
             ts = duration_str.split("-");
         }
+        if (ts.length < 2 && duration_str.length() >= 4) {//no separator
+            ts = new String[2];
+            ts[0] = duration_str.substring(0, 2);
+            ts[1] = duration_str.substring(2, 4);
+        }
+        if (ts.length < 2) {
+            return;
+        }
         setStartTime(cal, ts[0]);
         setEndTime(cal, ts[1]);
     }

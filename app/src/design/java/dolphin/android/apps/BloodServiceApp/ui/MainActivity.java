@@ -132,9 +132,13 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else {//use panes
             View header = findViewById(R.id.page_header);
-            header.setVisibility(View.GONE);
+            if (header != null) {
+                header.setVisibility(View.GONE);
+            }
             View indicator = findViewById(R.id.page_indicator);
-            indicator.setVisibility(View.GONE);
+            if (indicator != null) {
+                indicator.setVisibility(View.GONE);
+            }
         }
 
         BloodDataHelper helper = new BloodDataHelper(this);
