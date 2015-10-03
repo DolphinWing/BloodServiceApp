@@ -199,18 +199,18 @@ public class StorageFragment extends BaseListFragment {
         BloodDataHelper helper = new BloodDataHelper(getActivity());
         SparseArray<HashMap<String, Integer>> array = helper.getBloodStorage(false);
         HashMap<String, Integer> map = array.get(getSiteId());
+
+        final ArrayList<Integer> list = new ArrayList<Integer>();
         if (map == null) {
             sendDownloadException("storage array empty", false);
-            return;
-        }
-        final ArrayList<Integer> list = new ArrayList<Integer>();
-        for (String bloodType : mBloodType) {
-            list.add(map.get(bloodType));
-        }
-
-        long cost = System.currentTimeMillis() - start;
-        if (getActivity() != null) {
-            sendDownloadCost(getString(R.string.title_section1), cost);
+        } else {//check blood storage
+            for (String bloodType : mBloodType) {
+                list.add(map.get(bloodType));
+            }
+            long cost = System.currentTimeMillis() - start;
+            if (getActivity() != null) {
+                sendDownloadCost(getString(R.string.title_section1), cost);
+            }
         }
 
         if (getActivity() != null) {

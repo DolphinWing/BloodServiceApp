@@ -9,6 +9,17 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[44] @ 2015-10-03
+    update build library
+    add Chrome Custom Tabs
+
+[43] @ 2015-06-29
+    fix StoageFragmentget no data won't stop loading animation
+        also add connect timeout
+
+[42] @ 2015-06-27
+    fix v21 caused shadow in new Design Library
+
 [41] @ 2015-06-03
     add new flavor design to use Android Design Support Library
     update layout and style for new flavor
@@ -86,7 +97,7 @@ http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 [26] @ 2014-11-07
     fix elevation of widget frame
-    
+
     http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Using-sourceCompatibility-1.7
         try to fix we can't strip google play service @ dolphin-Home-PC
 
@@ -95,10 +106,10 @@ http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 [25] @ 2014-11-05
     Filtering resources from the Play Services monolith to make your APK smaller
     http://stackoverflow.com/a/24746323/2673859
-    
+
     https://github.com/castorflex/PlayServicesStrip-plugin
         this is not suitable for my home pc setup, need to try later
-    
+
     update gradle to 0.13.3
 
     add empty text for ListView/GridView
@@ -113,10 +124,10 @@ TODO: check ListView checked style in NavigationDrawer
     modify MainActivity tracker as global tracker (original app tracker)
         to test different tracker in Google Analytics
     fix cannot load ads when put fragment directly in the view
-    
+
     Another floating action button that has multiple action animations
     https://github.com/futuresimple/android-floating-action-button
-    
+
     Reduce apk size by strip unnecessary api in Google Play Services
     https://gist.github.com/Takhion/10a37046b9e6d259bb31
         (2014-11-05: only working in 5.0.89)
@@ -177,7 +188,7 @@ TODO: check ListView checked style in NavigationDrawer
 [14] @ 2014-10-23
     Device rotation results in NullPointerException
     http://stackoverflow.com/a/12967721/2673859
-    
+
     use AppCompat to have Toolbar implementation
 
     add CircleImageView
@@ -197,18 +208,18 @@ Known issue:
 
 [12] @ 2014-10-21 @ work
     add at.markushi.ui.ActionView library
-    
+
     Using the Material Theme
     https://developer.android.com/training/material/theme.html
-    
+
     Defining Shadows and Clipping Views
     https://developer.android.com/training/material/shadows-clipping.html
-    
+
     UA-4163873-10
-    
+
     Google Analytics SDK v4 for Android - Getting Started
     https://developers.google.com/analytics/devguides/collection/android/v4/
-    
+
     fix click on donation force close: mListener.onFragmentInteraction
         at dolphin.android.apps.BloodServiceApp.ui.BaseListFragment.onItemClick(BaseListFragment.java:126)
 
@@ -264,7 +275,7 @@ TODO:
     1) donation activity layout
     2) blood storage layout (need improvement)
     3) navigation drawer
-	
+
 Reference:
 	Calculating distance between two geographic locations
 		http://stackoverflow.com/a/8050255

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -48,7 +50,8 @@ public class BloodDataHelper {
     public BloodDataHelper(Context context) {
         mContext = context;
         mClient = new OkHttpClient();
-        mClient.setReadTimeout(10, TimeUnit.SECONDS);
+        mClient.setConnectTimeout(5, TimeUnit.SECONDS);// connect timeout
+        mClient.setReadTimeout(10, TimeUnit.SECONDS);// socket timeout
         mStartDate = Calendar.getInstance(Locale.TAIWAN);
 
         mBloodCenterId = mContext.getResources().getIntArray(R.array.blood_center_id);
@@ -245,6 +248,10 @@ public class BloodDataHelper {
     private final static String FACEBOOK_PACKAGE = "com.facebook.katana";
     private final static String FACEBOOK_URL = "https://www.facebook.com";
 
+    //https://developer.chrome.com/multidevice/android/customtabs
+    //https://github.com/GoogleChrome/custom-tabs-client
+    private static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
+    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
 
     /**
      * Get Intent to Facebook app or website
@@ -278,6 +285,14 @@ public class BloodDataHelper {
         } catch (Exception e) {//catches and opens a url to the desired page
             intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(String.format("%s/%s", FACEBOOK_URL, fbIds.split(":")[0])));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                //[44]dolphin++ add Chrome Custom Tabs
+                Bundle extras = new Bundle();
+                extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
+                extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+                        context.getResources().getColor(R.color.bloody_color));
+                intent.putExtras(extras);
+            }
         }
         return intent;
     }
@@ -292,8 +307,15 @@ public class BloodDataHelper {
     public static Intent getOpenBloodCalendarSourceUrl(Context context, int siteId) {
         String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
         url = url.replace("&date={date}", "");//don't specify date
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            //[44]dolphin++ add Chrome Custom Tabs
+            Bundle extras = new Bundle();
+            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
+            extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+                    context.getResources().getColor(R.color.bloody_color));
+            intent.putExtras(extras);
+        }
         return PackageUtils.isCallable(context, intent) ? intent : null;
     }
 }
