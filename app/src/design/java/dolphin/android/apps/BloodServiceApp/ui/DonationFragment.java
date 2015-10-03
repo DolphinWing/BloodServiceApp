@@ -1,6 +1,10 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -124,23 +128,88 @@ public class DonationFragment extends BaseListFragment
 
     @Override
     public void onItemClicked(View view, Object data) {
-        Log.d(TAG, "onItemClicked: " + data.toString());
+        //Log.d(TAG, "onItemClicked: " + data.toString());
+        if (!isGoogleMapsInstalled() || !getResources().getBoolean(R.bool.feature_enable_search_on_map)) {
+            return;
+        }
 
-        DonateActivity donation = (DonateActivity) data;
-        final ArrayList<String> list = new ArrayList<>();
-        list.add(donation.getName());
-        list.add(donation.getLocation());
-
+        final ArrayList<String> list = prepareList((DonateActivity) data);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("You want to find")
                 .setAdapter(new ArrayAdapter<>(getActivity(),
-                        android.R.layout.simple_list_item_single_choice, list),
+                                android.R.layout.simple_selectable_list_item, list),
                         new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int position) {
-                        Log.d(TAG, "pos = " + position);
-                    }
-                });
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int position) {
+                                //Log.d(TAG, "pos = " + position);
+                                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + list.get(position));
+                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                mapIntent.setPackage("com.google.android.apps.maps");
+                                startActivity(mapIntent);
+                            }
+                        });
         builder.show();
+    }
+
+    private ArrayList<String> prepareList(DonateActivity donation) {
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add(donation.getName());
+        if (donation.getName().contains("(")) {
+            String[] name = donation.getName().split("\\(");
+            list.add(name[0]);
+            if (name[1].contains(")")) {
+                list.add(name[1].split("\\)")[0]);
+            } else {
+                list.add(name[1]);
+            }
+        }
+        if (donation.getName().contains("（")) {
+            String[] name = donation.getName().split("（");
+            list.add(name[0]);
+            if (name[1].contains("）")) {
+                list.add(name[1].split("）")[0]);
+            } else {
+                list.add(name[1]);
+            }
+        }
+
+        list.add(donation.getLocation());
+        if (donation.getLocation().contains("(")) {
+            String[] location = donation.getLocation().split("\\(");
+            list.add(location[0]);
+            if (location[1].contains(")")) {
+                list.add(location[1].split("\\)")[0]);
+            } else {
+                list.add(location[1]);
+            }
+        }
+        if (donation.getLocation().contains("（")) {
+            String[] location = donation.getLocation().split("（");
+            list.add(location[0]);
+            if (location[1].contains("）")) {
+                list.add(location[1].split("）")[0]);
+            } else {
+                list.add(location[1]);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * http://wp.me/p2XxfD-1u
+     * @return true if installed
+     */
+    public boolean isGoogleMapsInstalled() {
+        if (getActivity() == null) {
+            return false;
+        }
+        try {
+            ApplicationInfo info = getActivity().getPackageManager()
+                    .getApplicationInfo("com.google.android.apps.maps", 0);
+            return info != null;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }

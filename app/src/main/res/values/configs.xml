@@ -2,6 +2,8 @@
 <resources>
     <bool name="default_line_indicator_snap">false</bool>
 
+    <bool name="feature_enable_search_on_map">false</bool>
+
     <string-array name="blood_type_value">
         <item>A</item>
         <item>B</item>
@@ -17,7 +19,7 @@
         <item>6</item>
         <item>7</item>
     </integer-array>
-    
+
     <!-- http://stackoverflow.com/a/10212751/2673859 -->
     <string-array name="blood_center_facebook">
         <item>0</item>
@@ -28,7 +30,7 @@
         <item>TBSFksblood:255030234579199</item>
         <item>Hualienblood:151343784959694</item>
     </string-array>
-    
+
     <!-- Open Source link -->
     <string name="title_open_source_okhttp">OkHttp</string>
     <string name="summary_open_source_okhttp">http://square.github.io/okhttp/</string>
