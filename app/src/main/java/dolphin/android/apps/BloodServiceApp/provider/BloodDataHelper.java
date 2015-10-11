@@ -285,14 +285,15 @@ public class BloodDataHelper {
         } catch (Exception e) {//catches and opens a url to the desired page
             intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(String.format("%s/%s", FACEBOOK_URL, fbIds.split(":")[0])));
+
+            //[44]dolphin++ add Chrome Custom Tabs
+            Bundle extras = new Bundle();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                //[44]dolphin++ add Chrome Custom Tabs
-                Bundle extras = new Bundle();
                 extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
-                extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                        context.getResources().getColor(R.color.bloody_color));
-                intent.putExtras(extras);
             }
+            extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+                    context.getResources().getColor(R.color.bloody_color));
+            intent.putExtras(extras);
         }
         return intent;
     }
@@ -308,14 +309,13 @@ public class BloodDataHelper {
         String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
         url = url.replace("&date={date}", "");//don't specify date
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        Bundle extras = new Bundle(); //[44]dolphin++ add Chrome Custom Tabs
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            //[44]dolphin++ add Chrome Custom Tabs
-            Bundle extras = new Bundle();
             extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
-            extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                    context.getResources().getColor(R.color.bloody_color));
-            intent.putExtras(extras);
         }
+        extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+                context.getResources().getColor(R.color.bloody_color));
+        intent.putExtras(extras);
         return PackageUtils.isCallable(context, intent) ? intent : null;
     }
 }

@@ -234,8 +234,12 @@ public class BaseListFragment extends Fragment
                     .setCategory("Network")
                     .setAction(action)
                     .setLabel(label)
-                    .setValue(timeInMillis) //[33]dolphin++
+                    //.setValue(timeInMillis) //[33]dolphin++
                     .build());
+            t.send(new HitBuilders.TimingBuilder()
+                    .setCategory("Network")
+                    .setValue(timeInMillis)
+                    .setVariable(action).build());
             // Clear the screen name field when we're done.
             t.setScreenName(null);
         }

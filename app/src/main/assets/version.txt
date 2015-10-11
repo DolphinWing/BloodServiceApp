@@ -9,6 +9,11 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[46] @ 2015-10-11
+    fix java.lang.IllegalStateException: Fragment StorageFragment{21e4d6f8} not attached to Activity
+    update OkHttp to 2.5.0
+    change download timing count to analytics timing
+
 [45] @ 2015-10-03
     fix Hsinchu new time format
     fix tablet null pointer exception in design flavor

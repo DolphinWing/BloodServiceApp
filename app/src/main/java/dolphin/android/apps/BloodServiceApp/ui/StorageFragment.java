@@ -219,8 +219,8 @@ public class StorageFragment extends BaseListFragment {
                 public void run() {
                     if (getActivity() != null) {
                         setListAdapter(new MyAdapter(getActivity(), list));
+                        setEmptyText(getString(R.string.title_data_not_available));
                     }
-                    setEmptyText(getText(R.string.title_data_not_available));
                     setFragmentBusy(false);
                 }
             });

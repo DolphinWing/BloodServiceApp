@@ -50,6 +50,11 @@ public class MyApplication extends Application {
                     : (trackerId == TrackerName.GLOBAL_TRACKER)
                             ? analytics.newTracker(R.xml.tracker_global)
                             : analytics.newTracker(R.xml.tracker_ecommerce);
+            if (trackerId == TrackerName.APP_TRACKER) {
+                t.enableAdvertisingIdCollection(true);
+                t.enableAutoActivityTracking(true);
+                t.enableExceptionReporting(true);
+            }
             mTrackers.put(trackerId, t);
         }
         return mTrackers.get(trackerId);

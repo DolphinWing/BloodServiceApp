@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'playservicesstrip'
 
 android {
     compileSdkVersion 23
@@ -35,8 +34,8 @@ android {
             versionName "1.2.3"
         }
         design {
-            versionCode 45
-            versionName "1.3.3"
+            versionCode 46
+            versionName "1.3.4"
         }
     }
 
@@ -50,8 +49,8 @@ android {
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':library:MyUtilsLibrary')
-    compile 'com.squareup.okio:okio:1.3.0'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
+    //compile 'com.squareup.okio:okio:1.3.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
 
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.android.support:support-v13:23.0.1'
@@ -70,9 +69,3 @@ dependencies {
     designCompile 'com.tonicartos:superslim:0.4.13'
     designCompile 'com.android.support:design:23.0.1'
 }
-
-////https://github.com/castorflex/PlayServicesStrip-plugin
-//playservices {
-//    includes = ["ads", "analytics", "common", "internal", "dynamic"]
-//}
-
