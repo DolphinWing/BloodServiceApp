@@ -33,7 +33,7 @@
 
     <!-- Open Source link -->
     <string name="title_open_source_okhttp">OkHttp</string>
-    <string name="summary_open_source_okhttp">http://square.github.io/okhttp/</string>
+    <string name="summary_open_source_okhttp">Copyright 2014 Square, Inc.</string>
     <string name="title_open_source_stickygridheaders">StickyGridHeaders</string>
     <string name="summary_open_source_stickygridheaders">https://github.com/TonicArtos/StickyGridHeaders</string>
     <string name="title_open_source_markushi_android_ui">markushi android-ui</string>
@@ -45,6 +45,6 @@
     <string name="title_credit_background2">makelessnoise@flickr</string>
     <string name="summary_credit_background2">https://www.flickr.com/photos/makelessnoise/2562431372/</string>
     <string name="title_open_source_super_slim">SuperSLiM</string>
-    <string name="summary_open_source_super_slim">https://github.com/TonicArtos/SuperSLiM</string>
+    <string name="summary_open_source_super_slim">Copyright (C) 2014, 2015 Tonic Artos</string>
 
 </resources>

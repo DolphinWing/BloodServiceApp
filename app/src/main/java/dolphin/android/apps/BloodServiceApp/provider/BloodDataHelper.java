@@ -250,8 +250,8 @@ public class BloodDataHelper {
 
     //https://developer.chrome.com/multidevice/android/customtabs
     //https://github.com/GoogleChrome/custom-tabs-client
-    private static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
-    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+    public static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
+    public static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
 
     /**
      * Get Intent to Facebook app or website

@@ -13,6 +13,8 @@ http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
     fix java.lang.IllegalStateException: Fragment StorageFragment{21e4d6f8} not attached to Activity
     update OkHttp to 2.5.0
     change download timing count to analytics timing
+    fix Android 5.0+ Settings Toolbar color
+    update Chrome Custom Tabs
 
 [45] @ 2015-10-03
     fix Hsinchu new time format
