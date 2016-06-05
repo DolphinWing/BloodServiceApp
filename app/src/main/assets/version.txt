@@ -9,6 +9,12 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[50] @ 2016-06-05
+    add Firebase remote config and analytics
+    add blood donation stations
+    add blood donor website link
+    adjust some ui elements
+
 [48] @ 2015-11-02
     java.lang.IllegalStateException: Fragment not attached to Activity
 

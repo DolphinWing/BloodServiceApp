@@ -8,6 +8,7 @@ android {
         applicationId "dolphin.android.apps.BloodServiceApp"
         minSdkVersion 14
         targetSdkVersion 23
+        resConfigs "zh", "zh_TW"
     }
 
 //    //http://stackoverflow.com/a/19210105/2673859
@@ -34,8 +35,8 @@ android {
             versionName "1.2.3"
         }
         design {
-            versionCode 48
-            versionName "1.4.1"
+            versionCode 50
+            versionName "1.5.0"
         }
     }
 

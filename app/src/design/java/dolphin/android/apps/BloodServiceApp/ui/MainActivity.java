@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                sendGAOpenActivity();
+                //sendGAOpenActivity();
                 prepareRemoteConfig();
             }
         });
