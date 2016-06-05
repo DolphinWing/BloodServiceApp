@@ -24,7 +24,6 @@ public class MyApplication extends Application {
     public enum TrackerName {
         APP_TRACKER, // Tracker used only in this app.
         GLOBAL_TRACKER, // Tracker used by all the apps from a company. eg: roll-up tracking.
-        ECOMMERCE_TRACKER, // Tracker used by all ecommerce transactions from a company.
     }
 
     HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
@@ -47,9 +46,7 @@ public class MyApplication extends Application {
 
             Tracker t = (trackerId == TrackerName.APP_TRACKER)
                     ? analytics.newTracker(getString(R.string.ga_trackingId))
-                    : (trackerId == TrackerName.GLOBAL_TRACKER)
-                            ? analytics.newTracker(R.xml.tracker_global)
-                            : analytics.newTracker(R.xml.tracker_ecommerce);
+                    : analytics.newTracker(R.xml.tracker_global);
             if (trackerId == TrackerName.APP_TRACKER) {
                 t.enableAdvertisingIdCollection(true);
                 t.enableAutoActivityTracking(true);

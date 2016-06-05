@@ -6,9 +6,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@
         <item name="windowNoTitle">true</item>
 
         <item name="colorPrimary">@color/bloody_color</item>
-        <!--<item name="colorPrimaryDark">@color/bloody_color</item>-->
+        <item name="colorPrimaryDark">@color/bloody_darker_color</item>
         <item name="colorAccent">@color/material_light_green_700</item>
 
         <!-- Holo style generator -->
@@ -34,11 +34,13 @@
 
         <!-- http://stackoverflow.com/a/26531643/2673859 -->
         <item name="toolbarStyle">@style/Theme.Bloody.Toolbar</item>
+
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="Theme.Bloody.Settings" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/bloody_color</item>
-        <!--<item name="colorPrimaryDark">@color/bloody_color</item>-->
+        <item name="colorPrimaryDark">@color/bloody_darker_color</item>
         <item name="colorAccent">@color/material_light_green_700</item>
 
         <!-- Holo style generator -->
@@ -86,7 +88,7 @@
     <style name="Theme.Bloody.Widget.Donation.Location" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:singleLine">true</item>
     </style>
-    
+
     <style name="Theme.Bloody.Widget.Storage.Title" parent="@style/TextAppearance.AppCompat.Title.Inverse" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/material_appbar_height</item>
@@ -95,7 +97,7 @@
         <item name="android:paddingLeft">@dimen/material_horizontal_margin</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    
+
     <style name="Theme.Bloody.Widget.StorageFrame">
         <item name="android:layout_width">360dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -109,12 +111,12 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
-    
+
     <style name="Theme.Bloody.Shadow">
         <item name="android:scaleType">fitXY</item>
         <item name="android:contentDescription">@null</item>
     </style>
-    
+
     <style name="Theme.Bloody.Shadow.Horizontal" parent="@style/Theme.Bloody.Shadow">
         <item name="android:src">@drawable/drawer_shadow</item>
     </style>

@@ -23,23 +23,13 @@ public class SplashActivity extends Activity {
         config.locale = Locale.TAIWAN;
         Locale.setDefault(config.locale);
 
-//        if (getResources().getBoolean(R.bool.eng_mode)) {
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
         this.finish();
-//        return;
-//        }
-
-/*        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .permitAll()
-                .build());
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                BloodDataHelper helper = new BloodDataHelper(getBaseContext());
-                helper.getLatestWeekCalendar(5);
-            }
-        });*/
+        overridePendingTransition(0, 0);
     }
 
 }

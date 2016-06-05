@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.provider;
 
 import android.content.Context;
+import android.support.annotation.Keep;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import java.util.Locale;
  * <p/>
  * Created by dolphin on 2014/10/7.
  */
+@Keep
 public class DonateActivity {
     private String Name;
     private Calendar StartTime;
@@ -115,8 +117,12 @@ public class DonateActivity {
         try {
             String[] ts = time_str.split(":");
             if (ts.length < 2) {//try Taipei pattern
-                cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time_str.substring(0, 2)));
-                cal.set(Calendar.MINUTE, Integer.parseInt(time_str.substring(2)));
+                if (time_str.matches("[0-9]+") && time_str.length() > 3) {
+                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time_str.substring(0, 2)));
+                    cal.set(Calendar.MINUTE, Integer.parseInt(time_str.substring(2)));
+                } else {
+                    throw new NumberFormatException("no time");
+                }
             } else {
                 cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(ts[0]));
                 cal.set(Calendar.MINUTE, Integer.parseInt(ts[1]));
@@ -124,7 +130,8 @@ public class DonateActivity {
         } catch (NumberFormatException e) {
             cal.set(Calendar.HOUR_OF_DAY, 0);
             cal.set(Calendar.MINUTE, 0);
-            Log.e("BloodDataHelper", time_str);
+            Log.e("BloodDataHelper", String.format("message: %s\ntime_str: %s",
+                e.getMessage(), time_str));
         }
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);

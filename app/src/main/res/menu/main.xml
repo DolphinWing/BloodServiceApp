@@ -29,4 +29,10 @@
         android:id="@+id/action_go_to_website"
         android:title="@string/action_go_to_website"
         app:showAsAction="withText|ifRoom" />
+
+    <item
+        android:id="@+id/action_go_to_station"
+        android:title="@string/action_go_to_station"
+        app:showAsAction="withText|ifRoom" />
+
 </menu>

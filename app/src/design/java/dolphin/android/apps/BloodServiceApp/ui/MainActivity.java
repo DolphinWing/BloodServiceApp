@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
      * may be best to switch to a
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -89,7 +89,9 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+        }
 
         ActionBar actionbar = getSupportActionBar();
 //        mCustomView = LayoutInflater.from(this).inflate(R.layout.fragment_toolbar, null);
@@ -110,10 +112,11 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
 //        });
 //        mActionView.setVisibility(View.INVISIBLE);//set invisible at start
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout), mActionView);
+        if (mNavigationDrawerFragment != null) {// Set up the drawer.
+            mNavigationDrawerFragment.setUp(
+                    R.id.navigation_drawer,
+                    (DrawerLayout) findViewById(R.id.drawer_layout), mActionView);
+        }
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeButtonEnabled(true);
@@ -128,8 +131,10 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
             TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(mViewPager);
-            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            if (tabLayout != null) {
+                tabLayout.setupWithViewPager(mViewPager);
+                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            }
         } else {//use panes
             View header = findViewById(R.id.page_header);
             if (header != null) {
@@ -256,8 +261,9 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
 
     @Override
     public void onUpdateComplete(String id) {
-        if (mSectionsPagerAdapter == null)
+        if (mSectionsPagerAdapter == null) {
             return;
+        }
         mSectionsPagerAdapter.setSectionBusy(id, false);
         if (mProgress != null && !mSectionsPagerAdapter.isAnySectionBusy()) {
             mProgress.setVisibility(View.GONE);
@@ -391,13 +397,12 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
     //http://stackoverflow.com/a/12967721/2673859
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        // TODO Auto-generated method stub
         super.onConfigurationChanged(newConfig);
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //FIXME: do something?
+            Log.v(TAG, "landscape");//FIXME: do something?
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            //FIXME: do something?
+            Log.v(TAG, "portrait");//FIXME: do something?
         }
     }
 
@@ -434,7 +439,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
 
     @Override
     public void onBackPressed() {
-        if (mNavigationDrawerFragment.isDrawerOpen()) {
+        if (mNavigationDrawerFragment != null && mNavigationDrawerFragment.isDrawerOpen()) {
             mNavigationDrawerFragment.closeDrawer();
             return;
         }

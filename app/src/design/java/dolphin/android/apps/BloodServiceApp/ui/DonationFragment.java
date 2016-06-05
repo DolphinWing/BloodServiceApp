@@ -2,13 +2,10 @@ package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +14,11 @@ import android.widget.ArrayAdapter;
 import com.tonicartos.superslim.LayoutManager;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity;
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
@@ -94,6 +94,11 @@ public class DonationFragment extends BaseListFragment
             return;
         }
 
+        //[48]++ java.lang.IllegalStateException: Fragment not attached to Activity
+        if (this.isRemoving() || this.isDetached()) {
+            return;//no need to update
+        }
+
         mAdapter = new DonationListAdapter(getActivity(), days, this);
 
         long cost = System.currentTimeMillis() - start;
@@ -129,7 +134,7 @@ public class DonationFragment extends BaseListFragment
     @Override
     public void onItemClicked(View view, Object data) {
         //Log.d(TAG, "onItemClicked: " + data.toString());
-        if (!isGoogleMapsInstalled() || !getResources().getBoolean(R.bool.feature_enable_search_on_map)) {
+        if (!PrefsUtil.isEnableSearchOnMap(getActivity())) {
             return;
         }
 
@@ -174,42 +179,71 @@ public class DonationFragment extends BaseListFragment
             }
         }
 
-        list.add(donation.getLocation());
-        if (donation.getLocation().contains("(")) {
-            String[] location = donation.getLocation().split("\\(");
-            list.add(location[0]);
-            if (location[1].contains(")")) {
-                list.add(location[1].split("\\)")[0]);
-            } else {
-                list.add(location[1]);
+        String location = donation.getLocation();
+
+        if (location.contains("-")) {
+            String[] loc = location.split("-");
+            for (String l : loc) {
+                if (l.isEmpty()) {
+                    continue;
+                }
+                String[] loc1 = splitByParentheses(l);
+                for (String l1 : loc1) {
+                    list.add(removeNumberTrailing(l1));
+                }
+            }
+        } else if (location.contains("(")) {
+            String[] loc = splitByParentheses(location);
+            for (String l : loc) {
+                list.add(removeNumberTrailing(l));
+            }
+        } else {
+            String[] loc = splitByParentheses2(location);
+            for (String l : loc) {
+                list.add(removeNumberTrailing(l));
             }
         }
-        if (donation.getLocation().contains("（")) {
-            String[] location = donation.getLocation().split("（");
-            list.add(location[0]);
-            if (location[1].contains("）")) {
-                list.add(location[1].split("）")[0]);
-            } else {
-                list.add(location[1]);
-            }
-        }
+
+        //http://stackoverflow.com/a/203992
+        Set<String> s = new LinkedHashSet<>(list);
+        list.clear();
+        list.addAll(s);
         return list;
     }
 
-    /**
-     * http://wp.me/p2XxfD-1u
-     * @return true if installed
-     */
-    public boolean isGoogleMapsInstalled() {
-        if (getActivity() == null) {
-            return false;
+    private String[] splitByParentheses(String location) {
+        if (location.contains("(")) {
+            String[] loc = location.split("\\(");
+            for (int i = 0; i < loc.length; i++) {
+                loc[i] = loc[i].contains(")") ? loc[i].substring(0, loc[i].indexOf(")")) : loc[i];
+            }
+            return loc;
         }
-        try {
-            ApplicationInfo info = getActivity().getPackageManager()
-                    .getApplicationInfo("com.google.android.apps.maps", 0);
-            return info != null;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
+        return new String[] { location };
+    }
+
+    private String[] splitByParentheses2(String location) {
+        String lparen = getString(R.string.search_on_map_split_lparen);
+        String rparen = getString(R.string.search_on_map_split_rparen);
+        if (location.contains(lparen)) {
+            String[] loc = location.split(lparen);
+            for (int i = 0; i < loc.length; i++) {
+                loc[i] = loc[i].contains(rparen)
+                        ? loc[i].substring(0, loc[i].indexOf(rparen))
+                        : loc[i].contains(")") ? loc[i].substring(0, loc[i].indexOf(")")) : loc[i];
+            }
+            return loc;
         }
+        return new String[] { location };
+    }
+
+    private String removeNumberTrailing(String location) {
+        String num = getString(R.string.search_on_map_split_number);
+        if (location.contains(num)) {
+            return location.substring(0, location.indexOf(num) + 1);
+        } else {
+            //maybe some other patterns?
+        }
+        return location;
     }
 }

@@ -38,6 +38,18 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/material_horizontal_margin"
         android:text="@string/action_settings"
-        android:background="@drawable/abc_list_selector_holo_light" />
+        android:background="@drawable/abc_list_selector_holo_light"
+        tools:ignore="PrivateResource" />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:id="@+id/action_go_personal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_listview_header_height"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/material_horizontal_margin"
+        android:text="@string/action_go_to_personal"
+        android:background="@drawable/abc_list_selector_holo_light"
+        tools:ignore="PrivateResource" />
 
 </LinearLayout>

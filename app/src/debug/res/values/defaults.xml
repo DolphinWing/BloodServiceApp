@@ -4,6 +4,6 @@
     <bool name="eng_mode">true</bool>
     <bool name="feature_notification">false</bool>
 
-    <string name="ga_trackingId">UA-4163873-10</string>
-    <string name="banner_ad_unit_id">ca-app-pub-7557398389502445/8240645785</string>
+    <string name="ga_trackingId" translatable="false">UA-4163873-10</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-7557398389502445/8240645785</string>
 </resources>

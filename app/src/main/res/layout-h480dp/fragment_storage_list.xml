@@ -9,13 +9,10 @@
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/material_appbar_height" />
 
     <include layout="@layout/layout_progress" />
-
-    <TextView
-        android:id="@android:id/empty"
-        style="@style/Theme.Bloody.Widget.EmptyText" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -23,6 +20,7 @@
         android:layout_height="wrap_content"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/banner_ad_unit_id"
+        android:layout_marginBottom="@dimen/material_appbar_height"
         android:layout_gravity="center_horizontal|bottom" />
 
 </FrameLayout>

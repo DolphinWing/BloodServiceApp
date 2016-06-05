@@ -9,6 +9,13 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[48] @ 2015-11-02
+    java.lang.IllegalStateException: Fragment not attached to Activity
+
+[47] @ 2015-10-13
+    add colorPrimaryDark
+    move ads upper
+
 [46] @ 2015-10-11
     fix java.lang.IllegalStateException: Fragment StorageFragment{21e4d6f8} not attached to Activity
     update OkHttp to 2.5.0

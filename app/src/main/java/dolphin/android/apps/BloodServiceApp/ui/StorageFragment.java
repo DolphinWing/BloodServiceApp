@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -199,6 +200,11 @@ public class StorageFragment extends BaseListFragment {
         BloodDataHelper helper = new BloodDataHelper(getActivity());
         SparseArray<HashMap<String, Integer>> array = helper.getBloodStorage(false);
         HashMap<String, Integer> map = array.get(getSiteId());
+
+        //[48]++ java.lang.IllegalStateException: Fragment not attached to Activity
+        if (this.isRemoving() || this.isDetached()) {
+            return;//no need to update
+        }
 
         final ArrayList<Integer> list = new ArrayList<Integer>();
         if (map == null) {

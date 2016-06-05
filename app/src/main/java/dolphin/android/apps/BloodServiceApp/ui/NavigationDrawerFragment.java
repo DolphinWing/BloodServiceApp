@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ import at.markushi.ui.ActionView;
 import at.markushi.ui.action.BackAction;
 import at.markushi.ui.action.DrawerAction;
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.pref.SettingsActivity;
 
 /**
@@ -108,26 +110,55 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
+
         mDrawerListView = (ListView) layout.findViewById(android.R.id.list);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
+        if (mDrawerListView != null) {
+            mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    selectItem(position);
+                }
+            });
+        }
+
         String[] centre = getResources().getStringArray(R.array.blood_center);
         ArrayList<String> list = new ArrayList<>(Arrays.asList(centre));
         list.remove(0);
-        mDrawerListView.setAdapter(new MyAdapter(getActivity(), list));
-        mDrawerListView.setItemsCanFocus(false);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+        if (mDrawerListView != null) {
+            mDrawerListView.setAdapter(new MyAdapter(getActivity(), list));
+            mDrawerListView.setItemsCanFocus(false);
+            mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        }
+
         View pref = layout.findViewById(android.R.id.edit);
-        pref.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startSettings();
-            }
-        });
+        if (pref != null) {
+            pref.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startSettings();
+                }
+            });
+        }
+
+        View person = layout.findViewById(R.id.action_go_personal);
+        if (person != null) {
+            person.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startPersonalData();
+                }
+            });
+        }
+        View dummy = layout.findViewById(R.id.dummy);
+        if (dummy != null) {
+            dummy.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
         return layout;
     }
 
@@ -199,6 +230,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         try {
             mCallbacks = (NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {
@@ -222,7 +254,9 @@ public class NavigationDrawerFragment extends Fragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Forward the new configuration the drawer toggle component.
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        if (mDrawerToggle != null) {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        }
     }
 
 //    /**
@@ -244,7 +278,7 @@ public class NavigationDrawerFragment extends Fragment {
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */
-    public static interface NavigationDrawerCallbacks {
+    public interface NavigationDrawerCallbacks {
         /**
          * Called when an item in the navigation drawer is selected.
          */
@@ -265,13 +299,21 @@ public class NavigationDrawerFragment extends Fragment {
     private class MyAdapter extends ArrayAdapter<String> {
         public MyAdapter(Context context, List<String> objects) {
             //android.R.layout.simple_list_item_activated_1
-            super(context, R.layout.listview_blood_center,
-                    android.R.id.title, objects);
+            super(context, R.layout.listview_blood_center, android.R.id.title, objects);
         }
     }
 
     private void startSettings() {
         startActivity(new Intent(getActivity(), SettingsActivity.class));
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                closeDrawer();
+            }
+        });
+    }
+
+    private void startPersonalData() {
         new Handler().post(new Runnable() {
             @Override
             public void run() {

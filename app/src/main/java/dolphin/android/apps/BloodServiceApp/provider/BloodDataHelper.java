@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -28,11 +29,13 @@ import dolphin.android.util.PackageUtils;
 
 /**
  * Created by dolphin on 2014/10/6.
+ * <p/>
+ * Data parsing helper
  */
 public class BloodDataHelper {
     private final static String TAG = "BloodDataHelper";
 
-    private final static String URL_BASE_BLOOD_ORG = "http://www.blood.org.tw";
+    public final static String URL_BASE_BLOOD_ORG = "http://www.blood.org.tw";
     private final static String URL_BLOOD_STORAGE =
             //URL_BASE_BLOOD_ORG + "/Internet/english/index.aspx";
             URL_BASE_BLOOD_ORG + "/Internet/main/index.aspx";
@@ -116,7 +119,7 @@ public class BloodDataHelper {
         //Log.d(TAG, mStartDate.getTime().toString());
         ArrayList<DonateDay> donateDays = new ArrayList<DonateDay>();
 
-        String day = new SimpleDateFormat("yyyy/MM/dd").format(mStartDate.getTime());
+        String day = new SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN).format(mStartDate.getTime());
         String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", site_id).replace("{date}", day);
         Log.v(TAG, String.format("started with site=%s, day=%s", site_id, day));
 
@@ -236,6 +239,9 @@ public class BloodDataHelper {
      * @return blood center name
      */
     public String getBloodCenterName(int siteID) {
+        if (mContext == null) {
+            return "";
+        }
         int i = 0;
         for (i = mBloodCenterId.length - 1; i > 0; i--) {
             if (mBloodCenterId[i] == siteID) {
@@ -292,7 +298,7 @@ public class BloodDataHelper {
                 extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
             }
             extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                    context.getResources().getColor(R.color.bloody_color));
+                    ContextCompat.getColor(context, R.color.bloody_color));
             intent.putExtras(extras);
         }
         return intent;

@@ -41,31 +41,39 @@ public class OpenSourceFragment extends PreferenceFragment {
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         String key = preference.getKey();
         if (mShowOpenSource) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
+            //Intent intent = new Intent(Intent.ACTION_VIEW);
             if (key == null) {
                 Log.wtf(TAG, "onPreferenceTreeClick key == null");//should not happen
             } else if (key.equals(KEY_OPEN_SOURCE_OKHTTP)) {
-                intent.setData(Uri.parse("http://square.github.io/okhttp/"));
+                //intent.setData(Uri.parse("http://square.github.io/okhttp/"));
+                PrefsUtil.startBrowserActivity(getActivity(),
+                        "http://square.github.io/okhttp/");
             } else if (key.equals(KEY_OPEN_SOURCE_STICKY_GRID)) {
-                //TODO show url
+                Log.d(TAG, "FIXME: sticky grid");
             } else if (key.equals(KEY_OPEN_SOURCE_CIRCLE_IMAGE)) {
-                intent.setData(Uri.parse("https://github.com/markushi/android-ui"));
+                //intent.setData(Uri.parse("https://github.com/markushi/android-ui"));
+                PrefsUtil.startBrowserActivity(getActivity(),
+                        "https://github.com/markushi/android-ui");
             } else if (key.equals(KEY_OPEN_SOURCE_ACTION_VIEW)) {
-                //TODO show url
+                Log.d(TAG, "FIXME: action view");
             } else if (key.equals(KEY_OPEN_SOURCE_SUPER_SLIM)) {
-                intent.setData(Uri.parse("https://github.com/TonicArtos/SuperSLiM"));
+                //intent.setData(Uri.parse("https://github.com/TonicArtos/SuperSLiM"));
+                PrefsUtil.startBrowserActivity(getActivity(),
+                        "https://github.com/TonicArtos/SuperSLiM");
             } else if (key.equals(KEY_CREDIT_BACKGROUND)) {
-                intent.setData(Uri.parse("https://www.flickr.com/photos/makelessnoise/2562431372/"));
+                //intent.setData(Uri.parse("https://www.flickr.com/photos/makelessnoise/2562431372/"));
+                PrefsUtil.startBrowserActivity(getActivity(),
+                        "https://www.flickr.com/photos/makelessnoise/2562431372/");
             }
-            //[46]dolphin++ add Chrome Custom Tabs
-            Bundle extras = new Bundle();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                extras.putBinder(BloodDataHelper.EXTRA_CUSTOM_TABS_SESSION, null);
-            }
-            extras.putInt(BloodDataHelper.EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                    getResources().getColor(R.color.bloody_color));
-            intent.putExtras(extras);
-            startActivity(intent);
+//            //[46]dolphin++ add Chrome Custom Tabs
+//            Bundle extras = new Bundle();
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//                extras.putBinder(BloodDataHelper.EXTRA_CUSTOM_TABS_SESSION, null);
+//            }
+//            extras.putInt(BloodDataHelper.EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+//                    getResources().getColor(R.color.bloody_color));
+//            intent.putExtras(extras);
+//            startActivity(intent);
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);

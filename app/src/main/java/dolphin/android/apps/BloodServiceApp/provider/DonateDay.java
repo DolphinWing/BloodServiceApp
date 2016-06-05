@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.provider;
 
+import android.support.annotation.Keep;
 import android.text.format.DateUtils;
 
 import java.text.DateFormat;
@@ -13,6 +14,7 @@ import java.util.Locale;
  * <p/>
  * Created by dolphin on 2014/10/7.
  */
+@Keep
 public class DonateDay {
     private Calendar Day;
     private List<DonateActivity> Activities;
