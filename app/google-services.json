@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "499420710498",
+    "firebase_url": "https://blooddonationapp-81ad7.firebaseio.com",
+    "project_id": "blooddonationapp-81ad7",
+    "storage_bucket": "blooddonationapp-81ad7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499420710498:android:2eeb4eb6cca1d6aa",
+        "android_client_info": {
+          "package_name": "dolphin.android.apps.BloodServiceApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499420710498-mefl2c1e553soejsg9vj7lg22qrci680.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dolphin.android.apps.BloodServiceApp",
+            "certificate_hash": "804587AA02FE5C95291ADD79D660D09ECB0DA1DC"
+          }
+        },
+        {
+          "client_id": "499420710498-05do1ijuqk3njg7svmb5d4nijtar7di9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dolphin.android.apps.BloodServiceApp",
+            "certificate_hash": "BB86D6E927A2306BAD126B30513611A9B747261A"
+          }
+        },
+        {
+          "client_id": "499420710498-p2sl6ig6o7u7nq22822kcn99oah9jbkp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dolphin.android.apps.BloodServiceApp",
+            "certificate_hash": "5A90A64E4C14F6367B526B68ABEB1B7B82DFF573"
+          }
+        },
+        {
+          "client_id": "499420710498-vd6bv17n0aglfnuauf7o04ngbjkbv18m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmVeFp9mqpIqG6Tb6ykf3oMzKrBeoGXjg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499420710498-vd6bv17n0aglfnuauf7o04ngbjkbv18m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

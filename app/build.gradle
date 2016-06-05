@@ -57,9 +57,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.github.markushi:android-ui:1.2'
     //compile 'com.google.android.gms:play-services:6.1.71'
-    compile 'com.google.android.gms:play-services-base:9.0.1'
-    compile 'com.google.android.gms:play-services-ads:9.0.1'
-    compile 'com.google.android.gms:play-services-analytics:9.0.1'
+    compile 'com.google.android.gms:play-services-base:9.0.2'
+    compile 'com.google.android.gms:play-services-ads:9.0.2'
+    compile 'com.google.android.gms:play-services-analytics:9.0.2'
     //compile 'de.hdodenhof:circleimageview:1.2.0'
 
     stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
@@ -69,4 +69,10 @@ dependencies {
     designCompile 'com.android.support:recyclerview-v7:23.4.0'
     designCompile 'com.tonicartos:superslim:0.4.13'
     designCompile 'com.android.support:design:23.4.0'
+
+    //Firebase
+    compile 'com.google.firebase:firebase-analytics:9.0.0'
+    compile 'com.google.firebase:firebase-config:9.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

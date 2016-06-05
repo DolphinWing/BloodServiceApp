@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,11 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +74,9 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
     private Toolbar mToolbar;
     private View mCustomView;
     private View mProgress;
+
+    private FirebaseRemoteConfig mRemoteConfig;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +166,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
             @Override
             public void run() {
                 sendGAOpenActivity();
+                prepareRemoteConfig();
             }
         });
     }
@@ -190,6 +201,13 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
                     siteName = title.getText().toString();
                 }
                 sendGANavigationChanged("Facebook", siteName);
+
+                if (mFirebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, siteName);
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Facebook");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle);
+                }
             }
             startActivity(BloodDataHelper.getOpenFacebookIntent(this, mSiteId));
             return true;
@@ -238,6 +256,12 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
             listener.notifyChanged(mSiteId, 0);
         }
         sendGANavigationChanged(getString(R.string.title_section3), siteName);
+
+        if (mFirebaseAnalytics != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, siteName);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+        }
     }
 
     @Override
@@ -444,5 +468,52 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
             return;
         }
         super.onBackPressed();
+    }
+
+    private void prepareRemoteConfig() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        mRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(getResources().getBoolean(R.bool.eng_mode))
+                .build();
+        mRemoteConfig.setConfigSettings(configSettings);
+        mRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        fetchRemoteConfig();
+    }
+
+    /**
+     * Fetch RemoteConfig from server.
+     */
+    private void fetchRemoteConfig() {
+        long cacheExpiration = 43200; // 12 hours in seconds.
+        // If in developer mode cacheExpiration is set to 0 so each fetch will retrieve values from
+        // the server.
+        if (mRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 60;
+        }
+
+        // [START fetch_config_with_callback]
+        final long start = System.currentTimeMillis();
+        // cacheExpirationSeconds is set to cacheExpiration here, indicating that any previously
+        // fetched and cached config would be considered expired because it would have been fetched
+        // more than cacheExpiration seconds ago. Thus the next fetch would go to the server unless
+        // throttling is in progress. The default expiration duration is 43200 (12 hours).
+        mRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        long cost = System.currentTimeMillis() - start;
+                        if (task.isSuccessful()) {
+                            Log.v(TAG, String.format("Fetch Succeeded: %s ms", cost));
+                            // Once the config is successfully fetched it must be activated before
+                            // newly fetched values are returned.
+                            mRemoteConfig.activateFetched();
+                        } else {
+                            Log.e(TAG, "Fetch failed");
+                        }
+                    }
+                });
+        // [END fetch_config_with_callback]
     }
 }

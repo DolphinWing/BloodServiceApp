@@ -26,6 +26,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -314,6 +316,8 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void startPersonalData() {
+        PrefsUtil.startBrowserActivity(getActivity(),
+                FirebaseRemoteConfig.getInstance().getString("url_blood_donor_info"));
         new Handler().post(new Runnable() {
             @Override
             public void run() {

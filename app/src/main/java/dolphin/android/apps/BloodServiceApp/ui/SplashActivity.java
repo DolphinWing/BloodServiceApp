@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
 import java.util.Locale;
 
 import dolphin.android.apps.BloodServiceApp.R;
@@ -22,6 +24,9 @@ public class SplashActivity extends Activity {
         Configuration config = getBaseContext().getResources().getConfiguration();
         config.locale = Locale.TAIWAN;
         Locale.setDefault(config.locale);
+
+        //FirebaseAnalytics.getInstance(this);//initialize this
+        FirebaseRemoteConfig.getInstance();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

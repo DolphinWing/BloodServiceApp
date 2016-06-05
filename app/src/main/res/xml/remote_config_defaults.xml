@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>enable_search_on_map</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>url_blood_donor_info</key>
+        <value>https://cbsfnotes1.blood.org.tw/web/login.htm</value>
+    </entry>
+</defaultsMap>
+<!-- END xml_defaults -->
