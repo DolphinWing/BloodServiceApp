@@ -40,6 +40,7 @@ import at.markushi.ui.ActionView;
 import at.markushi.ui.action.DrawerAction;
 import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
 public class MainActivity extends AppCompatActivity//ActionBarActivity
@@ -218,6 +219,23 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
                     return true;
                 }
                 break;
+            case R.id.action_go_to_station: {
+                //get blood center id's matching index
+                int[] Ids = getResources().getIntArray(R.array.blood_center_id);
+                int i;
+                for (i = Ids.length - 1; i > 0; i--) {
+                    if (Ids[i] == mSiteId) {
+                        break;
+                    }
+                }
+                //use the index to get real url
+                String[] urls = getResources().getStringArray(R.array.blood_center_donate_station);
+                if (urls.length > i) {
+                    PrefsUtil.startBrowserActivity(this, urls[i]);
+                    return true;
+                }
+            }
+            break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -226,13 +244,21 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
         MenuItem item = menu.findItem(R.id.action_settings);
-        item.setVisible(false);
+        if (item != null) {
+            item.setVisible(false);
+        }
         item = menu.findItem(R.id.action_go_next_week);
-        item.setVisible(false);
+        if (item != null) {
+            item.setVisible(false);
+        }
         item = menu.findItem(R.id.action_go_last_week);
-        item.setVisible(false);
+        if (item != null) {
+            item.setVisible(false);
+        }
         item = menu.findItem(R.id.action_go_back_today);
-        item.setVisible(false);
+        if (item != null) {
+            item.setVisible(false);
+        }
         return super.onPrepareOptionsPanel(view, menu);
     }
 

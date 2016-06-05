@@ -4,7 +4,7 @@
     <string name="app_name">捐血活動快查</string>
     <!--<string name="hello_world">Hello world!</string>-->
     <string name="action_settings">設定</string>
-    <string name="action_go_to_personal">個人資料</string>
+    <string name="action_go_to_personal">捐血者網路查詢</string>
 
     <!-- MainActivity -->
     <string name="pattern_separator">：</string>
@@ -63,7 +63,7 @@
     <string name="title_enable_adview">顯示廣告</string>
     <string name="title_enable_adview_in_storage_list">在主頁顯示廣告</string>
     <string name="action_go_to_facebook">前往粉絲團</string>
-    <string name="action_go_to_website">行動版</string>
+    <string name="action_go_to_website">行動版網頁</string>
     <string name="action_go_to_station">捐血站點</string>
 
     <!--<string name="pref_title_social_recommendations">Enable social recommendations</string>

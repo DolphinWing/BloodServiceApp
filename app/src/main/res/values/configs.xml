@@ -31,6 +31,17 @@
         <item>Hualienblood:151343784959694</item>
     </string-array>
 
+    <!-- http://tzoyiing.pixnet.net/blog/post/32103849/7#top7 -->
+    <string-array name="blood_center_donate_station" translatable="false">
+        <item>0</item>
+        <item>http://www.tp.blood.org.tw/Internet/taipei/LocationMap.aspx?spotID=68</item>
+        <item>http://www.sc.blood.org.tw/Internet/hsinchu/LocationMap.aspx?spotID=2</item>
+        <item>http://www.tc.blood.org.tw/Internet/Taichung/LocationMap.aspx?spotID=3</item>
+        <item>http://www.tn.blood.org.tw/Internet/Tainan/LocationMap.aspx?spotID=4</item>
+        <item>http://www.ks.blood.org.tw/Internet/Kaohsiung/LocationMap.aspx?spotID=174</item>
+        <item>http://www.ha.blood.org.tw/Internet/Hualian/LocationMap.aspx?spotID=6</item>
+    </string-array>
+
     <!-- Open Source link -->
     <string name="title_open_source_okhttp" translatable="false">OkHttp</string>
     <string name="summary_open_source_okhttp" translatable="false">Copyright 2014 Square, Inc.</string>

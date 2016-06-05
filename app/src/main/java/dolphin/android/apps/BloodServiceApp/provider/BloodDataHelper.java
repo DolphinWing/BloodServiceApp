@@ -320,7 +320,7 @@ public class BloodDataHelper {
             extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
         }
         extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                context.getResources().getColor(R.color.bloody_color));
+                ContextCompat.getColor(context, R.color.bloody_color));
         intent.putExtras(extras);
         return PackageUtils.isCallable(context, intent) ? intent : null;
     }
