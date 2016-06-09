@@ -9,6 +9,10 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[51] @ 2016-06-09
+    add open in browser icon
+    fix multi-pane AdView margin
+
 [50] @ 2016-06-05
     add Firebase remote config and analytics
     add blood donation stations

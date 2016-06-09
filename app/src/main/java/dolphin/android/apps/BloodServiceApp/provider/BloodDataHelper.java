@@ -25,6 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.util.PackageUtils;
 
 /**
@@ -254,10 +255,10 @@ public class BloodDataHelper {
     private final static String FACEBOOK_PACKAGE = "com.facebook.katana";
     private final static String FACEBOOK_URL = "https://www.facebook.com";
 
-    //https://developer.chrome.com/multidevice/android/customtabs
-    //https://github.com/GoogleChrome/custom-tabs-client
-    public static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
-    public static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+//    //https://developer.chrome.com/multidevice/android/customtabs
+//    //https://github.com/GoogleChrome/custom-tabs-client
+//    public static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
+//    public static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
 
     /**
      * Get Intent to Facebook app or website
@@ -295,9 +296,9 @@ public class BloodDataHelper {
             //[44]dolphin++ add Chrome Custom Tabs
             Bundle extras = new Bundle();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
+                extras.putBinder(PrefsUtil.EXTRA_CUSTOM_TABS_SESSION, null);
             }
-            extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+            extras.putInt(PrefsUtil.EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
                     ContextCompat.getColor(context, R.color.bloody_color));
             intent.putExtras(extras);
         }
@@ -315,13 +316,17 @@ public class BloodDataHelper {
         String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
         url = url.replace("&date={date}", "");//don't specify date
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        Bundle extras = new Bundle(); //[44]dolphin++ add Chrome Custom Tabs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
+        if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
+            Bundle extras = new Bundle(); //[44]dolphin++ add Chrome Custom Tabs
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                extras.putBinder(PrefsUtil.EXTRA_CUSTOM_TABS_SESSION, null);
+            }
+            extras.putInt(PrefsUtil.EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+                    ContextCompat.getColor(context, R.color.bloody_color));
+            intent.putExtras(extras);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                ContextCompat.getColor(context, R.color.bloody_color));
-        intent.putExtras(extras);
         return PackageUtils.isCallable(context, intent) ? intent : null;
     }
 }

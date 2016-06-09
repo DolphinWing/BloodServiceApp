@@ -1,81 +1,83 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
+    tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity"
+    tools:ignore="RtlHardcoded">
 
     <android.support.v7.widget.Toolbar
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <RelativeLayout
-        style="@style/Theme.Bloody.Widget.StorageFrame"
         android:id="@android:id/widget_frame"
-        android:layout_alignParentRight="true"
+        style="@style/Theme.Bloody.Widget.StorageFrame"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="32dp"
         android:layout_marginTop="@dimen/multi_pane_margin_top">
 
         <ImageView
-            style="@style/Theme.Bloody.Shadow.Vertical"
             android:id="@android:id/custom"
-            android:scaleY="-1"
+            style="@style/Theme.Bloody.Shadow.Vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/multi_pane_shadow_size"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:contentDescription="@null"
+            android:scaleY="-1" />
 
         <ImageView
             android:id="@android:id/background"
             android:layout_width="match_parent"
             android:layout_height="196dp"
-            android:src="@drawable/background2"
-            android:scaleType="centerCrop"
+            android:layout_below="@android:id/custom"
             android:background="@color/bloody_accent_color"
             android:contentDescription="@null"
-            android:layout_below="@android:id/custom"
-            android:visibility="visible"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/background2"
+            android:visibility="visible" />
 
         <TextView
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
+            android:layout_alignTop="@android:id/background"
+            android:gravity="center_vertical"
             android:paddingLeft="24dp"
             android:text="@string/title_credit_background2"
-            android:textColor="@color/secondary_text_default_material_dark"
-            android:gravity="center_vertical"
-            android:layout_alignTop="@android:id/background" />
+            android:textColor="@color/secondary_text_default_material_dark" />
 
         <TextView
             style="@style/Theme.Bloody.Widget.Storage.Title"
-            android:textSize="24sp"
             android:layout_alignBottom="@android:id/background"
             android:shadowColor="@android:color/black"
-            android:shadowRadius="10"
             android:shadowDx="2"
-            android:shadowDy="1" />
+            android:shadowDy="1"
+            android:shadowRadius="10"
+            android:textSize="24sp" />
 
         <fragment
             android:id="@+id/fragment1"
+            android:name="dolphin.android.apps.BloodServiceApp.ui.StorageFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="dolphin.android.apps.BloodServiceApp.ui.StorageFragment"
-            tools:layout="@layout/fragment_storage_list"
-            android:layout_below="@android:id/background" />
+            android:layout_below="@android:id/background"
+            tools:layout="@layout/fragment_storage_list" />
 
     </RelativeLayout>
 
     <fragment
         android:id="@+id/fragment2"
+        android:name="dolphin.android.apps.BloodServiceApp.ui.DonationFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:name="dolphin.android.apps.BloodServiceApp.ui.DonationFragment"
-        android:layout_below="@+id/toolbar"
-        android:layout_toLeftOf="@android:id/widget_frame"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
+        android:layout_toLeftOf="@android:id/widget_frame"
         tools:layout="@layout/fragment_donation_sticky_grid" />
 
     <ImageView
@@ -84,14 +86,16 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginRight="28dp"
-        android:layout_marginTop="@dimen/multi_pane_margin_top_shadow" />
+        android:layout_marginTop="@dimen/multi_pane_margin_top_shadow"
+        android:contentDescription="@null" />
 
     <ImageView
         style="@style/Theme.Bloody.Shadow.Horizontal"
-        android:scaleX="-1"
         android:layout_width="@dimen/multi_pane_margin_top_shadow"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/multi_pane_margin_top_shadow"
-        android:layout_toLeftOf="@android:id/widget_frame" />
+        android:layout_toLeftOf="@android:id/widget_frame"
+        android:contentDescription="@null"
+        android:scaleX="-1" />
 
 </RelativeLayout>

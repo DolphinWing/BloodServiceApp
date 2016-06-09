@@ -75,16 +75,20 @@ public class PrefsUtil {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            //[169]dolphin++ add Chrome Custom Tabs
-            Bundle extras = new Bundle();
-            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
-            extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                    ContextCompat.getColor(context, R.color.bloody_color));
-            intent.putExtras(extras);
+        if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                //[169]dolphin++ add Chrome Custom Tabs
+                Bundle extras = new Bundle();
+                extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
+                extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+                        ContextCompat.getColor(context, R.color.bloody_color));
+                intent.putExtras(extras);
 //            if (!isGoogleChromeInstalled(context)) {//for non-chrome app
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            }
+            } else {
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
         } else {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
@@ -142,6 +146,6 @@ public class PrefsUtil {
     public static boolean isEnableSearchOnMap(Context context) {
         return PrefsUtil.isGoogleMapsInstalled(context)
                 //| context.getResources().getBoolean(R.bool.feature_enable_search_on_map)
-                & FirebaseRemoteConfig.getInstance().getBoolean("enable_search_on_map");
+                && FirebaseRemoteConfig.getInstance().getBoolean("enable_search_on_map");
     }
 }

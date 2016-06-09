@@ -49,6 +49,8 @@
         android:background="@drawable/abc_list_selector_holo_light"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/material_horizontal_margin"
+        android:drawableRight="@drawable/ic_action_action_open_in_browser"
+        android:layout_marginRight="@dimen/material_horizontal_margin"
         android:text="@string/action_go_to_personal"
         tools:ignore="PrivateResource" />
 
