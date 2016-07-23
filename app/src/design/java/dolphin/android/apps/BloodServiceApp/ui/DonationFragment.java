@@ -140,7 +140,7 @@ public class DonationFragment extends BaseListFragment
 
         final ArrayList<String> list = prepareList((DonateActivity) data);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("You want to find")
+                .setTitle(R.string.action_search_on_maps)
                 .setAdapter(new ArrayAdapter<>(getActivity(),
                                 android.R.layout.simple_selectable_list_item, list),
                         new DialogInterface.OnClickListener() {

@@ -141,9 +141,9 @@ public class BloodDataHelper {
             Calendar cal = mStartDate;
             for (int i = 1; i < day_html.length; i++, cal.add(Calendar.DAY_OF_MONTH, 1)) {
                 ArrayList<DonateActivity> list = new ArrayList<DonateActivity>();
-                    /*  <h3>place</h3>
-                        <p><strong>time: 9:00~14:00</strong></p>
-				        <p><strong>holder</strong></p>*/
+                /*  <h3>place</h3>
+                    <p><strong>time: 9:00~14:00</strong></p>
+                    <p><strong>holder</strong></p>*/
                 Matcher matcher = Pattern.compile(PATTERN_ACTIVITY).matcher(day_html[i]);
                 while (matcher.find()) {
                     String name = matcher.group(3).trim();
@@ -161,8 +161,13 @@ public class BloodDataHelper {
                     //Log.d(TAG, String.format("    name: %s", name));
                     //Log.d(TAG, String.format(" time: %s", time));
                     //Log.d(TAG, String.format("location: %s", location));
-                    list.add(new DonateActivity(name, location));
-                    list.get(list.size() - 1).setDuration(cal, time);
+                    DonateActivity activity = new DonateActivity(name, location);
+                    activity.setDuration(cal, time);
+                    if (list.contains(activity)) {//[52]++
+                        Log.w(TAG, String.format("already has %s, ignore it", name));
+                    } else {
+                        list.add(activity);
+                    }
                     //Log.d(TAG, list.get(list.size() - 1).toString());
                 }
                 //Log.d(TAG, String.format("===> %s: %d", cal.getTime().toString(), list.size()));

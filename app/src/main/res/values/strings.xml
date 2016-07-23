@@ -45,6 +45,7 @@
     <string name="action_go_back_today">回到今日</string>
 
     <string name="title_activity_settings">設置</string>
+    <string name="action_search_on_maps">你想找的是</string>
 
     <!-- Strings related to Settings -->
 

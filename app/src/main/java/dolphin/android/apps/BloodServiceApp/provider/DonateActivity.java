@@ -210,4 +210,15 @@ public class DonateActivity {
                 ", Location='" + Location + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof DonateActivity) {
+            DonateActivity activity = (DonateActivity) o;
+            return activity.getLocation().equals(getLocation())
+                    && activity.getDuration().equals(getDuration())
+                    && activity.getName().equals(getName());
+        }
+        return false;//super.equals(o);
+    }
 }
