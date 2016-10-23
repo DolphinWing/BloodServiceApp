@@ -2,7 +2,7 @@
 <resources>
     <bool name="default_line_indicator_snap">false</bool>
 
-    <bool name="feature_enable_chrome_custom_tabs">false</bool>
+    <bool name="feature_enable_chrome_custom_tabs">true</bool>
 
     <string-array name="blood_type_value" translatable="false">
         <item>A</item>
