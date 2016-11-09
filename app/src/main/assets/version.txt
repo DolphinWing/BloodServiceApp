@@ -9,6 +9,13 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[54] @ 2016-10-25
+    update library
+    update layout
+
+[53] @ 2016-10-20
+    update library to support Android 7.0
+
 [52] @ 2016-07-21
     remove duplicated activity
 

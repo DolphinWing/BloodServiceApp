@@ -10,10 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +23,9 @@ import java.util.regex.Pattern;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.util.PackageUtils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by dolphin on 2014/10/6.
@@ -53,9 +52,10 @@ public class BloodDataHelper {
 
     public BloodDataHelper(Context context) {
         mContext = context;
-        mClient = new OkHttpClient();
-        mClient.setConnectTimeout(5, TimeUnit.SECONDS);// connect timeout
-        mClient.setReadTimeout(10, TimeUnit.SECONDS);// socket timeout
+        mClient = new OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)//connect timeout
+                .readTimeout(10, TimeUnit.SECONDS)//socket timeout
+                .build();
         mStartDate = Calendar.getInstance(Locale.TAIWAN);
 
         mBloodCenterId = mContext.getResources().getIntArray(R.array.blood_center_id);

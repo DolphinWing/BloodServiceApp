@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_listview_header_height"
     android:layout_gravity="center_vertical"
-    android:background="@color/bloody_donate_date_background"
+    android:background="@color/bloody_donate_date_no_children_background"
     android:gravity="center_vertical"
     app:slm_isHeader="true">
 
@@ -18,6 +18,6 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:text="@string/title_section2"
-        android:textColor="?android:attr/textColorPrimaryInverse" />
+        android:textColor="?android:attr/textColorSecondary" />
 
 </LinearLayout>

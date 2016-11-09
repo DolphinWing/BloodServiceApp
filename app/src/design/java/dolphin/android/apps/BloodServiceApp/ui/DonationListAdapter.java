@@ -25,22 +25,26 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationViewHolder
     private final ArrayList<MyItem> mItems;
 
     private class MyItem {
-        public boolean isHeader;
-        public int sectionFirstPosition;
-        public DonateDay day;
+        boolean isHeader;
+        int sectionFirstPosition;
+        DonateDay day;
         public DonateActivity activity;
+        boolean hasChildren;
 
-        public MyItem(boolean header, int pos, DonateDay d, DonateActivity act) {
+        MyItem(boolean header, int pos, DonateDay d, DonateActivity act, boolean child) {
             isHeader = header;
             sectionFirstPosition = pos;
             day = d;
             activity = act;
+            hasChildren = isHeader && child;
         }
     }
 
-    private static final int VIEW_TYPE_HEADER = 0;
+    private static final int VIEW_TYPE_HEADER_1 = 0;
 
-    private static final int VIEW_TYPE_CONTENT = 1;
+    private static final int VIEW_TYPE_HEADER_0 = 1;
+
+    private static final int VIEW_TYPE_CONTENT = 2;
 
     private OnItemClickListener mItemClickListener;
 
@@ -60,10 +64,11 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationViewHolder
             //sectionManager = (sectionManager + 1) % 2;
             sectionFirstPosition = headerCount + itemCount;
             headerCount++;
-            mItems.add(new MyItem(true, sectionFirstPosition, day, null));
+            mItems.add(new MyItem(true, sectionFirstPosition, day, null,
+                    day.getActivities().size() > 0));
             for (DonateActivity a : day.getActivities()) {
                 itemCount++;
-                mItems.add(new MyItem(false, sectionFirstPosition, day, a));
+                mItems.add(new MyItem(false, sectionFirstPosition, day, a, false));
             }
         }
     }
@@ -72,8 +77,10 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationViewHolder
     public DonationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        if (viewType == VIEW_TYPE_HEADER) {
+        if (viewType == VIEW_TYPE_HEADER_1) {
             view = inflater.inflate(R.layout.listview_donation_date, parent, false);
+        } else if (viewType == VIEW_TYPE_HEADER_0) {
+            view = inflater.inflate(R.layout.listview_donation_date_no_children, parent, false);
         } else {
             view = inflater.inflate(R.layout.listview_donation_activity, parent, false);
         }
@@ -94,7 +101,9 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return mItems.get(position).isHeader ? VIEW_TYPE_HEADER : VIEW_TYPE_CONTENT;
+        return mItems.get(position).isHeader ?
+                mItems.get(position).hasChildren ? VIEW_TYPE_HEADER_1 : VIEW_TYPE_HEADER_0
+                : VIEW_TYPE_CONTENT;
     }
 
     @Override

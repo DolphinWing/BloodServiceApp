@@ -1,10 +1,12 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.LocaleList;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -21,17 +23,34 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
 
+        Configuration config = getBaseContext().getResources().getConfiguration();
         //set default locale
         //http://stackoverflow.com/a/4239680
-        Configuration config = getBaseContext().getResources().getConfiguration();
-        config.locale = Locale.TAIWAN;
-        Locale.setDefault(config.locale);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            LocaleList list = new LocaleList(Locale.TAIWAN);
+            LocaleList.setDefault(list);
+            config.setLocales(list);
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//            Configuration configuration = new Configuration();
+//            configuration.setLocale(Locale.TAIWAN);
+//            applyOverrideConfiguration(configuration);
+        } else {
+            config.locale = Locale.TAIWAN;
+            Locale.setDefault(config.locale);
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
+
+        setContentView(R.layout.activity_splash);
 
         //FirebaseAnalytics.getInstance(this);//initialize this
         FirebaseRemoteConfig.getInstance();
 
+        checkGoogleApiAvailability();
+    }
+
+    private void checkGoogleApiAvailability() {
         //http://stackoverflow.com/a/31016761/2673859
         //check google play service and authentication
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
@@ -42,6 +61,12 @@ public class SplashActivity extends Activity {
             if (textView != null) {
                 textView.setText(googleAPI.getErrorString(result));
             }
+            googleAPI.getErrorDialog(this, result, 0, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    finish();
+                }
+            }).show();
             return;//don't show progress bar
         }
 
@@ -50,8 +75,13 @@ public class SplashActivity extends Activity {
         overridePendingTransition(0, 0);
         startActivity(intent);
         overridePendingTransition(0, 0);
-        this.finish();
+        finish();
         overridePendingTransition(0, 0);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        checkGoogleApiAvailability();
+    }
 }
