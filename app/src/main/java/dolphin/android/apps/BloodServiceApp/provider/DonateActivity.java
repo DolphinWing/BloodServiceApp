@@ -16,12 +16,14 @@ import java.util.Locale;
  */
 @Keep
 public class DonateActivity {
+    private final static String TAG = "DonateActivity";
+
     private String Name;
     private Calendar StartTime;
     private Calendar EndTime;
     private String Location;
 
-    public DonateActivity(String name, String location) {
+    DonateActivity(String name, String location) {
         Name = name;
         Location = location;
         StartTime = Calendar.getInstance(Locale.TAIWAN);
@@ -60,7 +62,7 @@ public class DonateActivity {
      *
      * @param millis time in milliseconds
      */
-    public void setStartTime(long millis) {
+    private void setStartTime(long millis) {
         StartTime.setTimeInMillis(millis);
     }
 
@@ -70,10 +72,10 @@ public class DonateActivity {
      * @param cal      reference Calendar
      * @param time_str time string
      */
-    public void setStartTime(Calendar cal, String time_str) {
+    private void setStartTime(Calendar cal, String time_str) {
         setStartTime(cal.getTimeInMillis());
         parseTime(StartTime, time_str);
-        //Log.d("BloodDataHelper", "start: " + StartTime.getTime().toString());
+        //Log.d(TAG, "start: " + StartTime.getTime().toString());
     }
 
     /**
@@ -90,7 +92,7 @@ public class DonateActivity {
      *
      * @param millis time in milliseconds
      */
-    public void setEndTime(long millis) {
+    private void setEndTime(long millis) {
         EndTime.setTimeInMillis(millis);
     }
 
@@ -100,10 +102,10 @@ public class DonateActivity {
      * @param cal      reference Calendar
      * @param time_str time string
      */
-    public void setEndTime(Calendar cal, String time_str) {
+    private void setEndTime(Calendar cal, String time_str) {
         setEndTime(cal.getTimeInMillis());
         parseTime(EndTime, time_str);
-        //Log.d("BloodDataHelper", "end: " + EndTime.getTime().toString());
+        //Log.d(TAG, "end: " + EndTime.getTime().toString());
     }
 
     /**
@@ -113,15 +115,51 @@ public class DonateActivity {
      * @param time_str time string
      */
     private void parseTime(Calendar cal, String time_str) {
-        //Log.d("BloodDataHelper", time_str);
+        //Log.d(TAG, time_str);
         try {
             String[] ts = time_str.split(":");
             if (ts.length < 2) {//try Taipei pattern
                 if (time_str.matches("[0-9]+") && time_str.length() > 3) {
                     cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time_str.substring(0, 2)));
                     cal.set(Calendar.MINUTE, Integer.parseInt(time_str.substring(2)));
+                } else if (time_str.matches("[0-9]+")) {
+                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time_str));
+                    cal.set(Calendar.MINUTE, 0);
                 } else {
-                    throw new NumberFormatException("no time");
+                    //maybe we have leading numbers
+                    //time_str=17點
+                    boolean found = false;
+
+//jimmy-- replaced by better regex method
+//                    int len = time_str.length() - 1;
+//                    while (len > 0) {
+//                        String new_time_str = time_str.substring(0, len);
+//                        Log.d(TAG, "str: " + new_time_str);
+//                        if (new_time_str.matches("[0-9]+")) {
+//                            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(new_time_str));
+//                            cal.set(Calendar.MINUTE, 0);
+//                            found = true;
+//                            break;
+//                        }
+//                    }
+
+                    String new_time_str = time_str.replaceAll("\\D+", "");
+                    //Log.d(TAG, "str: " + new_time_str);
+                    if (new_time_str.matches("[0-9]+")) {
+                        if (time_str.length() > 3) {
+                            cal.set(Calendar.HOUR_OF_DAY,
+                                    Integer.parseInt(new_time_str.substring(0, 2)));
+                            cal.set(Calendar.MINUTE, Integer.parseInt(new_time_str.substring(2)));
+                        } else {
+                            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(new_time_str));
+                            cal.set(Calendar.MINUTE, 0);
+                        }
+                        found = true;
+                    }
+
+                    if (!found) {
+                        throw new NumberFormatException("no time");
+                    }
                 }
             } else {
                 cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(ts[0]));
@@ -130,12 +168,12 @@ public class DonateActivity {
         } catch (NumberFormatException e) {
             cal.set(Calendar.HOUR_OF_DAY, 0);
             cal.set(Calendar.MINUTE, 0);
-            Log.e("BloodDataHelper", String.format("message: %s\ntime_str: %s",
+            Log.e(TAG, String.format("message: %s\ntime_str: %s",
                 e.getMessage(), time_str));
         }
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        //Log.d("BloodDataHelper", cal.getTime().toString());
+        //Log.d(TAG, cal.getTime().toString());
     }
 
     /**
@@ -144,19 +182,26 @@ public class DonateActivity {
      * @param cal          reference Calendar
      * @param duration_str duration string
      */
-    public void setDuration(Calendar cal, String duration_str) {
+    void setDuration(Calendar cal, String duration_str) {
+        //Log.d(TAG, "duration_str: " + duration_str);
         String[] ts = duration_str.split("~");
         if (ts.length < 2) {//try Hsinchu pattern
             ts = duration_str.split("-");
         }
-        if (ts.length < 2 && duration_str.length() >= 4) {//no separator
+        if (ts.length < 2) {
             ts = new String[2];
-            ts[0] = duration_str.substring(0, 2);
-            ts[1] = duration_str.substring(2, 4);
+            if (duration_str.length() >= 4) {//no separator
+                ts[0] = duration_str.substring(0, 2);
+                ts[1] = duration_str.substring(2, 4);
+            } else {//if (duration_str.length() >= 2) {
+                ts[0] = duration_str;
+                ts[1] = "00";
+            }
         }
         if (ts.length < 2) {
             return;
         }
+        //Log.d(TAG, String.format("ts[0]=%s, ts[1]=%s", ts[0], ts[1]));
         setStartTime(cal, ts[0]);
         setEndTime(cal, ts[1]);
     }
@@ -168,8 +213,8 @@ public class DonateActivity {
      */
     public String getDuration() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.TAIWAN);
-        //Log.d("BloodDataHelper", "start: " + StartTime.getTime().toString());
-        //Log.d("BloodDataHelper", "  end: " + EndTime.getTime().toString());
+        //Log.d(TAG, "start: " + StartTime.getTime().toString());
+        //Log.d(TAG, "  end: " + EndTime.getTime().toString());
         return String.format("%s ~ %s",
                 sdf.format(StartTime.getTime()),
                 sdf.format(EndTime.getTime()));

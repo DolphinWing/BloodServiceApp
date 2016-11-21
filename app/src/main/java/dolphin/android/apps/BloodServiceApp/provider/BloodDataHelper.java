@@ -90,7 +90,7 @@ public class BloodDataHelper {
         ArrayList<DonateDay> week1 = getWeekCalendar(cal, String.valueOf(siteID));
         cal.add(Calendar.DAY_OF_WEEK, 7);
         ArrayList<DonateDay> week2 = getWeekCalendar(cal, String.valueOf(siteID));
-        ArrayList<DonateDay> days = new ArrayList<DonateDay>();
+        ArrayList<DonateDay> days = new ArrayList<>();
         for (int i = 0; i < week1.size(); i++) {
             if (week1.get(i).isFuture()) {
                 days.add(week1.get(i));
@@ -115,19 +115,21 @@ public class BloodDataHelper {
      * @param site_id  site id
      * @return donation activity list
      */
-    public ArrayList<DonateDay> getWeekCalendar(Calendar calendar, String site_id) {
+    private ArrayList<DonateDay> getWeekCalendar(Calendar calendar, String site_id) {
         mStartDate.setTimeInMillis(calendar.getTimeInMillis());
         //Log.d(TAG, mStartDate.getTime().toString());
-        ArrayList<DonateDay> donateDays = new ArrayList<DonateDay>();
+        ArrayList<DonateDay> donateDays = new ArrayList<>();
 
         String day = new SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN).format(mStartDate.getTime());
         String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", site_id).replace("{date}", day);
-        Log.v(TAG, String.format("started with site=%s, day=%s", site_id, day));
+        //Log.d(TAG, url);
+        //Log.v(TAG, String.format("started with site=%s, day=%s", site_id, day));
 
         long startTime = System.currentTimeMillis();
 
         String html = getBody(url);
-        Log.v(TAG, String.format("get action wasted %d ms", ((System.currentTimeMillis() - startTime))));
+        //Log.v(TAG, String.format("get action wasted %d ms",
+        //        ((System.currentTimeMillis() - startTime))));
 
         //Log.d(TAG, String.format("html length = %d", html.length()));
         if (html.contains("<div id=\"calendar\">")) {
@@ -140,7 +142,7 @@ public class BloodDataHelper {
             String separator = mContext.getString(R.string.pattern_separator);
             Calendar cal = mStartDate;
             for (int i = 1; i < day_html.length; i++, cal.add(Calendar.DAY_OF_MONTH, 1)) {
-                ArrayList<DonateActivity> list = new ArrayList<DonateActivity>();
+                ArrayList<DonateActivity> list = new ArrayList<>();
                 /*  <h3>place</h3>
                     <p><strong>time: 9:00~14:00</strong></p>
                     <p><strong>holder</strong></p>*/
@@ -211,8 +213,8 @@ public class BloodDataHelper {
         }
 
         String html = getBody(URL_BLOOD_STORAGE);
-        Log.v(TAG, String.format("get storage wasted %d ms",
-                ((System.currentTimeMillis() - startTime))));
+        //Log.v(TAG, String.format("get storage wasted %d ms",
+        //        ((System.currentTimeMillis() - startTime))));
 
         //StorageBoard.jpg
         if (html.contains("tool_blood_cube") && html.contains("tool_danger")) {
@@ -221,7 +223,7 @@ public class BloodDataHelper {
             for (int i = 1; i < storages.length; i++) {
                 //Log.d(TAG, String.format("site=%d", mBloodCenterId[i]));
                 int j = 0;
-                HashMap<String, Integer> storageMap = new HashMap<String, Integer>();
+                HashMap<String, Integer> storageMap = new HashMap<>();
                 Matcher matcher = Pattern.compile(PATTERN_STORAGE).matcher(storages[i]);
                 while (matcher.find() && j < 4) {
                     //Log.d(TAG, String.format("  id=%d", Integer.parseInt(matcher.group(1))));

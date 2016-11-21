@@ -18,4 +18,8 @@
     <color name="bloody_donate_date_background">#cc689f38</color>
     <!-- light green 500 -->
     <color name="bloody_donate_date_no_children_background">#cc8BC34A</color>
+
+    <!-- ListView donation date separator -->
+    <color name="listview_donation_date_separator">#44ffffff</color>
+
 </resources>
