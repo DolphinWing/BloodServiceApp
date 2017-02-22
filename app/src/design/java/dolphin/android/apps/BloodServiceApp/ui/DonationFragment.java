@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,14 +75,18 @@ public class DonationFragment extends BaseListFragment
     @Override
     public void updateFragment(int siteID, long timeInMillis) {
         super.updateFragment(siteID, timeInMillis);
-        setFragmentBusy(true);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                downloadDonateActivities();
-            }
-        }).start();
+        if (!isFragmentBusy()) {//only start update when it is idle
+            setFragmentBusy(true);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    downloadDonateActivities();
+                }
+            }).start();
+        } else {
+            Log.w(TAG, "already updating " + siteID);
+        }
     }
 
     private void downloadDonateActivities() {
@@ -91,11 +96,13 @@ public class DonationFragment extends BaseListFragment
         ArrayList<DonateDay> days = helper.getLatestWeekCalendar(getSiteId());
         if (days == null) {
             sendDownloadException("donation array empty", false);
+            setFragmentBusy(false);
             return;
         }
 
         //[48]++ java.lang.IllegalStateException: Fragment not attached to Activity
         if (this.isRemoving() || this.isDetached()) {
+            setFragmentBusy(false);
             return;//no need to update
         }
 
@@ -104,9 +111,6 @@ public class DonationFragment extends BaseListFragment
         long cost = System.currentTimeMillis() - start;
         if (getActivity() != null) {
             sendDownloadCost(getString(R.string.title_section2), cost);
-        }
-
-        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -122,13 +126,19 @@ public class DonationFragment extends BaseListFragment
         }
     }
 
+    private boolean mIsBusy = false;
+
     @Override
     public void setFragmentBusy(boolean busy) {
         super.setFragmentBusy(busy);
-
+        mIsBusy = busy;
         if (mProgressView != null) {//[35]
             mProgressView.setVisibility(busy ? View.VISIBLE : View.GONE);
         }
+    }
+
+    private boolean isFragmentBusy() {
+        return mIsBusy;
     }
 
     @Override
@@ -219,7 +229,7 @@ public class DonationFragment extends BaseListFragment
             }
             return loc;
         }
-        return new String[] { location };
+        return new String[]{location};
     }
 
     private String[] splitByParentheses2(String location) {
@@ -234,7 +244,7 @@ public class DonationFragment extends BaseListFragment
             }
             return loc;
         }
-        return new String[] { location };
+        return new String[]{location};
     }
 
     private String removeNumberTrailing(String location) {

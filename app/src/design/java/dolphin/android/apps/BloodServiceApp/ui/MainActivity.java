@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -330,6 +331,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private HashMap<String, Boolean> mSectionMap;
+        private SparseArray<Fragment> mFragmentCache = new SparseArray<>();
 
 //        public boolean isSectionBusy(String id) {
 //            if (mSectionMap.containsKey(id))
@@ -341,11 +343,11 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
             return mSectionMap.containsValue(true);
         }
 
-        public void setSectionBusy(String id, boolean b) {
+        void setSectionBusy(String id, boolean b) {
             mSectionMap.put(id, b);
         }
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
             mSectionMap = new HashMap<>();
         }
@@ -353,21 +355,28 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            Fragment fragment;
+            Fragment fragment = mFragmentCache.get(position);
             long now = System.currentTimeMillis();
-            switch (position) {
-                case 0:
-                    fragment = StorageFragment.newInstance(mSiteId, now);
-                    break;
-                case 1:
-                    fragment = DonationFragment.newInstance(mSiteId, now);
-                    break;
-                default:
-                    fragment = PlaceholderFragment.newInstance(position + 1);
-                    break;
-            }
-            if (fragment instanceof BaseListFragment) {
-                mSectionMap.put(((BaseListFragment) fragment).getFragmentId(), false);
+            if (fragment == null) {
+                switch (position) {
+                    case 0://blood storage
+                        fragment = StorageFragment.newInstance(mSiteId, now);
+                        break;
+                    case 1://donation activity
+                        fragment = DonationFragment.newInstance(mSiteId, now);
+                        break;
+                    default:
+                        fragment = PlaceholderFragment.newInstance(position + 1);
+                        break;
+                }
+                if (fragment instanceof BaseListFragment) {
+                    mSectionMap.put(((BaseListFragment) fragment).getFragmentId(), false);
+                }
+                mFragmentCache.put(position, fragment);
+            } else {
+                if (fragment instanceof BaseListFragment) {
+                    ((BaseListFragment) fragment).updateFragment(mSiteId, now);
+                }
             }
             return fragment;
         }
@@ -385,8 +394,8 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
                     return getString(R.string.title_section1).toUpperCase(l);
                 case 1:
                     return getString(R.string.title_section2).toUpperCase(l);
-                //case 2:
-                //    return getString(R.string.title_section3).toUpperCase(l);
+                case 2:
+                    return getString(R.string.title_section3).toUpperCase(l);
             }
             return null;
         }

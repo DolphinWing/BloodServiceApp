@@ -11,7 +11,7 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
 /**
  * Created by dolphin on 2015/03/15.
  */
-public class DonationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+class DonationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private Context mContext;
     private boolean mIsHeader;
     private TextView title;
@@ -24,8 +24,8 @@ public class DonationViewHolder extends RecyclerView.ViewHolder implements View.
         this(context, itemView, null);
     }
 
-    public DonationViewHolder(Context context, View itemView,
-                              DonationListAdapter.OnItemClickListener listener) {
+    DonationViewHolder(Context context, View itemView,
+                       DonationListAdapter.OnItemClickListener listener) {
         super(itemView);
 
         mContext = context;
@@ -37,7 +37,13 @@ public class DonationViewHolder extends RecyclerView.ViewHolder implements View.
         if (!mIsHeader) {//only for activity
             tv1 = (TextView) itemView.findViewById(android.R.id.text1);
             tv2 = (TextView) itemView.findViewById(android.R.id.text2);
-            itemView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
+            View more = itemView.findViewById(android.R.id.button1);
+            if (more != null) {
+                more.setOnClickListener(this);
+            } else {//use full item
+                itemView.setOnClickListener(this);
+            }
         }
     }
 
@@ -45,7 +51,7 @@ public class DonationViewHolder extends RecyclerView.ViewHolder implements View.
         return mIsHeader;
     }
 
-    public void bindItem(DonateDay day, DonateActivity activity) {
+    void bindItem(DonateDay day, DonateActivity activity) {
         if (isHeader() && day != null) {
             title.setText(day.getDateString());
             title.setTag(day);

@@ -52,7 +52,7 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationViewHolder
         this(context, items, null);
     }
 
-    public DonationListAdapter(Context context, ArrayList<DonateDay> items, OnItemClickListener l) {
+    DonationListAdapter(Context context, ArrayList<DonateDay> items, OnItemClickListener l) {
         mContext = context;
         mItems = new ArrayList<>();
         mItemClickListener = l;

@@ -40,8 +40,13 @@ public class BloodDataHelper {
             //URL_BASE_BLOOD_ORG + "/Internet/english/index.aspx";
             URL_BASE_BLOOD_ORG + "/Internet/main/index.aspx";
     private final static String URL_LOCAL_BLOOD_CENTER_WEEK =
-            URL_BASE_BLOOD_ORG + "/Internet/mobile/docs/local_blood_center_week.aspx?" +
-                    "site_id={site}&date={date}";//yyyy/MM/dd
+            URL_BASE_BLOOD_ORG + "/Internet/mobile/docs/local_blood_center_week.aspx" +
+                    "?site_id={site}&date={date}";//yyyy/MM/dd
+    private final static String QS_LOCATION_MAP_CITY =
+            /*blood_center_donate_station + */ "&cityID={city}";
+    private final static String URL_LOCAL_BLOOD_LOCATION_MAP =
+            URL_BASE_BLOOD_ORG + "Internet/mobile/docs/local_blood_center_map.aspx" +
+                    "?site_id={site}&select_city={city}";
 
     private Context mContext;
     private OkHttpClient mClient;
@@ -49,6 +54,7 @@ public class BloodDataHelper {
 
     private int[] mBloodCenterId;// = {0, 2, 3, 4, 5, 6, 7};
     private String[] mBloodType;// = {"A", "B", "O", "AB"};
+    private SparseArray<String> mCityName;
 
     public BloodDataHelper(Context context) {
         mContext = context;
@@ -60,6 +66,7 @@ public class BloodDataHelper {
 
         mBloodCenterId = mContext.getResources().getIntArray(R.array.blood_center_id);
         mBloodType = mContext.getResources().getStringArray(R.array.blood_type_value);
+        mCityName = new SparseArray<>();
     }
 
     private String getBody(String url) {
@@ -259,6 +266,110 @@ public class BloodDataHelper {
         return mContext.getResources().getStringArray(R.array.blood_center)[i];
     }
 
+    public static String getBloodCenterName(Context context, int siteId) {
+        if (context == null) {
+            return "";
+        }
+        int[] bloodCenterIds = context.getResources().getIntArray(R.array.blood_center_id);
+        int i = 0;
+        for (i = bloodCenterIds.length - 1; i > 0; i--) {
+            if (bloodCenterIds[i] == siteId) {
+                break;
+            }
+        }
+        return context.getResources().getStringArray(R.array.blood_center)[i];
+    }
+
+    //<option selected="selected" value="13">臺北市</option>
+    private final static String PATTERN_CITY_ID = "<option([ ]selected=[^ ]+)?" +
+            " value=\"([\\d]+)[^>]>([^<]+)";
+
+    //<td width='90%'><a class='font002' href='LocationMap.aspx?spotID=79&cityID=13'
+    // data-ajax='false'> 公園號捐血車</a></td>
+    private final static String PATTERN_SPOT_INFO = "LocationMap.aspx\\?spotID=([\\d]+)" +
+            "\\&cityID=([\\d]+)[^>]*>([^<]*)</a>";
+
+    public SparseArray<SpotList> getDonationSpotLocationMap(int siteId) {
+        if (mContext == null) {
+            return null;
+        }
+        int i = 0;
+        for (i = mBloodCenterId.length - 1; i > 0; i--) {
+            if (mBloodCenterId[i] == siteId) {
+                break;
+            }
+        }
+        String[] baseUrls = mContext.getResources().getStringArray(R.array.blood_center_donate_station);
+        String[] baseCityIds = mContext.getResources().getStringArray(R.array.blood_center_donate_station_city_id);
+        SparseArray<SpotList> maps = new SparseArray<>();
+        long startTime = System.currentTimeMillis();
+        for (String cityId : baseCityIds[i].split(",")) {
+            String url = baseUrls[i].concat(QS_LOCATION_MAP_CITY).replace("{city}", cityId);
+            Log.d(TAG, url);
+            long s1 = System.currentTimeMillis();
+            String html = getBody(url);
+            Log.d(TAG, "cost " + (System.currentTimeMillis() - s1));
+            if (html.contains("CalendarContentRight")) {
+                html = html.substring(html.indexOf("CalendarContentRight"),
+                        html.indexOf("ShortCutBox"));
+                if (html.contains("SelectCity")) {//cache the city name
+                    Matcher matcher = Pattern.compile(PATTERN_CITY_ID).matcher(html);
+                    while (matcher.find()) {
+                        String id = matcher.group(2).trim();
+                        String name = matcher.group(3).trim();
+                        //Log.d(TAG, "id=" + id + ", " + name);
+                        mCityName.put(Integer.parseInt(id), name);
+                    }
+                }
+                //Log.d(TAG, String.format("html: %d", html.length()));
+                if (html.contains("InnerLocation001")) {
+                    SpotList list = new SpotList(cityId);
+                    String[] locations = html.split("InnerLocation001");
+                    if (locations.length > 0) {//static locations
+                        //Log.d(TAG, "static locations:");
+                        parseDonationSpotHtml(list, locations[1], false);
+                    }
+                    if (locations.length > 1) {//dynamic locations
+                        //Log.d(TAG, "dynamic locations:");
+                        parseDonationSpotHtml(list, locations[2], false);
+                    }
+                    maps.put(Integer.parseInt(cityId), list);
+                }
+            }
+        }
+        Log.v(TAG, String.format("end spot map wasted %d ms",
+                ((System.currentTimeMillis() - startTime))));
+        return maps;
+    }
+
+    public String getCityName(int cityId) {
+        return mCityName.get(cityId);
+    }
+
+    private void parseDonationSpotHtml(SpotList list, String html, boolean isStatic) {
+        Matcher matcher = Pattern.compile(PATTERN_SPOT_INFO).matcher(html);
+        while (matcher.find()) {
+            String spotId = matcher.group(1).trim();
+            String cityId = matcher.group(2).trim();
+            String name = matcher.group(3).trim();
+            //Log.d(TAG, "  spotId = " + spotId + ", " + name);
+            try {
+                if (isStatic) {
+                    list.addStaticLocation(new SpotInfo(spotId, cityId, name));
+                } else {
+                    list.addDynamicLocation(new SpotInfo(spotId, cityId, name));
+                }
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "NumberFormatException: " + matcher.group());
+            }
+        }
+        //if (isStatic && list.getStaticLocations() != null) {
+        //    Log.d(TAG, String.format("size = %d", list.getStaticLocations().size()));
+        //} else if (!isStatic && list.getDynamicLocations() != null) {
+        //    Log.d(TAG, String.format("size = %d", list.getDynamicLocations().size()));
+        //}
+    }
+
     private final static String FACEBOOK_PACKAGE = "com.facebook.katana";
     private final static String FACEBOOK_URL = "https://www.facebook.com";
 
@@ -297,31 +408,13 @@ public class BloodDataHelper {
                 throw new Exception("can't support Facebook app");
             }
         } catch (Exception e) {//catches and opens a url to the desired page
-            intent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(String.format("%s/%s", FACEBOOK_URL, fbIds.split(":")[0])));
-
-            //[44]dolphin++ add Chrome Custom Tabs
-            Bundle extras = new Bundle();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                extras.putBinder(PrefsUtil.EXTRA_CUSTOM_TABS_SESSION, null);
-            }
-            extras.putInt(PrefsUtil.EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                    ContextCompat.getColor(context, R.color.bloody_color));
-            intent.putExtras(extras);
+            intent = getBrowserIntent(context, String.format("%s/%s", FACEBOOK_URL,
+                    fbIds.split(":")[0]));
         }
         return intent;
     }
 
-    /**
-     * Get Intent to website
-     *
-     * @param context Context
-     * @param siteId  site id
-     * @return Intent
-     */
-    public static Intent getOpenBloodCalendarSourceUrl(Context context, int siteId) {
-        String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
-        url = url.replace("&date={date}", "");//don't specify date
+    private static Intent getBrowserIntent(Context context, String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
             Bundle extras = new Bundle(); //[44]dolphin++ add Chrome Custom Tabs
@@ -335,5 +428,29 @@ public class BloodDataHelper {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         return PackageUtils.isCallable(context, intent) ? intent : null;
+    }
+
+    /**
+     * Get Intent to website
+     *
+     * @param context Context
+     * @param siteId  site id
+     * @return Intent
+     */
+    public static Intent getOpenBloodCalendarSourceUrl(Context context, int siteId) {
+        String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
+        url = url.replace("&date={date}", "");//don't specify date
+        return getBrowserIntent(context, url);
+    }
+
+    public static Intent getOpenSpotLocationMapUrl(Context context, SpotInfo info) {
+        if (info == null) {
+            return null;
+        }
+        //"?site_id={site}&select_city={city}";
+        String url = URL_LOCAL_BLOOD_LOCATION_MAP;
+        url = url.replace("{site}", String.valueOf(info.getSpotId()));
+        url = url.replace("{city}", String.valueOf(info.getCityId()));
+        return getBrowserIntent(context, url);
     }
 }

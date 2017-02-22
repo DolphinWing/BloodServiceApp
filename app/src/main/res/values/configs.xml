@@ -42,6 +42,18 @@
         <item>http://www.ha.blood.org.tw/Internet/Hualian/LocationMap.aspx?spotID=6</item>
     </string-array>
 
+    <!-- http://www.tp.blood.org.tw/Internet/taipei/LocationMap.aspx?spotID=68&cityID=12 -->
+    <!-- http://www.blood.org.tw/Internet/mobile/docs/local_blood_center_map.aspx?site_id=5&select_city=24 -->
+    <string-array name="blood_center_donate_station_city_id" translatable="false">
+        <item>0</item>
+        <item>13,14,12,32</item>
+        <item>16,17,15,18</item>
+        <item>19,21,33</item>
+        <item>26,22,23,24</item>
+        <item>27,29,34,30</item>
+        <item>31</item>
+    </string-array>
+
     <!-- Open Source link -->
     <string name="title_open_source_okhttp" translatable="false">OkHttp</string>
     <string name="summary_open_source_okhttp" translatable="false">Copyright 2014 Square, Inc.</string>

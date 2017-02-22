@@ -7,43 +7,57 @@
     android:background="@drawable/bloody_list_selector_holo_light">
 
     <ImageView
+        android:id="@android:id/icon"
         android:layout_width="@dimen/material_listview_primary_icon_width"
         android:layout_height="@dimen/material_listview_primary_icon_width"
-        android:padding="@dimen/material_listview_primary_icon_padding"
-        android:id="@android:id/icon"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/material_horizontal_margin"
+        android:contentDescription="@string/title_section2"
+        android:padding="@dimen/material_listview_primary_icon_padding"
         android:src="@drawable/ic_action_maps_local_attraction" />
+
+    <ImageView
+        android:id="@android:id/button1"
+        android:layout_width="@dimen/material_listview_secondary_icon_width"
+        android:layout_height="@dimen/material_listview_secondary_icon_width"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
+        android:background="@drawable/listview_dropdown_background"
+        android:padding="@dimen/material_listview_primary_icon_padding"
+        android:src="@drawable/ic_action_more_vert" />
 
     <LinearLayout
         android:id="@android:id/message"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/material_listivew_icon_text_margin"
         android:layout_marginRight="@dimen/material_horizontal_margin"
-        android:gravity="center_vertical">
+        android:layout_toLeftOf="@android:id/button1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@android:id/title"
             style="@style/Theme.Bloody.Widget.Donation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_section2"
-            android:id="@android:id/title" />
+            android:text="@string/title_section2" />
 
         <TextView
+            android:id="@android:id/text1"
             style="@style/Theme.Bloody.Widget.Donation.Time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_section2"
-            android:id="@android:id/text1" />
+            android:text="@string/title_section2" />
 
         <TextView
+            android:id="@android:id/text2"
             style="@style/Theme.Bloody.Widget.Donation.Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_section2"
-            android:id="@android:id/text2" />
+            android:text="@string/title_section2" />
     </LinearLayout>
+
 </RelativeLayout>

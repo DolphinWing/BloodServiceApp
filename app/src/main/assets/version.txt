@@ -9,6 +9,11 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[56] @ 2017-02-21
+    update library
+    fix some possible flag error
+    add parse donation spot
+
 [55] @ 2016-11-14
     fix some time parsing incorrect
 

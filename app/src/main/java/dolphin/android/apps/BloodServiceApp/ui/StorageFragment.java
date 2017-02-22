@@ -1,7 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,14 +27,12 @@ import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
+ * blood storage list fragment
  */
 public class StorageFragment extends BaseListFragment {
     private final static String TAG = "StorageFragment";
+    private final static boolean DEBUG_LOG = false;
+
     private AdView mAdView;
     private View mProgressView;
 
@@ -50,6 +47,7 @@ public class StorageFragment extends BaseListFragment {
     private String[] mBloodType;
     private String[] mBloodTypeName;
     private String[] mBloodStorage;
+    private SparseArray<ArrayList<Integer>> mBloodStorageCache = new SparseArray<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -61,8 +59,9 @@ public class StorageFragment extends BaseListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d(TAG, "onCreate");
+        if (DEBUG_LOG) {
+            Log.d(TAG, "onCreate");
+        }
         mBloodType = getResources().getStringArray(R.array.blood_type_value);
         mBloodTypeName = getResources().getStringArray(R.array.blood_type);
         mBloodStorage = getResources().getStringArray(R.array.blood_storage_status);
@@ -75,6 +74,9 @@ public class StorageFragment extends BaseListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (DEBUG_LOG) {
+            Log.d(TAG, "onCreateView");
+        }
         View view = inflater.inflate(R.layout.fragment_storage, container, false);
 
         // Set the adapter
@@ -101,8 +103,9 @@ public class StorageFragment extends BaseListFragment {
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-
-        Log.d(TAG, String.format("onActivityCreated %d", mAdView.getVisibility()));
+        if (DEBUG_LOG) {
+            Log.d(TAG, String.format("onActivityCreated %d", mAdView.getVisibility()));
+        }
         if (mAdView == null || mAdView.getVisibility() != View.VISIBLE) {
             return;//to avoid possible NullPointerException
         }
@@ -115,7 +118,9 @@ public class StorageFragment extends BaseListFragment {
      */
     @Override
     public void onPause() {
-        Log.d(TAG, "onPause");
+        if (DEBUG_LOG) {
+            Log.d(TAG, "onPause");
+        }
         if (mAdView != null && mAdView.getVisibility() == View.VISIBLE) {
             mAdView.pause();
         }
@@ -128,9 +133,10 @@ public class StorageFragment extends BaseListFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        Log.d(TAG, String.format("onResume %d %s", mAdView.getVisibility(),
-                PrefsUtil.isEnableAdView(getActivity())));
+        if (DEBUG_LOG) {
+            Log.d(TAG, String.format("onResume %d %s", mAdView.getVisibility(),
+                    PrefsUtil.isEnableAdView(getActivity())));
+        }
         if (mAdView != null) {
             if (mAdView.getVisibility() == View.VISIBLE) {//previous yes
                 mAdView.resume();
@@ -147,6 +153,26 @@ public class StorageFragment extends BaseListFragment {
                 Log.v(TAG, "no to yes... THANK YOU!!!");
                 //send a request to server
                 loadAds();
+            }
+        }
+
+        //disable loading animation
+        List<Integer> list = mBloodStorageCache.get(getSiteId());
+        if (list != null) {//already has data, so update GUI directly
+            if (DEBUG_LOG) {
+                Log.d(TAG, "[onResume] already get from server, don't update from server");
+            }
+            setListAdapter(new MyAdapter(getActivity(), list));
+            setFragmentBusy(false);
+        } else if (!isFragmentBusy() && getSiteId() > 0) {
+            //no data, and not loading, get again from server
+            if (DEBUG_LOG) {
+                Log.d(TAG, "[onResume] no loaded, read from server site id = " + getSiteId());
+            }
+            updateFragment(-1, -1);//refresh ui
+        } else {//already updating... so we don't do anything
+            if (DEBUG_LOG) {
+                Log.d(TAG, "[onResume] do nothing, site id = " + getSiteId());
             }
         }
     }
@@ -182,6 +208,12 @@ public class StorageFragment extends BaseListFragment {
     @Override
     public void updateFragment(int siteID, long timeInMillis) {
         super.updateFragment(siteID, timeInMillis);
+        if (DEBUG_LOG) {
+            Log.d(TAG, "updateFragment " + siteID);
+        }
+        if (isFragmentBusy()) {
+            return;//don't update when fragment is busy
+        }
         setFragmentBusy(true);
         setEmptyText(getText(R.string.title_downloading_data));
         setListAdapter(new MyAdapter(getActivity(), new ArrayList<Integer>()));
@@ -201,36 +233,37 @@ public class StorageFragment extends BaseListFragment {
         SparseArray<HashMap<String, Integer>> array = helper.getBloodStorage(false);
         HashMap<String, Integer> map = array.get(getSiteId());
 
-        //[48]++ java.lang.IllegalStateException: Fragment not attached to Activity
-        if (this.isRemoving() || this.isDetached()) {
-            return;//no need to update
-        }
-
-        final ArrayList<Integer> list = new ArrayList<Integer>();
+        final ArrayList<Integer> list = new ArrayList<>();
         if (map == null) {
             sendDownloadException("storage array empty", false);
         } else {//check blood storage
             for (String bloodType : mBloodType) {
                 list.add(map.get(bloodType));
             }
+            mBloodStorageCache.put(getSiteId(), list);
             long cost = System.currentTimeMillis() - start;
             if (getActivity() != null) {
                 sendDownloadCost(getString(R.string.title_section1), cost);
             }
         }
 
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (getActivity() != null) {
-                        setListAdapter(new MyAdapter(getActivity(), list));
-                        setEmptyText(getString(R.string.title_data_not_available));
-                    }
-                    setFragmentBusy(false);
-                }
-            });
+        //[48]++ java.lang.IllegalStateException: Fragment not attached to Activity
+        if (this.isRemoving() || this.isDetached() || getActivity() == null) {
+            Log.w(TAG, "Fragment not attached to Activity");
+            setFragmentBusy(false);
+            return;//no need to update
         }
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() != null) {
+                    setListAdapter(new MyAdapter(getActivity(), list));
+                    setEmptyText(getString(R.string.title_data_not_available));
+                }
+                setFragmentBusy(false);
+            }
+        });
     }
 
     private final static int[] Icons = {
@@ -261,12 +294,21 @@ public class StorageFragment extends BaseListFragment {
         }
     }
 
+    private boolean mIsBusy = false;
+
     @Override
     public void setFragmentBusy(boolean busy) {
         super.setFragmentBusy(busy);
-
-        if (mProgressView != null) {//[35]
+        if (DEBUG_LOG) {
+            Log.d(TAG, "setFragmentBusy " + busy);
+        }
+        mIsBusy = busy;
+        if (getActivity() != null && mProgressView != null) {//[35]
             mProgressView.setVisibility(busy ? View.VISIBLE : View.GONE);
         }
+    }
+
+    private boolean isFragmentBusy() {
+        return mIsBusy;
     }
 }

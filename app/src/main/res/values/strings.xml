@@ -11,7 +11,7 @@
     <string name="title_activity_main">主程式</string>
     <string name="title_section1">庫存</string>
     <string name="title_section2">活動</string>
-    <string name="title_section3">血液中心</string>
+    <string name="title_section3">捐血點</string>
 
     <!-- StorageFragment -->
     <string-array name="blood_storage_status">

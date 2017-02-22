@@ -23,6 +23,7 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
 import dolphin.android.apps.BloodServiceApp.ui.dummy.DummyContent;
 
 /**
+ * base implementations
  * Created by dolphin on 2014/10/10.
  */
 public class BaseListFragment extends Fragment
@@ -75,7 +76,7 @@ public class BaseListFragment extends Fragment
 
         // TODO: Change Adapter to display your content
         if (!getResources().getBoolean(R.bool.eng_mode)) {
-            mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+            mAdapter = new ArrayAdapter<>(getActivity(),
                     android.R.layout.simple_list_item_1,
                     android.R.id.text1, DummyContent.ITEMS);
         } else {

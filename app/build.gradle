@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "dolphin.android.apps.BloodServiceApp"
@@ -27,8 +27,8 @@ android {
             versionName "1.2.3"
         }
         design {
-            versionCode 55
-            versionName "1.5.4"
+            versionCode 56
+            versionName "1.5.5"
         }
     }
 
@@ -44,27 +44,27 @@ dependencies {
     compile project(':library:MyUtilsLibrary')
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
 
-    compile 'com.android.support:support-v4:25.0.0'
-    compile 'com.android.support:support-v13:25.0.0'
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:support-v13:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.github.markushi:android-ui:1.2'
     //compile 'com.google.android.gms:play-services:6.1.71'
-    compile 'com.google.android.gms:play-services-base:9.8.0'
-    compile 'com.google.android.gms:play-services-ads-lite:9.8.0'
-    compile 'com.google.android.gms:play-services-analytics:9.8.0'
+    compile 'com.google.android.gms:play-services-base:10.2.0'
+    compile 'com.google.android.gms:play-services-ads-lite:10.2.0'
+    compile 'com.google.android.gms:play-services-analytics:10.2.0'
     //compile 'de.hdodenhof:circleimageview:1.2.0'
 
     stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
     //noinspection GradleDependency
     superslimCompile 'com.android.support:recyclerview-v7:24.1.1'
     superslimCompile 'com.tonicartos:superslim:0.4.13'
-    designCompile 'com.android.support:recyclerview-v7:25.0.0'
+    designCompile 'com.android.support:recyclerview-v7:25.1.1'
     designCompile 'com.tonicartos:superslim:0.4.13'
-    designCompile 'com.android.support:design:25.0.0'
+    designCompile 'com.android.support:design:25.1.1'
 
     //Firebase
-    compile 'com.google.firebase:firebase-analytics:9.8.0'
-    compile 'com.google.firebase:firebase-config:9.8.0'
+    compile 'com.google.firebase:firebase-analytics:10.2.0'
+    compile 'com.google.firebase:firebase-config:10.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
