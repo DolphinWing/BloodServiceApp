@@ -152,7 +152,8 @@ public class DonationFragment extends BaseListFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.action_search_on_maps)
                 .setAdapter(new ArrayAdapter<>(getActivity(),
-                                android.R.layout.simple_selectable_list_item, list),
+                                //android.R.layout.simple_selectable_list_item, list),
+                                R.layout.spinner_dropdown_textview, list),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int position) {

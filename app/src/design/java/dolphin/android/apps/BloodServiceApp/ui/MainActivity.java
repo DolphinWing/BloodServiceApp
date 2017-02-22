@@ -365,6 +365,9 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
                     case 1://donation activity
                         fragment = DonationFragment.newInstance(mSiteId, now);
                         break;
+                    case 2://spot location map
+                        fragment = SpotFragment.newInstance(mSiteId, now);
+                        break;
                     default:
                         fragment = PlaceholderFragment.newInstance(position + 1);
                         break;

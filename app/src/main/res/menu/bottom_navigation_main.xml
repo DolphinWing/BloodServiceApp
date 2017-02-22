@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
+
+    <item
+        android:id="@+id/action_section2"
+        android:checkable="true"
+        android:icon="@drawable/ic_action_maps_local_attraction"
+        android:title="@string/title_section2"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/action_section1"
+        android:checkable="true"
+        android:icon="@drawable/ic_action_storage"
+        android:title="@string/title_section1"
+        app:showAsAction="withText|ifRoom" />
+
+    <item
+        android:id="@+id/action_section3"
+        android:checkable="true"
+        android:icon="@drawable/ic_action_pin_drop"
+        android:title="@string/title_section3"
+        app:showAsAction="ifRoom|withText" />
+
+</menu>
