@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.pref.SettingsActivity;
+import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
 /**
  * Created by jimmyhu on 2017/2/22.
@@ -35,8 +38,7 @@ import dolphin.android.apps.BloodServiceApp.R;
  * Use BottomNavigation with NavigationDrawer to operate.
  */
 
-public class MainActivity2 extends AppCompatActivity implements OnFragmentInteractionListener/*,
-        NavigationDrawerFragment.NavigationDrawerCallbacks*/ {
+public class MainActivity2 extends AppCompatActivity implements OnFragmentInteractionListener {
     private final static String TAG = "MainActivity";
 
     private BaseListFragment mFragment;
@@ -52,6 +54,9 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
         super.onCreate(savedInstanceState);
 
         mBloodCenterId = getResources().getIntArray(R.array.blood_center_id);
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        int position = sp.getInt(NavigationDrawerFragment.PREF_USER_NEAR_BY_CENTER, 3);
+        mSiteId = mBloodCenterId[position + 1];
 
         setContentView(R.layout.activity_navigation_spinner);
 
@@ -79,7 +84,7 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
             setSupportActionBar(toolbar);
             Spinner spinner = (Spinner) toolbar.findViewById(R.id.spinner_nav);
             if (spinner != null) {
-                final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                //final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 String[] centre = getResources().getStringArray(R.array.blood_center);
                 ArrayList<String> list = new ArrayList<>(Arrays.asList(centre));
                 list.remove(0);
@@ -90,9 +95,6 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
                         R.layout.spinner_textview, list);
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_textview);
                 spinner.setAdapter(adapter);
-
-                spinner.setSelection(sp.getInt(NavigationDrawerFragment.PREF_USER_NEAR_BY_CENTER, 3));
-
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
@@ -109,6 +111,7 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
 
                     }
                 });
+                spinner.setSelection(position);
             }
         }
 
@@ -144,12 +147,29 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
             case android.R.id.home:
                 //do something
                 return true;
+            case R.id.action_facebook:
+                startActivity(BloodDataHelper.getOpenFacebookIntent(this, mSiteId));
+                return true;
+            case R.id.action_go_to_website:
+                Intent intent = BloodDataHelper.getOpenBloodCalendarSourceUrl(this, mSiteId);
+                if (intent != null) {
+                    startActivity(intent);
+                    return true;
+                }
+                break;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;//break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //private SparseArray<BaseListFragment> mFragmentCache = new SparseArray<>();
+
     private void switchToSection(int id) {
+        //mFragment = mFragmentCache.get(id);
         long now = System.currentTimeMillis();
+        //if (mFragment == null) {
         switch (id) {
             case R.id.action_section1:
                 mFragment = StorageFragment.newInstance(mSiteId, now);
@@ -163,6 +183,8 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
                 mFragment = SpotFragment.newInstance(mSiteId, now);
                 break;
         }
+        //    mFragmentCache.put(id, mFragment);
+        //}
         FragmentManager fragmentManager = getSupportFragmentManager();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, mFragment).commit();
@@ -182,4 +204,16 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
     public void onUpdateComplete(String id) {
         //TODO: auto generated codes
     }
+
+//    //http://stackoverflow.com/a/12967721/2673859
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        int orientation = this.getResources().getConfiguration().orientation;
+//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            Log.v(TAG, "landscape");//FIXME: do something?
+//        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            Log.v(TAG, "portrait");//FIXME: do something?
+//        }
+//    }
 }

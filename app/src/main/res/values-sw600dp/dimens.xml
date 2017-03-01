@@ -21,5 +21,7 @@
     <dimen name="multi_pane_shadow_size">4dp</dimen>
     <dimen name="multi_pane_margin_top">60dp</dimen>
     <dimen name="multi_pane_margin_top_shadow">62dp</dimen>
+
+    <dimen name="design_bottom_sheet_width">480dp</dimen>
     
 </resources>

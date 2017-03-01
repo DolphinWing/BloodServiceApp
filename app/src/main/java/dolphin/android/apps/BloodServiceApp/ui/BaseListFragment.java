@@ -170,6 +170,9 @@ public class BaseListFragment extends Fragment
     }
 
     public void updateFragment(int siteId, long timeInMillis) {
+        if (this.isRemoving() || this.isDetached() || getActivity() == null) {
+            return;//no need to update
+        }
         if (siteId >= 0) {
             mSiteId = siteId;
         }

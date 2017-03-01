@@ -27,7 +27,7 @@ android {
             versionName "1.2.3"
         }
         design {
-            versionCode 56
+            versionCode 58
             versionName "1.5.5"
         }
     }

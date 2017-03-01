@@ -44,4 +44,15 @@ public class SpotList {
     public ArrayList<SpotInfo> getDynamicLocations() {
         return dynamic_locations;
     }
+
+    public ArrayList<SpotInfo> getLocations() {
+        ArrayList<SpotInfo> list = new ArrayList<>();
+        if (getStaticLocations() != null) {
+            list.addAll(getStaticLocations());
+        }
+        if (getDynamicLocations() != null) {
+            list.addAll(getDynamicLocations());
+        }
+        return list;
+    }
 }

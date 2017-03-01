@@ -98,6 +98,16 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="Theme.Bloody.Widget.Donation.BottonSheetButton" parent="@style/Theme.Bloody.Widget.Storage.Title">
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:background">@drawable/listview_selectable_item_background</item>
+    </style>
+
     <style name="Theme.Bloody.Widget.StorageFrame">
         <item name="android:layout_width">360dp</item>
         <item name="android:layout_height">match_parent</item>

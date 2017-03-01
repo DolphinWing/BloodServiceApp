@@ -4,10 +4,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,19 +27,22 @@ import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity;
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
+import dolphin.android.util.PackageUtils;
 
 /**
  * Created by dolphin on 2015/03/15.
  * implements with RecyclerView
  */
 public class DonationFragment extends BaseListFragment
-        implements DonationListAdapter.OnItemClickListener {
+        implements DonationListAdapter.OnItemClickListener, View.OnClickListener {
     private final static String TAG = "DonationFragment";
 
     private RecyclerView mRecyclerView;
     private DonationListAdapter mAdapter;
     private View mProgressView;
     private View mEmptyView;
+
+    private BottomSheetBehavior mBottomSheetBehavior;
 
     public static DonationFragment newInstance(int siteId, long timeInMillis) {
         DonationFragment fragment = new DonationFragment();
@@ -67,8 +74,72 @@ public class DonationFragment extends BaseListFragment
         View rootView = inflater.inflate(R.layout.fragment_donation_sticky_grid, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LayoutManager(getActivity()));
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    return true;
+                }
+                return false;
+            }
+        });
         mProgressView = rootView.findViewById(android.R.id.progress);//[35]
         mEmptyView = rootView.findViewById(android.R.id.empty);//[35]
+
+        View bottomSheet = rootView.findViewById(R.id.bottom_sheet);
+        if (bottomSheet != null) {
+            mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+            mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                private final static boolean DEBUG_LOG = false;
+
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    //Log.d(TAG, "onStateChanged: " + newState);
+                    if (DEBUG_LOG) {
+                        switch (newState) {
+                            case BottomSheetBehavior.STATE_COLLAPSED:
+                                Log.d(TAG, "onStateChanged STATE_COLLAPSED");
+                                break;
+                            case BottomSheetBehavior.STATE_EXPANDED:
+                                Log.d(TAG, "onStateChanged STATE_EXPANDED");
+                                break;
+                            case BottomSheetBehavior.STATE_HIDDEN:
+                                Log.d(TAG, "onStateChanged STATE_HIDDEN");
+                                break;
+                            case BottomSheetBehavior.STATE_DRAGGING:
+                                Log.d(TAG, "onStateChanged STATE_DRAGGING");
+                                break;
+                            case BottomSheetBehavior.STATE_SETTLING:
+                                Log.d(TAG, "onStateChanged STATE_SETTLING");
+                                break;
+                            default:
+                                Log.d(TAG, "onStateChanged: " + newState);
+                                break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    //Log.d(TAG, "onSlide: " + slideOffset);
+                }
+            });
+            //mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            mBottomSheetBehavior.setPeekHeight(0);
+            mBottomSheetBehavior.setHideable(true);
+
+            View button1 = bottomSheet.findViewById(android.R.id.button1);
+            if (button1 != null) {
+                button1.setOnClickListener(this);
+            }
+            View button2 = bottomSheet.findViewById(android.R.id.button2);
+            if (button2 != null) {
+                button2.setOnClickListener(this);
+            }
+        } else {//try alternative one
+            mBottomSheetBehavior = BottomSheetBehavior.from(rootView);
+        }
         return rootView;
     }
 
@@ -76,7 +147,10 @@ public class DonationFragment extends BaseListFragment
     public void updateFragment(int siteID, long timeInMillis) {
         super.updateFragment(siteID, timeInMillis);
 
-        if (!isFragmentBusy()) {//only start update when it is idle
+        if (this.isRemoving() || this.isDetached() || getActivity() == null) {
+            setFragmentBusy(false);
+            Log.w(TAG, "not attached to Activity");
+        } else if (!isFragmentBusy()) {//only start update when it is idle
             setFragmentBusy(true);
             new Thread(new Runnable() {
                 @Override
@@ -141,6 +215,8 @@ public class DonationFragment extends BaseListFragment
         return mIsBusy;
     }
 
+    private DonateActivity mDonateActivity;
+
     @Override
     public void onItemClicked(View view, Object data) {
         //Log.d(TAG, "onItemClicked: " + data.toString());
@@ -148,7 +224,30 @@ public class DonationFragment extends BaseListFragment
             return;
         }
 
-        final ArrayList<String> list = prepareList((DonateActivity) data);
+        if (data != null && data instanceof DonateActivity) {//store the data
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            mDonateActivity = (DonateActivity) data;
+        } else {//bottom list item callback or no data to handle, so hide bottom sheet
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case android.R.id.button1:
+                showSearchMapDialog(mDonateActivity);
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                break;
+            case android.R.id.button2:
+                addToCalendar(mDonateActivity);
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                break;
+        }
+    }
+
+    private void showSearchMapDialog(DonateActivity donation) {
+        final ArrayList<String> list = prepareList(donation);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.action_search_on_maps)
                 .setAdapter(new ArrayAdapter<>(getActivity(),
@@ -256,5 +355,24 @@ public class DonationFragment extends BaseListFragment
             //maybe some other patterns?
         }
         return location;
+    }
+
+    //Android Essentials: Adding Events to the User’s Calendar
+    //http://goo.gl/jyT75l
+    private void addToCalendar(DonateActivity donation) {
+        Intent calIntent = new Intent(Intent.ACTION_INSERT);
+        calIntent.setData(CalendarContract.Events.CONTENT_URI);
+        calIntent.setType("vnd.android.cursor.item/event");
+        calIntent.putExtra(CalendarContract.Events.TITLE, donation.getName());
+        calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, donation.getLocation());
+        //calIntent.putExtra(CalendarContract.Events.DESCRIPTION, "description");
+        calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+        calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                donation.getStartTime().getTimeInMillis());
+        calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                donation.getEndTime().getTimeInMillis());
+        if (PackageUtils.isCallable(getActivity(), calIntent)) {
+            startActivity(calIntent);
+        }
     }
 }

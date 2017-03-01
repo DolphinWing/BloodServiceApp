@@ -45,8 +45,8 @@ public class BloodDataHelper {
     private final static String QS_LOCATION_MAP_CITY =
             /*blood_center_donate_station + */ "&cityID={city}";
     private final static String URL_LOCAL_BLOOD_LOCATION_MAP =
-            URL_BASE_BLOOD_ORG + "Internet/mobile/docs/local_blood_center_map.aspx" +
-                    "?site_id={site}&select_city={city}";
+            URL_BASE_BLOOD_ORG + "/Internet/mobile/docs/local_blood_center_map.aspx" +
+                    "?site_id={site}&select_city={city}&spotID={spot}";
 
     private Context mContext;
     private OkHttpClient mClient;
@@ -327,11 +327,11 @@ public class BloodDataHelper {
                     String[] locations = html.split("InnerLocation001");
                     if (locations.length > 0) {//static locations
                         //Log.d(TAG, "static locations:");
-                        parseDonationSpotHtml(list, locations[1], false);
+                        parseDonationSpotHtml(siteId, list, locations[1], false);
                     }
                     if (locations.length > 1) {//dynamic locations
                         //Log.d(TAG, "dynamic locations:");
-                        parseDonationSpotHtml(list, locations[2], false);
+                        parseDonationSpotHtml(siteId, list, locations[2], false);
                     }
                     maps.put(Integer.parseInt(cityId), list);
                 }
@@ -346,7 +346,7 @@ public class BloodDataHelper {
         return mCityName.get(cityId);
     }
 
-    private void parseDonationSpotHtml(SpotList list, String html, boolean isStatic) {
+    private void parseDonationSpotHtml(int siteId, SpotList list, String html, boolean isStatic) {
         Matcher matcher = Pattern.compile(PATTERN_SPOT_INFO).matcher(html);
         while (matcher.find()) {
             String spotId = matcher.group(1).trim();
@@ -354,10 +354,12 @@ public class BloodDataHelper {
             String name = matcher.group(3).trim();
             //Log.d(TAG, "  spotId = " + spotId + ", " + name);
             try {
+                SpotInfo info = new SpotInfo(spotId, cityId, name);
+                info.setSiteId(siteId);
                 if (isStatic) {
-                    list.addStaticLocation(new SpotInfo(spotId, cityId, name));
+                    list.addStaticLocation(info);
                 } else {
-                    list.addDynamicLocation(new SpotInfo(spotId, cityId, name));
+                    list.addDynamicLocation(info);
                 }
             } catch (NumberFormatException e) {
                 Log.e(TAG, "NumberFormatException: " + matcher.group());
@@ -449,8 +451,10 @@ public class BloodDataHelper {
         }
         //"?site_id={site}&select_city={city}";
         String url = URL_LOCAL_BLOOD_LOCATION_MAP;
-        url = url.replace("{site}", String.valueOf(info.getSpotId()));
+        url = url.replace("{site}", String.valueOf(info.getSiteId()));
         url = url.replace("{city}", String.valueOf(info.getCityId()));
+        url = url.replace("{spot}", String.valueOf(info.getSpotId()));
+        Log.v(TAG, url);
         return getBrowserIntent(context, url);
     }
 }

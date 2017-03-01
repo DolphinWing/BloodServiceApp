@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity$PlaceholderFragment">
+
+    <com.idunnololz.widgets.AnimatedExpandableListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!-- ExpandableListView
+            android:animateLayoutChanges="true" -->
+
+    <include layout="@layout/layout_progress" />
+
+</FrameLayout>

@@ -22,5 +22,6 @@
     <!-- ListView donation date separator -->
     <color name="listview_donation_date_separator">#44ffffff</color>
     <color name="listview_item_background_pressed">#cccccc</color>
+    <color name="listview_item_pressed">#33000000</color>
 
 </resources>

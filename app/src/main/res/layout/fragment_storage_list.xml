@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id"
-        android:layout_marginBottom="@dimen/material_appbar_height"
         android:visibility="gone" />
+    <!-- android:layout_marginBottom="@dimen/material_appbar_height" -->
 
 </FrameLayout>

@@ -22,4 +22,6 @@
     <dimen name="multi_pane_margin_top">52dp</dimen>
     <dimen name="multi_pane_margin_top_shadow">55dp</dimen>
 
+    <dimen name="design_bottom_sheet_width">@dimen/match_parent</dimen>
+
 </resources>

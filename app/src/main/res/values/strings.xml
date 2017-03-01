@@ -46,6 +46,9 @@
 
     <string name="title_activity_settings">設置</string>
     <string name="action_search_on_maps">你想找的是</string>
+    <string name="action_more">更多功能</string>
+    <string name="action_search_location">在地圖上尋找</string>
+    <string name="action_add_to_calendar">加入行事曆</string>
 
     <!-- Strings related to Settings -->
 

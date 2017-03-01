@@ -211,7 +211,11 @@ public class StorageFragment extends BaseListFragment {
         if (DEBUG_LOG) {
             Log.d(TAG, "updateFragment " + siteID);
         }
-        if (isFragmentBusy()) {
+        if (this.isRemoving() || this.isDetached() || getActivity() == null) {
+            setFragmentBusy(false);
+            Log.w(TAG, "not attached to Activity");
+            return;
+        } else if (isFragmentBusy()) {
             return;//don't update when fragment is busy
         }
         setFragmentBusy(true);

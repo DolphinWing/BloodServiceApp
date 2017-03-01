@@ -1,11 +1,21 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+
+import com.idunnololz.widgets.AnimatedExpandableListView;
 
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
+import dolphin.android.apps.BloodServiceApp.provider.SpotInfo;
 import dolphin.android.apps.BloodServiceApp.provider.SpotList;
 
 /**
@@ -16,6 +26,8 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList;
 public class SpotFragment extends BaseListFragment {
     private final static String TAG = "SpotFragment";
     private final static boolean DEBUG_LOG = false;
+
+    private View mProgressView;
 
     public static SpotFragment newInstance(int siteId, long timeInMillis) {
         if (DEBUG_LOG) {
@@ -40,12 +52,81 @@ public class SpotFragment extends BaseListFragment {
     }
 
     @Override
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_spot_list, container, false);
+        mListView = (ExpandableListView) view.findViewById(android.R.id.list);
+        if (mListView != null) {
+            mListView.setEmptyView(view.findViewById(android.R.id.empty));
+            // In order to show animations, we need to use a custom click handler
+            // for our ExpandableListView.
+            if (mListView instanceof AnimatedExpandableListView) {
+                final AnimatedExpandableListView listView = (AnimatedExpandableListView) mListView;
+                listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                    //https://github.com/idunnololz/AnimatedExpandableListView/
+                    //http://stackoverflow.com/a/24181292
+                    int previousGroup = 0;//auto expand 0
+
+                    @Override
+                    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition,
+                                                long id) {
+                        // We call collapseGroupWithAnimation(int) and
+                        // expandGroupWithAnimation(int) to animate group
+                        // expansion/collapse.
+                        if (listView.isGroupExpanded(groupPosition)) {
+                            listView.collapseGroupWithAnimation(groupPosition);
+                            previousGroup = -1;
+                        } else {
+                            if (previousGroup != -1 && listView.isGroupExpanded(previousGroup)) {
+                                listView.collapseGroupWithAnimation(previousGroup);
+                            }
+                            listView.expandGroupWithAnimation(groupPosition);
+                            previousGroup = groupPosition;
+                        }
+                        return true;
+                    }
+
+                });
+            }
+            if (mListView instanceof ExpandableListView) {
+                final ExpandableListView listView = (ExpandableListView) mListView;
+                listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View view,
+                                                int groupPosition, int childPosition, long id) {
+                        if (view.getTag() instanceof SpotInfo) {
+                            Intent intent = BloodDataHelper.getOpenSpotLocationMapUrl(getActivity(),
+                                    (SpotInfo) view.getTag());
+                            if (intent != null) {//show in browser, don't parse it
+                                startActivity(intent);
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
+            }
+        }
+
+        mProgressView = view.findViewById(android.R.id.progress);
+        return view;
+    }
+
+    private ExpandableListView getListView() {
+        return (ExpandableListView) mListView;
+    }
+
+    @Override
     public void updateFragment(int siteId, long timeInMillis) {
         super.updateFragment(siteId, timeInMillis);
         if (DEBUG_LOG) {
             Log.d(TAG, "updateFragment " + siteId);
         }
-        if (isFragmentBusy()) {//don't update when busy
+        if (this.isRemoving() || this.isDetached() || getActivity() == null) {
+            setFragmentBusy(false);
+            Log.w(TAG, "not attached to Activity");
+            return;
+        } else if (isFragmentBusy()) {//don't update when busy
             Log.w(TAG, "still working...");
             return;
         }
@@ -60,11 +141,8 @@ public class SpotFragment extends BaseListFragment {
     }
 
     private void downloadDonationSpotLocationMap() {
-        BloodDataHelper helper = new BloodDataHelper(getActivity());
-        SparseArray<SpotList> list = helper.getDonationSpotLocationMap(getSiteId());
-        if (list != null) {
-            Log.d(TAG, String.format("cities: %d", list.size()));
-        }
+        final BloodDataHelper helper = new BloodDataHelper(getActivity());
+        final SparseArray<SpotList> list = helper.getDonationSpotLocationMap(getSiteId());
 
         if (this.isRemoving() || this.isDetached() || getActivity() == null) {
             setFragmentBusy(false);
@@ -75,7 +153,13 @@ public class SpotFragment extends BaseListFragment {
             @Override
             public void run() {
                 if (getActivity() != null) {
-                    //setListAdapter(new StorageFragment.MyAdapter(getActivity(), list));
+                    if (list != null) {
+                        Log.d(TAG, String.format("cities: %d", list.size()));
+                        getListView().setAdapter(new MyAdapter(getActivity(), helper, getSiteId(), list));
+                        if (list.size() > 0) {
+                            getListView().expandGroup(0);
+                        }
+                    }
                     setEmptyText(getString(R.string.title_data_not_available));
                 }
                 setFragmentBusy(false);
@@ -87,11 +171,126 @@ public class SpotFragment extends BaseListFragment {
 
     @Override
     public void setFragmentBusy(boolean busy) {
-        //super.setFragmentBusy(busy);
+        super.setFragmentBusy(busy);
         mIsBusy = busy;
+        if (getActivity() != null && mProgressView != null) {//[35]
+            mProgressView.setVisibility(mIsBusy ? View.VISIBLE : View.GONE);
+        }
     }
 
     private boolean isFragmentBusy() {
         return mIsBusy;
+    }
+
+    /**
+     * http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
+     */
+    private static class MyAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
+        private final SparseArray<SpotList> mList;
+        private final Context mContext;
+        private final int mSiteId;
+        private final BloodDataHelper mHelper;
+        private final LayoutInflater mInflater;
+        private final int[] mGroupId;
+
+        MyAdapter(Context context, BloodDataHelper helper, int siteId, SparseArray<SpotList> list) {
+            mContext = context;
+            mHelper = helper;
+            mSiteId = siteId;
+            mList = list;
+            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            int[] ids = mContext.getResources().getIntArray(R.array.blood_center_id);
+            String[] centers = mContext.getResources().getStringArray(R.array.blood_center_donate_station_city_id);
+            int i;
+            for (i = ids.length - 1; i > 0; i--) {
+                if (ids[i] == mSiteId) {
+                    break;
+                }
+            }
+            String[] cities = centers[i].split(",");
+            mGroupId = new int[cities.length];
+            for (i = 0; i < cities.length; i++) {
+                mGroupId[i] = Integer.parseInt(cities[i]);
+            }
+        }
+
+        @Override
+        public int getGroupCount() {
+            return mList.size();
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            //Log.d(TAG, String.format("g: %d, children: %d", groupPosition,
+            //        mList.get(mGroupId[groupPosition]).getLocations().size()));
+            return mList.get(mGroupId[groupPosition]);
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            //Log.d(TAG, String.format("g: %d, c:%d", groupPosition, childPosition));
+            return mList.get(mGroupId[groupPosition]).getLocations().get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition * 1000;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return groupPosition * 1000 + childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
+                                 ViewGroup parent) {
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.listview_spot_city, parent, false);
+            }
+
+            TextView title = (TextView) convertView.findViewById(android.R.id.title);
+            if (title != null) {
+                SpotList list = (SpotList) getGroup(groupPosition);
+                if (list != null) {
+                    title.setText(mHelper.getCityName(list.getCityId()));
+                }
+            }
+            return convertView;
+        }
+
+        @Override
+        public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild,
+                                     View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.listview_spot_location, parent, false);
+            }
+
+            TextView title = (TextView) convertView.findViewById(android.R.id.title);
+            if (title != null) {
+                SpotInfo info = (SpotInfo) getChild(groupPosition, childPosition);
+                if (info != null) {
+                    title.setText(info.getSpotName());
+                }
+                convertView.setTag(info);
+            }
+            return convertView;
+        }
+
+        @Override
+        public int getRealChildrenCount(int groupPosition) {
+            return mList.get(mGroupId[groupPosition]).getLocations().size();
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
     }
 }

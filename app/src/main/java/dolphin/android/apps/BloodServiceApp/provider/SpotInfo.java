@@ -6,6 +6,7 @@ package dolphin.android.apps.BloodServiceApp.provider;
  */
 
 public class SpotInfo {
+    private int site_id;
     private int spot_id;
     private int city_id;
     private String spot_name;
@@ -30,5 +31,13 @@ public class SpotInfo {
 
     public String getSpotName() {
         return spot_name;
+    }
+
+    public int getSiteId() {
+        return site_id;
+    }
+
+    public void setSiteId(int siteId) {
+        site_id = siteId;
     }
 }

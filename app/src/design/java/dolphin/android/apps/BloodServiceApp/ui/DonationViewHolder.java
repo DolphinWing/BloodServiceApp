@@ -41,6 +41,15 @@ class DonationViewHolder extends RecyclerView.ViewHolder implements View.OnClick
             View more = itemView.findViewById(android.R.id.button1);
             if (more != null) {
                 more.setOnClickListener(this);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //do nothing, just to have click animation on list item
+                        if (mListener != null) {
+                            mListener.onItemClicked(view, null);
+                        }
+                    }
+                });
             } else {//use full item
                 itemView.setOnClickListener(this);
             }

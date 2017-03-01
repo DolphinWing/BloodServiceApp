@@ -9,6 +9,20 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[58] @ 2017-03-01
+    add new donation spot layout
+    add bottom sheet in donation activity fragment
+        add new event with current selected activity
+        search on map
+    screen rotation is ok
+
+Still work to do:
+    set preference to switch back to old MainActivity
+    send analytics
+
+[57] @ 2017-02-23
+    add donation spot fragment
+
 [56] @ 2017-02-21
     update library
     fix some possible flag error

@@ -23,9 +23,10 @@
         android:layout_height="@dimen/material_listview_secondary_icon_width"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:scaleType="centerInside"
-        android:background="@drawable/listview_dropdown_background"
+        android:background="@drawable/listview_selectable_item_background"
+        android:contentDescription="@string/action_more"
         android:padding="@dimen/material_listview_primary_icon_padding"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_action_more_vert" />
 
     <LinearLayout
