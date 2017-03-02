@@ -10,12 +10,16 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.tonicartos.superslim.LayoutManager;
 
 import java.util.ArrayList;
@@ -41,8 +45,10 @@ public class DonationFragment extends BaseListFragment
     private DonationListAdapter mAdapter;
     private View mProgressView;
     private View mEmptyView;
+    private View mBottomSheetBackground;
 
     private BottomSheetBehavior mBottomSheetBehavior;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static DonationFragment newInstance(int siteId, long timeInMillis) {
         DonationFragment fragment = new DonationFragment();
@@ -66,6 +72,12 @@ public class DonationFragment extends BaseListFragment
         if (getSiteId() > 0) {
             updateFragment(-1, -1);//refresh ui
         }
+
+        if (getActivity() != null) {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        } else {
+            mFirebaseAnalytics = null;
+        }
     }
 
     @Override
@@ -73,17 +85,19 @@ public class DonationFragment extends BaseListFragment
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_donation_sticky_grid, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LayoutManager(getActivity()));
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    return true;
-                }
-                return false;
-            }
-        });
+        if (mRecyclerView != null) {
+            mRecyclerView.setLayoutManager(new LayoutManager(getActivity()));
+//            mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View view, MotionEvent motionEvent) {
+//                    if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
+        }
         mProgressView = rootView.findViewById(android.R.id.progress);//[35]
         mEmptyView = rootView.findViewById(android.R.id.empty);//[35]
 
@@ -140,6 +154,19 @@ public class DonationFragment extends BaseListFragment
         } else {//try alternative one
             mBottomSheetBehavior = BottomSheetBehavior.from(rootView);
         }
+        mBottomSheetBackground = rootView.findViewById(R.id.bottom_sheet_background);
+        if (mBottomSheetBackground != null) {
+            mBottomSheetBackground.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    //only hide when touch up, otherwise you will see duplicated animations
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                        showBottomSheet(false);
+                    }
+                    return true;
+                }
+            });
+        }
         return rootView;
     }
 
@@ -151,6 +178,7 @@ public class DonationFragment extends BaseListFragment
             setFragmentBusy(false);
             Log.w(TAG, "not attached to Activity");
         } else if (!isFragmentBusy()) {//only start update when it is idle
+            showBottomSheet(false);//no more bottom sheet
             setFragmentBusy(true);
             new Thread(new Runnable() {
                 @Override
@@ -188,7 +216,9 @@ public class DonationFragment extends BaseListFragment
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mRecyclerView.setAdapter(mAdapter);
+                    if (mRecyclerView != null) {
+                        mRecyclerView.setAdapter(mAdapter);
+                    }
                     if (mEmptyView != null) {//[35]
                         mEmptyView.setVisibility(mAdapter == null || mAdapter.getItemCount() <= 0
                                 ? View.VISIBLE : View.GONE);
@@ -225,24 +255,54 @@ public class DonationFragment extends BaseListFragment
         }
 
         if (data != null && data instanceof DonateActivity) {//store the data
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                //to have a animation that we select another one
+//                showBottomSheet(false);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        showBottomSheet(true);
+//                    }
+//                }, 100);
+//            } else {
+            showBottomSheet(true);
+//            }
             mDonateActivity = (DonateActivity) data;
+
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,
+                    BloodDataHelper.getBloodCenterName(getActivity(), getSiteId()));
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getString(R.string.action_more));
+            if (mFirebaseAnalytics != null) {
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            }
         } else {//bottom list item callback or no data to handle, so hide bottom sheet
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            showBottomSheet(false);
         }
     }
 
     @Override
     public void onClick(View view) {
+        String action = null;
         switch (view.getId()) {
             case android.R.id.button1:
                 showSearchMapDialog(mDonateActivity);
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showBottomSheet(false);
+                action = getString(R.string.action_search_location);
                 break;
             case android.R.id.button2:
                 addToCalendar(mDonateActivity);
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showBottomSheet(false);
+                action = getString(R.string.action_add_to_calendar);
                 break;
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,
+                BloodDataHelper.getBloodCenterName(getActivity(), getSiteId()));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, action);
+        if (mFirebaseAnalytics != null && action != null) {
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
     }
 
@@ -373,6 +433,81 @@ public class DonationFragment extends BaseListFragment
                 donation.getEndTime().getTimeInMillis());
         if (PackageUtils.isCallable(getActivity(), calIntent)) {
             startActivity(calIntent);
+        }
+    }
+
+    //http://stackoverflow.com/a/29166971
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getView() == null) {
+            return;
+        }
+
+        //http://stackoverflow.com/a/27145007
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK
+                        && BottomSheetBehavior.STATE_EXPANDED == mBottomSheetBehavior.getState()) {
+                    // handle back button's click listener
+                    showBottomSheet(false);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void showBottomSheet(final boolean visible) {
+        if (mBottomSheetBackground != null) {
+            //mBottomSheetBackground.setVisibility(visible ? View.VISIBLE : View.GONE);
+            if ((mBottomSheetBackground.getVisibility() == View.VISIBLE && visible)
+                    || (mBottomSheetBackground.getVisibility() == View.GONE && !visible)) {
+                return;//already the same state
+            }
+
+            float from = visible ? 0.0f : 1.0f;
+            float to = visible ? 1.0f : 0.0f;
+            //http://stackoverflow.com/a/20629036
+            //https://developer.android.com/reference/android/view/animation/AlphaAnimation.html
+            AlphaAnimation animation1 = new AlphaAnimation(from, to);
+            animation1.setDuration(200);
+            //animation1.setStartOffset(5000);
+            animation1.setFillAfter(true);
+            animation1.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    //Log.d(TAG, "onAnimationStart");
+                    if (visible) {
+                        mBottomSheetBackground.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    //Log.d(TAG, "onAnimationEnd");
+                    if (!visible) {
+                        mBottomSheetBackground.setVisibility(View.GONE);
+                        //Log.d(TAG, "hide background");
+                    }
+                    //http://tomkuo139.blogspot.tw/2009/11/android-alphaanimation.html
+                    mBottomSheetBackground.setAnimation(null);//clear animation
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            mBottomSheetBackground.startAnimation(animation1);
+        }
+        if (mBottomSheetBehavior != null) {
+            mBottomSheetBehavior.setState(visible ? BottomSheetBehavior.STATE_EXPANDED
+                    : BottomSheetBehavior.STATE_COLLAPSED);
         }
     }
 }

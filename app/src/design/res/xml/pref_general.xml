@@ -6,9 +6,16 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/title_display">
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="enable_adview"
-            android:title="@string/title_enable_adview"
             android:summary="@string/title_enable_adview_in_storage_list"
-            android:defaultValue="true" />
+            android:title="@string/title_enable_adview" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_activity2"
+            android:summaryOff="@string/summary_use_activity1"
+            android:summaryOn="@string/summary_use_activity2"
+            android:title="@string/title_new_activity2" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -9,5 +9,9 @@
         <key>url_blood_donor_info</key>
         <value>https://cbsfnotes1.blood.org.tw/web/login.htm</value>
     </entry>
+    <entry>
+        <key>enable_change_log_summary</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>
 <!-- END xml_defaults -->

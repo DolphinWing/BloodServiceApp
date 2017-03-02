@@ -1,12 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
 
     <item
         android:id="@+id/action_facebook"
-        android:title="@string/action_go_to_facebook"
         android:icon="@drawable/ic_action_facebook"
+        android:title="@string/action_go_to_facebook"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/action_personal"
+        android:title="@string/action_go_to_personal"
         app:showAsAction="ifRoom|withText" />
 
     <item
@@ -16,7 +21,7 @@
 
     <item
         android:id="@+id/action_settings"
-        android:title="@string/action_settings"
         android:orderInCategory="100"
+        android:title="@string/action_settings"
         app:showAsAction="never|withText" />
 </menu>

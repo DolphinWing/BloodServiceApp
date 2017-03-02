@@ -56,6 +56,11 @@ public class PrefsUtil {
                 context.getResources().getBoolean(R.bool.fragment_donation_sticky_grid_header_sticky));
     }
 
+    public static boolean isUseActivity2(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getBoolean(GeneralPreferenceFragment.KEY_ENABLE_ACTIVITY2, true);
+    }
+
     //https://developer.chrome.com/multidevice/android/customtabs
     //https://github.com/GoogleChrome/custom-tabs-client
     public static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";

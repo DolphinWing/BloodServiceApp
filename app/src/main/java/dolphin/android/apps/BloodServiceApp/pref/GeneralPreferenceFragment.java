@@ -13,6 +13,8 @@ import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
 import java.util.Locale;
 
 import dolphin.android.apps.BloodServiceApp.R;
@@ -31,6 +33,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
     private static final String VERSION_FILE_ENCODE = "UTF-8";
     public final static String KEY_ENABLE_ADVIEW = "enable_adview";
     public final static String KEY_HEADER_STICKY = "enable_sticky_header";
+    public final static String KEY_ENABLE_ACTIVITY2 = "enable_activity2";
 
     private boolean mEngMode = false;
 
@@ -48,6 +51,8 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
 
         final Context context = getActivity().getBaseContext();
         mEngMode = getResources().getBoolean(R.bool.eng_mode);
+        //dolphin++@2017.03.02, add Firebase support
+        mEngMode |= FirebaseRemoteConfig.getInstance().getBoolean("enable_change_log_summary");
         PackageInfo pInfo = getPackageInfo(context);
         findPreference(KEY_APP_VERSION).setSummary(String.format(Locale.US,
                 mEngMode ? "%s  r%d (eng)" : "%s (r%d)",

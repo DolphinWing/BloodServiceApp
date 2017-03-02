@@ -30,6 +30,12 @@
         android:id="@android:id/empty"
         style="@style/Theme.Bloody.Widget.EmptyText" />
 
+    <View
+        android:id="@+id/bottom_sheet_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/listview_item_pressed"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/bottom_sheet"

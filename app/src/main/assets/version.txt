@@ -9,6 +9,12 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[59] @ 2017-03-02
+    add preference to switch MainActivity
+    send analytics
+    add remote config to show change logs
+    add better animation for bottom sheet
+
 [58] @ 2017-03-01
     add new donation spot layout
     add bottom sheet in donation activity fragment

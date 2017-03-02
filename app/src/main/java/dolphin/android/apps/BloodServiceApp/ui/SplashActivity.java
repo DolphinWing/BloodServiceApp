@@ -3,19 +3,15 @@ package dolphin.android.apps.BloodServiceApp.ui;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.LocaleList;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
-import java.util.Locale;
-
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 
 
 public class SplashActivity extends Activity {
@@ -24,23 +20,23 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Configuration config = getBaseContext().getResources().getConfiguration();
-        //set default locale
-        //http://stackoverflow.com/a/4239680
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            LocaleList list = new LocaleList(Locale.TAIWAN);
-            LocaleList.setDefault(list);
-            config.setLocales(list);
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            Configuration configuration = new Configuration();
-//            configuration.setLocale(Locale.TAIWAN);
-//            applyOverrideConfiguration(configuration);
-        } else {
-            config.locale = Locale.TAIWAN;
-            Locale.setDefault(config.locale);
-            getBaseContext().getResources().updateConfiguration(config,
-                    getBaseContext().getResources().getDisplayMetrics());
-        }
+//        Configuration config = getBaseContext().getResources().getConfiguration();
+//        //set default locale
+//        //http://stackoverflow.com/a/4239680
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            LocaleList list = new LocaleList(Locale.TAIWAN);
+//            LocaleList.setDefault(list);
+//            config.setLocales(list);
+////        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+////            Configuration configuration = new Configuration();
+////            configuration.setLocale(Locale.TAIWAN);
+////            applyOverrideConfiguration(configuration);
+//        } else {
+//            config.locale = Locale.TAIWAN;
+//            Locale.setDefault(config.locale);
+//            getBaseContext().getResources().updateConfiguration(config,
+//                    getBaseContext().getResources().getDisplayMetrics());
+//        }
 
         setContentView(R.layout.activity_splash);
 
@@ -70,7 +66,10 @@ public class SplashActivity extends Activity {
             return;//don't show progress bar
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity2.class);
+        if (!PrefsUtil.isUseActivity2(getBaseContext())) {//just a fallback, we usually do use this
+            intent = new Intent(this, MainActivity.class);
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         overridePendingTransition(0, 0);
         startActivity(intent);
