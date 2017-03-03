@@ -138,7 +138,7 @@ public class DonateDay {
      * @return activity count
      */
     public int getActivityCount() {
-        return Activities.size();
+        return getActivities() != null ? getActivities().size() : 0;
     }
 
     @Override

@@ -2,11 +2,16 @@ package dolphin.android.apps.BloodServiceApp;
 
 
 import android.app.Application;
+import android.util.SparseArray;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
+import dolphin.android.apps.BloodServiceApp.provider.SpotList;
 
 /**
  * Created by dolphin on 2014/10/21.
@@ -55,5 +60,85 @@ public class MyApplication extends Application {
             mTrackers.put(trackerId, t);
         }
         return mTrackers.get(trackerId);
+    }
+
+    //make a application level cache for quick switch, no need to pull from server in a short time
+    private static class MyDonationList {
+        ArrayList<DonateDay> days;
+        long timestamp;
+    }
+
+    private static class MySpotList {
+        SparseArray<SpotList> spots;
+        SparseArray<String> cities;
+        long timestamp;
+    }
+
+    private SparseArray<MyDonationList> mDonationList = new SparseArray<>();
+    private SparseArray<HashMap<String, Integer>> mBloodStorage = null;
+    private long mBloodStorageTimestamp = 0;
+    private SparseArray<MySpotList> mSpotList = new SparseArray<>();
+
+    public void setCacheDonationList(int siteId, ArrayList<DonateDay> days) {
+        MyDonationList list = mDonationList.get(siteId);
+        if (list == null) {
+            list = new MyDonationList();
+        }
+        list.days = days;
+        list.timestamp = System.currentTimeMillis();
+        mDonationList.put(siteId, list);
+    }
+
+    public ArrayList<DonateDay> getCacheDonationList(int siteId) {
+        MyDonationList list = mDonationList.get(siteId);
+        if (list != null) {
+            if ((System.currentTimeMillis() - list.timestamp) < 3600000) {
+                return list.days;
+            }
+        }
+        return null;
+    }
+
+    public void setCacheBloodStorage(SparseArray<HashMap<String, Integer>> array) {
+        mBloodStorage = array;
+        mBloodStorageTimestamp = System.currentTimeMillis();
+    }
+
+    public SparseArray<HashMap<String, Integer>> getCacheBloodStorage() {
+        if ((System.currentTimeMillis() - mBloodStorageTimestamp) < 3600000) {
+            return mBloodStorage;
+        }
+        return null;
+    }
+
+    public void setCacheSpotList(int siteId, SparseArray<SpotList> spots, SparseArray<String> cities) {
+        MySpotList list = mSpotList.get(siteId);
+        if (list == null) {
+            list = new MySpotList();
+        }
+        list.spots = spots;
+        list.timestamp = System.currentTimeMillis();
+        list.cities = cities;
+        mSpotList.put(siteId, list);
+    }
+
+    public SparseArray<SpotList> getCacheSpotList(int siteId) {
+        MySpotList list = mSpotList.get(siteId);
+        if (list != null) {
+            if ((System.currentTimeMillis() - list.timestamp) < 3600000) {
+                return list.spots;
+            }
+        }
+        return null;
+    }
+
+    public SparseArray<String> getCacheCityList(int siteId) {
+        MySpotList list = mSpotList.get(siteId);
+        if (list != null) {
+            if ((System.currentTimeMillis() - list.timestamp) < 3600000) {
+                return list.cities;
+            }
+        }
+        return null;
     }
 }

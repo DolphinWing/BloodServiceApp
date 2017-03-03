@@ -16,15 +16,18 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.util.List;
 import java.util.Locale;
@@ -200,5 +203,18 @@ public class SettingsActivity extends PreferenceActivity {
         t.send(new HitBuilders.ScreenViewBuilder().build());
         // Clear the screen name field when we're done.
         t.setScreenName(null);
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+        String key = preference.getKey();
+        if (key == null) {
+            Log.wtf("SettingsActivity", "onPreferenceTreeClick key == null");//should not happen
+        } else if (key.equals(GeneralPreferenceFragment.KEY_APP_VERSION)
+                && FirebaseRemoteConfig.getInstance().getBoolean("enable_change_log_summary")) {
+            GeneralPreferenceFragment.showVersionSummary(this);
+            return true;
+        }
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 }

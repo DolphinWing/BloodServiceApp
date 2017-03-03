@@ -12,11 +12,12 @@ package dolphin.android.apps.BloodServiceApp.ui;
 
 /**
  * Created by dolphin on 2014/10/15.
+ * Old MainActivity will use these methods.
  */
-public interface OnFragmentInteractionListener {
-    public void onFragmentInteraction(String id);
+interface OnFragmentInteractionListener {
+    void onFragmentInteraction(String id);
 
-    public void onUpdateStart(String id);
+    void onUpdateStart(String id);
 
-    public void onUpdateComplete(String id);
+    void onUpdateComplete(String id);
 }

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
@@ -233,8 +234,15 @@ public class StorageFragment extends BaseListFragment {
     private void downloadBloodStorage() {
         long start = System.currentTimeMillis();
 
-        BloodDataHelper helper = new BloodDataHelper(getActivity());
-        SparseArray<HashMap<String, Integer>> array = helper.getBloodStorage(false);
+        MyApplication application = (MyApplication) getActivity().getApplication();
+        //BloodDataHelper helper = new BloodDataHelper(getActivity());
+        //SparseArray<HashMap<String, Integer>> array = helper.getBloodStorage(false);
+        SparseArray<HashMap<String, Integer>> array = application.getCacheBloodStorage();
+        if (array == null) {//check cache
+            BloodDataHelper helper = new BloodDataHelper(getActivity());
+            array = helper.getBloodStorage();
+            application.setCacheBloodStorage(array);//cache it
+        }
         HashMap<String, Integer> map = array.get(getSiteId());
 
         final ArrayList<Integer> list = new ArrayList<>();

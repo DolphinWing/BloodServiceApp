@@ -2,6 +2,7 @@ package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.idunnololz.widgets.AnimatedExpandableListView;
 
+import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo;
@@ -76,12 +78,44 @@ public class SpotFragment extends BaseListFragment {
                         if (listView.isGroupExpanded(groupPosition)) {
                             listView.collapseGroupWithAnimation(groupPosition);
                             previousGroup = -1;
-                        } else {
-                            if (previousGroup != -1 && listView.isGroupExpanded(previousGroup)) {
-                                listView.collapseGroupWithAnimation(previousGroup);
+                        } else {//we must have data to get, so it should not have null pointer
+//                            if (previousGroup != -1 && listView.isGroupExpanded(previousGroup)) {
+//                                listView.collapseGroupWithAnimation(previousGroup);
+//                            }
+//                            listView.expandGroupWithAnimation(groupPosition);
+//                            previousGroup = groupPosition;
+
+                            //http://pastebin.com/0jJ5Lbz0
+                            if (previousGroup != -1 && mAdapter.getGroupCount() > previousGroup) {
+                                //If we will now collapse group above us, we need to restore scroll
+                                // position to keep user looking at the same position
+                                boolean needsToRestore = previousGroup < listView.getFirstVisiblePosition();
+                                //Log.d(TAG, "needsToRestore = " + needsToRestore);
+                                View firstChild = listView.getChildAt(0);
+                                int restoreYOffset = (firstChild == null)
+                                        ? 0 : (firstChild.getTop() - listView.getPaddingTop());
+                                //Log.d(TAG, "restoreYOffset = " + restoreYOffset);
+                                if (listView.isGroupExpanded(previousGroup)) {
+                                    listView.collapseGroupWithAnimation(previousGroup);
+                                }
+                                listView.expandGroupWithAnimation(groupPosition);
+                                if (needsToRestore) {
+                                    SpotList cityOld = (SpotList) mAdapter.getGroup(previousGroup);
+                                    int restorePosition = listView.getFirstVisiblePosition() -
+                                            cityOld.getLocations().size();
+                                    //Log.d(TAG, "restorePosition = " + restorePosition);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        listView.setSelectionFromTop(restorePosition, restoreYOffset);
+                                    } else {
+                                        listView.setSelection(restorePosition);
+                                    }
+                                }
+                                previousGroup = groupPosition;
+                            } else {
+                                //No group to collapse, so expand immediately
+                                listView.expandGroupWithAnimation(groupPosition);
+                                previousGroup = groupPosition;
                             }
-                            listView.expandGroupWithAnimation(groupPosition);
-                            previousGroup = groupPosition;
                         }
                         return true;
                     }
@@ -140,26 +174,42 @@ public class SpotFragment extends BaseListFragment {
         }).start();
     }
 
+    private MyAdapter mAdapter;
+
     private void downloadDonationSpotLocationMap() {
         final BloodDataHelper helper = new BloodDataHelper(getActivity());
-        final SparseArray<SpotList> list = helper.getDonationSpotLocationMap(getSiteId());
+        MyApplication application = (MyApplication) getActivity().getApplication();
+        SparseArray<SpotList> list = application.getCacheSpotList(getSiteId());
+        if (list == null) {//check cache
+            list = helper.getDonationSpotLocationMap(getSiteId());
+            application.setCacheSpotList(getSiteId(), list, helper.getCityList());
+        } else {//need to restore city names
+            helper.setCityList(application.getCacheCityList(getSiteId()));
+        }
 
         if (this.isRemoving() || this.isDetached() || getActivity() == null) {
             setFragmentBusy(false);
             return;//no need to update
         }
 
+        final SparseArray<SpotList> spots = list;
+        if (spots == null) {
+            mAdapter = null;
+        } else {
+            //Log.d(TAG, String.format("cities: %d", spots.size()));
+            mAdapter = new MyAdapter(getActivity(), helper, getSiteId(), spots);
+        }
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (getActivity() != null) {
-                    if (list != null) {
-                        Log.d(TAG, String.format("cities: %d", list.size()));
-                        getListView().setAdapter(new MyAdapter(getActivity(), helper, getSiteId(), list));
-                        if (list.size() > 0) {
-                            getListView().expandGroup(0);
-                        }
+                    //if (spots != null) {
+                    //    Log.d(TAG, String.format("cities: %d", spots.size()));
+                    getListView().setAdapter(mAdapter);
+                    if (spots != null && spots.size() > 0) {
+                        getListView().expandGroup(0);
                     }
+                    //}
                     setEmptyText(getString(R.string.title_data_not_available));
                 }
                 setFragmentBusy(false);
@@ -214,6 +264,18 @@ public class SpotFragment extends BaseListFragment {
                 mGroupId[i] = Integer.parseInt(cities[i]);
             }
         }
+
+//        static class MyList {
+//            SparseArray<SpotList> spots;
+//            int[] groups;
+//        }
+//
+//        MyList getList() {
+//            MyList list = new MyList();
+//            list.spots = mList;
+//            list.groups = mGroupId;
+//            return list;
+//        }
 
         @Override
         public int getGroupCount() {

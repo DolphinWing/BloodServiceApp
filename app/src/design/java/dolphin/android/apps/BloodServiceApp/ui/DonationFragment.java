@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
@@ -192,10 +193,18 @@ public class DonationFragment extends BaseListFragment
     }
 
     private void downloadDonateActivities() {
-        long start = System.currentTimeMillis();
-
-        BloodDataHelper helper = new BloodDataHelper(getActivity());
-        ArrayList<DonateDay> days = helper.getLatestWeekCalendar(getSiteId());
+        MyApplication application = (MyApplication) getActivity().getApplication();
+        ArrayList<DonateDay> days = application.getCacheDonationList(getSiteId());
+        if (days == null) {//check cache
+            long start = System.currentTimeMillis();
+            BloodDataHelper helper = new BloodDataHelper(getActivity());
+            days = helper.getLatestWeekCalendar(getSiteId());
+            application.setCacheDonationList(getSiteId(), days);
+            long cost = System.currentTimeMillis() - start;
+            if (getActivity() != null) {//make sure we can send data
+                sendDownloadCost(getString(R.string.title_section2), cost);
+            }
+        }
         if (days == null) {
             sendDownloadException("donation array empty", false);
             setFragmentBusy(false);
@@ -210,9 +219,7 @@ public class DonationFragment extends BaseListFragment
 
         mAdapter = new DonationListAdapter(getActivity(), days, this);
 
-        long cost = System.currentTimeMillis() - start;
         if (getActivity() != null) {
-            sendDownloadCost(getString(R.string.title_section2), cost);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

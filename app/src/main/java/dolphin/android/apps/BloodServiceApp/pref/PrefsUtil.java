@@ -37,25 +37,54 @@ public class PrefsUtil {
         return mContext;
     }
 
+    /**
+     * Read preference value about AdView
+     *
+     * @return true if user enables AdView
+     */
     public boolean isEnableAdView() {
         return isEnableAdView(getContext());
     }
 
+    /**
+     * Read preference value about AdView
+     *
+     * @param context Context
+     * @return true if user enables AdView
+     */
     public static boolean isEnableAdView(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getBoolean(GeneralPreferenceFragment.KEY_ENABLE_ADVIEW, true);
     }
 
+    /**
+     * Check if use sticky header. only useful in stickgrid build
+     *
+     * @return true if need stick header
+     */
     public boolean isHeaderSticky() {
         return isHeaderSticky(getContext());
     }
 
+    /**
+     * Check if use sticky header.
+     *
+     * @param context Context
+     * @return true if need stick header
+     * @deprecated only useful in stickgrid build
+     */
     public static boolean isHeaderSticky(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getBoolean(GeneralPreferenceFragment.KEY_HEADER_STICKY,
                 context.getResources().getBoolean(R.bool.fragment_donation_sticky_grid_header_sticky));
     }
 
+    /**
+     * Check if user want to use old ViewPager+Tab presentation.
+     *
+     * @param context Context
+     * @return true if we use new BottomNavigation presentation.
+     */
     public static boolean isUseActivity2(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getBoolean(GeneralPreferenceFragment.KEY_ENABLE_ACTIVITY2, true);

@@ -221,7 +221,8 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
         //}
         FragmentManager fragmentManager = getSupportFragmentManager();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_container, mFragment).commit();
+        transaction.replace(R.id.main_container, mFragment).commitAllowingStateLoss();
+        //dolphin++ I can allow state loss
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,

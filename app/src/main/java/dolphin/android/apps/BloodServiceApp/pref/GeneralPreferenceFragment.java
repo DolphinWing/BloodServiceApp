@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.pref;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -63,14 +64,14 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         return PackageUtils.getPackageInfo(context, SettingsActivity.class);
     }
 
-    public static void showVersionSummary(Context context) {
-        AlertDialog dialog = new AlertDialog.Builder(context).create();
+    public static void showVersionSummary(Activity activity) {
+        AlertDialog dialog = new AlertDialog.Builder(activity).create();
         dialog.setTitle(R.string.app_change_log);
         // windows Unicode file http://goo.gl/gRyTU
-        dialog.setMessage(AssetUtils.read_asset_text(context,
+        dialog.setMessage(AssetUtils.read_asset_text(activity,
                 VERSION_FILE, VERSION_FILE_ENCODE));
         dialog.setButton(AlertDialog.BUTTON_POSITIVE,
-                context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // do nothing, just dismiss

@@ -34,6 +34,7 @@ import okhttp3.Response;
  */
 public class BloodDataHelper {
     private final static String TAG = "BloodDataHelper";
+    private final static boolean DEBUG_LOG = false;
 
     public final static String URL_BASE_BLOOD_ORG = "http://www.blood.org.tw";
     private final static String URL_BLOOD_STORAGE =
@@ -186,9 +187,10 @@ public class BloodDataHelper {
         }
 
         long endTime = System.currentTimeMillis();
-        Log.v(TAG, String.format("end with site=%s, day=%s, wasted %d ms",
-                site_id, day, ((endTime - startTime))));
-
+        if (DEBUG_LOG) {
+            Log.v(TAG, String.format("end with site=%s, day=%s, wasted %d ms",
+                    site_id, day, ((endTime - startTime))));
+        }
         return donateDays;
     }
 
@@ -242,8 +244,10 @@ public class BloodDataHelper {
             Log.w(TAG, "no storage data?");
         }
 
-        Log.v(TAG, String.format("end storage wasted %d ms",
-                ((System.currentTimeMillis() - startTime))));
+        if (DEBUG_LOG) {
+            Log.v(TAG, String.format("end storage wasted %d ms",
+                    ((System.currentTimeMillis() - startTime))));
+        }
         return mBloodStorage;
     }
 
@@ -266,6 +270,13 @@ public class BloodDataHelper {
         return mContext.getResources().getStringArray(R.array.blood_center)[i];
     }
 
+    /**
+     * Get blood center name from resources.
+     *
+     * @param context Context
+     * @param siteId  blood center site id
+     * @return blood center name
+     */
     public static String getBloodCenterName(Context context, int siteId) {
         if (context == null) {
             return "";
@@ -289,6 +300,12 @@ public class BloodDataHelper {
     private final static String PATTERN_SPOT_INFO = "LocationMap.aspx\\?spotID=([\\d]+)" +
             "\\&cityID=([\\d]+)[^>]*>([^<]*)</a>";
 
+    /**
+     * Query blood center cover city donation spots
+     *
+     * @param siteId blood center site id
+     * @return donation spot list
+     */
     public SparseArray<SpotList> getDonationSpotLocationMap(int siteId) {
         if (mContext == null) {
             return null;
@@ -305,10 +322,12 @@ public class BloodDataHelper {
         long startTime = System.currentTimeMillis();
         for (String cityId : baseCityIds[i].split(",")) {
             String url = baseUrls[i].concat(QS_LOCATION_MAP_CITY).replace("{city}", cityId);
-            Log.d(TAG, url);
+            //Log.d(TAG, url);
             long s1 = System.currentTimeMillis();
             String html = getBody(url);
-            Log.d(TAG, "cost " + (System.currentTimeMillis() - s1));
+            if (DEBUG_LOG) {
+                Log.d(TAG, "cost " + (System.currentTimeMillis() - s1));
+            }
             if (html.contains("CalendarContentRight")) {
                 html = html.substring(html.indexOf("CalendarContentRight"),
                         html.indexOf("ShortCutBox"));
@@ -337,13 +356,43 @@ public class BloodDataHelper {
                 }
             }
         }
-        Log.v(TAG, String.format("end spot map wasted %d ms",
-                ((System.currentTimeMillis() - startTime))));
+        if (DEBUG_LOG) {
+            Log.v(TAG, String.format("end spot map wasted %d ms",
+                    ((System.currentTimeMillis() - startTime))));
+        }
         return maps;
     }
 
+    /**
+     * Get city name by od
+     *
+     * @param cityId city id
+     * @return city name
+     */
     public String getCityName(int cityId) {
         return mCityName.get(cityId);
+    }
+
+    /**
+     * Get city name list of current query. This is useful when showing city donation spot.
+     *
+     * @return city name list
+     */
+    public SparseArray<String> getCityList() {
+        return mCityName;
+    }
+
+    /**
+     * Set city name list for future query when using {@link #getCityName(int)}
+     *
+     * @param list city name list
+     */
+    public void setCityList(SparseArray<String> list) {
+        if (list == null) {//clear all
+            mCityName.clear();
+        } else {
+            mCityName = list;
+        }
     }
 
     private void parseDonationSpotHtml(int siteId, SpotList list, String html, boolean isStatic) {
@@ -445,6 +494,13 @@ public class BloodDataHelper {
         return getBrowserIntent(context, url);
     }
 
+    /**
+     * Get Intent to individual donation spot mobile version website
+     *
+     * @param context Context
+     * @param info    donation spot information
+     * @return Intent
+     */
     public static Intent getOpenSpotLocationMapUrl(Context context, SpotInfo info) {
         if (info == null) {
             return null;
@@ -454,7 +510,9 @@ public class BloodDataHelper {
         url = url.replace("{site}", String.valueOf(info.getSiteId()));
         url = url.replace("{city}", String.valueOf(info.getCityId()));
         url = url.replace("{spot}", String.valueOf(info.getSpotId()));
-        Log.v(TAG, url);
+        if (DEBUG_LOG) {
+            Log.v(TAG, url);
+        }
         return getBrowserIntent(context, url);
     }
 }

@@ -12,7 +12,7 @@
     <item
         android:id="@+id/action_personal"
         android:title="@string/action_go_to_personal"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="withText|never" />
 
     <item
         android:id="@+id/action_go_to_website"

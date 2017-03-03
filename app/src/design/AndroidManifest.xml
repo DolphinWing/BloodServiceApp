@@ -6,7 +6,7 @@
 
         <activity
             android:name="dolphin.android.apps.BloodServiceApp.ui.MainActivity2"
-            android:screenOrientation="sensor" />
+            android:screenOrientation="locked" />
         <!-- android:label="@string/app_name" -->
     </application>
 
