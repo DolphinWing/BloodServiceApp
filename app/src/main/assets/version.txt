@@ -9,6 +9,10 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[61] @ 2017-03-11
+    add shadows to new bottom navigation
+    remove some useless references
+
 [60] @ 2017-03-03
     fix FragmentTransaction.commit IlleagalStateException
     add cache data for 1hr in Application

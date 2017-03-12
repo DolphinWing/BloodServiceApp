@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class OpenSourceFragment extends PreferenceFragment {
     private final static String TAG = "GeneralPreference";
+    public static final String KEY_OPEN_SOURCE_GROUP = "open_source_group";
     public static final String KEY_OPEN_SOURCE_OKHTTP = "open_okhttp";
     public static final String KEY_OPEN_SOURCE_STICKY_GRID = "open_stickygridheaders";
     public static final String KEY_OPEN_SOURCE_CIRCLE_IMAGE = "open_markushi_android_ui";
@@ -35,6 +37,20 @@ public class OpenSourceFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_open_source);
 
         mShowOpenSource = getResources().getBoolean(R.bool.eng_mode);
+
+        if (PrefsUtil.isUseActivity2(getActivity())) {//[61]dolphin++
+            PreferenceGroup group = (PreferenceGroup) findPreference(KEY_OPEN_SOURCE_GROUP);
+            if (group != null) {
+                Preference p1 = findPreference(KEY_OPEN_SOURCE_CIRCLE_IMAGE);
+                if (p1 != null) {
+                    group.removePreference(p1);
+                }
+                Preference p2 = findPreference(KEY_CREDIT_BACKGROUND);
+                if (p2 != null) {
+                    group.removePreference(p2);
+                }
+            }
+        }
     }
 
     @Override

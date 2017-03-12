@@ -15,6 +15,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
@@ -123,6 +124,20 @@ public class SettingsActivity extends PreferenceActivity {
         }
 
         addPreferencesFromResource(R.xml.pref_open_source);
+
+        if (PrefsUtil.isUseActivity2(this)) {//[61]dolphin++
+            PreferenceGroup group = (PreferenceGroup) findPreference(OpenSourceFragment.KEY_OPEN_SOURCE_GROUP);
+            if (group != null) {
+                Preference p1 = findPreference(OpenSourceFragment.KEY_OPEN_SOURCE_CIRCLE_IMAGE);
+                if (p1 != null) {
+                    group.removePreference(p1);
+                }
+                Preference p2 = findPreference(OpenSourceFragment.KEY_CREDIT_BACKGROUND);
+                if (p2 != null) {
+                    group.removePreference(p2);
+                }
+            }
+        }
     }
 
     /**
