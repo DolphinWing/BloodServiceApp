@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.idunnololz.widgets.AnimatedExpandableListView;
 
+import java.util.ArrayList;
+
 import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
@@ -99,7 +101,7 @@ public class SpotFragment extends BaseListFragment {
                                     listView.collapseGroupWithAnimation(previousGroup);
                                 }
                                 listView.expandGroupWithAnimation(groupPosition);
-                                if (needsToRestore) {
+                                if (needsToRestore && mAdapter.getGroup(previousGroup) != null) {
                                     SpotList cityOld = (SpotList) mAdapter.getGroup(previousGroup);
                                     int restorePosition = listView.getFirstVisiblePosition() -
                                             cityOld.getLocations().size();
@@ -292,7 +294,14 @@ public class SpotFragment extends BaseListFragment {
         @Override
         public Object getChild(int groupPosition, int childPosition) {
             //Log.d(TAG, String.format("g: %d, c:%d", groupPosition, childPosition));
-            return mList.get(mGroupId[groupPosition]).getLocations().get(childPosition);
+            if (mList.get(mGroupId[groupPosition]) == null) {
+                return null;
+            }
+            ArrayList<SpotInfo> infos = mList.get(mGroupId[groupPosition]).getLocations();
+            if (childPosition < infos.size()) {
+                return infos.get(childPosition);
+            }
+            return null;
         }
 
         @Override
@@ -347,6 +356,9 @@ public class SpotFragment extends BaseListFragment {
 
         @Override
         public int getRealChildrenCount(int groupPosition) {
+            if (mList.get(mGroupId[groupPosition]) == null) {
+                return 0;
+            }
             return mList.get(mGroupId[groupPosition]).getLocations().size();
         }
 

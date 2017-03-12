@@ -9,6 +9,9 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[62] @ 2017-03-12
+    fix possible NullPointerException
+
 [61] @ 2017-03-11
     add shadows to new bottom navigation
     remove some useless references
