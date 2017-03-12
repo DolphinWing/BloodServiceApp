@@ -23,6 +23,7 @@
         android:layout_height="@dimen/material_listview_secondary_icon_width"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="4dp"
         android:background="@drawable/listview_selectable_item_background"
         android:contentDescription="@string/action_more"
         android:padding="@dimen/material_listview_primary_icon_padding"
