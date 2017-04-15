@@ -42,7 +42,7 @@
         android:layout_width="@dimen/design_bottom_sheet_width"
         android:layout_height="112dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/bloody_darker_color"
+        android:background="@color/material_indigo_500"
         android:orientation="vertical"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 

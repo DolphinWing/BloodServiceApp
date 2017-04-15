@@ -9,6 +9,9 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[64] @ 2017-04-14
+    UI tweaks
+
 [63] @ 2017-03-12
     add more button margin right
 
