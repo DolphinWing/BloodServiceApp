@@ -13,5 +13,9 @@
         <key>enable_change_log_summary</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>enable_auto_collapse</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>
 <!-- END xml_defaults -->

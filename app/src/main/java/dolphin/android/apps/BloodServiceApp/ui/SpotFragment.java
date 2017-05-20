@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.idunnololz.widgets.AnimatedExpandableListView;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList;
 public class SpotFragment extends BaseListFragment {
     private final static String TAG = "SpotFragment";
     private final static boolean DEBUG_LOG = false;
+    private static boolean AUTO_COLLAPSE = true;
 
     private View mProgressView;
 
@@ -49,6 +51,9 @@ public class SpotFragment extends BaseListFragment {
             Log.d(TAG, "onCreate");
         }
         super.onCreate(savedInstanceState);
+
+        //AUTO_COLLAPSE = getResources().getBoolean(R.bool.feature_enable_auto_collapse_expand_list_view);
+        AUTO_COLLAPSE = FirebaseRemoteConfig.getInstance().getBoolean("enable_auto_collapse");
 
         if (getSiteId() > 0) {
             updateFragment(-1, -1);//refresh ui
@@ -80,7 +85,8 @@ public class SpotFragment extends BaseListFragment {
                         if (listView.isGroupExpanded(groupPosition)) {
                             listView.collapseGroupWithAnimation(groupPosition);
                             previousGroup = -1;
-                        } else {//we must have data to get, so it should not have null pointer
+                            //we must have data to get, so it should not have null pointer
+                        } else if (AUTO_COLLAPSE) {
 //                            if (previousGroup != -1 && listView.isGroupExpanded(previousGroup)) {
 //                                listView.collapseGroupWithAnimation(previousGroup);
 //                            }
@@ -118,6 +124,9 @@ public class SpotFragment extends BaseListFragment {
                                 listView.expandGroupWithAnimation(groupPosition);
                                 previousGroup = groupPosition;
                             }
+                        } else {
+                            listView.expandGroupWithAnimation(groupPosition);
+                            previousGroup = groupPosition;
                         }
                         return true;
                     }

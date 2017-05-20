@@ -9,6 +9,9 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[66] @ 2017-05-20
+    remove auto collapse
+
 [65] @ 2017-05-19
     fix possible ExpandableListView collapse error
 
