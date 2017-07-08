@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_appbar_height"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin">
+
+        <at.markushi.ui.ActionView
+            android:id="@+id/nav_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
+            app:av_color="@color/abc_primary_text_material_dark"
+            app:av_action="drawer"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bloody_item_background_holo_light"
+            android:visibility="invisible" />
+            
+        <TextView
+            style="@style/Theme.Bloody.TextAppearance.Title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/material_appbar_extended_height"
+            android:text="@string/app_name"
+            android:id="@+id/blood_center"
+            android:singleLine="true"
+            android:layout_marginLeft="56dp"
+            android:gravity="left|center_vertical"
+            android:visibility="visible" />
+
+        <ProgressBar
+            android:id="@android:id/progress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/page_header"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin">
+
+        <TextView
+            style="@style/Theme.Bloody.TextAppearance.Medium"
+            android:id="@android:id/text1"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/title_section1"
+            android:textColor="@color/abc_primary_text_material_dark"
+            android:gravity="center" />
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="1dp" />
+
+        <TextView
+            style="@style/Theme.Bloody.TextAppearance.Medium"
+            android:id="@android:id/text2"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/title_section2"
+            android:textColor="@color/abc_primary_text_material_dark"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <com.viewpagerindicator.LinePageIndicator
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/page_indicator"
+        app:strokeWidth="3dp"
+        app:lineWidth="40dp"
+        app:gapWidth="8dp"
+        app:unselectedColor="@android:color/transparent"
+        app:selectedColor="@color/abc_primary_text_material_dark"
+        app:centered="false"
+        android:layout_marginLeft="@dimen/toolbar_extra_margin" />
+</LinearLayout>

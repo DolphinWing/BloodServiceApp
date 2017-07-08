@@ -3,16 +3,15 @@ package dolphin.android.apps.BloodServiceApp.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -83,10 +82,10 @@ public class StorageFragment extends BaseListFragment {
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         if (mAdapter != null) {
-            ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+            mListView.setAdapter(mAdapter);
         }
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        //mListView.setOnItemClickListener(this);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
 
         mProgressView = view.findViewById(android.R.id.progress);//[35]
@@ -292,9 +291,11 @@ public class StorageFragment extends BaseListFragment {
             super(context, R.layout.listview_storage, android.R.id.title, objects);
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             View layout = super.getView(position, convertView, parent);
+            //noinspection ConstantConditions
             int index = getItem(position);
             ImageView icon = (ImageView) layout.findViewById(android.R.id.icon);
             icon.setImageResource(Icons[index]);

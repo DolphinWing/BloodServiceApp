@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -66,6 +67,7 @@ public class DonationFragment extends BaseListFragment
     public DonationFragment() {
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +160,7 @@ public class DonationFragment extends BaseListFragment
         mBottomSheetBackground = rootView.findViewById(R.id.bottom_sheet_background);
         if (mBottomSheetBackground != null) {
             mBottomSheetBackground.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     //only hide when touch up, otherwise you will see duplicated animations
@@ -358,8 +361,8 @@ public class DonationFragment extends BaseListFragment
 
         String location = donation.getLocation();
 
-        if (location.contains("-")) {
-            String[] loc = location.split("-");
+        if (location.contains("　")) {
+            String[] loc = location.split("　");
             for (String l : loc) {
                 if (l.isEmpty()) {
                     continue;
@@ -414,12 +417,13 @@ public class DonationFragment extends BaseListFragment
         return new String[]{location};
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     private String removeNumberTrailing(String location) {
         String num = getString(R.string.search_on_map_split_number);
         if (location.contains(num)) {
             return location.substring(0, location.indexOf(num) + 1);
         } else {
-            //maybe some other patterns?
+            //FIXME: maybe some other patterns?
         }
         return location;
     }

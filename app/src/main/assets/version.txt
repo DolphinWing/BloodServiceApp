@@ -9,6 +9,12 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[67] @ 2017-07-06
+    update library and build tools
+    use RecyclerView to replace ExpandableListView
+    make app use zh-rTW translations
+    convert some java class to kotlin
+
 [66] @ 2017-05-20
     remove auto collapse
 

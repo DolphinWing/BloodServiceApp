@@ -171,12 +171,12 @@ public class BloodDataHelper {
                     //Log.d(TAG, String.format("    name: %s", name));
                     //Log.d(TAG, String.format(" time: %s", time));
                     //Log.d(TAG, String.format("location: %s", location));
-                    DonateActivity activity = new DonateActivity(name, location);
-                    activity.setDuration(cal, time);
-                    if (list.contains(activity)) {//[52]++
+                    DonateActivity donateActivity = new DonateActivity(name, location);
+                    donateActivity.setDuration(cal, time);
+                    if (list.contains(donateActivity)) {//[52]++
                         Log.w(TAG, String.format("already has %s, ignore it", name));
                     } else {
-                        list.add(activity);
+                        list.add(donateActivity);
                     }
                     //Log.d(TAG, list.get(list.size() - 1).toString());
                 }
@@ -208,6 +208,7 @@ public class BloodDataHelper {
      * @param forceRefresh true if to refresh data from server
      * @return storage list by blood center
      */
+    @SuppressWarnings({"SameParameterValue", "WeakerAccess"})
     public SparseArray<HashMap<String, Integer>> getBloodStorage(boolean forceRefresh) {
         if (!forceRefresh && mBloodStorage != null && mBloodStorage.size() > 0) {
             return mBloodStorage;
@@ -261,7 +262,7 @@ public class BloodDataHelper {
         if (mContext == null) {
             return "";
         }
-        int i = 0;
+        int i;
         for (i = mBloodCenterId.length - 1; i > 0; i--) {
             if (mBloodCenterId[i] == siteID) {
                 break;
@@ -282,7 +283,7 @@ public class BloodDataHelper {
             return "";
         }
         int[] bloodCenterIds = context.getResources().getIntArray(R.array.blood_center_id);
-        int i = 0;
+        int i;
         for (i = bloodCenterIds.length - 1; i > 0; i--) {
             if (bloodCenterIds[i] == siteId) {
                 break;
@@ -298,7 +299,7 @@ public class BloodDataHelper {
     //<td width='90%'><a class='font002' href='LocationMap.aspx?spotID=79&cityID=13'
     // data-ajax='false'> 公園號捐血車</a></td>
     private final static String PATTERN_SPOT_INFO = "LocationMap.aspx\\?spotID=([\\d]+)" +
-            "\\&cityID=([\\d]+)[^>]*>([^<]*)</a>";
+            "&cityID=([\\d]+)[^>]*>([^<]*)</a>";
 
     /**
      * Query blood center cover city donation spots
@@ -310,7 +311,7 @@ public class BloodDataHelper {
         if (mContext == null) {
             return null;
         }
-        int i = 0;
+        int i;
         for (i = mBloodCenterId.length - 1; i > 0; i--) {
             if (mBloodCenterId[i] == siteId) {
                 break;
@@ -395,7 +396,8 @@ public class BloodDataHelper {
         }
     }
 
-    private void parseDonationSpotHtml(int siteId, SpotList list, String html, boolean isStatic) {
+    private void parseDonationSpotHtml(int siteId, SpotList list, String html,
+                                       @SuppressWarnings("SameParameterValue") boolean isStatic) {
         Matcher matcher = Pattern.compile(PATTERN_SPOT_INFO).matcher(html);
         while (matcher.find()) {
             String spotId = matcher.group(1).trim();
@@ -481,6 +483,13 @@ public class BloodDataHelper {
         return PackageUtils.isCallable(context, intent) ? intent : null;
     }
 
+    @SuppressWarnings("WeakerAccess")
+    public static String getOpenBloodCalendarSourceUrl(int siteId) {
+        String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
+        url = url.replace("&date={date}", "");//don't specify date
+        return url;
+    }
+
     /**
      * Get Intent to website
      *
@@ -488,20 +497,12 @@ public class BloodDataHelper {
      * @param siteId  site id
      * @return Intent
      */
-    public static Intent getOpenBloodCalendarSourceUrl(Context context, int siteId) {
-        String url = URL_LOCAL_BLOOD_CENTER_WEEK.replace("{site}", String.valueOf(siteId));
-        url = url.replace("&date={date}", "");//don't specify date
-        return getBrowserIntent(context, url);
+    public static Intent getOpenBloodCalendarSourceIntent(Context context, int siteId) {
+        return getBrowserIntent(context, getOpenBloodCalendarSourceUrl(siteId));
     }
 
-    /**
-     * Get Intent to individual donation spot mobile version website
-     *
-     * @param context Context
-     * @param info    donation spot information
-     * @return Intent
-     */
-    public static Intent getOpenSpotLocationMapUrl(Context context, SpotInfo info) {
+    @SuppressWarnings("WeakerAccess")
+    public static String getOpenSpotLocationMapUrl(SpotInfo info) {
         if (info == null) {
             return null;
         }
@@ -513,6 +514,20 @@ public class BloodDataHelper {
         if (DEBUG_LOG) {
             Log.v(TAG, url);
         }
-        return getBrowserIntent(context, url);
+        return url;
+    }
+
+    /**
+     * Get Intent to individual donation spot mobile version website
+     *
+     * @param context Context
+     * @param info    donation spot information
+     * @return Intent
+     */
+    public static Intent getOpenSpotLocationMapIntent(Context context, SpotInfo info) {
+        if (info == null) {
+            return null;
+        }
+        return getBrowserIntent(context, getOpenSpotLocationMapUrl(info));
     }
 }

@@ -89,7 +89,7 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="Theme.Bloody.Widget.Storage.Title" parent="@style/TextAppearance.AppCompat.Title.Inverse" >
+    <style name="Theme.Bloody.Widget.Storage.Title" parent="@style/TextAppearance.AppCompat.Title.Inverse">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/material_appbar_height</item>
         <item name="android:singleLine">true</item>
@@ -120,6 +120,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:layout_marginTop">60dp</item>
     </style>
 
     <style name="Theme.Bloody.Shadow">
@@ -130,6 +131,7 @@
     <style name="Theme.Bloody.Shadow.Horizontal" parent="@style/Theme.Bloody.Shadow">
         <item name="android:src">@drawable/drawer_shadow</item>
     </style>
+
     <style name="Theme.Bloody.Shadow.Vertical" parent="@style/Theme.Bloody.Shadow">
         <item name="android:src">@drawable/drawer_shadow_vert</item>
     </style>

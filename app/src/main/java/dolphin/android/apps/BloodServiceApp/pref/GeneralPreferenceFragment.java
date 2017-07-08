@@ -43,13 +43,6 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
 
-//        // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-//        // to their values. When their values change, their summaries are
-//        // updated to reflect the new value, per the Android Design
-//        // guidelines.
-//        SettingsActivity.bindPreferenceSummaryToValue(findPreference("example_text"));
-//        SettingsActivity.bindPreferenceSummaryToValue(findPreference("example_list"));
-
         final Context context = getActivity().getBaseContext();
         mEngMode = getResources().getBoolean(R.bool.eng_mode);
         //dolphin++@2017.03.02, add Firebase support

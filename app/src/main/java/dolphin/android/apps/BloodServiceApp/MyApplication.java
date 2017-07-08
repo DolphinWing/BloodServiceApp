@@ -2,6 +2,7 @@ package dolphin.android.apps.BloodServiceApp;
 
 
 import android.app.Application;
+import android.content.Context;
 import android.util.SparseArray;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
+import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil;
 import dolphin.android.apps.BloodServiceApp.provider.SpotList;
 
 /**
@@ -18,6 +20,10 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList;
  * http://wangshifuola.blogspot.tw/2011/12/androidapplicationglobal-variable.html
  */
 public class MyApplication extends Application {
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleUtil.Helper.onAttach(base));
+    }
 
     /**
      * Enum used to identify the tracker that needs to be used for tracking.
@@ -31,7 +37,7 @@ public class MyApplication extends Application {
         GLOBAL_TRACKER, // Tracker used by all the apps from a company. eg: roll-up tracking.
     }
 
-    HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
+    HashMap<TrackerName, Tracker> mTrackers = new HashMap<>();
 
     public MyApplication() {
         super();

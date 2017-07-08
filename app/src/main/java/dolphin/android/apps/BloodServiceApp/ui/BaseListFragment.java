@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import java.util.Calendar;
 
 import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
-import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
 import dolphin.android.apps.BloodServiceApp.ui.dummy.DummyContent;
 
 /**
@@ -27,7 +25,7 @@ import dolphin.android.apps.BloodServiceApp.ui.dummy.DummyContent;
  * Created by dolphin on 2014/10/10.
  */
 public class BaseListFragment extends Fragment
-        implements AbsListView.OnItemClickListener, MainActivity.OnBloodCenterChanged {
+        implements /*AbsListView.OnItemClickListener, */MainActivity.OnBloodCenterChanged {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String ARG_PARAM1 = "site_id";
@@ -35,6 +33,7 @@ public class BaseListFragment extends Fragment
 
     private boolean mAutoGridView = false;
 
+    @SuppressWarnings("unused")
     public void setAutoGridView(boolean auto) {
         mAutoGridView = auto;
     }
@@ -92,10 +91,10 @@ public class BaseListFragment extends Fragment
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        //mListView.setOnItemClickListener(this);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
 
         return view;
@@ -126,14 +125,14 @@ public class BaseListFragment extends Fragment
     }
 
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
-    }
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        if (null != mListener) {
+//            // Notify the active callbacks interface (the activity, if the
+//            // fragment is attached to one) that an item has been selected.
+//            //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+//        }
+//    }
 
     /**
      * The default content for this Fragment has a TextView that is shown when
@@ -154,18 +153,18 @@ public class BaseListFragment extends Fragment
         return mSiteId;
     }
 
-    public Calendar getTime() {
-        return mTime;
-    }
-
-    public String getSimpeTimeString() {
-        return DonateDay.getSimpleDateTimeString(getTime());
-    }
+//    public Calendar getTime() {
+//        return mTime;
+//    }
+//
+//    public String getSimpeTimeString() {
+//        return DonateDay.getSimpleDateTimeString(getTime());
+//    }
 
     public void setListAdapter(ListAdapter adapter) {
         mAdapter = adapter;
         if (mAdapter != null && mListView != null) {
-            ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+            mListView.setAdapter(mAdapter);
         }
     }
 
@@ -209,7 +208,7 @@ public class BaseListFragment extends Fragment
     }
 
     public void sendDownloadCost(String action, long timeInMillis) {
-        String label = "";
+        String label;
         if (timeInMillis < 1000) {
             label = "<1";
         } else if (timeInMillis < 3000) {
@@ -249,6 +248,7 @@ public class BaseListFragment extends Fragment
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     public void sendDownloadException(String desc, boolean fatal) {
         // Get tracker.
         Tracker t = null;

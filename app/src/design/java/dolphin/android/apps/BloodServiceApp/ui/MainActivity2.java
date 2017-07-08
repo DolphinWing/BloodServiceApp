@@ -1,5 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.pref.SettingsActivity;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
+import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil;
 
 /**
  * Created by jimmyhu on 2017/2/22.
@@ -49,10 +52,15 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
     private BaseListFragment mFragment;
 
     private FirebaseRemoteConfig mRemoteConfig;
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseAnalytics mAnalytics;
 
     private int[] mBloodCenterId;
     private int mSiteId = 5;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleUtil.Helper.onAttach(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -169,7 +177,7 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
 
                 return true;
             case R.id.action_go_to_website:
-                startActivity(BloodDataHelper.getOpenBloodCalendarSourceUrl(this, mSiteId));
+                startActivity(BloodDataHelper.getOpenBloodCalendarSourceIntent(this, mSiteId));
 
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,
                         BloodDataHelper.getBloodCenterName(this, mSiteId));
@@ -212,7 +220,8 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
                 break;
 
             case R.id.action_section3:
-                mFragment = SpotFragment.newInstance(mSiteId, now);
+                //mFragment = SpotFragment.newInstance(mSiteId, now);
+                mFragment = SpotListFragment.Factory.create(mSiteId, now);
                 break;
             default:
                 return;
@@ -258,8 +267,9 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
 //        }
 //    }
 
+    @SuppressLint("MissingPermission")
     private void prepareRemoteConfig() {
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mAnalytics = FirebaseAnalytics.getInstance(this);
 
         mRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
@@ -306,10 +316,10 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
     }
 
     private void logEvent(String event, Bundle data) {
-        if (mFirebaseAnalytics == null) {
+        if (mAnalytics == null) {
             return;//don't log any event
         }
 
-        mFirebaseAnalytics.logEvent(event, data);
+        mAnalytics.logEvent(event, data);
     }
 }

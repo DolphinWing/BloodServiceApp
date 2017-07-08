@@ -1,5 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -37,12 +39,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import at.markushi.ui.ActionView;
-import at.markushi.ui.action.DrawerAction;
 import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
+import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil;
 
 public class MainActivity extends AppCompatActivity//ActionBarActivity
         implements OnFragmentInteractionListener,
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
     private final static String TAG = "MainActivity";
     private int[] mBloodCenterId;
     private int mSiteId = 5;
-    private final List<OnBloodCenterChanged> mListener = new ArrayList<OnBloodCenterChanged>();
+    private final List<OnBloodCenterChanged> mListener = new ArrayList<>();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -63,22 +64,21 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-
-    /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    private ActionView mActionView;
-    private Toolbar mToolbar;
-    private View mCustomView;
+    //    private ActionView mActionView;
+    //    private View mCustomView;
     private View mProgress;
 
     private FirebaseRemoteConfig mRemoteConfig;
     private FirebaseAnalytics mFirebaseAnalytics;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleUtil.Helper.onAttach(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         if (mNavigationDrawerFragment != null) {// Set up the drawer.
             mNavigationDrawerFragment.setUp(
                     R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout), mActionView);
+                    (DrawerLayout) findViewById(R.id.drawer_layout), /*mActionView*/null);
         }
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -138,7 +138,10 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         mProgress = findViewById(android.R.id.progress);
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        /*
+      The {@link ViewPager} that will host the section contents.
+     */
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
         if (mViewPager != null) {//use ViewPager
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -214,7 +217,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
             startActivity(BloodDataHelper.getOpenFacebookIntent(this, mSiteId));
             return true;
             case R.id.action_go_to_website:
-                Intent intent = BloodDataHelper.getOpenBloodCalendarSourceUrl(this, mSiteId);
+                Intent intent = BloodDataHelper.getOpenBloodCalendarSourceIntent(this, mSiteId);
                 if (intent != null) {
                     startActivity(intent);
                     return true;
@@ -242,6 +245,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
         MenuItem item = menu.findItem(R.id.action_settings);
@@ -265,9 +269,9 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        if (mActionView != null) {
-            mActionView.setAction(new DrawerAction(), ActionView.ROTATE_CLOCKWISE);
-        }
+//        if (mActionView != null) {
+//            mActionView.setAction(new DrawerAction(), ActionView.ROTATE_CLOCKWISE);
+//        }
         //Log.d(TAG, String.format("pos=%d, site id=%d", position,
         //        mBloodCenterId[position + 1]));
         mSiteId = mBloodCenterId[position + 1];
@@ -303,10 +307,10 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         }
         if (mProgress != null) {
             mProgress.setVisibility(View.VISIBLE);
-            if (mActionView != null) {
-                mActionView.setVisibility(View.INVISIBLE);
-                mActionView.setEnabled(false);
-            }
+//            if (mActionView != null) {
+//                mActionView.setVisibility(View.INVISIBLE);
+//                mActionView.setEnabled(false);
+//            }
         }
     }
 
@@ -318,10 +322,10 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         mSectionsPagerAdapter.setSectionBusy(id, false);
         if (mProgress != null && !mSectionsPagerAdapter.isAnySectionBusy()) {
             mProgress.setVisibility(View.GONE);
-            if (mActionView != null) {
-                mActionView.setEnabled(true);
-                mActionView.setVisibility(View.VISIBLE);
-            }
+//            if (mActionView != null) {
+//                mActionView.setEnabled(true);
+//                mActionView.setVisibility(View.VISIBLE);
+//            }
         }
     }
 
@@ -452,6 +456,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     public interface OnBloodCenterChanged {
         void notifyChanged(int siteId, long timeInMillis);
     }
@@ -468,10 +473,11 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         }
     }
 
+    @SuppressWarnings("unused")
     private void sendGAOpenActivity() {
         // Get tracker.
         Tracker t = ((MyApplication) getApplication()).getTracker(
-                MyApplication.TrackerName.GLOBAL_TRACKER);
+                MyApplication.TrackerName.APP_TRACKER);
         // Set screen name.
         // Where path is a String representing the screen name.
         t.setScreenName("BloodServiceApp.MainActivity");
@@ -484,7 +490,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
     private void sendGANavigationChanged(String action, String name) {
         // Get tracker.
         Tracker t = ((MyApplication) getApplication()).getTracker(
-                MyApplication.TrackerName.GLOBAL_TRACKER);
+                MyApplication.TrackerName.APP_TRACKER);
         // Set screen name.
         // Where path is a String representing the screen name.
         t.setScreenName("BloodServiceApp.MainActivity");
@@ -508,6 +514,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         super.onBackPressed();
     }
 
+    @SuppressLint("MissingPermission")
     private void prepareRemoteConfig() {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 

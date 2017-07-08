@@ -4,23 +4,16 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.RingtonePreference;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +72,7 @@ public class SettingsActivity extends PreferenceActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
+        LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         Toolbar bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
         root.addView(bar, 0); // insert at top
         bar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -126,13 +119,13 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref_open_source);
 
         if (PrefsUtil.isUseActivity2(this)) {//[61]dolphin++
-            PreferenceGroup group = (PreferenceGroup) findPreference(OpenSourceFragment.KEY_OPEN_SOURCE_GROUP);
+            PreferenceGroup group = (PreferenceGroup) findPreference("open_source_group");
             if (group != null) {
-                Preference p1 = findPreference(OpenSourceFragment.KEY_OPEN_SOURCE_CIRCLE_IMAGE);
+                Preference p1 = findPreference("open_markushi_android_ui");
                 if (p1 != null) {
                     group.removePreference(p1);
                 }
-                Preference p2 = findPreference(OpenSourceFragment.KEY_CREDIT_BACKGROUND);
+                Preference p2 = findPreference("credit_background2");
                 if (p2 != null) {
                     group.removePreference(p2);
                 }
@@ -165,8 +158,9 @@ public class SettingsActivity extends PreferenceActivity {
      * "simplified" settings UI should be shown.
      */
     private static boolean isSimplePreferences(Context context) {
+        //noinspection ConstantConditions
         return ALWAYS_SIMPLE_PREFS
-                || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB
+                //|| Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB
                 || !isXLargeTablet(context);
     }
 
@@ -206,7 +200,8 @@ public class SettingsActivity extends PreferenceActivity {
                     pInfo.versionName, pInfo.versionCode));
         }
     }
-    
+
+    @SuppressWarnings("unused")
     private void sendGAOpenActivity() {
         // Get tracker.
         Tracker t = ((MyApplication) getApplication()).getTracker(

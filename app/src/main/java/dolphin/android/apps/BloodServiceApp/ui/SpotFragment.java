@@ -140,7 +140,7 @@ public class SpotFragment extends BaseListFragment {
                     public boolean onChildClick(ExpandableListView parent, View view,
                                                 int groupPosition, int childPosition, long id) {
                         if (view.getTag() instanceof SpotInfo) {
-                            Intent intent = BloodDataHelper.getOpenSpotLocationMapUrl(getActivity(),
+                            Intent intent = BloodDataHelper.getOpenSpotLocationMapIntent(getActivity(),
                                     (SpotInfo) view.getTag());
                             if (intent != null) {//show in browser, don't parse it
                                 startActivity(intent);

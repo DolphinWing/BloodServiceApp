@@ -16,12 +16,13 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static List<DummyItem> ITEMS = new ArrayList<>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private static Map<String, DummyItem> ITEM_MAP = new HashMap<>();
 
     static {
         // Add 3 sample items.
@@ -42,7 +43,7 @@ public class DummyContent {
         public String id;
         public String content;
 
-        public DummyItem(String id, String content) {
+        DummyItem(String id, String content) {
             this.id = id;
             this.content = content;
         }
