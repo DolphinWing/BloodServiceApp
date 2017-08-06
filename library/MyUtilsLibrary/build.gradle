@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha5'
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha9'
     }
 }
 apply plugin: 'com.android.library'
