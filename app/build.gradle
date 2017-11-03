@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tool_version
 
     defaultConfig {
         applicationId "dolphin.android.apps.BloodServiceApp"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
         resConfigs "zh", "zh_TW"
     }
 
@@ -34,8 +34,8 @@ android {
             dimension "mode"
         }
         design {
-            versionCode 67
-            versionName "2.0.5"
+            versionCode 68
+            versionName "2.0.6"
             dimension "mode"
         }
     }

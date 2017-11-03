@@ -188,6 +188,7 @@ public class SpotFragment extends BaseListFragment {
     private MyAdapter mAdapter;
 
     private void downloadDonationSpotLocationMap() {
+        if (getActivity() == null) return;
         final BloodDataHelper helper = new BloodDataHelper(getActivity());
         MyApplication application = (MyApplication) getActivity().getApplication();
         SparseArray<SpotList> list = application.getCacheSpotList(getSiteId());
@@ -206,26 +207,27 @@ public class SpotFragment extends BaseListFragment {
         final SparseArray<SpotList> spots = list;
         if (spots == null) {
             mAdapter = null;
-        } else {
+        } else if (getActivity() != null) {
             //Log.d(TAG, String.format("cities: %d", spots.size()));
             mAdapter = new MyAdapter(getActivity(), helper, getSiteId(), spots);
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    //if (spots != null) {
-                    //    Log.d(TAG, String.format("cities: %d", spots.size()));
-                    getListView().setAdapter(mAdapter);
-                    if (spots != null && spots.size() > 0) {
-                        getListView().expandGroup(0);
+        if (getActivity() != null)
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() != null && getListView() != null) {
+                        //if (spots != null) {
+                        //    Log.d(TAG, String.format("cities: %d", spots.size()));
+                        getListView().setAdapter(mAdapter);
+                        if (spots != null && spots.size() > 0) {
+                            getListView().expandGroup(0);
+                        }
+                        //}
+                        setEmptyText(getString(R.string.title_data_not_available));
                     }
-                    //}
-                    setEmptyText(getString(R.string.title_data_not_available));
+                    setFragmentBusy(false);
                 }
-                setFragmentBusy(false);
-            }
-        });
+            });
     }
 
     private boolean mIsBusy = false;
