@@ -36,7 +36,7 @@ class SplashActivity : Activity() {
         val result = googleAPI.isGooglePlayServicesAvailable(this)
         if (result != ConnectionResult.SUCCESS) {
             //Log.e(TAG, googleAPI.getErrorString(result));
-            val textView = findViewById(android.R.id.message) as TextView
+            val textView = findViewById<TextView>(android.R.id.message)
             textView.text = googleAPI.getErrorString(result)
             googleAPI.getErrorDialog(this, result, 0) { finish() }.show()
             return //don't show progress bar

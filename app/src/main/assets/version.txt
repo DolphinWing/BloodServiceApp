@@ -12,6 +12,7 @@ http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 [69] @ 2017-11-03
     update project to AS 3.0 stable (gradle 3.0)
     fix possible crush in SpotFragment
+    fix kotlin packaging error
 
 [68] @ 2017-08-06
     fix blood center drop down list item height
