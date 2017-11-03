@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -53,7 +54,7 @@ class SpotListFragment : BaseListFragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.fragment_spot_recycler_list, container, false)
-        mRecyclerView = rootView.findViewById(R.id.recycler_view) as RecyclerView?
+        mRecyclerView = rootView.findViewById<RecyclerView?>(R.id.recycler_view)
         mRecyclerView!!.layoutManager = LayoutManager(activity)
         mEmptyView = rootView.findViewById(android.R.id.empty)
         mProgressView = rootView.findViewById(android.R.id.progress)
@@ -130,17 +131,21 @@ class SpotListFragment : BaseListFragment() {
             helper.cityList = app.getCacheCityList(siteId)
         }
         //val spots = list
-        if (list == null) {
-            mMyAdapter = null
+        mMyAdapter = if (list == null || activity == null || activity.isFinishing) {
+            null
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed) {
+            null
         } else {
             //Log.d(TAG, "list ${list.size()}")
-            mMyAdapter = MyAdapter(activity, helper, siteId, list)
+            MyAdapter(activity, helper, siteId, list)
         }
-        activity.runOnUiThread {
-            //Log.d(TAG, "download complete ${mMyAdapter?.itemCount}")
-            mRecyclerView?.adapter = mMyAdapter
-            mEmptyView?.visibility = if (mMyAdapter == null) View.VISIBLE else View.GONE
-            setFragmentBusy(false)
+        if (activity != null) {
+            activity.runOnUiThread {
+                //Log.d(TAG, "download complete ${mMyAdapter?.itemCount}")
+                mRecyclerView?.adapter = mMyAdapter
+                mEmptyView?.visibility = if (mMyAdapter == null) View.VISIBLE else View.GONE
+                setFragmentBusy(false)
+            }
         }
     }
 
@@ -235,7 +240,7 @@ class SpotListFragment : BaseListFragment() {
         }
 
         init {
-            title = view.findViewById(android.R.id.title) as TextView?
+            title = view.findViewById<TextView?>(android.R.id.title)
         }
     }
 }
