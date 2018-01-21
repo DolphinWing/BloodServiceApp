@@ -21,9 +21,9 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay;
  * Donation adapter
  */
 public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapter.DonationViewHolder> {
-    //private final static String TAG = "ProgramListAdapter";
+    //private final static String TAG = "DonationListAdapter";
 
-    private final Context mContext;
+    private final DonationFragment mFragment;
     private final ArrayList<MyItem> mItems;
 
     private class MyItem {
@@ -51,12 +51,12 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
     private OnItemClickListener mItemClickListener;
 
     @SuppressWarnings("unused")
-    public DonationListAdapter(Context context, ArrayList<DonateDay> items) {
-        this(context, items, null);
+    public DonationListAdapter(DonationFragment fragment, ArrayList<DonateDay> items) {
+        this(fragment, items, null);
     }
 
-    DonationListAdapter(Context context, ArrayList<DonateDay> items, OnItemClickListener l) {
-        mContext = context;
+    DonationListAdapter(DonationFragment fragment, ArrayList<DonateDay> items, OnItemClickListener l) {
+        mFragment = fragment;
         mItems = new ArrayList<>();
         mItemClickListener = l;
 
@@ -87,14 +87,14 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
         } else {
             view = inflater.inflate(R.layout.listview_donation_activity, parent, false);
         }
-        return new DonationViewHolder(mContext, view, mItemClickListener);
+        return new DonationViewHolder(mFragment, view, mItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(DonationViewHolder holder, int position) {
         final MyItem item = mItems.get(position);
         final View itemView = holder.itemView;
-        holder.bindItem(item.day, item.activity);
+        holder.bindItem(mFragment.getContext(), item.day, item.activity);
 
         final GridSLM.LayoutParams lp = GridSLM.LayoutParams.from(itemView.getLayoutParams());
         lp.setSlm(LinearSLM.ID);
@@ -120,48 +120,54 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
 
 
     static class DonationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Context mContext;
+        private DonationFragment mFragment;
         private boolean mIsHeader;
+        private View container;
         private TextView title;
         private TextView tv1;
         private TextView tv2;
         //private View background;
         private DonationListAdapter.OnItemClickListener mListener;
+        private Object data;
 
         @SuppressWarnings("unused")
-        public DonationViewHolder(Context context, View itemView) {
-            this(context, itemView, null);
+        public DonationViewHolder(DonationFragment fragment, View itemView) {
+            this(fragment, itemView, null);
         }
 
-        DonationViewHolder(Context context, View itemView,
+        DonationViewHolder(DonationFragment fragment, View itemView,
                            DonationListAdapter.OnItemClickListener listener) {
             super(itemView);
 
-            mContext = context;
+            mFragment = fragment;
             mListener = listener;
+            //set data to item
+            container = itemView;
+            container.setTag(this);//store myself
 
             //background = itemView.findViewById(android.R.id.background);
-            title = (TextView) itemView.findViewById(android.R.id.title);
-            tv1 = (TextView) itemView.findViewById(android.R.id.text1);
+            title = itemView.findViewById(android.R.id.title);
+            tv1 = itemView.findViewById(android.R.id.text1);
             mIsHeader = (tv1 == null);
-            if (!mIsHeader) {//only for activity
-                tv2 = (TextView) itemView.findViewById(android.R.id.text2);
-                //itemView.setOnClickListener(this);
-                View more = itemView.findViewById(android.R.id.button1);
-                if (more != null) {
-                    more.setOnClickListener(this);
-                    itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //do nothing, just to have click animation on list item
-                            if (mListener != null) {
-                                mListener.onItemClicked(view, null);
-                            }
-                        }
-                    });
-                } else {//use full item
-                    itemView.setOnClickListener(this);
-                }
+            if (!isHeader()) {//only for activity
+                mFragment.registerForContextMenu(container);//only activity can have menu
+                tv2 = itemView.findViewById(android.R.id.text2);
+//                //itemView.setOnClickListener(this);
+//                View more = itemView.findViewById(android.R.id.button1);
+//                if (more != null) {
+//                    more.setOnClickListener(this);
+//                    itemView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            //do nothing, just to have click animation on list item
+//                            if (mListener != null) {
+//                                mListener.onItemClicked(view, null);
+//                            }
+//                        }
+//                    });
+//                } else {//use full item
+//                    itemView.setOnClickListener(this);
+//                }
             }
         }
 
@@ -169,17 +175,22 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
             return mIsHeader;
         }
 
-        void bindItem(DonateDay day, DonateActivity activity) {
+        void bindItem(Context context, DonateDay day, DonateActivity activity) {
             if (isHeader() && day != null) {
                 title.setText(day.getDateString());
-                title.setTag(day);
+                data = day;
             }
             if (!isHeader() && activity != null) {
+                data = activity;
                 title.setText(activity.getName());
-                title.setTag(activity);
-                tv1.setText(activity.getDuration(mContext));
+                tv1.setText(activity.getDuration(context));
                 tv2.setText(activity.getLocation());
             }
+            title.setTag(data);
+        }
+
+        Object getData() {
+            return data;
         }
 
         @Override

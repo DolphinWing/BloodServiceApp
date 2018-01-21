@@ -78,8 +78,7 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
                 .build());
 
         //http://stackoverflow.com/documentation/android/7565/bottomnavigationview#t=201702220536238479271
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         if (bottomNavigationView != null) {//Attach the listener
             bottomNavigationView.setOnNavigationItemSelectedListener(
                     new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -92,10 +91,10 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
             //bottomNavigationView
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            Spinner spinner = (Spinner) toolbar.findViewById(R.id.spinner_nav);
+            Spinner spinner = toolbar.findViewById(R.id.spinner_nav);
             if (spinner != null) {
                 //final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 String[] centre = getResources().getStringArray(R.array.blood_center);

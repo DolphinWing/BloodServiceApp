@@ -1,7 +1,9 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +76,7 @@ public class BaseListFragment extends Fragment
         }
 
         // TODO: Change Adapter to display your content
-        if (!getResources().getBoolean(R.bool.eng_mode)) {
+        if (!getResources().getBoolean(R.bool.eng_mode) && getActivity() != null) {
             mAdapter = new ArrayAdapter<>(getActivity(),
                     android.R.layout.simple_list_item_1,
                     android.R.id.text1, DummyContent.ITEMS);
@@ -83,14 +85,15 @@ public class BaseListFragment extends Fragment
         }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(mAutoGridView ? R.layout.fragment_donation
                 : R.layout.fragment_donation_list, container, false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView = view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
@@ -101,16 +104,16 @@ public class BaseListFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-        if (activity instanceof MainActivity) {
-            mActivity = ((MainActivity) activity);
+        if (context instanceof MainActivity) {
+            mActivity = ((MainActivity) context);
             mActivity.registerOnBloodCenterChanged(this);
         }
     }

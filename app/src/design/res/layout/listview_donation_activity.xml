@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_listview_item_height"
-    android:background="@drawable/bloody_list_selector_holo_light">
+    android:background="@drawable/bloody_list_selector_holo_light"
+    tools:ignore="RtlHardcoded">
 
     <ImageView
         android:id="@android:id/icon"
@@ -28,7 +30,8 @@
         android:contentDescription="@string/action_more"
         android:padding="@dimen/material_listview_primary_icon_padding"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_action_more_vert" />
+        android:src="@drawable/ic_action_more_vert"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@android:id/message"

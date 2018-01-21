@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
+
+    <item
+        android:id="@+id/action_search_location"
+        android:icon="@drawable/ic_search"
+        android:title="@string/action_search_location"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/action_add_to_calendar"
+        android:icon="@drawable/ic_event"
+        android:title="@string/action_add_to_calendar"
+        app:showAsAction="withText" />
+
+</menu>

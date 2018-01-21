@@ -39,7 +39,7 @@
         android:background="@color/listview_item_pressed"
         android:visibility="gone" />
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="@dimen/design_bottom_sheet_width"
         android:layout_height="112dp"
@@ -67,6 +67,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp" />
-    </LinearLayout>
+    </LinearLayout>-->
 
 </android.support.design.widget.CoordinatorLayout>

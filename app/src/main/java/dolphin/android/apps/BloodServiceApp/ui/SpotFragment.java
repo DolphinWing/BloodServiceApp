@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -61,7 +62,7 @@ public class SpotFragment extends BaseListFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spot_list, container, false);
         mListView = (ExpandableListView) view.findViewById(android.R.id.list);
@@ -337,7 +338,7 @@ public class SpotFragment extends BaseListFragment {
                 convertView = mInflater.inflate(R.layout.listview_spot_city, parent, false);
             }
 
-            TextView title = (TextView) convertView.findViewById(android.R.id.title);
+            TextView title = convertView.findViewById(android.R.id.title);
             if (title != null) {
                 SpotList list = (SpotList) getGroup(groupPosition);
                 if (list != null) {
@@ -354,7 +355,7 @@ public class SpotFragment extends BaseListFragment {
                 convertView = mInflater.inflate(R.layout.listview_spot_location, parent, false);
             }
 
-            TextView title = (TextView) convertView.findViewById(android.R.id.title);
+            TextView title = convertView.findViewById(android.R.id.title);
             if (title != null) {
                 SpotInfo info = (SpotInfo) getChild(groupPosition, childPosition);
                 if (info != null) {
