@@ -14,7 +14,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            debuggable false
+            minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -34,8 +35,8 @@ android {
             dimension "mode"
         }
         design {
-            versionCode 68
-            versionName "2.0.6"
+            versionCode 70
+            versionName "2.1.0"
             dimension "mode"
         }
     }

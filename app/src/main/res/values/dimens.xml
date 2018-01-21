@@ -13,7 +13,7 @@
     <dimen name="material_listview_primary_icon_padding">4dp</dimen>
     <dimen name="material_listview_secondary_icon_width">24dp</dimen>
     <dimen name="material_listivew_icon_text_margin">72dp</dimen>
-    <dimen name="material_listview_header_height">48dp</dimen>
+    <dimen name="material_listview_header_height">56dp</dimen>
     <dimen name="material_listview_item_height">72dp</dimen>
     
     <dimen name="toolbar_extra_margin">0dp</dimen>
