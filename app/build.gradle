@@ -9,15 +9,20 @@ android {
         applicationId "dolphin.android.apps.BloodServiceApp"
         minSdkVersion 14
         targetSdkVersion 27
-        resConfigs "zh", "zh_TW"
+        resConfigs /*"zh",*/ "zh_TW"
     }
 
     buildTypes {
         release {
             debuggable false
+            minifyEnabled true
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
             minifyEnabled false
             useProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -35,7 +40,7 @@ android {
             dimension "mode"
         }
         design {
-            versionCode 70
+            versionCode 71
             versionName "2.1.0"
             dimension "mode"
         }

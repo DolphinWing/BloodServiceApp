@@ -1,12 +1,13 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
+import android.support.annotation.Keep
 import java.util.*
 
 /**
  * Created by jimmyhu on 2017/2/22.
  * Spot list of a city/region.
  */
-
+@Keep
 class SpotList(
         /**
          * get city id of this region

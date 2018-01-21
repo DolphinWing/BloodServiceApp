@@ -9,7 +9,12 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
-[70] @2018-01-19
+[71] @ 2018-01-21
+    enable proguard for release
+        fix okhttp warning
+            https://github.com/square/okhttp/issues/2230
+
+[70] @ 2018-01-19
     update project to Android Studio 3.0.1
     update latest library
     use context menu to replace bottom sheet
