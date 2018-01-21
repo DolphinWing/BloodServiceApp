@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "dolphin.android.apps.BloodServiceApp"
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 27
         resConfigs "zh", "zh_TW"
     }
 
@@ -48,10 +48,10 @@ android {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':library:MyUtilsLibrary')
-    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
 
     compile "com.android.support:support-v4:$supportLibraryVersion"
     compile "com.android.support:support-v13:$supportLibraryVersion"

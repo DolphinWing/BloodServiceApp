@@ -1,8 +1,8 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.SparseArray
@@ -51,9 +51,9 @@ class SpotListFragment : BaseListFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater!!.inflate(R.layout.fragment_spot_recycler_list, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_spot_recycler_list, container, false)
         mRecyclerView = rootView.findViewById<RecyclerView?>(R.id.recycler_view)
         mRecyclerView!!.layoutManager = LayoutManager(activity)
         mEmptyView = rootView.findViewById(android.R.id.empty)
@@ -109,7 +109,7 @@ class SpotListFragment : BaseListFragment() {
             }
         }
         mMyAdapter = MyAdapter(activity, null, 5, list)
-        activity.runOnUiThread {
+        activity!!.runOnUiThread {
             mRecyclerView!!.adapter = mMyAdapter
             mEmptyView!!.visibility = if (mMyAdapter == null) View.VISIBLE else View.GONE
             //Log.d(TAG, "debug generate complete ${mMyAdapter?.itemCount}")
@@ -120,7 +120,7 @@ class SpotListFragment : BaseListFragment() {
     private fun downloadDonationSpotLocationMap() {
         //Log.d(TAG, "download start $siteId")
         val helper = BloodDataHelper(activity)
-        val app: MyApplication = activity.application as MyApplication
+        val app: MyApplication = activity!!.application as MyApplication
         var list: SparseArray<SpotList>? = app.getCacheSpotList(siteId)
         if (list == null) {
             //Log.d(TAG, "try to download from server")
@@ -131,16 +131,16 @@ class SpotListFragment : BaseListFragment() {
             helper.cityList = app.getCacheCityList(siteId)
         }
         //val spots = list
-        mMyAdapter = if (list == null || activity == null || activity.isFinishing) {
+        mMyAdapter = if (list == null || activity == null || activity!!.isFinishing) {
             null
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity!!.isDestroyed) {
             null
         } else {
             //Log.d(TAG, "list ${list.size()}")
             MyAdapter(activity, helper, siteId, list)
         }
         if (activity != null) {
-            activity.runOnUiThread {
+            activity!!.runOnUiThread {
                 //Log.d(TAG, "download complete ${mMyAdapter?.itemCount}")
                 mRecyclerView?.adapter = mMyAdapter
                 mEmptyView?.visibility = if (mMyAdapter == null) View.VISIBLE else View.GONE
@@ -149,7 +149,7 @@ class SpotListFragment : BaseListFragment() {
         }
     }
 
-    private class MyAdapter(activity: Activity, helper: BloodDataHelper?, siteId: Int,
+    private class MyAdapter(activity: FragmentActivity?, helper: BloodDataHelper?, siteId: Int,
                             spotList: SparseArray<SpotList>?) : RecyclerView.Adapter<MyViewHolder>() {
         //private val TAG = "SpotListFragment"
         private val items = ArrayList<MyItem>()
@@ -158,34 +158,34 @@ class SpotListFragment : BaseListFragment() {
                           var data: SpotInfo?)
 
         override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
-            if (items[position].isHeader) {
-                holder!!.bindItem(items[position].name, null, null)
-            } else {
-                holder!!.bindItem(items[position].data?.spotName, items[position].data, onItemClick)
-            }
-            //Log.d(TAG, "$position)  name = $name")
+            holder?.let {
+                if (items[position].isHeader) {
+                    it.bindItem(items[position].name, null, null)
+                } else {
+                    it.bindItem(items[position].data?.spotName, items[position].data, onItemClick)
+                }
+                //Log.d(TAG, "$position)  name = $name")
 
-            val lp = GridSLM.LayoutParams.from(holder.itemView!!.layoutParams)
-            lp.setSlm(LinearSLM.ID)
-            lp.firstPosition = items[position].sectionFirstPosition
-            holder.itemView.layoutParams = lp
+                val lp = GridSLM.LayoutParams.from(it.itemView!!.layoutParams)
+                lp.setSlm(LinearSLM.ID)
+                lp.firstPosition = items[position].sectionFirstPosition
+                it.itemView.layoutParams = lp
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyViewHolder {
             val inflater = LayoutInflater.from(parent!!.context)
-            val itemView: View
-            when (viewType) {
+            val itemView: View = when (viewType) {
                 1 -> {
                     //Log.d(TAG, "spot city")
-                    itemView = inflater.inflate(R.layout.listview_spot_city, parent, false)
+                    inflater.inflate(R.layout.listview_spot_city, parent, false)
                 }
                 0 -> {
                     //Log.d(TAG, "spot location")
-                    itemView = inflater.inflate(R.layout.listview_spot_location, parent, false)
+                    inflater.inflate(R.layout.listview_spot_location, parent, false)
                 }
-                else -> itemView = inflater.inflate(R.layout.listview_spot_city, parent, false)
+                else -> inflater.inflate(R.layout.listview_spot_city, parent, false)
             }
-
             return MyViewHolder(itemView)
         }
 
@@ -194,25 +194,27 @@ class SpotListFragment : BaseListFragment() {
         override fun getItemCount(): Int = items.size
 
         init {
-            val ids = activity.resources.getIntArray(R.array.blood_center_id)
-            val centers = activity.resources.getStringArray(R.array.blood_center_donate_station_city_id)
-            val cities = centers[ids.indexOf(siteId)].split(",".toRegex())
-                    .dropLastWhile { it.isEmpty() }.toTypedArray()
-            //Log.d(TAG, "${ids.indexOf(siteId)} cities: $cities")
-            var itemCount = 0
-            var sectionFirstPosition: Int
-            for ((headerCount, cityId) in cities.withIndex()) {
-                sectionFirstPosition = headerCount + itemCount
-                //Log.d(TAG, "$headerCount $cityId sectionFirstPosition = $sectionFirstPosition")
-                val name = if (helper == null) cityId else helper.getCityName(Integer.parseInt(cityId))
-                items.add(MyItem(sectionFirstPosition, true, name, null))
-                if (spotList!!.get(Integer.parseInt(cityId)) == null) continue
-                spotList.get(Integer.parseInt(cityId))!!.locations.forEach { spot ->
-                    itemCount++
-                    items.add(MyItem(sectionFirstPosition, false, spot.spotName, spot))
+            activity?.let {
+                val ids = it.resources.getIntArray(R.array.blood_center_id)
+                val centers = it.resources.getStringArray(R.array.blood_center_donate_station_city_id)
+                val cities = centers[ids.indexOf(siteId)].split(",".toRegex())
+                //.dropLastWhile { it.isEmpty() }.toTypedArray()
+                //Log.d(TAG, "${ids.indexOf(siteId)} cities: $cities")
+                var itemCount = 0
+                var sectionFirstPosition: Int
+                for ((headerCount, cityId) in cities.withIndex()) {
+                    sectionFirstPosition = headerCount + itemCount
+                    //Log.d(TAG, "$headerCount $cityId sectionFirstPosition = $sectionFirstPosition")
+                    val name = helper?.getCityName(Integer.parseInt(cityId)) ?: run { cityId }
+                    items.add(MyItem(sectionFirstPosition, true, name, null))
+                    if (spotList!!.get(Integer.parseInt(cityId)) == null) continue
+                    spotList.get(Integer.parseInt(cityId))!!.locations.forEach { spot ->
+                        itemCount++
+                        items.add(MyItem(sectionFirstPosition, false, spot.spotName, spot))
+                    }
                 }
+                //Log.d(TAG, "total locations: $itemCount")
             }
-            //Log.d(TAG, "total locations: $itemCount")
             //notifyDataSetChanged()
         }
 
@@ -222,7 +224,7 @@ class SpotListFragment : BaseListFragment() {
             //Log.d(TAG, "spot: ${spot.spotId} ${spot.spotName}")
             val intent = BloodDataHelper.getOpenSpotLocationMapIntent(activity, spot)
             if (intent != null) {//show in browser, don't parse it
-                activity.startActivity(intent)
+                activity?.startActivity(intent)
             }
         }
     }
