@@ -224,6 +224,10 @@ public class SettingsActivity extends PreferenceActivity {
                 && FirebaseRemoteConfig.getInstance().getBoolean("enable_change_log_summary")) {
             GeneralPreferenceFragment.showVersionSummary(this);
             return true;
+        } else if (key.equals(GeneralPreferenceFragment.KEY_ENABLE_ACTIVITY2)) {
+            //Toast.makeText(this, "restart app", Toast.LENGTH_SHORT).show();
+            GeneralPreferenceFragment.showRestartAppDialog(this);
+            return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }

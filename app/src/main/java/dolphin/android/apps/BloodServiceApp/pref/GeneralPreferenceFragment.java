@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import java.util.Locale;
 
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.apps.BloodServiceApp.ui.SplashActivity;
 import dolphin.android.util.AssetUtils;
 import dolphin.android.util.PackageUtils;
 
@@ -86,7 +88,27 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         } else if (key.equals(KEY_APP_VERSION) && mEngMode) {
             showVersionSummary(getActivity());
             return true;
+        } else if (key.equals(KEY_ENABLE_ACTIVITY2)) {
+            showRestartAppDialog(getActivity());
+            return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+    public static void showRestartAppDialog(final Activity activity) {
+        AlertDialog dialog = new AlertDialog.Builder(activity)
+                .setTitle(R.string.title_restart_app_warning)
+                .setMessage(R.string.message_restart_app)
+                .setPositiveButton(R.string.action_restart_app_now, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(activity, SplashActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intent);
+                    }
+                })
+                .setNegativeButton(R.string.action_restart_app_later, null)
+                .create();
+        dialog.show();
     }
 }

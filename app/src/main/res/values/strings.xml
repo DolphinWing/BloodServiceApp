@@ -74,6 +74,11 @@
     <string name="action_go_to_website">行動版網頁</string>
     <string name="action_go_to_station">捐血站點</string>
 
+    <string name="action_restart_app_now">立即使用</string>
+    <string name="action_restart_app_later">稍候</string>
+    <string name="title_restart_app_warning">需要重新啟動</string>
+    <string name="message_restart_app">您想要現在套用這項變動嗎？</string>
+
     <!--<string name="pref_title_social_recommendations">Enable social recommendations</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact
         based on your message history
