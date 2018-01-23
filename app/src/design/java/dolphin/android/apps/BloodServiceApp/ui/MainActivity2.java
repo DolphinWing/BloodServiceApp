@@ -33,6 +33,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil;
 import dolphin.android.apps.BloodServiceApp.pref.SettingsActivity;
@@ -142,11 +143,17 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
             actionbar.setDisplayShowTitleEnabled(false);
         }
 
+        final MyApplication application = (MyApplication) getApplication();
         new Handler().post(new Runnable() {
             @Override
             public void run() {
                 switchToSection(R.id.action_section2);
-                prepareRemoteConfig();
+                if (application.isGooglePlayServiceSupported()) {//only fetch it when it is installed
+                    prepareRemoteConfig();
+                } else {//only use default values
+                    mRemoteConfig = FirebaseRemoteConfig.getInstance();
+                    mRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+                }
             }
         });
     }
@@ -175,16 +182,19 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
                 logEvent(FirebaseAnalytics.Event.SHARE, bundle);
 
                 return true;
-            case R.id.action_go_to_website:
-                startActivity(BloodDataHelper.getOpenBloodCalendarSourceIntent(this, mSiteId));
+            case R.id.action_go_to_website: {
+                Intent intent = BloodDataHelper.getOpenBloodCalendarSourceIntent(this, mSiteId);
+                if (intent != null) {
+                    startActivity(intent);
+                }
 
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,
                         BloodDataHelper.getBloodCenterName(this, mSiteId));
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID,
                         getString(R.string.action_go_to_website));
                 logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
-                return true;//break;
+            }
+            return true;//break;
             case R.id.action_personal:
                 PrefsUtil.startBrowserActivity(this,
                         FirebaseRemoteConfig.getInstance().getString("url_blood_donor_info"));

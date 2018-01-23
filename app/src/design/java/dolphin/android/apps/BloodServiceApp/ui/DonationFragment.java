@@ -7,20 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -80,7 +75,12 @@ public class DonationFragment extends BaseListFragment/*
         }
 
         if (getActivity() != null) {
-            mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+            MyApplication application = (MyApplication) getActivity().getApplication();
+            if (application.isGooglePlayServiceSupported()) {
+                mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+            } else {
+                mFirebaseAnalytics = null;
+            }
         } else {
             mFirebaseAnalytics = null;
         }
@@ -191,26 +191,28 @@ public class DonationFragment extends BaseListFragment/*
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        String action = null;
-        switch (item.getItemId()) {
-            case R.id.action_search_location:
-                showSearchMapDialog(mDonateActivity);
-                action = getString(R.string.action_search_location);
-                break;
-            case R.id.action_add_to_calendar:
-                addToCalendar(mDonateActivity);
-                action = getString(R.string.action_add_to_calendar);
-                break;
-        }
-        if (action != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,
-                    BloodDataHelper.getBloodCenterName(getActivity(), getSiteId()));
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, action);
-            if (mFirebaseAnalytics != null) {
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        if (item != null) {
+            String action = null;
+            switch (item.getItemId()) {
+                case R.id.action_search_location:
+                    showSearchMapDialog(mDonateActivity);
+                    action = getString(R.string.action_search_location);
+                    break;
+                case R.id.action_add_to_calendar:
+                    addToCalendar(mDonateActivity);
+                    action = getString(R.string.action_add_to_calendar);
+                    break;
             }
-            return true;
+            if (action != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,
+                        BloodDataHelper.getBloodCenterName(getActivity(), getSiteId()));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, action);
+                if (mFirebaseAnalytics != null) {
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                }
+                return true;
+            }
         }
         return super.onContextItemSelected(item);
     }
@@ -374,10 +376,12 @@ public class DonationFragment extends BaseListFragment/*
                             @Override
                             public void onClick(DialogInterface dialogInterface, int position) {
                                 //Log.d(TAG, "pos = " + position);
-                                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + list.get(position));
-                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                                mapIntent.setPackage("com.google.android.apps.maps");
-                                startActivity(mapIntent);
+                                if (PrefsUtil.isGoogleMapsInstalled(getActivity())) {
+                                    Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + list.get(position));
+                                    openGoogleMaps(gmmIntentUri);
+                                } else {
+                                    openMapInBrowser(list.get(position));
+                                }
                             }
                         });
         builder.show();
@@ -570,4 +574,22 @@ public class DonationFragment extends BaseListFragment/*
 //                    : BottomSheetBehavior.STATE_COLLAPSED);
 //        }
 //    }
+
+    private void openGoogleMaps(Uri dataUri) {
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, dataUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (PackageUtils.isCallable(getActivity(), mapIntent)) {
+            startActivity(mapIntent);
+        }
+    }
+
+    private void openMapInBrowser(String location) {
+        //https://www.google.com/maps/search/?api=1&query=centurylink+field
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://www.google.com/maps/search/?api=1&query=".concat(location)));
+        mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (PackageUtils.isCallable(getActivity(), mapIntent)) {
+            startActivity(mapIntent);
+        }
+    }
 }

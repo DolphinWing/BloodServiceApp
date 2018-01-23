@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import dolphin.android.apps.BloodServiceApp.MyApplication
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
@@ -23,13 +24,19 @@ class SplashActivity : Activity() {
 
         setContentView(R.layout.activity_splash)
 
+        if (!checkGoogleApiAvailability()) {
+            val myApp: MyApplication = application as MyApplication
+            myApp.setGooglePlayServiceNotSupported()
+            return
+        }
+
         //FirebaseAnalytics.getInstance(this);//initialize this
         FirebaseRemoteConfig.getInstance()
 
-        checkGoogleApiAvailability()
+        startMainActivity()
     }
 
-    private fun checkGoogleApiAvailability() {
+    private fun checkGoogleApiAvailability(): Boolean {
         //http://stackoverflow.com/a/31016761/2673859
         //check google play service and authentication
         val googleAPI = GoogleApiAvailability.getInstance()
@@ -39,9 +46,13 @@ class SplashActivity : Activity() {
             val textView = findViewById<TextView>(android.R.id.message)
             textView.text = googleAPI.getErrorString(result)
             googleAPI.getErrorDialog(this, result, 0) { finish() }.show()
-            return //don't show progress bar
+            return false//don't show progress bar
         }
 
+        return true
+    }
+
+    private fun startMainActivity() {
         var intent = Intent(this, MainActivity2::class.java)
         if (!PrefsUtil.isUseActivity2(baseContext)) {//just a fallback, we usually do use this
             intent = Intent(this, MainActivity::class.java)
@@ -56,6 +67,10 @@ class SplashActivity : Activity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         //super.onActivityResult(requestCode, resultCode, data);
-        checkGoogleApiAvailability()
+        if (checkGoogleApiAvailability()) {
+            startMainActivity()
+        } else {
+            finish()
+        }
     }
 }

@@ -45,6 +45,9 @@ public class MyApplication extends Application {
 
     public synchronized Tracker getTracker(TrackerName trackerId) {
         if (!mTrackers.containsKey(trackerId)) {
+            if (!isGooglePlayServiceSupported()) {
+                return null;//don't support Google Play Services
+            }
 
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             if (analytics == null) {
@@ -146,5 +149,15 @@ public class MyApplication extends Application {
             }
         }
         return null;
+    }
+
+    private boolean mHasGooglePlayService = true;
+
+    public void setGooglePlayServiceNotSupported() {
+        mHasGooglePlayService = false;
+    }
+
+    public boolean isGooglePlayServiceSupported() {
+        return mHasGooglePlayService;
     }
 }

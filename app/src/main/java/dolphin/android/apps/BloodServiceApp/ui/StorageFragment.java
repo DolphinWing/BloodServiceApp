@@ -9,7 +9,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -72,7 +71,7 @@ public class StorageFragment extends BaseListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (DEBUG_LOG) {
             Log.d(TAG, "onCreateView");
@@ -80,7 +79,7 @@ public class StorageFragment extends BaseListFragment {
         View view = inflater.inflate(R.layout.fragment_storage, container, false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView = view.findViewById(android.R.id.list);
         if (mAdapter != null) {
             mListView.setAdapter(mAdapter);
         }
@@ -90,7 +89,7 @@ public class StorageFragment extends BaseListFragment {
 
         mProgressView = view.findViewById(android.R.id.progress);//[35]
 
-        mAdView = (AdView) view.findViewById(R.id.adView);
+        mAdView = view.findViewById(R.id.adView);
         //hide ADs if user choose not to show it
         if (!PrefsUtil.isEnableAdView(getActivity())) {
             Log.w(TAG, "no ads...");
@@ -231,6 +230,10 @@ public class StorageFragment extends BaseListFragment {
     }
 
     private void downloadBloodStorage() {
+        if (getActivity() == null) {
+            return;//don't download
+        }
+
         long start = System.currentTimeMillis();
 
         MyApplication application = (MyApplication) getActivity().getApplication();
@@ -297,10 +300,10 @@ public class StorageFragment extends BaseListFragment {
             View layout = super.getView(position, convertView, parent);
             //noinspection ConstantConditions
             int index = getItem(position);
-            ImageView icon = (ImageView) layout.findViewById(android.R.id.icon);
+            ImageView icon = layout.findViewById(android.R.id.icon);
             icon.setImageResource(Icons[index]);
             //icon.setBackgroundResource(Icons[index]);
-            TextView title = (TextView) layout.findViewById(android.R.id.title);
+            TextView title = layout.findViewById(android.R.id.title);
             title.setText(String.format("%s%s", mBloodTypeName[position],
                     mBloodStorage[index]));
             return layout;

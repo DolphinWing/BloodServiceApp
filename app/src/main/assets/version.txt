@@ -9,6 +9,11 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[72] @ 2018-01-22
+    fix some NullPointerException from Google Play Developer Console
+    fix Google Maps not installed on chromebook
+    add restart app when change display style
+
 [71] @ 2018-01-21
     enable proguard for release
         fix okhttp warning

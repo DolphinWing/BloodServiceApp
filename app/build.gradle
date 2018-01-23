@@ -40,7 +40,7 @@ android {
             dimension "mode"
         }
         design {
-            versionCode 71
+            versionCode 72
             versionName "2.1.0"
             dimension "mode"
         }
