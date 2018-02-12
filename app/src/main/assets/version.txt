@@ -9,6 +9,10 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+[73] @ 2018-02-05
+    fix no google play service detection
+    add right click support to donation activity list
+
 [72] @ 2018-01-22
     fix some NullPointerException from Google Play Developer Console
     fix Google Maps not installed on chromebook

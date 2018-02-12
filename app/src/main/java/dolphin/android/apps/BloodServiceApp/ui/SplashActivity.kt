@@ -45,7 +45,9 @@ class SplashActivity : Activity() {
             //Log.e(TAG, googleAPI.getErrorString(result));
             val textView = findViewById<TextView>(android.R.id.message)
             textView.text = googleAPI.getErrorString(result)
-            googleAPI.getErrorDialog(this, result, 0) { finish() }.show()
+            val dialog = googleAPI.getErrorDialog(this, result, 0)
+            dialog.setOnDismissListener { startMainActivity() }
+            dialog.show()
             return false//don't show progress bar
         }
 

@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,7 +120,8 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
     }
 
 
-    static class DonationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class DonationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+            /*, View.OnHoverListener*/ {
         private DonationFragment mFragment;
         private boolean mIsHeader;
         private View container;
@@ -127,6 +129,7 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
         private TextView tv1;
         private TextView tv2;
         //private View background;
+//        private View more;
         private DonationListAdapter.OnItemClickListener mListener;
         private Object data;
 
@@ -136,7 +139,7 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
         }
 
         DonationViewHolder(DonationFragment fragment, View itemView,
-                           DonationListAdapter.OnItemClickListener listener) {
+                           OnItemClickListener listener) {
             super(itemView);
 
             mFragment = fragment;
@@ -168,6 +171,32 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
 //                } else {//use full item
 //                    itemView.setOnClickListener(this);
 //                }
+
+//                more = itemView.findViewById(android.R.id.button1);
+//                if (more != null) {
+//                    more.setVisibility(View.INVISIBLE);
+//                    more.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            if (mFragment.getActivity() != null) {
+//                                //https://stackoverflow.com/a/17419680/2673859
+//                                mFragment.getActivity().openContextMenu(container);
+//                            }
+//                        }
+//                    });
+//                    more.setOnHoverListener(this);
+//                }
+//                container.setOnHoverListener(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    //Get Your Android App Ready for Chromebooks
+                    //https://goo.gl/H8vnHT
+                    container.setOnContextClickListener(new View.OnContextClickListener() {
+                        @Override
+                        public boolean onContextClick(View view) {
+                            return true;
+                        }
+                    });
+                }
             }
         }
 
@@ -200,5 +229,27 @@ public class DonationListAdapter extends RecyclerView.Adapter<DonationListAdapte
                 mListener.onItemClicked(view, title.getTag());
             }
         }
+
+//        @Override
+//        public boolean onHover(View view, MotionEvent motionEvent) {
+//            switch (motionEvent.getAction()) {
+//                case MotionEvent.ACTION_HOVER_ENTER:
+//                case MotionEvent.ACTION_HOVER_MOVE:
+//                    //Log.d("ViewHolder", "ACTION_HOVER_ENTER");
+//                    if (more != null) {
+//                        more.setVisibility(View.VISIBLE);
+//                        //Log.d("ViewHolder", "ACTION_HOVER_ENTER");
+//                    }
+//                    break;
+//                case MotionEvent.ACTION_HOVER_EXIT:
+//                    //Log.d("ViewHolder", "ACTION_HOVER_EXIT");
+//                    if (more != null /*&& view.getId() != android.R.id.button1*/) {
+//                        more.setVisibility(View.INVISIBLE);
+//                        //Log.d("ViewHolder", "ACTION_HOVER_EXIT");
+//                    }
+//                    break;
+//            }
+//            return false;
+//        }
     }
 }

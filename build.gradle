@@ -5,7 +5,7 @@ buildscript {
     ext {
         playServiceVersion = '11.8.0'
         supportLibraryVersion = '27.0.2'
-        kotlin_version = '1.2.20'
+        kotlin_version = '1.2.21'
         compile_sdk_version = 27
         build_tool_version = '27.0.3'
         gradle_version = '3.0.1'

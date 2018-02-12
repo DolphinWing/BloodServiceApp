@@ -31,7 +31,7 @@
         android:padding="@dimen/material_listview_primary_icon_padding"
         android:scaleType="centerInside"
         android:src="@drawable/ic_action_more_vert"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@android:id/message"
