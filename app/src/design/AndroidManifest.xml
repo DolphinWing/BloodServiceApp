@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="dolphin.android.apps.BloodServiceApp">
 
-    <application>
+    <application
+        android:resizeableActivity="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="n">
+
+        <meta-data
+            android:name="WindowManagerPreference:FreeformWindowSize"
+            android:value="phone" />
+        <meta-data
+            android:name="WindowManagerPreference:FreeformWindowOrientation"
+            android:value="portrait" />
+
+        <activity android:name="dolphin.android.apps.BloodServiceApp.ui.SplashActivity">
+            <!--suppress AndroidElementNotAllowed -->
+            <layout
+                android:defaultHeight="6400dp"
+                android:defaultWidth="360dp"
+                android:gravity="center"
+                tools:targetApi="n" />
+        </activity>
 
         <activity
             android:name="dolphin.android.apps.BloodServiceApp.ui.MainActivity2"

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -127,6 +128,9 @@ public class BaseListFragment extends Fragment
         }
     }
 
+    public void onContextMenuClosed(Menu menu) {
+        //do something if necessary
+    }
 
 //    @Override
 //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -3,6 +3,7 @@ package dolphin.android.apps.BloodServiceApp.ui;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -177,9 +179,15 @@ public class DonationFragment extends BaseListFragment/*
         return rootView;
     }
 
+    private View contextMenuTarget = null;
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        contextMenuTarget = v;//store it for animation
+        if (contextMenuTarget != null) {
+            contextMenuTarget.setBackgroundResource(R.drawable.bloody_list_activated_holo);
+        }
         if (getActivity() != null) {//inflate the context menu
             MenuInflater inflater = getActivity().getMenuInflater();
             inflater.inflate(R.menu.context_menu_donation, menu);
@@ -215,6 +223,15 @@ public class DonationFragment extends BaseListFragment/*
             }
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onContextMenuClosed(Menu menu) {
+        super.onContextMenuClosed(menu);
+        if (contextMenuTarget != null) {
+            contextMenuTarget.setBackgroundResource(R.drawable.bloody_list_selector_holo_light);
+            contextMenuTarget = null;//clear it
+        }
     }
 
     @Override

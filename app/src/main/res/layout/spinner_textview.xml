@@ -4,6 +4,7 @@
     style="?android:attr/spinnerDropDownItemStyle"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/bloody_list_selector_holo_light"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:singleLine="true"

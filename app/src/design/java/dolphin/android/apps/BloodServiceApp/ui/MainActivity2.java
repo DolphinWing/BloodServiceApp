@@ -213,6 +213,15 @@ public class MainActivity2 extends AppCompatActivity implements OnFragmentIntera
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onContextMenuClosed(Menu menu) {
+        super.onContextMenuClosed(menu);
+        if (mFragment != null) {
+            mFragment.onContextMenuClosed(menu);
+        }
+
+    }
+
     //private SparseArray<BaseListFragment> mFragmentCache = new SparseArray<>();
 
     private void switchToSection(int id) {
