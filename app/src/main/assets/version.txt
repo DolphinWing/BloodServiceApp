@@ -9,6 +9,11 @@ https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceA
 http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 
 ----
+
+
+[74] @ 2018-02-12
+    move project to build on Chromebook
+
 [73] @ 2018-02-05
     fix no google play service detection
     add right click support to donation activity list
