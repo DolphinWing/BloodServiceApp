@@ -29,18 +29,18 @@ android {
     flavorDimensions "mode"
 
     productFlavors {
-        stickygrid {
-            versionCode 33
-            versionName "1.1.1"
-            dimension "mode"
-        }
-        superslim {
-            versionCode 40
-            versionName "1.2.3"
-            dimension "mode"
-        }
+//        stickygrid {
+//            versionCode 33
+//            versionName "1.1.1"
+//            dimension "mode"
+//        }
+//        superslim {
+//            versionCode 40
+//            versionName "1.2.3"
+//            dimension "mode"
+//        }
         design {
-            versionCode 74
+            versionCode 75
             versionName "2.1.1"
             dimension "mode"
         }
@@ -56,7 +56,7 @@ android {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':library:MyUtilsLibrary')
+//    compile project(':library:MyUtilsLibrary')
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
 
     compile "com.android.support:support-v4:$supportLibraryVersion"
@@ -69,10 +69,10 @@ dependencies {
     compile "com.google.android.gms:play-services-analytics:$playServiceVersion"
     //compile 'de.hdodenhof:circleimageview:1.2.0'
 
-    stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
-    //noinspection GradleCompatible,GradleDependency
-    superslimCompile 'com.android.support:recyclerview-v7:24.1.1'
-    superslimCompile 'com.tonicartos:superslim:0.4.13'
+//    stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
+//    //noinspection GradleCompatible,GradleDependency
+//    superslimCompile 'com.android.support:recyclerview-v7:24.1.1'
+//    superslimCompile 'com.tonicartos:superslim:0.4.13'
     designCompile "com.android.support:recyclerview-v7:$supportLibraryVersion"
     designCompile 'com.tonicartos:superslim:0.4.13'
     designCompile "com.android.support:design:$supportLibraryVersion"

@@ -12,6 +12,7 @@ http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
 [75] @ 2018-02-13
     add more supports to desktop mode
     add default phone mode window for desktop
+    remove old flavors
 
 [74] @ 2018-02-12
     move project to build on Chromebook

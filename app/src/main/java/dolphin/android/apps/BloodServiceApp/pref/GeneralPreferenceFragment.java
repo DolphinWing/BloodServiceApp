@@ -17,11 +17,12 @@ import android.widget.TextView;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Locale;
 
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.ui.SplashActivity;
-import dolphin.android.util.AssetUtils;
 import dolphin.android.util.PackageUtils;
 
 /**
@@ -51,8 +52,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         mEngMode |= FirebaseRemoteConfig.getInstance().getBoolean("enable_change_log_summary");
         PackageInfo pInfo = getPackageInfo(context);
         findPreference(KEY_APP_VERSION).setSummary(String.format(Locale.US,
-                mEngMode ? "%s  r%d (eng)" : "%s (r%d)",
-                pInfo.versionName, pInfo.versionCode));
+                mEngMode ? "%s  r%d (eng)" : "%s (r%d)", pInfo.versionName, pInfo.versionCode));
     }
 
     public static PackageInfo getPackageInfo(Context context) {
@@ -63,8 +63,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         AlertDialog dialog = new AlertDialog.Builder(activity).create();
         dialog.setTitle(R.string.app_change_log);
         // windows Unicode file http://goo.gl/gRyTU
-        dialog.setMessage(AssetUtils.read_asset_text(activity,
-                VERSION_FILE, VERSION_FILE_ENCODE));
+        dialog.setMessage(read_asset_text(activity, VERSION_FILE, VERSION_FILE_ENCODE));
         dialog.setButton(AlertDialog.BUTTON_POSITIVE,
                 activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -110,5 +109,36 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
                 .setNegativeButton(R.string.action_restart_app_later, null)
                 .create();
         dialog.show();
+    }
+
+    private static String read_asset_text(Context context, String asset_name, String encoding) {
+        try {
+            InputStreamReader sr =
+                    new InputStreamReader(context.getAssets().open(asset_name),
+                            (encoding != null) ? encoding : "UTF8");
+            //Log.i(TAG, asset_name + " " + sr.getEncoding());
+
+            int len = 0;
+            StringBuilder sb = new StringBuilder();
+
+            while (true) {//read from buffer
+                char[] buffer = new char[1024];
+                len = sr.read(buffer);//, size, 512);
+                //Log.d(TAG, String.format("%d", len));
+                if (len > 0) {
+                    sb.append(buffer);
+                } else {
+                    break;
+                }
+            }
+            //Log.i(TAG, String.format("  length = %d", sb.length()));
+
+            sr.close();
+            return sb.toString().trim();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
