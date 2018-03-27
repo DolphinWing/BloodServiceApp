@@ -157,8 +157,8 @@ class SpotListFragment : BaseListFragment() {
         data class MyItem(val sectionFirstPosition: Int, var isHeader: Boolean, var name: String,
                           var data: SpotInfo?)
 
-        override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
-            holder?.let {
+        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+            holder.let {
                 if (items[position].isHeader) {
                     it.bindItem(items[position].name, null, null)
                 } else {
@@ -173,8 +173,8 @@ class SpotListFragment : BaseListFragment() {
             }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyViewHolder {
-            val inflater = LayoutInflater.from(parent!!.context)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
             val itemView: View = when (viewType) {
                 1 -> {
                     //Log.d(TAG, "spot city")
