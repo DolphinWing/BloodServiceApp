@@ -9,7 +9,7 @@
             android:key="enable_sticky_header"
             android:title="@string/title_sticky_header"
             android:summary="@string/title_sticky_header_in_gridview"
-            android:defaultValue="@bool/fragment_donation_sticky_grid_header_sticky"
+            android:defaultValue="true"
             android:enabled="true" />
         <CheckBoxPreference
             android:key="enable_adview"

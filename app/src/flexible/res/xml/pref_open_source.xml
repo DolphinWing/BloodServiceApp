@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="open_source_group"
+        android:title="@string/title_open_source">
+        <Preference
+            android:key="open_okhttp"
+            android:summary="@string/summary_open_source_okhttp"
+            android:title="@string/title_open_source_okhttp" />
+
+        <Preference
+            android:key="open_markushi_android_ui"
+            android:summary="@string/summary_open_source_markushi_android_ui"
+            android:title="@string/title_open_source_markushi_android_ui" />
+
+        <Preference
+            android:key="open_super_slim"
+            android:summary="@string/summary_open_source_super_slim"
+            android:title="@string/title_open_source_super_slim" />
+
+        <Preference
+            android:key="credit_background2"
+            android:summary="@string/summary_credit_background2"
+            android:title="@string/title_credit_background2" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

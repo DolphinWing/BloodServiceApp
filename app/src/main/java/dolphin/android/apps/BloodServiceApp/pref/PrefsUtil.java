@@ -76,8 +76,7 @@ public class PrefsUtil {
      */
     public static boolean isHeaderSticky(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        return pref.getBoolean(GeneralPreferenceFragment.KEY_HEADER_STICKY,
-                context.getResources().getBoolean(R.bool.fragment_donation_sticky_grid_header_sticky));
+        return pref.getBoolean(GeneralPreferenceFragment.KEY_HEADER_STICKY, true);
     }
 
     /**

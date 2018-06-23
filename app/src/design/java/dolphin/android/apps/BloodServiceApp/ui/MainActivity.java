@@ -46,12 +46,12 @@ import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil;
 
 public class MainActivity extends AppCompatActivity//ActionBarActivity
-        implements OnFragmentInteractionListener,
+        implements OnFragmentInteractionListener, OnBloodCenterChangeSpeaker,
         NavigationDrawerFragment.NavigationDrawerCallbacks {
     private final static String TAG = "MainActivity";
     private int[] mBloodCenterId;
     private int mSiteId = 5;
-    private final List<OnBloodCenterChanged> mListener = new ArrayList<>();
+    private final List<OnBloodCenterChangeListener> mListener = new ArrayList<>();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
 //        }
         setTitle(siteName);
 
-        for (OnBloodCenterChanged listener : mListener) {
+        for (OnBloodCenterChangeListener listener : mListener) {
             listener.notifyChanged(mSiteId, 0);
         }
         sendGANavigationChanged(getString(R.string.title_section3), siteName);
@@ -440,7 +440,8 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         }
     }
 
-    public void registerOnBloodCenterChanged(OnBloodCenterChanged listener) {
+    @Override
+    public void registerOnBloodCenterChanged(OnBloodCenterChangeListener listener) {
         //if (mListener == null) {
         //    Log.w(TAG, "registerOnBloodCenterChanged null");
         //    mListener = new ArrayList<OnBloodCenterChanged>();
@@ -450,15 +451,10 @@ public class MainActivity extends AppCompatActivity//ActionBarActivity
         }
     }
 
-    public void unregisterOnBloodCenterChanged(OnBloodCenterChanged listener) {
+    public void unregisterOnBloodCenterChanged(OnBloodCenterChangeListener listener) {
         if (listener != null) {
             mListener.remove(listener);
         }
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    public interface OnBloodCenterChanged {
-        void notifyChanged(int siteId, long timeInMillis);
     }
 
     //http://stackoverflow.com/a/12967721/2673859

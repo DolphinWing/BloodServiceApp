@@ -7,7 +7,6 @@ android {
 
     defaultConfig {
         applicationId "dolphin.android.apps.BloodServiceApp"
-        minSdkVersion 14
         targetSdkVersion 27
         resConfigs /*"zh",*/ "zh_TW"
     }
@@ -43,6 +42,13 @@ android {
             versionCode 76
             versionName "2.1.2"
             dimension "mode"
+            minSdkVersion 14
+        }
+        flexible {
+            versionCode 80
+            versionName "2.2.0"
+            dimension "mode"
+            minSdkVersion 21
         }
     }
 
@@ -56,7 +62,6 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-
     implementation "com.android.support:support-v4:$supportLibraryVersion"
     implementation "com.android.support:support-v13:$supportLibraryVersion"
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -66,15 +71,17 @@ dependencies {
     implementation "com.google.android.gms:play-services-ads-lite:$playServiceVersion"
     implementation "com.google.android.gms:play-services-analytics:$playServiceVersion"
     //compile 'de.hdodenhof:circleimageview:1.2.0'
-
-//    stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
-//    //noinspection GradleCompatible,GradleDependency
-//    superslimCompile 'com.android.support:recyclerview-v7:24.1.1'
-//    superslimCompile 'com.tonicartos:superslim:0.4.13'
+    //    stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
+    //    //noinspection GradleCompatible,GradleDependency
+    //    superslimCompile 'com.android.support:recyclerview-v7:24.1.1'
+    //    superslimCompile 'com.tonicartos:superslim:0.4.13'
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
     designImplementation 'com.tonicartos:superslim:0.4.13'
     implementation "com.android.support:design:$supportLibraryVersion"
-
+    //https://github.com/davideas/FlexibleAdapter
+    flexibleImplementation 'eu.davidea:flexible-adapter:5.0.5'
+    flexibleImplementation 'eu.davidea:flexible-adapter-ui:1.0.0-b5'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     //Firebase
     implementation "com.google.firebase:firebase-analytics:$playServiceVersion"
     implementation "com.google.firebase:firebase-config:$playServiceVersion"

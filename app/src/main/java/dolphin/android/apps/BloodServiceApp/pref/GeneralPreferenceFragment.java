@@ -56,7 +56,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
     }
 
     public static PackageInfo getPackageInfo(Context context) {
-        return PackageUtils.getPackageInfo(context, SettingsActivity.class);
+        return PackageUtils.getPackageInfo(context, SplashActivity.class);
     }
 
     public static void showVersionSummary(Activity activity) {
@@ -98,14 +98,16 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         AlertDialog dialog = new AlertDialog.Builder(activity)
                 .setTitle(R.string.title_restart_app_warning)
                 .setMessage(R.string.message_restart_app)
-                .setPositiveButton(R.string.action_restart_app_now, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(activity, SplashActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(intent);
-                    }
-                })
+                .setPositiveButton(R.string.action_restart_app_now,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(activity, SplashActivity.class);
+                                intent.setFlags(
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                activity.startActivity(intent);
+                            }
+                        })
                 .setNegativeButton(R.string.action_restart_app_later, null)
                 .create();
         dialog.show();

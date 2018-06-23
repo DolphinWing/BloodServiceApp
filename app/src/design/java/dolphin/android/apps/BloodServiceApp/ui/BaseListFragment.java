@@ -28,7 +28,7 @@ import dolphin.android.apps.BloodServiceApp.ui.dummy.DummyContent;
  * Created by dolphin on 2014/10/10.
  */
 public class BaseListFragment extends Fragment
-        implements /*AbsListView.OnItemClickListener, */MainActivity.OnBloodCenterChanged {
+        implements /*AbsListView.OnItemClickListener, */OnBloodCenterChangeListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String ARG_PARAM1 = "site_id";
@@ -92,6 +92,7 @@ public class BaseListFragment extends Fragment
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(mAutoGridView ? R.layout.fragment_donation
                 : R.layout.fragment_donation_list, container, false);
+        //View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Set the adapter
         mListView = view.findViewById(android.R.id.list);
@@ -113,9 +114,8 @@ public class BaseListFragment extends Fragment
             throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-        if (context instanceof MainActivity) {
-            mActivity = ((MainActivity) context);
-            mActivity.registerOnBloodCenterChanged(this);
+        if (getActivity() instanceof OnBloodCenterChangeSpeaker) {
+            ((OnBloodCenterChangeSpeaker) getActivity()).registerOnBloodCenterChanged(this);
         }
     }
 
@@ -123,8 +123,8 @@ public class BaseListFragment extends Fragment
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        if (mActivity != null) {
-            mActivity.unregisterOnBloodCenterChanged(this);
+        if (getActivity() instanceof OnBloodCenterChangeSpeaker) {
+            ((OnBloodCenterChangeSpeaker) getActivity()).unregisterOnBloodCenterChanged(this);
         }
     }
 

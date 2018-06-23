@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dolphin.android.apps.BloodServiceApp">
+
+    <!-- <uses-sdk tools:node="replace" /> -->
+    <application
+        android:resizeableActivity="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="n">
+
+        <activity android:name="dolphin.android.apps.BloodServiceApp.ui.MainActivity" />
+
+        <activity android:name="dolphin.android.apps.BloodServiceApp.ui.SplashActivity">
+            <!--suppress AndroidElementNotAllowed -->
+            <layout
+                android:defaultWidth="360dp"
+                android:defaultHeight="640dp"
+                android:gravity="center"
+                tools:targetApi="n" />
+        </activity>
+    </application>
+
+</manifest>

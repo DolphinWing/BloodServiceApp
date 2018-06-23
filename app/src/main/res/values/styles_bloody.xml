@@ -123,17 +123,4 @@
         <item name="android:layout_marginTop">60dp</item>
     </style>
 
-    <style name="Theme.Bloody.Shadow">
-        <item name="android:scaleType">fitXY</item>
-        <item name="android:contentDescription">@null</item>
-    </style>
-
-    <style name="Theme.Bloody.Shadow.Horizontal" parent="@style/Theme.Bloody.Shadow">
-        <item name="android:src">@drawable/drawer_shadow</item>
-    </style>
-
-    <style name="Theme.Bloody.Shadow.Vertical" parent="@style/Theme.Bloody.Shadow">
-        <item name="android:src">@drawable/drawer_shadow_vert</item>
-    </style>
-
 </resources>
