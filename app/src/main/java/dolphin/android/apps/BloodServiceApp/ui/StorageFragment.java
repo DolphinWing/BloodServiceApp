@@ -32,6 +32,7 @@ public class StorageFragment extends BaseListFragment {
     private final static String TAG = "StorageFragment";
     private final static boolean DEBUG_LOG = false;
 
+    private PrefsUtil prefs;
     private AdView mAdView;
     private View mProgressView;
 
@@ -61,6 +62,7 @@ public class StorageFragment extends BaseListFragment {
         if (DEBUG_LOG) {
             Log.d(TAG, "onCreate");
         }
+        prefs = new PrefsUtil(getContext());
         mBloodType = getResources().getStringArray(R.array.blood_type_value);
         mBloodTypeName = getResources().getStringArray(R.array.blood_type);
         mBloodStorage = getResources().getStringArray(R.array.blood_storage_status);
@@ -91,7 +93,7 @@ public class StorageFragment extends BaseListFragment {
 
         mAdView = view.findViewById(R.id.adView);
         //hide ADs if user choose not to show it
-        if (!PrefsUtil.isEnableAdView(getActivity())) {
+        if (!prefs.isEnableAdView()) {
             Log.w(TAG, "no ads...");
             mAdView.setVisibility(View.GONE);
         }
@@ -133,13 +135,12 @@ public class StorageFragment extends BaseListFragment {
     public void onResume() {
         super.onResume();
         if (DEBUG_LOG) {
-            Log.d(TAG, String.format("onResume %d %s", mAdView.getVisibility(),
-                    PrefsUtil.isEnableAdView(getActivity())));
+            Log.d(TAG, String.format("onResume %d %s", mAdView.getVisibility(), prefs.isEnableAdView()));
         }
         if (mAdView != null) {
             if (mAdView.getVisibility() == View.VISIBLE) {//previous yes
                 mAdView.resume();
-                if (!PrefsUtil.isEnableAdView(getActivity())) {//yes -> no
+                if (!prefs.isEnableAdView()) {//yes -> no
                     Log.v(TAG, "yes to no... that's fine");
                     mAdView.setVisibility(View.GONE);
                     try {
@@ -148,7 +149,7 @@ public class StorageFragment extends BaseListFragment {
                         Log.e(TAG, "destroy ads exception: " + e.getMessage());
                     }
                 }
-            } else if (PrefsUtil.isEnableAdView(getActivity())) {//no -> yes
+            } else if (prefs.isEnableAdView()) {//no -> yes
                 Log.v(TAG, "no to yes... THANK YOU!!!");
                 //send a request to server
                 loadAds();

@@ -46,7 +46,7 @@ public class DonationFragment extends BaseListFragment/*
     private DonationListAdapter mAdapter;
     private View mProgressView;
     private View mEmptyView;
-//    private View mBottomSheetBackground;
+    //    private View mBottomSheetBackground;
 //
 //    private BottomSheetBehavior mBottomSheetBehavior;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -499,8 +499,7 @@ public class DonationFragment extends BaseListFragment/*
     //http://goo.gl/jyT75l
     private void addToCalendar(DonateActivity donation) {
         Intent calIntent = new Intent(Intent.ACTION_INSERT);
-        calIntent.setData(CalendarContract.Events.CONTENT_URI);
-        calIntent.setType("vnd.android.cursor.item/event");
+        calIntent.setDataAndType(CalendarContract.Events.CONTENT_URI, "vnd.android.cursor.item/event");
         calIntent.putExtra(CalendarContract.Events.TITLE, donation.getName());
         calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, donation.getLocation());
         //calIntent.putExtra(CalendarContract.Events.DESCRIPTION, "description");
