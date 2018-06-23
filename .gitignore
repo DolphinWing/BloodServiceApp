@@ -6,6 +6,7 @@
 /build
 *.iml
 library/MyUtilsLibrary/build/
+.idea/vcs.xml
 
 #https://github.com/github/gitignore/blob/master/Android.gitignore
 # IntelliJ
@@ -23,3 +24,5 @@ library/MyUtilsLibrary/build/
 
 # Android Studio captures folder
 captures/
+
+app/release
