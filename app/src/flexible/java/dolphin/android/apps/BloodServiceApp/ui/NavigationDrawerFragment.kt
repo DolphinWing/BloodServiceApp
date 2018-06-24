@@ -74,7 +74,12 @@ class NavigationDrawerFragment : Fragment() {
         get() = (activity as AppCompatActivity).supportActionBar
 
     val selectedCenter: Int
-        get() = mCurrentSelectedPosition
+        get() = when {
+            mCurrentSelectedPosition == Int.MIN_VALUE -> Int.MIN_VALUE
+            activity != null ->
+                activity!!.resources!!.getIntArray(R.array.blood_center_id)[mCurrentSelectedPosition + 1]
+            else -> -1
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,7 +169,7 @@ class NavigationDrawerFragment : Fragment() {
                         mActionView!!.setAction(DrawerAction(), ActionView.ROTATE_CLOCKWISE)
                     } else if (slideOffset > 0.3 && mActionView!!.action is DrawerAction) {
                         mActionView!!.setAction(BackAction(),
-                                                ActionView.ROTATE_COUNTER_CLOCKWISE)
+                                ActionView.ROTATE_COUNTER_CLOCKWISE)
                     }
                 }
             })
@@ -242,9 +247,9 @@ class NavigationDrawerFragment : Fragment() {
 
     fun lockDrawer() {
         mDrawerLayout?.setDrawerLockMode(if (isDrawerOpen)
-                                             DrawerLayout.LOCK_MODE_LOCKED_OPEN
-                                         else
-                                             DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            DrawerLayout.LOCK_MODE_LOCKED_OPEN
+        else
+            DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
     fun unlockDrawer() {
@@ -256,6 +261,6 @@ class NavigationDrawerFragment : Fragment() {
 
     private fun startPersonalData() {
         PrefsUtil.startBrowserActivity(activity,
-                                       FirebaseRemoteConfig.getInstance().getString("url_blood_donor_info"))
+                FirebaseRemoteConfig.getInstance().getString("url_blood_donor_info"))
     }
 }

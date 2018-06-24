@@ -19,10 +19,14 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     private lateinit var navigationFragment: NavigationDrawerFragment
     private lateinit var contentFragment: Fragment
 
+    private lateinit var helper: BloodDataHelper
     private var siteId: Int = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        helper = BloodDataHelper(this)
+
         setContentView(R.layout.activity_main_drawer)
         findViewById<Toolbar>(R.id.toolbar)?.apply { setSupportActionBar(this) }
 //        supportActionBar?.apply {
@@ -46,6 +50,8 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             //switchToSection(R.id.action_settings)
             navigationFragment.lockDrawer()
         } else {//load data
+            siteId = navigationFragment.selectedCenter
+            supportActionBar?.title = helper.getBloodCenterName(siteId)
             switchToSection(R.id.action_section1)
             navigationFragment.unlockDrawer()
         }
@@ -85,15 +91,17 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             return
         }
 
-        siteId = resources.getIntArray(R.array.blood_center_id)[position + 1]
-        supportActionBar?.title = BloodDataHelper(this).getBloodCenterName(siteId)
+        siteId = navigationFragment.selectedCenter
+        supportActionBar?.title = helper.getBloodCenterName(siteId)
     }
 
     private fun switchToSection(id: Int) {
         when (id) {
             R.id.action_section1,
             R.id.action_section2,
-            R.id.action_section3,
+            R.id.action_section3 -> {
+                contentFragment = DonationListFragment()
+            }
             R.id.action_settings -> {
                 contentFragment = SettingsFragment()
                 supportActionBar?.title = getString(R.string.action_settings)

@@ -78,6 +78,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation "com.android.support:preference-v7:$supportLibraryVersion"
     //Firebase
     implementation "com.google.firebase:firebase-analytics:$playServiceVersion"
     implementation "com.google.firebase:firebase-config:$playServiceVersion"
@@ -86,7 +87,6 @@ dependencies {
     designImplementation 'com.tonicartos:superslim:0.4.13'
 
     //flexible
-    flexibleImplementation "com.android.support:preference-v7:$supportLibraryVersion"
     //https://github.com/davideas/FlexibleAdapter
     flexibleImplementation 'eu.davidea:flexible-adapter:5.0.5'
     flexibleImplementation 'eu.davidea:flexible-adapter-ui:1.0.0-b5'
