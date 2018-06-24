@@ -12,13 +12,16 @@ import android.view.ViewGroup
 import dolphin.android.apps.BloodServiceApp.R
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 
-class DonationListFragment : Fragment() {
+class SpotListFragment : Fragment() {
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var recyclerView: RecyclerView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val contentView = inflater.inflate(R.layout.fragment_recycler_view, container, false)
         swipeRefreshLayout = contentView.findViewById(android.R.id.progress)
+        swipeRefreshLayout?.apply {
+            isEnabled = false
+        }
         recyclerView = contentView.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)

@@ -29,11 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
         setContentView(R.layout.activity_main_drawer)
         findViewById<Toolbar>(R.id.toolbar)?.apply { setSupportActionBar(this) }
-//        supportActionBar?.apply {
-//            //setHomeButtonEnabled(true)
-//            setDisplayShowHomeEnabled(true)
-//            setDisplayHomeAsUpEnabled(true)
-//        }
+
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             switchToSection(it.itemId)
@@ -51,7 +47,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             navigationFragment.lockDrawer()
         } else {//load data
             siteId = navigationFragment.selectedCenter
-            supportActionBar?.title = helper.getBloodCenterName(siteId)
+            //supportActionBar?.title = helper.getBloodCenterName(siteId)
             switchToSection(R.id.action_section1)
             navigationFragment.unlockDrawer()
         }
@@ -97,17 +93,22 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
     private fun switchToSection(id: Int) {
         when (id) {
-            R.id.action_section1,
-            R.id.action_section2,
-            R.id.action_section3 -> {
+            R.id.action_section1 -> {
                 contentFragment = DonationListFragment()
+            }
+            R.id.action_section2 -> {
+                contentFragment = StorageFragment()
+            }
+            R.id.action_section3 -> {
+                contentFragment = SpotListFragment()
             }
             R.id.action_settings -> {
                 contentFragment = SettingsFragment()
-                supportActionBar?.title = getString(R.string.action_settings)
                 //bottomNavigationView.selectedItemId = R.id.action_settings
             }
         }
+        supportActionBar?.title = if (id == R.id.action_settings)
+            getString(R.string.action_settings) else helper.getBloodCenterName(siteId)
         supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.main_container, contentFragment)
                 ?.commitNowAllowingStateLoss()
