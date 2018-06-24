@@ -1,6 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 
 /**
  * Created by jimmyhu on 2017/2/22.

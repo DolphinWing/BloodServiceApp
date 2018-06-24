@@ -6,6 +6,7 @@
     <!-- <uses-sdk tools:node="replace" /> -->
     <application
         android:resizeableActivity="true"
+        android:roundIcon="@mipmap/ic_launcher"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
 

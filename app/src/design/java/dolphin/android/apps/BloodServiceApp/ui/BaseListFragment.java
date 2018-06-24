@@ -2,9 +2,6 @@ package dolphin.android.apps.BloodServiceApp.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -17,11 +14,18 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import dolphin.android.apps.BloodServiceApp.MyApplication;
 import dolphin.android.apps.BloodServiceApp.R;
-import dolphin.android.apps.BloodServiceApp.ui.dummy.DummyContent;
+
 
 /**
  * base implementations
@@ -46,7 +50,7 @@ public class BaseListFragment extends Fragment
     private Calendar mTime = Calendar.getInstance();
 
     protected OnFragmentInteractionListener mListener;
-    private MainActivity mActivity;
+    //private MainActivity mActivity;
 
     /**
      * The fragment's ListView/GridView.
@@ -273,6 +277,50 @@ public class BaseListFragment extends Fragment
                     .build());
             // Clear the screen name field when we're done.
             t.setScreenName(null);
+        }
+    }
+
+    public static class DummyContent {
+
+        /**
+         * An array of sample (dummy) items.
+         */
+        static List<DummyItem> ITEMS = new ArrayList<>();
+
+        /**
+         * A map of sample (dummy) items, by ID.
+         */
+        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+        private static Map<String, DummyItem> ITEM_MAP = new HashMap<>();
+
+        static {
+            // Add 3 sample items.
+            addItem(new DummyItem("1", "Item 1"));
+            addItem(new DummyItem("2", "Item 2"));
+            addItem(new DummyItem("3", "Item 3"));
+        }
+
+        private static void addItem(DummyItem item) {
+            ITEMS.add(item);
+            ITEM_MAP.put(item.id, item);
+        }
+
+        /**
+         * A dummy item representing a piece of content.
+         */
+        public static class DummyItem {
+            public String id;
+            public String content;
+
+            DummyItem(String id, String content) {
+                this.id = id;
+                this.content = content;
+            }
+
+            @Override
+            public String toString() {
+                return content;
+            }
         }
     }
 }

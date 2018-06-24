@@ -62,9 +62,9 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation "com.android.support:support-v4:$supportLibraryVersion"
-    implementation "com.android.support:support-v13:$supportLibraryVersion"
-    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    //implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha3'
+    //implementation 'androidx.legacy:legacy-support-v13:1.0.0-alpha3'
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
     implementation 'com.github.markushi:android-ui:1.2'
     //compile 'com.google.android.gms:play-services:6.1.71'
     implementation "com.google.android.gms:play-services-base:$playServiceVersion"
@@ -75,10 +75,10 @@ dependencies {
     //    //noinspection GradleCompatible,GradleDependency
     //    superslimCompile 'com.android.support:recyclerview-v7:24.1.1'
     //    superslimCompile 'com.tonicartos:superslim:0.4.13'
-    implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
-    implementation "com.android.support:design:$supportLibraryVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation "com.android.support:preference-v7:$supportLibraryVersion"
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha3'
+    implementation 'com.google.android.material:material:1.0.0-alpha3'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation 'androidx.preference:preference:1.0.0-alpha3'
     //Firebase
     implementation "com.google.firebase:firebase-analytics:$playServiceVersion"
     implementation "com.google.firebase:firebase-config:$playServiceVersion"

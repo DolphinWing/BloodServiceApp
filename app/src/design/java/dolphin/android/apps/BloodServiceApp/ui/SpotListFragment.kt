@@ -2,14 +2,14 @@ package dolphin.android.apps.BloodServiceApp.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.tonicartos.superslim.GridSLM
 import com.tonicartos.superslim.LayoutManager
 import com.tonicartos.superslim.LinearSLM
