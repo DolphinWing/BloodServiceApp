@@ -8,13 +8,16 @@ import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import dolphin.android.apps.BloodServiceApp.BuildConfig
 import dolphin.android.apps.BloodServiceApp.MyApplication
 import dolphin.android.apps.BloodServiceApp.R
-import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
 
-
 class SplashActivity : Activity() {
+
+    private lateinit var config: FirebaseRemoteConfig
+
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleUtil.onAttach(newBase!!))
     }
@@ -30,10 +33,8 @@ class SplashActivity : Activity() {
             return
         }
 
-        //FirebaseAnalytics.getInstance(this);//initialize this
-        FirebaseRemoteConfig.getInstance()
-
-        startMainActivity()
+        //startMainActivity()
+        prepareRemoteConfig()
     }
 
     private fun checkGoogleApiAvailability(): Boolean {
@@ -46,12 +47,33 @@ class SplashActivity : Activity() {
             val textView = findViewById<TextView>(android.R.id.message)
             textView.text = googleAPI.getErrorString(result)
             val dialog = googleAPI.getErrorDialog(this, result, 0)
-            dialog.setOnDismissListener { startMainActivity() }
+            dialog.setOnDismissListener { prepareRemoteConfig() }
             dialog.show()
             return false//don't show progress bar
         }
 
         return true
+    }
+
+    private fun prepareRemoteConfig() {
+        config = FirebaseRemoteConfig.getInstance()
+        config.apply {
+            setConfigSettings(FirebaseRemoteConfigSettings.Builder()
+                                      .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                                      .build())
+            setDefaults(R.xml.remote_config_defaults)
+        }
+        fetchFirebaseRemoteConfig()
+    }
+
+    private fun fetchFirebaseRemoteConfig() {
+        config.fetch(if (BuildConfig.DEBUG) 60 else 43200)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        config.activateFetched()
+                        startMainActivity()
+                    }
+                }
     }
 
     private fun startMainActivity() {

@@ -9,19 +9,10 @@
             android:title="@string/title_open_source_okhttp" />
 
         <Preference
-            android:key="open_markushi_android_ui"
-            android:summary="@string/summary_open_source_markushi_android_ui"
-            android:title="@string/title_open_source_markushi_android_ui" />
+            android:key="open_flexible_adapter"
+            android:summary="@string/summary_open_source_flexible_adapter"
+            android:title="@string/title_open_source_flexible_adapter" />
 
-        <Preference
-            android:key="open_super_slim"
-            android:summary="@string/summary_open_source_super_slim"
-            android:title="@string/title_open_source_super_slim" />
-
-        <Preference
-            android:key="credit_background2"
-            android:summary="@string/summary_credit_background2"
-            android:title="@string/title_credit_background2" />
     </PreferenceCategory>
 
 </PreferenceScreen>
