@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navigationFragment: NavigationDrawerFragment
-    private lateinit var contentFragment: Fragment
+    private var contentFragment: Fragment? = null
 
     private lateinit var helper: BloodDataHelper
     private var siteId: Int = 5
@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //ViewModelProviders.of(this).get(DataViewModel::class.java)
         helper = BloodDataHelper(this)
 
         setContentView(R.layout.activity_main_drawer)
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             switchToSection(it.itemId)
             true
         }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         //navigationFragment = fragmentManager.findFragmentById(R.id.navigation_drawer) as NavigationDrawerFragment
         navigationFragment = NavigationDrawerFragment()
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         } else {//load data
             siteId = navigationFragment.selectedCenter
             //supportActionBar?.title = helper.getBloodCenterName(siteId)
-            switchToSection(R.id.action_section1)
+            switchToSection(R.id.action_section2)
             navigationFragment.unlockDrawer()
         }
     }
@@ -89,28 +91,45 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
         siteId = navigationFragment.selectedCenter
         supportActionBar?.title = helper.getBloodCenterName(siteId)
-    }
-
-    private fun switchToSection(id: Int) {
-        when (id) {
-            R.id.action_section1 -> {
-                contentFragment = DonationListFragment()
-            }
-            R.id.action_section2 -> {
-                contentFragment = StorageFragment()
-            }
-            R.id.action_section3 -> {
-                contentFragment = SpotListFragment()
-            }
-            R.id.action_settings -> {
-                contentFragment = SettingsFragment()
-                //bottomNavigationView.selectedItemId = R.id.action_settings
+        //refresh each fragment if exists
+        intArrayOf(R.id.action_section1, R.id.action_section2, R.id.action_section3).forEach {
+            sectionCache[it.and(0xFFFF)]?.arguments = Bundle().apply {
+                putInt("site_id", siteId)
             }
         }
-        supportActionBar?.title = if (id == R.id.action_settings)
-            getString(R.string.action_settings) else helper.getBloodCenterName(siteId)
-        supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.main_container, contentFragment)
-                ?.commitNowAllowingStateLoss()
+    }
+
+    private val sectionCache = HashMap<Int, Fragment>()
+
+    private fun switchToSection(id: Int) {
+        val key = id.and(0xFFFF)
+        contentFragment = if (sectionCache[key] == null) {
+            when (id) {
+                R.id.action_section2 -> {
+                    DonationListFragment()
+                }
+                R.id.action_section1 -> {
+                    StorageFragment()
+                }
+                R.id.action_section3 -> {
+                    SpotListFragment()
+                }
+                R.id.action_settings -> {
+                    SettingsFragment()
+                    //bottomNavigationView.selectedItemId = R.id.action_settings
+                }
+                else -> SettingsFragment()
+            }
+        } else {
+            sectionCache[key]
+        }?.let {
+            it.arguments = Bundle().apply { putInt("site_id", siteId) }
+            supportActionBar?.title = if (id == R.id.action_settings)
+                getString(R.string.action_settings) else helper.getBloodCenterName(siteId)
+            supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.main_container, it)
+                    ?.commitNowAllowingStateLoss()
+            sectionCache.put(key, it)
+        }
     }
 }

@@ -15,8 +15,9 @@
 
     <com.google.android.gms.ads.AdView
         android:id="@android:id/custom"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
+
 </LinearLayout>

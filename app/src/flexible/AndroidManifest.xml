@@ -15,9 +15,11 @@
         <activity android:name="dolphin.android.apps.BloodServiceApp.ui.SplashActivity">
             <!--suppress AndroidElementNotAllowed -->
             <layout
-                android:defaultWidth="360dp"
-                android:defaultHeight="640dp"
-                android:gravity="center"
+                android:defaultWidth="480dp"
+                android:defaultHeight="720dp"
+                android:minHeight="640dp"
+                android:minWidth="480dp"
+                android:gravity="top|end"
                 tools:targetApi="n" />
         </activity>
     </application>

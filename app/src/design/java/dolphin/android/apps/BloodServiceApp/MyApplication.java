@@ -45,7 +45,7 @@ public class MyApplication extends Application {
 
     public synchronized Tracker getTracker(TrackerName trackerId) {
         if (!mTrackers.containsKey(trackerId)) {
-            if (!isGooglePlayServiceSupported()) {
+            if (isGooglePlayServiceNotSupported()) {
                 return null;//don't support Google Play Services
             }
 

@@ -90,6 +90,8 @@ dependencies {
     //https://github.com/davideas/FlexibleAdapter
     flexibleImplementation 'eu.davidea:flexible-adapter:5.0.5'
     flexibleImplementation 'eu.davidea:flexible-adapter-ui:1.0.0-b5'
+
+    flexibleImplementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
 }
 
 apply plugin: 'com.google.gms.google-services'
