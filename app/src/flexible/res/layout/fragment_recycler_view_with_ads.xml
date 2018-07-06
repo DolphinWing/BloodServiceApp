@@ -1,17 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@android:id/progress"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <dolphin.android.apps.BloodServiceApp.ui.FixedRecyclerView
-        android:id="@android:id/list"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@android:id/progress"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:listitem="@layout/listview_storage" />
+        android:layout_weight="1">
+
+        <dolphin.android.apps.BloodServiceApp.ui.FixedRecyclerView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/listview_storage" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@android:id/custom"

@@ -63,6 +63,10 @@ internal class DataViewModel(app: Application) : AndroidViewModel(app) {
         return application.spotCityCache[siteId]
     }
 
+    fun getCityName(cityId: Int): String {
+        return helper.cityList.get(cityId) ?: cityId.toString()
+    }
+
     internal class SpotData(private val executor: ExecutorService,
                             private val helper: BloodDataHelper,
                             private val siteId: Int)

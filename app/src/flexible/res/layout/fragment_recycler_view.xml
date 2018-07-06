@@ -4,9 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <dolphin.android.apps.BloodServiceApp.ui.FixedRecyclerView
-        android:id="@android:id/list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/listview_donation_activity" />
+        android:layout_height="match_parent">
+
+        <dolphin.android.apps.BloodServiceApp.ui.FixedRecyclerView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/listview_donation_activity" />
+    </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -249,5 +249,7 @@ class DonateActivity internal constructor(
         return result
     }
 
-    private val TAG = "DonateActivity"
+    companion object {
+        private const val TAG = "DonateActivity"
+    }
 }
