@@ -79,6 +79,9 @@ class DonationListFragment : Fragment() {
         })
     }
 
+    /**
+     * https://github.com/davideas/FlexibleAdapter/wiki/5.x-%7C-Headers-and-Sections#sticky-headers
+     */
     internal class DateItem(private val day: DonateDay)
         : AbstractHeaderItem<FlexibleViewHolder>(), IHeader<FlexibleViewHolder> {
 
