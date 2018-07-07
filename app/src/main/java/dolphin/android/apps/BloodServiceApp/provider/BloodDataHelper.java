@@ -6,7 +6,9 @@ import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -174,8 +176,8 @@ public class BloodDataHelper {
                     DonateActivity donateActivity = new DonateActivity(name, location);
                     donateActivity.setDuration(cal, time);
                     if (!list.contains(donateActivity)) {//[52]++
-                    //    Log.w(TAG, String.format("already has %s, ignore it", name));
-                    //} else {
+                        //    Log.w(TAG, String.format("already has %s, ignore it", name));
+                        //} else {
                         list.add(donateActivity);
                     }
                     //Log.d(TAG, list.get(list.size() - 1).toString());
@@ -355,6 +357,7 @@ public class BloodDataHelper {
                         //Log.d(TAG, "dynamic locations:");
                         parseDonationSpotHtml(siteId, list, locations[2], false);
                     }
+                    list.setCityName(mCityName.get(Integer.parseInt(cityId)));
                     maps.put(Integer.parseInt(cityId), list);
                 }
             }

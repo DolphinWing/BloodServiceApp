@@ -58,6 +58,8 @@ class DonationListFragment : Fragment() {
     }
 
     private fun queryData() {
+        swipeRefreshLayout?.isEnabled = true
+        swipeRefreshLayout?.isRefreshing = true
         viewModel?.getDonationData(siteId)?.observe(this, Observer {
             Log.d(TAG, "donation list: ${it?.size}")
             val list = ArrayList<AbstractFlexibleItem<*>>()

@@ -93,6 +93,8 @@ class StorageFragment : Fragment() {
     }
 
     private fun queryData() {
+        swipeRefreshLayout?.isEnabled = true
+        swipeRefreshLayout?.isRefreshing = true
         viewModel?.getStorageData()?.observe(this, Observer {
             val list = ArrayList<ItemView>()
             it?.get(siteId)?.let {

@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.app.Application
+import android.util.Log
 import android.util.SparseArray
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -10,8 +11,13 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
 import java.util.*
 import java.util.concurrent.ExecutorService
+import kotlin.collections.ArrayList
 
 internal class DataViewModel(app: Application) : AndroidViewModel(app) {
+    companion object {
+        private const val TAG = "DataViewModel"
+    }
+
     private val application: MyApplication = app as MyApplication
     private val helper = BloodDataHelper(application)
 
@@ -44,8 +50,7 @@ internal class DataViewModel(app: Application) : AndroidViewModel(app) {
 
     internal class DonationData(private val executor: ExecutorService,
                                 private val helper: BloodDataHelper,
-                                private val siteId: Int)
-        : LiveData<ArrayList<DonateDay>>() {
+                                private val siteId: Int) : LiveData<ArrayList<DonateDay>>() {
         override fun onActive() {
             super.onActive()
             executor.submit { if (value == null) fetch() }
@@ -58,30 +63,31 @@ internal class DataViewModel(app: Application) : AndroidViewModel(app) {
 
     fun getSpotData(siteId: Int): SpotData {
         if (application.spotCityCache[siteId] == null) {
-            application.spotCityCache.put(siteId, SpotData(application.executor, helper, siteId))
+            application.spotCityCache.put(siteId, SpotData(application, helper, siteId))
         }
         return application.spotCityCache[siteId]
     }
 
-    fun getCityName(cityId: Int): String {
-        return helper.cityList.get(cityId) ?: cityId.toString()
-    }
-
-    fun getCityOrder(cityId: Int): Int = helper.cityOrder.indexOf(cityId.toString())
-
-    fun getCityKey() = helper.cityOrder
-
-    internal class SpotData(private val executor: ExecutorService,
+    internal class SpotData(private val application: MyApplication,
                             private val helper: BloodDataHelper,
-                            private val siteId: Int)
-        : LiveData<SparseArray<SpotList>>() {
+                            private val siteId: Int) : LiveData<ArrayList<SpotList>>() {
         override fun onActive() {
             super.onActive()
-            executor.submit { if (value == null) fetch() }
+            application.executor.submit { if (value == null) fetch() }
         }
 
         private fun fetch() {
-            postValue(helper.getDonationSpotLocationMap(siteId))
+            val data = helper.getDonationSpotLocationMap(siteId)
+            //application.cityOrderCache.put(siteId, helper.cityOrder)
+            Log.d(TAG, "site id: $siteId")
+            val list = ArrayList<SpotList>()
+            helper.cityOrder?.forEach {
+                val cityId = it.toInt()
+                Log.d(TAG, "  city order: $it ${helper.getCityName(cityId)}")
+                //application.cityNameCache.put(cityId, helper.getCityName(cityId))
+                list.add(data.get(cityId).apply { cityName = helper.getCityName(cityId) })
+            }
+            postValue(list)
         }
     }
 }

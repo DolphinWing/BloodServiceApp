@@ -24,7 +24,7 @@ import eu.davidea.flexibleadapter.items.IHeader
 import eu.davidea.viewholders.ExpandableViewHolder
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class SpotListFragment : Fragment(),FlexibleAdapter.OnItemClickListener {
+class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     companion object {
         private const val TAG = "SpotListFragment"
     }
@@ -64,15 +64,18 @@ class SpotListFragment : Fragment(),FlexibleAdapter.OnItemClickListener {
     }
 
     private fun queryData() {
+        swipeRefreshLayout?.isEnabled = true
+        swipeRefreshLayout?.isRefreshing = true
+        Log.d(TAG, "query $siteId")
         viewModel?.getSpotData(siteId)?.observe(this, Observer { spots ->
-            Log.d(TAG, "spot list: ${spots?.size()}")
+            Log.d(TAG, "spot list: ${spots!!.size}")
             val list = ArrayList<IFlexible<*>>()
-            viewModel?.getCityKey()?.forEach { cityId ->
+            spots.forEach { city ->
                 //Log.d(TAG, "city: $cityId ${spots?.get(cityId.toInt())}")
-                val cityItem = CityItem(viewModel?.getCityName(cityId.toInt()) ?: cityId.toString())
+                val cityItem = CityItem(city.cityName ?: city.cityId.toString())
                 list.add(cityItem)
-                spots?.get(cityId.toInt())?.locations?.forEach {
-                    SpotItem(cityItem, it)
+                city.locations.forEach { spot ->
+                    SpotItem(cityItem, spot)
                     //list.add(SpotItem(cityItem, it))
                 }
             }
@@ -96,7 +99,10 @@ class SpotListFragment : Fragment(),FlexibleAdapter.OnItemClickListener {
 
         override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
                                     holder: ExpandableViewHolder?, position: Int, list: MutableList<Any>?) {
-            (holder as? CityHolder)?.title?.text = city
+            (holder as? CityHolder)?.apply {
+                title?.text = city
+                title?.isActivated = isExpanded
+            }
         }
 
         override fun equals(other: Any?): Boolean = (other as? CityItem)?.city == city

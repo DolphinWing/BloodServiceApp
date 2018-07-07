@@ -30,8 +30,9 @@ class SpotList(
     var dynamicLocations: ArrayList<SpotInfo> = ArrayList()
         private set
 
-    constructor(cityId: String) : this(Integer.parseInt(cityId))
+    constructor(cityId: String) : this(cityId.toInt())
 
+    var cityName: String? = null
     /**
      * add a new spot location to static location list
 
