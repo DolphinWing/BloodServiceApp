@@ -173,9 +173,9 @@ public class BloodDataHelper {
                     //Log.d(TAG, String.format("location: %s", location));
                     DonateActivity donateActivity = new DonateActivity(name, location);
                     donateActivity.setDuration(cal, time);
-                    if (list.contains(donateActivity)) {//[52]++
-                        Log.w(TAG, String.format("already has %s, ignore it", name));
-                    } else {
+                    if (!list.contains(donateActivity)) {//[52]++
+                    //    Log.w(TAG, String.format("already has %s, ignore it", name));
+                    //} else {
                         list.add(donateActivity);
                     }
                     //Log.d(TAG, list.get(list.size() - 1).toString());
@@ -320,8 +320,10 @@ public class BloodDataHelper {
         String[] baseUrls = mContext.getResources().getStringArray(R.array.blood_center_donate_station);
         String[] baseCityIds = mContext.getResources().getStringArray(R.array.blood_center_donate_station_city_id);
         SparseArray<SpotList> maps = new SparseArray<>();
+        mCityOrder.clear();
         long startTime = System.currentTimeMillis();
         for (String cityId : baseCityIds[i].split(",")) {
+            mCityOrder.add(cityId);
             String url = baseUrls[i].concat(QS_LOCATION_MAP_CITY).replace("{city}", cityId);
             //Log.d(TAG, url);
             long s1 = System.currentTimeMillis();
@@ -394,6 +396,12 @@ public class BloodDataHelper {
         } else {
             mCityName = list;
         }
+    }
+
+    private final ArrayList<String> mCityOrder = new ArrayList<>();
+
+    public ArrayList<String> getCityOrder() {
+        return mCityOrder;
     }
 
     private void parseDonationSpotHtml(int siteId, SpotList list, String html,

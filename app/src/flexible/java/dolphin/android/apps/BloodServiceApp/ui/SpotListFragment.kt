@@ -4,18 +4,16 @@ package dolphin.android.apps.BloodServiceApp.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dolphin.android.apps.BloodServiceApp.R
-import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
-import dolphin.android.apps.BloodServiceApp.provider.DonateLocation
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -26,7 +24,7 @@ import eu.davidea.flexibleadapter.items.IHeader
 import eu.davidea.viewholders.ExpandableViewHolder
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class SpotListFragment : Fragment() {
+class SpotListFragment : Fragment(),FlexibleAdapter.OnItemClickListener {
     companion object {
         private const val TAG = "SpotListFragment"
     }
@@ -66,21 +64,19 @@ class SpotListFragment : Fragment() {
     }
 
     private fun queryData() {
-        viewModel?.getSpotData(siteId)?.observe(this, Observer {
-            Log.d(TAG, "spot list: ${it?.size()}")
-            val size: Int = it?.size() ?: 0
+        viewModel?.getSpotData(siteId)?.observe(this, Observer { spots ->
+            Log.d(TAG, "spot list: ${spots?.size()}")
             val list = ArrayList<IFlexible<*>>()
-            for (i in 0 until size) {
-                val cityItem = CityItem(viewModel?.getCityName(it!!.keyAt(i))
-                        ?: it!!.keyAt(i).toString())
+            viewModel?.getCityKey()?.forEach { cityId ->
+                //Log.d(TAG, "city: $cityId ${spots?.get(cityId.toInt())}")
+                val cityItem = CityItem(viewModel?.getCityName(cityId.toInt()) ?: cityId.toString())
                 list.add(cityItem)
-                it?.valueAt(i)?.locations?.forEach {
+                spots?.get(cityId.toInt())?.locations?.forEach {
                     SpotItem(cityItem, it)
                     //list.add(SpotItem(cityItem, it))
                 }
-                Log.d(TAG, "city: ${it?.keyAt(i)} ${it?.valueAt(i)?.locations?.size}")
             }
-            recyclerView?.adapter = FlexibleAdapter(list).apply {
+            recyclerView?.adapter = FlexibleAdapter(list, this).apply {
                 setStickyHeaders(true)
                 setDisplayHeadersAtStartUp(true)
                 expandItemsAtStartUp()
@@ -107,11 +103,11 @@ class SpotListFragment : Fragment() {
 
         override fun hashCode(): Int = city.hashCode()
 
-        override fun getLayoutRes(): Int = R.layout.listview_donation_date
+        override fun getLayoutRes(): Int = R.layout.listview_spot_city
 
         internal class CityHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?)
             : ExpandableViewHolder(view, adapter, true) {
-            val title: TextView? = view?.findViewById(android.R.id.text1)
+            val title: TextView? = view?.findViewById(android.R.id.title)
             override fun shouldNotifyParentOnClick(): Boolean = true
         }
     }
@@ -136,11 +132,17 @@ class SpotListFragment : Fragment() {
 
         override fun hashCode(): Int = spot.hashCode()
 
-        override fun getLayoutRes(): Int = R.layout.listview_blood_center
+        override fun getLayoutRes(): Int = R.layout.listview_spot_location
 
         internal class SpotHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?)
-            : ExpandableViewHolder(view, adapter) {
+            : FlexibleViewHolder(view, adapter) {
             val location: TextView? = view?.findViewById(android.R.id.title)
+            //override fun shouldNotifyParentOnClick(): Boolean = true
         }
+    }
+
+    override fun onItemClick(view: View?, position: Int): Boolean {
+        Log.d(TAG, "click $position")
+        return true
     }
 }

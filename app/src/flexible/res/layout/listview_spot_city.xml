@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/material_listview_header_height"
+    android:background="@color/bloody_donate_date_background"
+    android:gravity="center_vertical"
+    tools:ignore="RtlHardcoded">
+
+    <TextView
+        android:id="@android:id/title"
+        style="@style/Theme.Bloody.Widget.Donation.Date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical|left"
+        android:singleLine="true"
+        android:text="@string/title_section3"
+        android:textColor="?android:attr/textColorPrimaryInverse" />
+</LinearLayout>

@@ -1,9 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
-import android.content.Context
-import androidx.annotation.Keep
-import android.text.format.DateFormat
 import android.util.Log
+import androidx.annotation.Keep
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -107,19 +105,6 @@ class DonateActivity internal constructor(
                     //time_str=17點
                     var found = false
 
-                    //jimmy-- replaced by better regex method
-                    //                    int len = time_str.length() - 1;
-                    //                    while (len > 0) {
-                    //                        String new_time_str = time_str.substring(0, len);
-                    //                        Log.d(TAG, "str: " + new_time_str);
-                    //                        if (new_time_str.matches("[0-9]+")) {
-                    //                            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(new_time_str));
-                    //                            cal.set(Calendar.MINUTE, 0);
-                    //                            found = true;
-                    //                            break;
-                    //                        }
-                    //                    }
-
                     val new_time_str = time_str.replace("\\D+".toRegex(), "")
                     //Log.d(TAG, "str: " + new_time_str);
                     if (new_time_str.matches("[0-9]+".toRegex())) {
@@ -185,8 +170,6 @@ class DonateActivity internal constructor(
 
      * @return duration string
      */
-    //Log.d(TAG, "start: " + StartTime.getTime().toString());
-    //Log.d(TAG, "  end: " + EndTime.getTime().toString());
     val duration: String
         get() {
             val sdf = SimpleDateFormat("HH:mm", Locale.TAIWAN)
@@ -194,22 +177,6 @@ class DonateActivity internal constructor(
                     sdf.format(startTime.time),
                     sdf.format(endTime.time))
         }
-
-    /**
-     * Get activity duration
-
-     * @param context Context
-     * *
-     * @return duration string by system settings
-     */
-    fun getDuration(context: Context): String {
-        if (DateFormat.is24HourFormat(context)) {
-            return duration
-        }
-        val timeFormatter = DateFormat.getTimeFormat(context)
-        return String.format("%s ~ %s", timeFormatter.format(startTime.time),
-                timeFormatter.format(endTime.time))
-    }
 
     /**
      * Get simple date time string

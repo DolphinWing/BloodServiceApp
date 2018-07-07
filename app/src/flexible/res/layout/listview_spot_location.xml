@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/material_listview_header_height"
+    android:background="@drawable/bloody_list_selector_holo_light"
+    android:gravity="center_vertical"
+    tools:ignore="RtlHardcoded">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/title"
+        style="@style/Theme.Bloody.Widget.Donation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:singleLine="true"
+        android:text="@string/title_section3" />
+
+</LinearLayout>

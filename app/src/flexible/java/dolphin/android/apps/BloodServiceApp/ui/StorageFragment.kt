@@ -55,11 +55,9 @@ class StorageFragment : Fragment() {
             layoutManager = SmoothScrollLinearLayoutManager(activity!!)
         }
         adView = contentView.findViewById(android.R.id.custom)
-        Handler().postDelayed({
-            adView.loadAd(AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                    .build())
-        }, 200) //delay load make ui show first
+//        Handler().postDelayed({
+//            loadAds()
+//        }, 500) //delay load make ui show first
         queryData()
         return contentView
     }
@@ -88,6 +86,12 @@ class StorageFragment : Fragment() {
         adView.destroy()
     }
 
+    private fun loadAds() {
+        adView.loadAd(AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build())
+    }
+
     private fun queryData() {
         viewModel?.getStorageData()?.observe(this, Observer {
             val list = ArrayList<ItemView>()
@@ -105,6 +109,8 @@ class StorageFragment : Fragment() {
             recyclerView?.adapter = FlexibleAdapter(list)
             swipeRefreshLayout?.isRefreshing = false
             swipeRefreshLayout?.isEnabled = false
+
+            loadAds()
         })
     }
 

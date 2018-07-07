@@ -67,6 +67,10 @@ internal class DataViewModel(app: Application) : AndroidViewModel(app) {
         return helper.cityList.get(cityId) ?: cityId.toString()
     }
 
+    fun getCityOrder(cityId: Int): Int = helper.cityOrder.indexOf(cityId.toString())
+
+    fun getCityKey() = helper.cityOrder
+
     internal class SpotData(private val executor: ExecutorService,
                             private val helper: BloodDataHelper,
                             private val siteId: Int)
