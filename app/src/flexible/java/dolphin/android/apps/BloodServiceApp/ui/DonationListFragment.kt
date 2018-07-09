@@ -21,7 +21,7 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.*
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class DonationListFragment : Fragment() {
+class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     companion object {
         private const val TAG = "DonationListFragment"
     }
@@ -72,7 +72,7 @@ class DonationListFragment : Fragment() {
                     list.add(ActivityItem(dateItem, it))
                 }
             }
-            recyclerView?.adapter = FlexibleAdapter(list).apply {
+            recyclerView?.adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
                 setStickyHeaders(true)
                 setDisplayHeadersAtStartUp(true)
             }
@@ -131,7 +131,8 @@ class DonationListFragment : Fragment() {
             (holder as? ActivityHolder)?.apply {
                 title?.text = activity.name
                 location?.text = activity.location
-                duration?.text = activity.duration
+                startTime?.text = activity.startTimeString
+                endTime?.text = activity.endTimeString
             }
         }
 
@@ -144,8 +145,14 @@ class DonationListFragment : Fragment() {
         internal class ActivityHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?)
             : FlexibleViewHolder(view, adapter) {
             val title: TextView? = view?.findViewById(android.R.id.title)
-            val location: TextView? = view?.findViewById(android.R.id.text1)
-            val duration: TextView? = view?.findViewById(android.R.id.text2)
+            val startTime: TextView? = view?.findViewById(android.R.id.text1)
+            val endTime: TextView? = view?.findViewById(android.R.id.text2)
+            val location: TextView? = view?.findViewById(android.R.id.message)
         }
+    }
+
+    override fun onItemClick(view: View?, position: Int): Boolean {
+        Log.d(TAG, "onItemClick $position")
+        return false
     }
 }

@@ -178,6 +178,12 @@ class DonateActivity internal constructor(
                     sdf.format(endTime.time))
         }
 
+    val startTimeString: String
+        get() = SimpleDateFormat("HH:mm", Locale.TAIWAN).format(startTime.time)
+
+    val endTimeString: String
+        get() = SimpleDateFormat("HH:mm", Locale.TAIWAN).format(endTime.time)
+
     /**
      * Get simple date time string
 

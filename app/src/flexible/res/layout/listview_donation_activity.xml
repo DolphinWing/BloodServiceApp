@@ -1,68 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_listview_item_height"
-    android:background="@drawable/bloody_list_selector_holo_light"
-    tools:ignore="RtlHardcoded">
+    android:background="@drawable/bloody_list_selector_holo_light">
 
-    <ImageView
-        android:id="@android:id/icon"
-        android:layout_width="@dimen/material_listview_primary_icon_width"
-        android:layout_height="@dimen/material_listview_primary_icon_width"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/material_horizontal_margin"
-        android:contentDescription="@string/title_section2"
-        android:padding="@dimen/material_listview_primary_icon_padding"
-        android:src="@drawable/ic_action_maps_local_attraction" />
+    <TextView
+        android:id="@android:id/text1"
+        style="@style/Theme.Bloody.Widget.Donation.Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/title_section2"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!--<ImageView
-        android:id="@android:id/button1"
-        android:layout_width="@dimen/material_listview_secondary_icon_width"
-        android:layout_height="@dimen/material_listview_secondary_icon_width"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/listview_selectable_item_background"
-        android:contentDescription="@string/action_more"
-        android:padding="@dimen/material_listview_primary_icon_padding"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_action_more_vert"
-        android:visibility="invisible" />-->
+    <TextView
+        android:id="@android:id/text2"
+        style="@style/Theme.Bloody.Widget.Donation.Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/title_section2"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@android:id/text1"
+        app:layout_constraintStart_toStartOf="@android:id/text1" />
 
-    <LinearLayout
+    <TextView
+        android:id="@android:id/title"
+        style="@style/Theme.Bloody.Widget.Donation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/title_section2"
+        app:layout_constraintBottom_toBottomOf="@android:id/text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@android:id/text1"
+        app:layout_constraintTop_toTopOf="@android:id/text1" />
+
+    <TextView
         android:id="@android:id/message"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/material_listivew_icon_text_margin"
-        android:layout_marginRight="@dimen/material_horizontal_margin"
-        android:layout_toLeftOf="@android:id/button1"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        style="@style/Theme.Bloody.Widget.Donation.Location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/title_section2"
+        app:layout_constraintBottom_toBottomOf="@android:id/text2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@android:id/text2"
+        app:layout_constraintTop_toTopOf="@android:id/text2" />
 
-        <TextView
-            android:id="@android:id/title"
-            style="@style/Theme.Bloody.Widget.Donation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_section2" />
-
-        <TextView
-            android:id="@android:id/text1"
-            style="@style/Theme.Bloody.Widget.Donation.Time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_section2" />
-
-        <TextView
-            android:id="@android:id/text2"
-            style="@style/Theme.Bloody.Widget.Donation.Location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_section2" />
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

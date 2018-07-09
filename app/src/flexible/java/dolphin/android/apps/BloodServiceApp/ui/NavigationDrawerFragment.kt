@@ -4,24 +4,19 @@ package dolphin.android.apps.BloodServiceApp.ui
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.legacy.app.ActionBarDrawerToggle
-import androidx.fragment.app.Fragment
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import at.markushi.ui.ActionView
-import at.markushi.ui.action.BackAction
-import at.markushi.ui.action.DrawerAction
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
@@ -53,10 +48,10 @@ class NavigationDrawerFragment : Fragment() {
      */
     private var mCallbacks: NavigationDrawerCallbacks? = null
 
-    /**
-     * Helper component that ties the action bar to the navigation drawer.
-     */
-    private val mDrawerToggle: ActionBarDrawerToggle? = null
+//    /**
+//     * Helper component that ties the action bar to the navigation drawer.
+//     */
+//    private val mDrawerToggle: ActionBarDrawerToggle? = null
 
     private var mDrawerLayout: DrawerLayout? = null
     private var mDrawerListView: ListView? = null
@@ -65,7 +60,7 @@ class NavigationDrawerFragment : Fragment() {
     private var mCurrentSelectedPosition = Int.MIN_VALUE
     private var mFromSavedInstanceState: Boolean = false
     private var mUserLearnedDrawer: Boolean = false
-    private var mActionView: ActionView? = null
+//    private var mActionView: ActionView? = null
 
     val isDrawerOpen: Boolean
         get() = mDrawerLayout?.isDrawerOpen(mFragmentContainerView!!) ?: false
@@ -139,11 +134,10 @@ class NavigationDrawerFragment : Fragment() {
      * @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
-    @JvmOverloads
-    fun setUp(fragmentId: Int, drawerLayout: DrawerLayout, actionView: ActionView? = null) {
+    fun setUp(fragmentId: Int, drawerLayout: DrawerLayout) {
         mFragmentContainerView = activity!!.findViewById(fragmentId)
         mDrawerLayout = drawerLayout
-        mActionView = actionView
+//        mActionView = actionView
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout?.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
@@ -161,19 +155,19 @@ class NavigationDrawerFragment : Fragment() {
             openDrawer()
         }
 
-        if (mActionView != null) {
-            mDrawerLayout?.setDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
-                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                    //super.onDrawerSlide(drawerView, slideOffset)
-                    if (slideOffset < 0.5 && mActionView!!.action is BackAction) {
-                        mActionView!!.setAction(DrawerAction(), ActionView.ROTATE_CLOCKWISE)
-                    } else if (slideOffset > 0.3 && mActionView!!.action is DrawerAction) {
-                        mActionView!!.setAction(BackAction(),
-                                ActionView.ROTATE_COUNTER_CLOCKWISE)
-                    }
-                }
-            })
-        }
+//        if (mActionView != null) {
+//            mDrawerLayout?.setDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
+//                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+//                    //super.onDrawerSlide(drawerView, slideOffset)
+//                    if (slideOffset < 0.5 && mActionView!!.action is BackAction) {
+//                        mActionView!!.setAction(DrawerAction(), ActionView.ROTATE_CLOCKWISE)
+//                    } else if (slideOffset > 0.3 && mActionView!!.action is DrawerAction) {
+//                        mActionView!!.setAction(BackAction(),
+//                                ActionView.ROTATE_COUNTER_CLOCKWISE)
+//                    }
+//                }
+//            })
+//        }
     }
 
     private fun selectItem(position: Int) {
@@ -208,7 +202,6 @@ class NavigationDrawerFragment : Fragment() {
         } catch (e: ClassCastException) {
             throw ClassCastException("Activity must implement NavigationDrawerCallbacks.")
         }
-
     }
 
     override fun onDetach() {
@@ -221,11 +214,11 @@ class NavigationDrawerFragment : Fragment() {
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        // Forward the new configuration the drawer toggle component.
-        mDrawerToggle?.onConfigurationChanged(newConfig)
-    }
+//    override fun onConfigurationChanged(newConfig: Configuration) {
+//        super.onConfigurationChanged(newConfig)
+//        // Forward the new configuration the drawer toggle component.
+//        mDrawerToggle?.onConfigurationChanged(newConfig)
+//    }
 
     /**
      * Callbacks interface that all activities using this fragment must implement.
