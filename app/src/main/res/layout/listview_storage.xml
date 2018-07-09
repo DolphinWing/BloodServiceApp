@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/material_listview_item_height">
+    android:layout_height="@dimen/material_listview_item_height"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView
+        android:id="@android:id/icon"
         android:layout_width="@dimen/material_listview_primary_icon_width"
         android:layout_height="@dimen/material_listview_primary_icon_width"
+        android:layout_marginStart="@dimen/material_horizontal_margin"
+        android:contentDescription="@null"
         android:padding="@dimen/material_listview_primary_icon_padding"
-        android:id="@android:id/icon"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_location"
-        android:layout_marginLeft="@dimen/material_horizontal_margin" />
+        android:src="@drawable/ic_location" />
 
     <TextView
-        style="@style/Theme.Bloody.Widget.Storage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_section1"
         android:id="@android:id/title"
-        android:layout_marginLeft="@dimen/material_listivew_icon_text_margin"
-        android:layout_centerVertical="true"/>
-</RelativeLayout>
+        style="@style/Theme.Bloody.Widget.Storage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_horizontal_margin"
+        android:layout_weight="1"
+        android:text="@string/title_section1" />
+</LinearLayout>

@@ -61,7 +61,6 @@ public class PrefsUtil {
      * Check if use sticky header. only useful in stickgrid build
      *
      * @return true if need stick header
-     * @deprecated only useful in stickgrid build
      */
     public boolean isHeaderSticky() {
         return isHeaderSticky(getContext());
@@ -72,7 +71,6 @@ public class PrefsUtil {
      *
      * @param context Context
      * @return true if need stick header
-     * @deprecated only useful in stickgrid build
      */
     public static boolean isHeaderSticky(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);

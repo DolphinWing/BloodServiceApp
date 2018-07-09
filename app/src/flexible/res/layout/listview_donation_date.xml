@@ -17,9 +17,7 @@
         android:layout_weight="1"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="@string/title_section2"
-        android:textColor="?android:attr/textColorPrimaryInverse"
-        android:textStyle="bold" />
+        android:text="@string/title_section2" />
 
     <TextView
         android:id="@android:id/text2"
@@ -27,6 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/material_horizontal_margin"
-        android:textColor="?android:attr/textColorPrimaryInverse" />
+        android:textStyle="normal" />
 
 </LinearLayout>

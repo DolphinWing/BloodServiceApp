@@ -62,8 +62,8 @@
     <string name="title_open_source">開放原始碼</string>
     <!-- Open Source links are in configs.xml -->
     <string name="title_display">顯示</string>
-    <string name="title_sticky_header">顯示日期標頭</string>
-    <string name="title_sticky_header_in_gridview">固定顯示日期標頭於列表上方</string>
+    <string name="title_sticky_header">固定顯示標頭</string>
+    <string name="title_sticky_header_in_gridview">固定顯示標頭於列表上方</string>
     <string name="title_enable_adview">顯示廣告</string>
     <string name="title_enable_adview_in_storage_list">在主頁顯示廣告</string>
     <string name="title_new_activity2">使用新版分頁顯示</string>

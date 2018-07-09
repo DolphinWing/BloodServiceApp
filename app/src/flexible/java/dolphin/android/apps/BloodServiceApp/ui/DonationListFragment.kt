@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dolphin.android.apps.BloodServiceApp.R
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -30,10 +31,12 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     private var recyclerView: RecyclerView? = null
     private var viewModel: DataViewModel? = null
     private var siteId = -1
+    private var prefs: PrefsUtil? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(DataViewModel::class.java)
+        prefs = PrefsUtil(activity!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,7 +76,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
                 }
             }
             recyclerView?.adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
-                setStickyHeaders(true)
+                setStickyHeaders(prefs?.isHeaderSticky ?: true)
                 setDisplayHeadersAtStartUp(true)
             }
             swipeRefreshLayout?.isRefreshing = false

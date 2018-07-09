@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/title"
-    style="@style/TextAppearance.AppCompat.Subhead"
+    style="@style/TextAppearance.MaterialComponents.Subtitle1"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_listview_header_height"
     android:layout_centerVertical="true"
     android:background="@drawable/bloody_list_selector_holo_light"
-    android:focusable="false"
-    android:focusableInTouchMode="false"
     android:gravity="center_vertical|start"
     android:paddingStart="@dimen/material_horizontal_margin"
     android:paddingEnd="@dimen/material_horizontal_margin"
-    android:singleLine="true"
-    android:text="@string/title_section2" />
+    android:text="@string/title_section3" />
