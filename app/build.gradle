@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "dolphin.android.apps.BloodServiceApp"
-        targetSdkVersion 27
+        targetSdkVersion 28
         resConfigs /*"zh",*/ "zh_TW"
     }
 
@@ -64,24 +64,24 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     //implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha3'
     //implementation 'androidx.legacy:legacy-support-v13:1.0.0-alpha3'
-    implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
-    implementation 'com.github.markushi:android-ui:1.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    designImplementation 'com.github.markushi:android-ui:1.2'
     //compile 'com.google.android.gms:play-services:6.1.71'
-    implementation "com.google.android.gms:play-services-base:$playServiceVersion"
-    implementation "com.google.android.gms:play-services-ads-lite:$playServiceVersion"
-    implementation "com.google.android.gms:play-services-analytics:$playServiceVersion"
+    implementation 'com.google.android.gms:play-services-base:15.0.1'
+    implementation 'com.google.android.gms:play-services-ads-lite:15.0.1'
+    implementation 'com.google.android.gms:play-services-analytics:16.0.1'
     //compile 'de.hdodenhof:circleimageview:1.2.0'
     //    stickygridCompile 'com.tonicartos:stickygridheaders:1.0.1'
     //    //noinspection GradleCompatible,GradleDependency
     //    superslimCompile 'com.android.support:recyclerview-v7:24.1.1'
     //    superslimCompile 'com.tonicartos:superslim:0.4.13'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha3'
-    implementation 'com.google.android.material:material:1.0.0-alpha3'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
+    implementation 'com.google.android.material:material:1.0.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'androidx.preference:preference:1.0.0-alpha3'
+    implementation 'androidx.preference:preference:1.0.0-beta01'
     //Firebase
-    implementation "com.google.firebase:firebase-analytics:$playServiceVersion"
-    implementation "com.google.firebase:firebase-config:$playServiceVersion"
+    implementation 'com.google.firebase:firebase-analytics:16.0.1'
+    implementation 'com.google.firebase:firebase-config:16.0.0'
 
     //design
     designImplementation 'com.tonicartos:superslim:0.4.13'
@@ -91,7 +91,7 @@ dependencies {
     flexibleImplementation 'eu.davidea:flexible-adapter:5.0.5'
     flexibleImplementation 'eu.davidea:flexible-adapter-ui:1.0.0-b5'
 
-    flexibleImplementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
+    flexibleImplementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
 }
 
 apply plugin: 'com.google.gms.google-services'
