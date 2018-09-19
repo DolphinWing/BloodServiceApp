@@ -13,6 +13,7 @@ This is a gradle project. You should use Android Studio to modify codes.
     update gradle libraries
     add privacy policy
     update settings and configs
+    update navigation drawer indicator (action bar icon)
 
 [76] @ 2018-03-08
     update library version
