@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/work/workspace/BloodServiceApp/app/BloodServiceApp-app.iml" filepath="$USER_HOME$/work/workspace/BloodServiceApp/app/BloodServiceApp-app.iml" />
-      <module fileurl="file://$USER_HOME$/work/workspace/BloodServiceApp/workspace-BloodServiceApp.iml" filepath="$USER_HOME$/work/workspace/BloodServiceApp/workspace-BloodServiceApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BloodServiceApp.iml" filepath="$PROJECT_DIR$/BloodServiceApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
