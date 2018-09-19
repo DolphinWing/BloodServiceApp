@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="dolphin.android.apps.BloodServiceApp.ui.MainActivity">
 
     <item
@@ -10,13 +10,13 @@
 
     <item
         android:id="@+id/action_facebook"
-        android:title="@string/action_go_to_facebook"
         android:icon="@drawable/ic_action_facebook"
+        android:title="@string/action_go_to_facebook"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/action_settings"
-        android:title="@string/action_settings"
         android:orderInCategory="100"
+        android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_go_next_week"
@@ -35,5 +35,4 @@
         android:id="@+id/action_go_to_website"
         android:title="@string/action_go_to_website"
         app:showAsAction="withText|never" />
-
 </menu>

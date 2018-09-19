@@ -44,6 +44,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         findViewById<TextView>(android.R.id.message)?.textSize = 12f
                     }
         }
-
     }
 }
