@@ -41,6 +41,9 @@ class NavigationDrawerFragment : Fragment() {
          */
         private const val PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned"
         const val PREF_USER_NEAR_BY_CENTER = "near_by_center"
+
+        const val ITEM_SETTINGS = -1
+        const val ITEM_PRIVACY_POLICY = -2
     }
 
     /**
@@ -119,7 +122,12 @@ class NavigationDrawerFragment : Fragment() {
             setItemChecked(mCurrentSelectedPosition, true)
         }
 
-        layout.findViewById<View>(android.R.id.edit)?.setOnClickListener { selectItem(-1) }
+        layout.findViewById<View>(android.R.id.edit)?.setOnClickListener {
+            selectItem(ITEM_SETTINGS)
+        }
+        layout.findViewById<View>(R.id.action_private_policy)?.setOnClickListener {
+            selectItem(ITEM_PRIVACY_POLICY)
+        }
         layout.findViewById<View>(R.id.action_go_personal)?.setOnClickListener {
             startPersonalData()
             closeDrawer()
@@ -174,7 +182,7 @@ class NavigationDrawerFragment : Fragment() {
         if (position == Integer.MIN_VALUE) {
             openDrawer()
             return
-        } else if (position == -1) {//settings
+        } else if (position == ITEM_SETTINGS || position == ITEM_PRIVACY_POLICY) {//settings
             closeDrawer()
             mCallbacks?.onNavigationDrawerItemSelected(position)
             return
@@ -249,7 +257,8 @@ class NavigationDrawerFragment : Fragment() {
         mDrawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
-    private inner class MyAdapter(context: Context, objects: List<String>)//android.R.layout.simple_list_item_activated_1
+    private inner class MyAdapter(context: Context, objects: List<String>)
+    //android.R.layout.simple_list_item_activated_1
         : ArrayAdapter<String>(context, R.layout.listview_blood_center, android.R.id.title, objects)
 
     private fun startPersonalData() {

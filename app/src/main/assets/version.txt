@@ -1,6 +1,7 @@
 快速查詢最近的捐血活動，以及台灣各血液中心目前的庫存狀態。
 
 資料來源為[醫療財團法人台灣血液基金會](http://www.blood.org.tw/)
+
 本程式需要網路連線來抓取最新資料，以便提供最即時資訊。
 
 * [Google Play Store](https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceApp)
@@ -9,6 +10,11 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[82] @ 2018-09-19
+    add privacy policy review check notification
+    move privacy policy action from menu to navigation drawer
+    add Facebook page link
+
 [81] @ 2018-09-19
     update gradle libraries
     add privacy policy

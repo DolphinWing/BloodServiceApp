@@ -3,19 +3,28 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.GeneralPreferenceFragment
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 
 class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDrawerCallbacks {
+    companion object {
+        private const val PREF_PRIVATE_POLICY = "private_policy"
+    }
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navigationFragment: NavigationDrawerFragment
@@ -58,6 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             switchToSection(R.id.action_section2)
             navigationFragment.unlockDrawer()
         }
+
+        checkPrivatePolicyReview()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,29 +79,30 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.findItem(R.id.action_personal)?.isVisible = false
         menu?.findItem(R.id.action_settings)?.isVisible = false
+        menu?.findItem(R.id.action_facebook)?.isVisible =
+                BloodDataHelper.getOpenFacebookIntent(this, siteId) != null
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> navigationFragment.openDrawer()
+            R.id.action_facebook -> {
+                BloodDataHelper.getOpenFacebookIntent(this, siteId)?.let {
+                    startActivity(it)
+                }
+                return true
+            }
             R.id.action_go_to_website -> {
                 BloodDataHelper.getOpenBloodCalendarSourceIntent(this, siteId)?.let {
                     startActivity(it)
                 }
                 return true
             }
-            R.id.action_private_policy -> {
-                android.app.AlertDialog.Builder(this)
-                        .setTitle(R.string.app_privacy_policy)
-                        .setMessage(GeneralPreferenceFragment.read_asset_text(this,
-                                "privacy_policy.txt", "UTF-8"))
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show().apply {
-                            findViewById<TextView>(android.R.id.message)?.textSize = 12f
-                        }
-                return true
-            }
+            //R.id.action_private_policy -> {
+            //    showPrivacyPolicyReview()
+            //    return true
+            //}
         }
         return super.onOptionsItemSelected(item)
     }
@@ -105,9 +117,13 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     override fun onNavigationDrawerItemSelected(position: Int) {
-        if (position == -1) {
+        if (position == NavigationDrawerFragment.ITEM_SETTINGS) {
             //switchToSection(R.id.action_settings)
             bottomNavigationView.selectedItemId = R.id.action_settings
+            return
+        }
+        if (position == NavigationDrawerFragment.ITEM_PRIVACY_POLICY) {
+            showPrivacyPolicyReview()
             return
         }
 
@@ -152,6 +168,37 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
                     ?.replace(R.id.main_container, fragment)
                     ?.commitNowAllowingStateLoss()
             sectionCache.put(key, fragment)
+        }
+    }
+
+    private fun showPrivacyPolicyReview() {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.app_privacy_policy)
+                .setMessage(GeneralPreferenceFragment.read_asset_text(this,
+                        "privacy_policy.txt", "UTF-8"))
+                .setPositiveButton(android.R.string.ok, null)
+                .show().apply {
+                    findViewById<TextView>(android.R.id.message)?.textSize = 12f
+                }
+    }
+
+    private fun checkPrivatePolicyReview() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val updateCode = FirebaseRemoteConfig.getInstance().getLong("privacy_policy_update_code")
+        //if private policy has been updated
+        if (prefs.getLong(PREF_PRIVATE_POLICY, 0) < updateCode) {
+            Handler().postDelayed({
+                Snackbar.make(findViewById<View>(R.id.main_container),
+                        R.string.snackbar_privacy_policy_updated, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.snackbar_privacy_policy_review) {
+                            showPrivacyPolicyReview()
+                            prefs.edit().putLong(PREF_PRIVATE_POLICY, updateCode).apply()
+                        }
+                        //.setAction(R.string.snackbar_privacy_policy_ignore) {
+                        //    prefs.edit().putLong(PREF_PRIVATE_POLICY, updateCode).apply()
+                        //}
+                        .show()
+            }, 10000)
         }
     }
 }

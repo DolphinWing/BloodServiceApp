@@ -13,7 +13,8 @@
         android:layout_height="@dimen/material_appbar_height"
         android:background="@color/bloody_color"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/material_horizontal_margin"
+        android:paddingStart="@dimen/material_horizontal_margin"
+        android:paddingEnd="8dp"
         android:text="@string/title_section3" />
 
     <ListView
@@ -35,24 +36,35 @@
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_listview_header_height"
-        android:background="@drawable/abc_list_selector_holo_light"
+        android:background="?selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/material_horizontal_margin"
+        android:paddingEnd="8dp"
+        android:text="@string/action_settings" />
+
+    <TextView
+        android:id="@+id/action_private_policy"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_listview_header_height"
+        android:background="?selectableItemBackground"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/material_horizontal_margin"
-        android:text="@string/action_settings"
-        tools:ignore="PrivateResource" />
+        android:paddingRight="@dimen/material_horizontal_margin"
+        android:text="@string/app_privacy_policy" />
 
     <TextView
         android:id="@+id/action_go_personal"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_listview_header_height"
-        android:background="@drawable/abc_list_selector_holo_light"
+        android:layout_marginEnd="@dimen/material_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:drawableEnd="@drawable/ic_action_action_open_in_browser"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/material_horizontal_margin"
-        android:drawableRight="@drawable/ic_action_action_open_in_browser"
-        android:layout_marginRight="@dimen/material_horizontal_margin"
-        android:text="@string/action_go_to_personal"
-        tools:ignore="PrivateResource" />
+        android:paddingStart="@dimen/material_horizontal_margin"
+        android:paddingEnd="8dp"
+        android:text="@string/action_go_to_personal" />
 
     <View
         android:id="@+id/dummy"

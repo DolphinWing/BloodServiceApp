@@ -17,5 +17,9 @@
         <key>enable_auto_collapse</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>privacy_policy_update_code</key>
+        <value>20180919</value>
+    </entry>
 </defaultsMap>
 <!-- END xml_defaults -->

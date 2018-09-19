@@ -25,8 +25,8 @@
         android:title="@string/action_settings"
         app:showAsAction="never|withText" />
 
-    <item
+    <!--<item
         android:id="@+id/action_private_policy"
         android:title="@string/app_privacy_policy"
-        app:showAsAction="withText|never" />
+        app:showAsAction="withText|never" />-->
 </menu>

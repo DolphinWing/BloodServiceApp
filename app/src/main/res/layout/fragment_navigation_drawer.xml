@@ -46,6 +46,18 @@
         tools:ignore="PrivateResource" />
 
     <TextView
+        android:id="@+id/action_private_policy"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_listview_header_height"
+        android:background="@drawable/abc_list_selector_holo_light"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/material_horizontal_margin"
+        android:paddingRight="@dimen/material_horizontal_margin"
+        android:text="@string/app_privacy_policy"
+        tools:ignore="PrivateResource" />
+
+    <TextView
         android:id="@+id/action_go_personal"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"

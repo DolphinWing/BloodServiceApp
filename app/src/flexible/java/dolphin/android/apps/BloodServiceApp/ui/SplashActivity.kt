@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -35,6 +37,10 @@ class SplashActivity : Activity() {
 
         //startMainActivity()
         prepareRemoteConfig()
+
+        Handler().postDelayed({
+            findViewById<View>(android.R.id.progress)?.visibility = View.VISIBLE //show loading
+        }, 2000)
     }
 
     private fun checkGoogleApiAvailability(): Boolean {
@@ -59,8 +65,8 @@ class SplashActivity : Activity() {
         config = FirebaseRemoteConfig.getInstance()
         config.apply {
             setConfigSettings(FirebaseRemoteConfigSettings.Builder()
-                                      .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                                      .build())
+                    .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                    .build())
             setDefaults(R.xml.remote_config_defaults)
         }
         fetchFirebaseRemoteConfig()
@@ -71,8 +77,8 @@ class SplashActivity : Activity() {
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         config.activateFetched()
-                        startMainActivity()
                     }
+                    startMainActivity()
                 }
     }
 

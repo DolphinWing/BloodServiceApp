@@ -22,7 +22,8 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.*
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
+class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
+        FlexibleAdapter.OnItemLongClickListener {
     companion object {
         private const val TAG = "DonationListFragment"
     }
@@ -63,16 +64,16 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     private fun queryData() {
         swipeRefreshLayout?.isEnabled = true
         swipeRefreshLayout?.isRefreshing = true
-        viewModel?.getDonationData(siteId)?.observe(this, Observer {
-            Log.d(TAG, "donation list: ${it?.size}")
+        viewModel?.getDonationData(siteId)?.observe(this, Observer { dayList ->
+            Log.d(TAG, "donation list: ${dayList?.size}")
             val list = ArrayList<AbstractFlexibleItem<*>>()
-            it?.forEach {
+            dayList?.forEach { day ->
                 //Log.d(TAG, "${it.dateString} has ${it.activityCount}")
-                val dateItem = DateItem(it)
+                val dateItem = DateItem(day)
                 //list.add(dateItem)
-                it.activities.forEach {
+                day.activities.forEach { act ->
                     //Log.d(TAG, "  ${it.name} @ ${it.location}")
-                    list.add(ActivityItem(dateItem, it))
+                    list.add(ActivityItem(dateItem, act))
                 }
             }
             recyclerView?.adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
@@ -157,5 +158,9 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     override fun onItemClick(view: View?, position: Int): Boolean {
         Log.d(TAG, "onItemClick $position")
         return false
+    }
+
+    override fun onItemLongClick(position: Int) {
+
     }
 }
