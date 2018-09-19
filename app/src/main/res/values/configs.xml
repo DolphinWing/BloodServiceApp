@@ -56,7 +56,7 @@
 
     <!-- Open Source link -->
     <string name="title_open_source_okhttp" translatable="false">OkHttp</string>
-    <string name="summary_open_source_okhttp" translatable="false">Copyright 2014 Square, Inc.</string>
+    <string name="summary_open_source_okhttp" translatable="false">Copyright 2016 Square, Inc.</string>
     <string name="title_open_source_stickygridheaders" translatable="false">StickyGridHeaders</string>
     <string name="summary_open_source_stickygridheaders" translatable="false">https://github.com/TonicArtos/StickyGridHeaders</string>
     <string name="title_open_source_markushi_android_ui" translatable="false">markushi android-ui</string>

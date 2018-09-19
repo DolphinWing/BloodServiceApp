@@ -69,6 +69,7 @@
     <string name="title_new_activity2">使用新版分頁顯示</string>
     <string name="summary_use_activity1">使用舊的滑動分頁顯示</string>
     <string name="summary_use_activity2">使用新的底部分頁顯示</string>
+    <string name="app_privacy_policy">隱私權政策</string>
 
     <string name="action_go_to_facebook">前往粉絲團</string>
     <string name="action_go_to_website">行動版網頁</string>

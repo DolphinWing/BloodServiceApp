@@ -113,7 +113,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         dialog.show();
     }
 
-    private static String read_asset_text(Context context, String asset_name, String encoding) {
+    public static String read_asset_text(Context context, String asset_name, String encoding) {
         try {
             InputStreamReader sr =
                     new InputStreamReader(context.getAssets().open(asset_name),
