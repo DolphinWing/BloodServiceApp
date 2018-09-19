@@ -2,27 +2,10 @@
 
 This is a gradle project. You should use Android Studio to modify codes.
 
-### What is this repository for? ###
+快速查詢最近的捐血活動，以及台灣各血液中心目前的庫存狀態。
 
-* A simple quick calendar and history app for Taiwan blood donation.
-* Please check Google Play Store or Google+ Community for latest version and discussions.
+資料來源為醫療財團法人台灣血液基金會(http://www.blood.org.tw/)
+程式需要網路連線來抓取最新資料，以便提供最即時資訊。
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Porject owner: DolphinWing (dolphinwing74@gmail.com)
-* Google+ Community: https://plus.google.com/communities/117125774226013120188
+https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceApp
+http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/
