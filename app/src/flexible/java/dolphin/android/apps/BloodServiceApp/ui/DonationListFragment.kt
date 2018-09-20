@@ -78,14 +78,17 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             val list = ArrayList<AbstractFlexibleItem<*>>()
             dayList?.forEach { day ->
                 //Log.d(TAG, "${it.dateString} has ${it.activityCount}")
-                val dateItem = DateItem(day)
-                adapterList.add(dateItem)
-                day.activities.forEach { act ->
-                    //Log.d(TAG, "  ${it.name} @ ${it.location}")
-                    adapterList.add(ActivityItem(dateItem, act))
-                    list.add(adapterList.last())
+                if (day.activities.isNotEmpty()) {//make sure it is not empty
+                    val dateItem = DateItem(day)
+                    adapterList.add(dateItem)
+                    day.activities.forEach { act ->
+                        //Log.d(TAG, "  ${it.name} @ ${it.location}")
+                        adapterList.add(ActivityItem(dateItem, act))
+                        list.add(adapterList.last())
+                    }
                 }
             }
+            Log.d(TAG, "adapter list size: ${adapterList.size}")
             recyclerView?.adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
                 setStickyHeaders(prefs?.isHeaderSticky ?: true)
                 setDisplayHeadersAtStartUp(true)
