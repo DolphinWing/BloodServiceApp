@@ -12,6 +12,7 @@ This is a gradle project. You should use Android Studio to modify codes.
 ----
 [83] @ 2018-09-20
     add proguard rules
+    add privacy policy at splash screen
 
 [82] @ 2018-09-19
     add privacy policy review check notification
