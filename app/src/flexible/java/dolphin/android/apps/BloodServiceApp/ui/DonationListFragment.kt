@@ -2,12 +2,16 @@
 
 package dolphin.android.apps.BloodServiceApp.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,10 +21,12 @@ import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
+import dolphin.android.util.PackageUtils
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.*
 import eu.davidea.viewholders.FlexibleViewHolder
+
 
 class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         FlexibleAdapter.OnItemLongClickListener {
@@ -61,19 +67,23 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         }
     }
 
+    private val adapterList = ArrayList<AbstractFlexibleItem<*>>()
+
     private fun queryData() {
         swipeRefreshLayout?.isEnabled = true
         swipeRefreshLayout?.isRefreshing = true
         viewModel?.getDonationData(siteId)?.observe(this, Observer { dayList ->
             //Log.d(TAG, "donation list: ${dayList?.size}")
+            adapterList.clear()
             val list = ArrayList<AbstractFlexibleItem<*>>()
             dayList?.forEach { day ->
                 //Log.d(TAG, "${it.dateString} has ${it.activityCount}")
                 val dateItem = DateItem(day)
-                //list.add(dateItem)
+                adapterList.add(dateItem)
                 day.activities.forEach { act ->
                     //Log.d(TAG, "  ${it.name} @ ${it.location}")
-                    list.add(ActivityItem(dateItem, act))
+                    adapterList.add(ActivityItem(dateItem, act))
+                    list.add(adapterList.last())
                 }
             }
             recyclerView?.adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
@@ -120,7 +130,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         }
     }
 
-    internal class ActivityItem(header: DateItem?, private val activity: DonateActivity)
+    internal class ActivityItem(header: DateItem?, val activity: DonateActivity)
         : AbstractSectionableItem<FlexibleViewHolder, DateItem>(header) {
         init {
             this.header = header
@@ -138,6 +148,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                 startTime?.text = activity.startTimeString
                 endTime?.text = activity.endTimeString
             }
+            //fragment.registerForContextMenu(holder?.itemView)
         }
 
         override fun equals(other: Any?) = (other as? ActivityItem)?.activity == activity
@@ -161,6 +172,71 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     }
 
     override fun onItemLongClick(position: Int) {
+        Log.d(TAG, "onItemLongClick $position")
+        (adapterList[position] as? ActivityItem)?.let { item ->
+            Log.d(TAG, "  ${item.activity.name}")
 
+            AlertDialog.Builder(activity!!)
+                    .setTitle(R.string.action_more)
+                    .setItems(arrayOf(getString(R.string.action_add_to_calendar),
+                            getString(R.string.action_search_location))) { _, index ->
+                        Log.d(TAG, "select $index")
+                        when (index) {
+                            0 -> addActivityToCalendar(item.activity)
+                            1 -> showSearchMapDialog(item.activity)
+                        }
+                    }
+                    .show()
+        }
+    }
+
+    //Android Essentials: Adding Events to the User’s Calendar
+    //http://goo.gl/jyT75l
+    private fun addActivityToCalendar(donation: DonateActivity) {
+        val calIntent = Intent(Intent.ACTION_INSERT).apply {
+            setDataAndType(CalendarContract.Events.CONTENT_URI, "vnd.android.cursor.item/event")
+            putExtra(CalendarContract.Events.TITLE, donation.name)
+            putExtra(CalendarContract.Events.EVENT_LOCATION, donation.location)
+            //putExtra(CalendarContract.Events.DESCRIPTION, "description");
+            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, donation.startTime.timeInMillis)
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, donation.endTime.timeInMillis)
+        }
+        if (PackageUtils.isCallable(activity, calIntent)) {
+            startActivity(calIntent)
+        }
+    }
+
+    private fun showSearchMapDialog(donation: DonateActivity) {
+        val list = donation.prepareLocationList(activity!!).toTypedArray()
+        AlertDialog.Builder(activity!!)
+                .setTitle(R.string.action_search_on_maps)
+                .setItems(list) { _, index ->
+                    Log.d(TAG, "select $index ${list[index]}")
+                    if (PrefsUtil.isGoogleMapsInstalled(activity)) {
+                        openActivityOnGoogleMaps(list[index])
+                    } else {
+                        openActivityOnGoogleMapsInBrowser(list[index])
+                    }
+                }
+                .show()
+    }
+
+    private fun openActivityOnGoogleMaps(location: String) {
+        val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=$location"))
+        mapIntent.setPackage("com.google.android.apps.maps")
+        if (PackageUtils.isCallable(activity, mapIntent)) {
+            startActivity(mapIntent)
+        }
+    }
+
+    private fun openActivityOnGoogleMapsInBrowser(location: String) {
+        //https://www.google.com/maps/search/?api=1&query=centurylink+field
+        val mapIntent = Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://www.google.com/maps/search/?api=1&query=$location"))
+        mapIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        if (PackageUtils.isCallable(activity, mapIntent)) {
+            startActivity(mapIntent)
+        }
     }
 }

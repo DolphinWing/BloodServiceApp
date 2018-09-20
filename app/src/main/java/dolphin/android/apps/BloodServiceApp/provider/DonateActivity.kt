@@ -1,9 +1,12 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
+import android.content.Context
 import android.util.Log
 import androidx.annotation.Keep
+import dolphin.android.apps.BloodServiceApp.R
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * Donation activity
@@ -224,5 +227,99 @@ class DonateActivity internal constructor(
 
     companion object {
         private const val TAG = "DonateActivity"
+    }
+
+    fun prepareLocationList(context: Context): ArrayList<String> {
+        val list = ArrayList<String>()
+        list.add(name) //add name first
+        //check if we should split the name
+        if (name.contains("(")) {
+            val name1 = name.split("\\(")
+            list.add(name1[0])
+            if (name1[1].contains(")")) {
+                list.add(name1[1].split("\\)".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
+            } else {
+                list.add(name1[1])
+            }
+        }
+        val lparen = context.getString(R.string.search_on_map_split_lparen)
+        val rparen = context.getString(R.string.search_on_map_split_rparen)
+        if (name.contains(lparen)) {
+            val name1 = name.split(lparen)
+            list.add(name1[0])
+            if (name1[1].contains(rparen)) {
+                list.add(name1[1].split(rparen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
+            } else {
+                list.add(name1[1])
+            }
+        }
+
+        //check the lication
+        if (location.contains("　")) {
+            val loc = location.split("　".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            for (l in loc) {
+                if (l.isEmpty()) {
+                    continue
+                }
+                val loc1 = splitByParentheses1(l)
+                for (l1 in loc1) {
+                    list.add(removeNumberTrailing(context, l1))
+                }
+            }
+        } else if (location.contains("(")) {
+            val loc = splitByParentheses1(location)
+            for (l in loc) {
+                list.add(removeNumberTrailing(context, l))
+            }
+        } else {
+            val loc = splitByParentheses2(context, location)
+            for (l in loc) {
+                list.add(removeNumberTrailing(context, l))
+            }
+        }
+
+        //http://stackoverflow.com/a/203992
+        val s = LinkedHashSet(list)
+        list.clear()
+        list.addAll(s)
+        return list
+    }
+
+    private fun splitByParentheses1(location: String): Array<String> {
+        if (location.contains("(")) {
+            val loc = location.split("\\(".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            for (i in loc.indices) {
+                loc[i] = if (loc[i].contains(")")) loc[i].substring(0, loc[i].indexOf(")")) else loc[i]
+            }
+            return loc
+        }
+        return arrayOf(location)
+    }
+
+    private fun splitByParentheses2(context: Context, location: String): Array<String> {
+        val lparen = context.getString(R.string.search_on_map_split_lparen)
+        val rparen = context.getString(R.string.search_on_map_split_rparen)
+        if (location.contains(lparen)) {
+            val loc = location.split(lparen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            for (i in loc.indices) {
+                loc[i] = when {
+                    loc[i].contains(rparen) -> loc[i].substring(0, loc[i].indexOf(rparen))
+                    loc[i].contains(")") -> loc[i].substring(0, loc[i].indexOf(")"))
+                    else -> loc[i]
+                }
+            }
+            return loc
+        }
+        return arrayOf(location)
+    }
+
+    private fun removeNumberTrailing(context: Context, location: String): String {
+        val num = context.getString(R.string.search_on_map_split_number)
+        if (location.contains(num)) {
+            return location.substring(0, location.indexOf(num) + 1)
+        } else {
+            //FIXME: maybe some other patterns?
+        }
+        return location
     }
 }
