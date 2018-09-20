@@ -13,7 +13,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import kotlin.collections.ArrayList
 
-internal class DataViewModel(app: Application) : AndroidViewModel(app) {
+/*internal*/ class DataViewModel(app: Application) : AndroidViewModel(app) {
     companion object {
         private const val TAG = "DataViewModel"
     }
@@ -28,7 +28,7 @@ internal class DataViewModel(app: Application) : AndroidViewModel(app) {
         return application.storageCache
     }
 
-    internal class StorageData(private val executor: ExecutorService,
+    /*internal*/ class StorageData(private val executor: ExecutorService,
                                private val helper: BloodDataHelper)
         : LiveData<SparseArray<HashMap<String, Int>>>() {
         override fun onActive() {
@@ -48,7 +48,7 @@ internal class DataViewModel(app: Application) : AndroidViewModel(app) {
         return application.donationCache[siteId]
     }
 
-    internal class DonationData(private val executor: ExecutorService,
+    /*internal*/ class DonationData(private val executor: ExecutorService,
                                 private val helper: BloodDataHelper,
                                 private val siteId: Int) : LiveData<ArrayList<DonateDay>>() {
         override fun onActive() {
@@ -68,7 +68,7 @@ internal class DataViewModel(app: Application) : AndroidViewModel(app) {
         return application.spotCityCache[siteId]
     }
 
-    internal class SpotData(private val application: MyApplication,
+    /*internal*/ class SpotData(private val application: MyApplication,
                             private val helper: BloodDataHelper,
                             private val siteId: Int) : LiveData<ArrayList<SpotList>>() {
         override fun onActive() {
