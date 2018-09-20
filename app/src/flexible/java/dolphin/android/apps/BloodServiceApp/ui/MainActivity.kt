@@ -5,6 +5,7 @@ package dolphin.android.apps.BloodServiceApp.ui
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -23,6 +24,7 @@ import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 
 class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDrawerCallbacks {
     companion object {
+        private const val TAG = "MainActivity"
         private const val PREF_PRIVATE_POLICY = "private_policy"
     }
 
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     private var contentFragment: Fragment? = null
 
     private lateinit var helper: BloodDataHelper
-    private var siteId: Int = 5
+    private var siteId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            switchToSection(menuItem.itemId)
+            switchToSection(menuItem.itemId) //switch when click bottom navigation
             true
         }
 
@@ -64,9 +66,10 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         } else {//load data
             siteId = navigationFragment.selectedCenter
             //supportActionBar?.title = helper.getBloodCenterName(siteId)
-            switchToSection(R.id.action_section2)
+            //switchToSection(R.id.action_section2)
             navigationFragment.unlockDrawer()
         }
+        switchToSection(R.id.action_section2) //auto load first section
 
         checkPrivatePolicyReview()
     }
@@ -117,6 +120,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     override fun onNavigationDrawerItemSelected(position: Int) {
+        //Log.d(TAG, "onNavigationDrawerItemSelected: $position")
         if (position == NavigationDrawerFragment.ITEM_SETTINGS) {
             //switchToSection(R.id.action_settings)
             bottomNavigationView.selectedItemId = R.id.action_settings
@@ -128,6 +132,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         }
 
         siteId = navigationFragment.selectedCenter
+        //Log.d(TAG, ">>> site id = $siteId")
         supportActionBar?.title = helper.getBloodCenterName(siteId)
         //refresh each fragment if exists
         intArrayOf(R.id.action_section1, R.id.action_section2, R.id.action_section3).forEach { id ->
@@ -183,6 +188,10 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     private fun checkPrivatePolicyReview() {
+        if (navigationFragment.selectedCenter < 0) {
+            Log.w(TAG, "not yet ready... don't show privacy warning")
+            return
+        }
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val updateCode = FirebaseRemoteConfig.getInstance().getLong("privacy_policy_update_code")
         //if private policy has been updated

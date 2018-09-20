@@ -65,7 +65,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         swipeRefreshLayout?.isEnabled = true
         swipeRefreshLayout?.isRefreshing = true
         viewModel?.getDonationData(siteId)?.observe(this, Observer { dayList ->
-            Log.d(TAG, "donation list: ${dayList?.size}")
+            //Log.d(TAG, "donation list: ${dayList?.size}")
             val list = ArrayList<AbstractFlexibleItem<*>>()
             dayList?.forEach { day ->
                 //Log.d(TAG, "${it.dateString} has ${it.activityCount}")
