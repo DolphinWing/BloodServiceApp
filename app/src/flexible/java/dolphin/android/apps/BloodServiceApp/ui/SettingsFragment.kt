@@ -5,6 +5,7 @@ package dolphin.android.apps.BloodServiceApp.ui
 import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import dolphin.android.apps.BloodServiceApp.R
@@ -12,6 +13,20 @@ import dolphin.android.apps.BloodServiceApp.pref.GeneralPreferenceFragment
 import dolphin.android.util.PackageUtils
 
 class SettingsFragment : PreferenceFragmentCompat() {
+    companion object {
+        @JvmStatic
+        fun showPrivacyPolicyReview(activity: AppCompatActivity) {
+            androidx.appcompat.app.AlertDialog.Builder(activity)
+                    .setTitle(R.string.app_privacy_policy)
+                    .setMessage(GeneralPreferenceFragment.read_asset_text(activity,
+                            "privacy_policy.txt", "UTF-8"))
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show().apply {
+                        findViewById<TextView>(android.R.id.message)?.textSize = 12f
+                    }
+        }
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_general)
         addPreferencesFromResource(R.xml.pref_open_source)

@@ -9,8 +9,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,13 +17,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dolphin.android.apps.BloodServiceApp.R
-import dolphin.android.apps.BloodServiceApp.pref.GeneralPreferenceFragment
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 
 class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDrawerCallbacks {
     companion object {
         private const val TAG = "MainActivity"
-        private const val PREF_PRIVATE_POLICY = "private_policy"
+        const val PREF_PRIVATE_POLICY = "private_policy"
     }
 
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -177,14 +174,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     private fun showPrivacyPolicyReview() {
-        AlertDialog.Builder(this)
-                .setTitle(R.string.app_privacy_policy)
-                .setMessage(GeneralPreferenceFragment.read_asset_text(this,
-                        "privacy_policy.txt", "UTF-8"))
-                .setPositiveButton(android.R.string.ok, null)
-                .show().apply {
-                    findViewById<TextView>(android.R.id.message)?.textSize = 12f
-                }
+        SettingsFragment.showPrivacyPolicyReview(this)
     }
 
     private fun checkPrivatePolicyReview() {

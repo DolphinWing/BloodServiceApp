@@ -10,30 +10,33 @@
 
     <TextView
         android:id="@android:id/message"
+        style="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
-        android:text="@string/app_name" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/app_name"
-        android:src="@mipmap/ic_launcher"
-        android:visibility="invisible" />
+        android:layout_marginTop="80dp"
+        android:text="@string/app_name"
+        android:textColor="?colorPrimary" />
 
     <ProgressBar
         android:id="@android:id/progress"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="?colorAccent"
+        android:indeterminateTintMode="src_in"
         android:visibility="invisible" />
+
+    <ViewStub
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="80dp"
+        android:layout="@layout/layout_privacy_policy_review" />
 
 </RelativeLayout>

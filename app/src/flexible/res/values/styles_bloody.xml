@@ -17,6 +17,34 @@
 -->
 
 <resources>
+    <style name="Theme.Bloody" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <!-- Remove system title bars; we will add the action bar ourselves. -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/bloody_color</item>
+        <item name="colorPrimaryDark">@color/bloody_darker_color</item>
+        <item name="colorAccent">@color/material_light_green_700</item>
+
+        <!-- Holo style generator -->
+        <item name="android:listChoiceBackgroundIndicator">@drawable/bloody_list_selector_holo_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/bloody_activated_background_holo_light</item>
+
+        <!-- http://stackoverflow.com/a/26531643/2673859 -->
+        <item name="toolbarStyle">@style/Theme.Bloody.Toolbar</item>
+
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- support library PreferenceFragmentCompat -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
+
+    <style name="Theme.Bloody.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/bloody_color</item>
+        <item name="colorPrimaryDark">@color/bloody_darker_color</item>
+        <item name="colorAccent">@color/material_light_green_700</item>
+    </style>
 
     <style name="Theme.Bloody.Widget.TabLayout" parent="@style/Widget.MaterialComponents.TabLayout">
         <item name="tabIndicatorColor">@color/bloody_color</item>

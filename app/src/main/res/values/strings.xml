@@ -84,5 +84,8 @@
     <string name="snackbar_privacy_policy_review">檢視</string>
     <string name="snackbar_privacy_policy_ignore">關閉</string>
 
+    <string name="splash_privacy_policy_review">在本應用程式使用過程中，可能會收集一些操作資訊，以供未來程式改進使用。這些資訊不會包含您的個人資料與隱私。您可以在這裡檢視相關的隱私權政策。繼續使用本程式代表您同意本應用程式的行為。</string>
+    <string name="splash_continue">繼續</string>
+
 </resources>
 

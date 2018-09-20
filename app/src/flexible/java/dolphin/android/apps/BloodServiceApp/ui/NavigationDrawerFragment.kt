@@ -39,7 +39,7 @@ class NavigationDrawerFragment : Fragment() {
          * Per the design guidelines, you should show the drawer on launch until the user manually
          * expands it. This shared preference tracks this.
          */
-        private const val PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned"
+        const val PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned"
         const val PREF_USER_NEAR_BY_CENTER = "near_by_center"
 
         const val ITEM_SETTINGS = -1
