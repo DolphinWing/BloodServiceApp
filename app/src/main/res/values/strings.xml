@@ -35,7 +35,7 @@
         <item>台中捐血中心</item>
         <item>台南捐血中心</item>
         <item>高雄捐血中心</item>
-        <item>花蓮捐血中心</item>
+        <!--<item>花蓮捐血中心</item>-->
     </string-array>
 
     <string name="title_downloading_data">查詢中</string>

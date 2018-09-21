@@ -94,6 +94,9 @@ class NavigationDrawerFragment : Fragment() {
             mCurrentSelectedPosition = sp.getInt(PREF_USER_NEAR_BY_CENTER, Integer.MIN_VALUE)
         }
 
+        if (mCurrentSelectedPosition == 5) {//Hualien center has been merged to Taipei center
+            mCurrentSelectedPosition = 0
+        }
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition)
     }

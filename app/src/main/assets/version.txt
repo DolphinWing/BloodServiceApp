@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[86] @ 2018-09-21
+    remove Hualien center
+
 [85] @ 2018-09-21
     add adaptive icon
     add long press menu
