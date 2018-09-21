@@ -5,9 +5,11 @@
 
     <!-- <uses-sdk tools:node="replace" /> -->
     <application
+        android:icon="@mipmap/ic_adaptive_launcher"
         android:resizeableActivity="true"
-        android:roundIcon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_adaptive_launcher_round"
         tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:icon"
         tools:targetApi="n">
 
         <activity
