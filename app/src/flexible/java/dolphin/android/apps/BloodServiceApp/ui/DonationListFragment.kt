@@ -86,9 +86,11 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                         adapterList.add(ActivityItem(dateItem, act))
                         list.add(adapterList.last())
                     }
+                } else {
+                    Log.w(TAG, "no activities in ${day.dateString}")
                 }
             }
-            Log.d(TAG, "adapter list size: ${adapterList.size}")
+            //Log.d(TAG, "adapter list size: ${adapterList.size}")
             recyclerView?.adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
                 setStickyHeaders(prefs?.isHeaderSticky ?: true)
                 setDisplayHeadersAtStartUp(true)
@@ -170,12 +172,12 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
-        Log.d(TAG, "onItemClick $position")
+        //Log.d(TAG, "onItemClick $position")
         return false
     }
 
     override fun onItemLongClick(position: Int) {
-        Log.d(TAG, "onItemLongClick $position")
+        //Log.d(TAG, "onItemLongClick $position")
         (adapterList[position] as? ActivityItem)?.let { item ->
             Log.d(TAG, "  ${item.activity.name}")
 
@@ -183,7 +185,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                     .setTitle(R.string.action_more)
                     .setItems(arrayOf(getString(R.string.action_add_to_calendar),
                             getString(R.string.action_search_location))) { _, index ->
-                        Log.d(TAG, "select $index")
+                        //Log.d(TAG, "select $index")
                         when (index) {
                             0 -> addActivityToCalendar(item.activity)
                             1 -> showSearchMapDialog(item.activity)
@@ -200,7 +202,8 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             setDataAndType(CalendarContract.Events.CONTENT_URI, "vnd.android.cursor.item/event")
             putExtra(CalendarContract.Events.TITLE, donation.name)
             putExtra(CalendarContract.Events.EVENT_LOCATION, donation.location)
-            //putExtra(CalendarContract.Events.DESCRIPTION, "description");
+            putExtra(CalendarContract.Events.DESCRIPTION,
+                    getString(R.string.action_add_to_calendar_description))
             putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
             putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, donation.startTime.timeInMillis)
             putExtra(CalendarContract.EXTRA_EVENT_END_TIME, donation.endTime.timeInMillis)
@@ -215,7 +218,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         AlertDialog.Builder(activity!!)
                 .setTitle(R.string.action_search_on_maps)
                 .setItems(list) { _, index ->
-                    Log.d(TAG, "select $index ${list[index]}")
+                    //Log.d(TAG, "select $index ${list[index]}")
                     if (PrefsUtil.isGoogleMapsInstalled(activity)) {
                         openActivityOnGoogleMaps(list[index])
                     } else {

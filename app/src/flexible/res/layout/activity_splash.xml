@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:drawableBottom="@mipmap/ic_adaptive_launcher_fg"
+        android:drawableTop="@mipmap/ic_adaptive_launcher_fg"
         android:text="@string/app_name"
         android:textColor="?colorPrimary" />
 

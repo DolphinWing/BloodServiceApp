@@ -10,6 +10,13 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[85] @ 2018-09-21
+    add adaptive icon
+    add long press menu
+
+[84] @ 2018-09-20
+    fix proguard androidx lifecycle
+
 [83] @ 2018-09-20
     add proguard rules
     add privacy policy at splash screen
