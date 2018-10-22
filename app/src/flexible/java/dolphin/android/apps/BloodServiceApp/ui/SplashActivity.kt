@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewStub
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -74,6 +75,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun prepareRemoteConfig() {
+        //Google Mobile Ads SDK version 17.0.0
+        MobileAds.initialize(this, getString(R.string.admob_app_id))
+
         config = FirebaseRemoteConfig.getInstance()
         config.apply {
             setConfigSettings(FirebaseRemoteConfigSettings.Builder()

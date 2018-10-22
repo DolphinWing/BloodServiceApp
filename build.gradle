@@ -5,9 +5,9 @@ buildscript {
     ext {
         //playServiceVersion = '12.0.1'
         //supportLibraryVersion = '27.1.1'
-        kotlin_version = '1.2.70'
+        kotlin_version = '1.2.71'
         compile_sdk_version = 28
-        build_tool_version = '28.0.2'
+        //build_tool_version = '28.0.2'
         //gradle_version = '3.1.1'
     }
     repositories {
@@ -15,7 +15,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-rc03'
+        classpath 'com.android.tools.build:gradle:3.2.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
