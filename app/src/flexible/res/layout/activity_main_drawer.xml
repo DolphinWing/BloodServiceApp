@@ -36,6 +36,7 @@
             android:elevation="4dp"
             app:itemIconTint="@color/bottom_navigation_text_primary"
             app:itemTextColor="@color/bottom_navigation_text_primary"
+            app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -21,6 +21,10 @@ import kotlin.collections.ArrayList
     private val application: MyApplication = app as MyApplication
     private val helper = BloodDataHelper(application)
 
+    init {
+        application.executor.submit { helper.warmup() }
+    }
+
     fun getStorageData(): StorageData? {
         if (application.storageCache == null) {
             application.storageCache = StorageData(application.executor, helper)

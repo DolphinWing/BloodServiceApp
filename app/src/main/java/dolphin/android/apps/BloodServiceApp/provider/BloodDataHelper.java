@@ -72,6 +72,18 @@ public class BloodDataHelper {
         mCityName = new SparseArray<>();
     }
 
+    public void warmup() {
+        Request request = new Request.Builder()
+                .url(URL_BASE_BLOOD_ORG + "/robots.txt")
+                .get()
+                .build();
+        try {
+            mClient.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String getBody(String url) {
         Request request = new Request.Builder().url(url).build();
         Response response;
@@ -82,6 +94,8 @@ public class BloodDataHelper {
         } catch (IOException e) {
             e.printStackTrace();
             Log.e(TAG, String.format("%s from %s", e.getMessage(), url));
+        } catch (NullPointerException e) {
+            Log.e(TAG, "null pointer exception");
         }
         return "(empty)";
     }

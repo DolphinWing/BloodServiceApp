@@ -10,6 +10,14 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[87] @ 2018-10-22
+    update Android Studio 3.2.1 and library versions
+
+    add warm up method
+        https://github.com/square/okhttp/issues/3763
+    add bottom navigation text
+        https://stackoverflow.com/a/50544437/2673859
+
 [86] @ 2018-09-21
     remove Hualien center
 
