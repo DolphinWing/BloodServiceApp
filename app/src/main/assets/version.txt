@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[88] @ 2018-11-09
+    update gradle and library versions
+
 [87] @ 2018-10-22
     update Android Studio 3.2.1 and library versions
 
@@ -19,7 +22,7 @@ This is a gradle project. You should use Android Studio to modify codes.
         https://stackoverflow.com/a/50544437/2673859
 
 [86] @ 2018-09-21
-    remove Hualien center
+    remove Hualien center (merged to Taipei center)
 
 [85] @ 2018-09-21
     add adaptive icon
