@@ -5,6 +5,7 @@
     android:layout_height="@dimen/material_listview_header_height"
     android:background="@drawable/bloody_list_selector_holo_light"
     android:gravity="center_vertical"
+    android:importantForAccessibility="no"
     tools:ignore="RtlHardcoded">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"

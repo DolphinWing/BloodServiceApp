@@ -2,6 +2,7 @@ package dolphin.android.apps.BloodServiceApp.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -24,6 +25,7 @@ import dolphin.android.apps.BloodServiceApp.BuildConfig
 import dolphin.android.apps.BloodServiceApp.MyApplication
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
+import dolphin.android.util.PackageUtils
 import java.lang.ref.WeakReference
 
 class SplashActivity : AppCompatActivity() {
@@ -44,6 +46,15 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash)
         handler = MyHandler(this)
+
+        findViewById<TextView>(android.R.id.title)?.apply {
+            val packageInfo = PackageUtils.getPackageInfo(context, this::class.java)
+            text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageInfo?.longVersionCode?.toString()
+            } else {
+                packageInfo?.versionCode?.toString()
+            } ?: "-"
+        }
 
         if (!checkGoogleApiAvailability()) {
             val myApp: MyApplication = application as MyApplication
@@ -160,6 +171,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     internal fun handleMessage(msg: Message?) {
-        findViewById<View>(android.R.id.progress)?.visibility = if (msg?.what == 1) View.VISIBLE else View.INVISIBLE
+        findViewById<View>(android.R.id.progress)?.visibility =
+                if (msg?.what == 1) View.VISIBLE else View.INVISIBLE
     }
 }

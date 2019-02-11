@@ -40,4 +40,12 @@
         android:layout_marginBottom="80dp"
         android:layout="@layout/layout_privacy_policy_review" />
 
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        tools:ignore="RelativeOverlap" />
 </RelativeLayout>

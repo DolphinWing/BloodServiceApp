@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/bloody_donate_date_background" />
+    <solid android:color="@color/bloody_donate_date_no_children_background" />
     <size android:width="@dimen/material_listview_header_height"
         android:height="@dimen/material_listview_header_height"/>
 </shape>

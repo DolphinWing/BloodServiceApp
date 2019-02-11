@@ -18,6 +18,7 @@ library/MyUtilsLibrary/build/
 .idea/dictionaries
 .idea/libraries
 .idea/caches
+.idea/misc.xml
 
 # Android Studio Navigation editor temp files
 .navigation/

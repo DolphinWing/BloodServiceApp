@@ -4,7 +4,8 @@
     android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_listview_item_height"
-    android:background="@drawable/bloody_list_selector_holo_light">
+    android:background="@drawable/bloody_list_selector_holo_light"
+    android:clickable="false">
 
     <TextView
         android:id="@android:id/text1"

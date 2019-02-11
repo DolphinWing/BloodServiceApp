@@ -4,6 +4,7 @@
     android:layout_height="@dimen/material_listview_header_height"
     android:layout_gravity="center_vertical"
     android:background="@color/bloody_donate_date_background"
+    android:clickable="false"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 

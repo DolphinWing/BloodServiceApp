@@ -2,7 +2,7 @@
 <resources>
     <!-- https://material.google.com/style/color.html#color-color-palette -->
     <color name="material_orange_100">#ffe0b2</color>
-    <color name="material_light_green_700">#689f38</color>
+    <color name="material_light_green_700">#558B2F</color>
     <color name="material_indigo_500">#3f51b5</color>
     <color name="material_orange_800">#EF6C00</color>
     <color name="material_orange_900">#E65100</color>
@@ -15,9 +15,9 @@
     <color name="bloody_popup_color">#303030</color>
 
     <!-- light green 700 -->
-    <color name="bloody_donate_date_background">#cc689f38</color>
+    <color name="bloody_donate_date_background">#CC2E7D32</color>
     <!-- light green 500 -->
-    <color name="bloody_donate_date_no_children_background">#cc8BC34A</color>
+    <color name="bloody_donate_date_no_children_background">#CC558B2F</color>
 
     <!-- ListView donation date separator -->
     <color name="listview_donation_date_separator">#44ffffff</color>

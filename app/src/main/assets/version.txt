@@ -10,6 +10,11 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[89] @ 2019-02-11
+    update Android Studio 3.3.1
+    upgrade gradle libraries
+    fix some accessibility issues
+
 [88] @ 2018-11-09
     update gradle and library versions
 

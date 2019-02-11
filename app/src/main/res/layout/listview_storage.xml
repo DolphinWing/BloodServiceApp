@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_listview_item_height"
     android:gravity="center_vertical"
+    android:importantForAccessibility="no"
     android:orientation="horizontal"
     tools:ignore="UseCompoundDrawables">
 
