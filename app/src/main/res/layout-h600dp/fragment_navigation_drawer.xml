@@ -32,6 +32,19 @@
         tools:ignore="PrivateResource" />
 
     <TextView
+        android:id="@+id/action_go_personal"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_listview_header_height"
+        android:layout_marginEnd="@dimen/material_horizontal_margin"
+        android:background="?selectableItemBackground"
+        android:drawableEnd="@drawable/ic_action_action_open_in_browser"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/material_horizontal_margin"
+        android:paddingEnd="8dp"
+        android:text="@string/action_go_to_personal" />
+
+    <TextView
         android:id="@android:id/edit"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
@@ -52,19 +65,6 @@
         android:paddingLeft="@dimen/material_horizontal_margin"
         android:paddingRight="@dimen/material_horizontal_margin"
         android:text="@string/app_privacy_policy" />
-
-    <TextView
-        android:id="@+id/action_go_personal"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/material_listview_header_height"
-        android:layout_marginEnd="@dimen/material_horizontal_margin"
-        android:background="?selectableItemBackground"
-        android:drawableEnd="@drawable/ic_action_action_open_in_browser"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/material_horizontal_margin"
-        android:paddingEnd="8dp"
-        android:text="@string/action_go_to_personal" />
 
     <View
         android:id="@+id/dummy"

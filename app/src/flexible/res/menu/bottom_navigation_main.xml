@@ -24,11 +24,11 @@
         android:title="@string/title_section3"
         app:showAsAction="ifRoom|withText" />
 
-    <item
+    <!--<item
         android:id="@+id/action_settings"
         android:checkable="true"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/title_activity_settings"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="ifRoom|withText" />-->
 
 </menu>

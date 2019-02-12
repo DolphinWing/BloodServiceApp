@@ -34,6 +34,19 @@
         android:background="@color/ripple_material_light" />
 
     <TextView
+        android:id="@+id/action_go_personal"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_listview_header_height"
+        android:layout_marginRight="@dimen/material_horizontal_margin"
+        android:background="@drawable/abc_list_selector_holo_light"
+        android:drawableRight="@drawable/ic_action_action_open_in_browser"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/material_horizontal_margin"
+        android:paddingRight="@dimen/material_horizontal_margin"
+        android:text="@string/action_go_to_personal" />
+
+    <TextView
         android:id="@android:id/edit"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
@@ -56,18 +69,5 @@
         android:paddingRight="@dimen/material_horizontal_margin"
         android:text="@string/app_privacy_policy"
         tools:ignore="PrivateResource" />
-
-    <TextView
-        android:id="@+id/action_go_personal"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/material_listview_header_height"
-        android:layout_marginRight="@dimen/material_horizontal_margin"
-        android:background="@drawable/abc_list_selector_holo_light"
-        android:drawableRight="@drawable/ic_action_action_open_in_browser"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/material_horizontal_margin"
-        android:paddingRight="@dimen/material_horizontal_margin"
-        android:text="@string/action_go_to_personal" />
 
 </LinearLayout>

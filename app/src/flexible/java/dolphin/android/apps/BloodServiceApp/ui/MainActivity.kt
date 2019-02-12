@@ -76,16 +76,22 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val settings = contentFragment is SettingsFragment
         menu?.findItem(R.id.action_personal)?.isVisible = false
         menu?.findItem(R.id.action_settings)?.isVisible = false
         menu?.findItem(R.id.action_facebook)?.isVisible =
-                BloodDataHelper.getOpenFacebookIntent(this, siteId) != null
+                BloodDataHelper.getOpenFacebookIntent(this, siteId) != null && !settings
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            android.R.id.home -> navigationFragment?.openDrawer()
+            android.R.id.home ->
+                if (contentFragment is SettingsFragment) {
+                    onBackPressed()
+                } else {
+                    navigationFragment?.openDrawer()
+                }
             R.id.action_facebook -> {
                 BloodDataHelper.getOpenFacebookIntent(this, siteId)?.let {
                     startActivity(it)
@@ -107,6 +113,10 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     override fun onBackPressed() {
+        if (contentFragment is SettingsFragment) {
+            switchToSection(R.id.action_section2)
+            return
+        }
         if (navigationFragment?.isDrawerOpen == true) {
             navigationFragment?.closeDrawer()
             return
@@ -118,8 +128,8 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     override fun onNavigationDrawerItemSelected(position: Int) {
         //Log.d(TAG, "onNavigationDrawerItemSelected: $position")
         if (position == NavigationDrawerFragment.ITEM_SETTINGS) {
-            //switchToSection(R.id.action_settings)
-            bottomNavigationView.selectedItemId = R.id.action_settings
+            switchToSection(R.id.action_settings)
+            //bottomNavigationView.selectedItemId = R.id.action_settings
             return
         }
         if (position == NavigationDrawerFragment.ITEM_PRIVACY_POLICY) {
@@ -157,11 +167,12 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
                     SettingsFragment()
                     //bottomNavigationView.selectedItemId = R.id.action_settings
                 }
-                else -> SettingsFragment()
+                else -> DonationListFragment()
             }
         } else {
             sectionCache[key]
-        }?.let { fragment ->
+        }
+        contentFragment?.let { fragment ->
             fragment.arguments = Bundle().apply { putInt("site_id", siteId) }
             supportActionBar?.title = if (id == R.id.action_settings)
                 getString(R.string.action_settings) else helper.getBloodCenterName(siteId)
@@ -170,6 +181,12 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
                     ?.commitNowAllowingStateLoss()
             sectionCache.put(key, fragment)
         }
+        //Log.d(TAG, "switch to section $id $contentFragment")
+        val settings = contentFragment is SettingsFragment
+        bottomNavigationView.visibility = if (settings) View.GONE else View.VISIBLE
+        supportActionBar?.setHomeAsUpIndicator(
+                if (settings) R.drawable.ic_action_arrow_back else R.drawable.ic_action_notes)
+        invalidateOptionsMenu()
     }
 
     private fun showPrivacyPolicyReview() {
