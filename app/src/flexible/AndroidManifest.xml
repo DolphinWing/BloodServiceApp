@@ -19,8 +19,9 @@
 
         <activity
             android:name="dolphin.android.apps.BloodServiceApp.ui.SplashActivity"
+            android:screenOrientation="userPortrait"
             android:theme="@style/Theme.Bloody.Splash"
-            tools:replace="android:theme">
+            tools:replace="android:theme,android:screenOrientation">
             <!--suppress AndroidElementNotAllowed -->
             <layout
                 android:defaultWidth="480dp"
