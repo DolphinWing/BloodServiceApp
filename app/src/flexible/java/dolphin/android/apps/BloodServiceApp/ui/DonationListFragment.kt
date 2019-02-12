@@ -93,10 +93,13 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                 }
             }
             //Log.d(TAG, "adapter list size: ${adapterList.size}")
-            recyclerView?.adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
-                setStickyHeaders(prefs?.isHeaderSticky ?: true)
+            val adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
+                //setStickyHeaders(prefs?.isHeaderSticky ?: true)
                 setDisplayHeadersAtStartUp(true)
             }
+            recyclerView?.adapter = adapter
+            //fix Enable sticky headers after setting Adapter to RecyclerView
+            adapter.setStickyHeaders(prefs?.isHeaderSticky ?: true)
             swipeRefreshLayout?.isRefreshing = false
             swipeRefreshLayout?.isEnabled = false
         })
