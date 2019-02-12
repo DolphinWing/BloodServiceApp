@@ -10,6 +10,10 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[90] @ 2019-02-12
+    fix possible null pointer
+    update some accessibility issues
+
 [89] @ 2019-02-11
     update Android Studio 3.3.1
     upgrade gradle libraries

@@ -1,3 +1,5 @@
+@file:Suppress("PackageName")
+
 package dolphin.android.apps.BloodServiceApp.provider
 
 import android.content.Context
@@ -40,6 +42,8 @@ class DonateActivity internal constructor(
      * @return end time
      */
     val endTime: Calendar = Calendar.getInstance(Locale.TAIWAN)
+
+    var day: DonateDay? = null
 
     /**
      * Set activity start time
@@ -108,15 +112,15 @@ class DonateActivity internal constructor(
                     //time_str=17點
                     var found = false
 
-                    val new_time_str = time_str.replace("\\D+".toRegex(), "")
+                    val newTimeStr = time_str.replace("\\D+".toRegex(), "")
                     //Log.d(TAG, "str: " + new_time_str);
-                    if (new_time_str.matches("[0-9]+".toRegex())) {
+                    if (newTimeStr.matches("[0-9]+".toRegex())) {
                         if (time_str.length > 3) {
                             cal.set(Calendar.HOUR_OF_DAY,
-                                    Integer.parseInt(new_time_str.substring(0, 2)))
-                            cal.set(Calendar.MINUTE, Integer.parseInt(new_time_str.substring(2)))
+                                    Integer.parseInt(newTimeStr.substring(0, 2)))
+                            cal.set(Calendar.MINUTE, Integer.parseInt(newTimeStr.substring(2)))
                         } else {
-                            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(new_time_str))
+                            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(newTimeStr))
                             cal.set(Calendar.MINUTE, 0)
                         }
                         found = true
@@ -133,8 +137,7 @@ class DonateActivity internal constructor(
         } catch (e: NumberFormatException) {
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
-            Log.e(TAG, String.format("message: %s\ntime_str: %s",
-                    e.message, time_str))
+            Log.e(TAG, String.format("message: %s\ntime_str: %s", e.message, time_str))
         }
 
         cal.set(Calendar.SECOND, 0)
@@ -173,6 +176,7 @@ class DonateActivity internal constructor(
 
      * @return duration string
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     val duration: String
         get() {
             val sdf = SimpleDateFormat("HH:mm", Locale.TAIWAN)
@@ -199,20 +203,13 @@ class DonateActivity internal constructor(
     }
 
     override fun toString(): String {
-        return "DonateActivity{" +
-                "Name='" + name + '\'' +
-                ", StartTime=" + getSimpleDateTimeString(startTime) +
-                ", EndTime=" + getSimpleDateTimeString(endTime) +
-                ", Location='" + location + '\'' +
-                '}'
+        return "DonateActivity{Name='$name', StartTime=${getSimpleDateTimeString(startTime)}, " +
+                "EndTime=${getSimpleDateTimeString(endTime)}, Location='$location'}"
     }
 
     override fun equals(other: Any?): Boolean {
         if (other is DonateActivity) {
-            val activity = other as DonateActivity?
-            return activity!!.location == location
-                    && activity.duration == duration
-                    && activity.name == name
+            return other.location == location && other.duration == duration && other.name == name
         }
         return false//super.equals(o);
     }
@@ -237,18 +234,20 @@ class DonateActivity internal constructor(
             val name1 = name.split("\\(")
             list.add(name1[0])
             if (name1[1].contains(")")) {
-                list.add(name1[1].split("\\)".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
+                list.add(name1[1].split(
+                        "\\)".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
             } else {
                 list.add(name1[1])
             }
         }
-        val lparen = context.getString(R.string.search_on_map_split_lparen)
-        val rparen = context.getString(R.string.search_on_map_split_rparen)
-        if (name.contains(lparen)) {
-            val name1 = name.split(lparen)
+        val lParen = context.getString(R.string.search_on_map_split_lparen)
+        val rParen = context.getString(R.string.search_on_map_split_rparen)
+        if (name.contains(lParen)) {
+            val name1 = name.split(lParen)
             list.add(name1[0])
-            if (name1[1].contains(rparen)) {
-                list.add(name1[1].split(rparen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
+            if (name1[1].contains(rParen)) {
+                list.add(name1[1].split(
+                        rParen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
             } else {
                 list.add(name1[1])
             }
@@ -289,7 +288,8 @@ class DonateActivity internal constructor(
         if (location.contains("(")) {
             val loc = location.split("\\(".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             for (i in loc.indices) {
-                loc[i] = if (loc[i].contains(")")) loc[i].substring(0, loc[i].indexOf(")")) else loc[i]
+                loc[i] = if (loc[i].contains(")")) loc[i].substring(0,
+                        loc[i].indexOf(")")) else loc[i]
             }
             return loc
         }
@@ -297,13 +297,13 @@ class DonateActivity internal constructor(
     }
 
     private fun splitByParentheses2(context: Context, location: String): Array<String> {
-        val lparen = context.getString(R.string.search_on_map_split_lparen)
-        val rparen = context.getString(R.string.search_on_map_split_rparen)
-        if (location.contains(lparen)) {
-            val loc = location.split(lparen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val lParen = context.getString(R.string.search_on_map_split_lparen)
+        val rParen = context.getString(R.string.search_on_map_split_rparen)
+        if (location.contains(lParen)) {
+            val loc = location.split(lParen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             for (i in loc.indices) {
                 loc[i] = when {
-                    loc[i].contains(rparen) -> loc[i].substring(0, loc[i].indexOf(rparen))
+                    loc[i].contains(rParen) -> loc[i].substring(0, loc[i].indexOf(rParen))
                     loc[i].contains(")") -> loc[i].substring(0, loc[i].indexOf(")"))
                     else -> loc[i]
                 }
@@ -322,4 +322,7 @@ class DonateActivity internal constructor(
         }
         return location
     }
+
+    val accessibilityString: String
+        get() = String.format("%s %s %s %s", day?.dateString ?: "", name, duration, location)
 }

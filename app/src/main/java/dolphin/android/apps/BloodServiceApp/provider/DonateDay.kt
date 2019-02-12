@@ -1,7 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
-import androidx.annotation.Keep
 import android.text.format.DateUtils
+import androidx.annotation.Keep
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,19 +19,20 @@ class DonateDay(
          * @return activity list
          */
         val activities: List<DonateActivity>) {
-    private var Day: Calendar? = null
+    private var day: Calendar? = null
 
     init {
-        Day = Calendar.getInstance(Locale.TAIWAN)
+        day = Calendar.getInstance(Locale.TAIWAN)
+        activities.forEach { it.day = this }
     }
 
     @Suppress("unused")
     fun setDate(year: Int, month: Int, dayOfMonth: Int) {
-        //Day = Calendar.getInstance();
+        //day = Calendar.getInstance();
         if (month >= 12 || month < 0)
             throw IllegalArgumentException("month is between 0~11")
-        Day = resetToMidNight(Day!!)
-        Day!!.set(year, month - 1, dayOfMonth)
+        day = resetToMidNight(day!!)
+        day!!.set(year, month - 1, dayOfMonth)
     }
 
     /**
@@ -40,8 +41,8 @@ class DonateDay(
      * @param calendar Calendar
      */
     fun setDate(calendar: Calendar) {
-        Day!!.timeInMillis = calendar.timeInMillis
-        Day = resetToMidNight(Day!!)
+        day!!.timeInMillis = calendar.timeInMillis
+        day = resetToMidNight(day!!)
     }
 
     /**
@@ -50,7 +51,7 @@ class DonateDay(
      * @return time in milliseconds
      */
     val timeInMillis: Long
-        get() = Day!!.timeInMillis
+        get() = day!!.timeInMillis
 
     /**
      * Indicate if the time is in the future.
@@ -59,7 +60,7 @@ class DonateDay(
      */
     val isFuture: Boolean
         get() {
-            if (Day!!.after(Calendar.getInstance(Locale.TAIWAN))) {
+            if (day!!.after(Calendar.getInstance(Locale.TAIWAN))) {
                 return true
             } else if (DateUtils.isToday(timeInMillis)) {
                 return true
@@ -73,7 +74,7 @@ class DonateDay(
      * @return date string
      */
     val dateString: String
-        get() = getSimpleDateString(Day!!)
+        get() = getSimpleDateString(day!!)
 
     /**
      * Get activity count
@@ -89,10 +90,7 @@ class DonateDay(
             str.append(activity.toString()).append(",")
         }
         str = StringBuilder(if (activityCount > 0) str.substring(0, str.length - 2) else "(null)")
-        return "DonateDay{" +
-                "Day=" + dateString +
-                ", Activities={" + str + "}" +
-                '}'
+        return "DonateDay{day=$dateString,list={$str}}"
     }
 
     companion object {
@@ -137,13 +135,13 @@ class DonateDay(
         }
 
         @Suppress("unused")
-        /**
-         * Get date string in default format
+                /**
+                 * Get date string in default format
 
-         * @param cal Calendar
-         * *
-         * @return date string
-         */
+                 * @param cal Calendar
+                 * *
+                 * @return date string
+                 */
         fun getDefaultDateString(cal: Calendar): String {
             return DateFormat.getDateInstance(DateFormat.FULL).format(cal.time)
         }

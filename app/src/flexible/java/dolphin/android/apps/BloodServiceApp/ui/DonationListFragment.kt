@@ -47,7 +47,8 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         prefs = PrefsUtil(activity!!)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         val contentView = inflater.inflate(R.layout.fragment_recycler_view, container, false)
         swipeRefreshLayout = contentView.findViewById(android.R.id.progress)
         swipeRefreshLayout?.isRefreshing = true
@@ -108,14 +109,16 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         : AbstractHeaderItem<FlexibleViewHolder>(), IHeader<FlexibleViewHolder> {
 
         override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: FlexibleViewHolder?, position: Int, list: MutableList<Any>?) {
+                                    holder: FlexibleViewHolder?, position: Int,
+                                    list: MutableList<Any>?) {
             (holder as? DateHolder)?.apply {
                 title?.text = day.dateString
                 count?.text = day.activityCount.toString()
             }
         }
 
-        override fun equals(other: Any?) = (other as? DateItem)?.day?.timeInMillis == day.timeInMillis
+        override fun equals(
+                other: Any?) = (other as? DateItem)?.day?.timeInMillis == day.timeInMillis
 
         override fun hashCode(): Int = day.timeInMillis.hashCode()
 
@@ -147,12 +150,14 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                 : FlexibleViewHolder = ActivityHolder(view, adapter)
 
         override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: FlexibleViewHolder?, position: Int, list: MutableList<Any>?) {
+                                    holder: FlexibleViewHolder?, position: Int,
+                                    list: MutableList<Any>?) {
             (holder as? ActivityHolder)?.apply {
                 title?.text = activity.name
                 location?.text = activity.location
                 startTime?.text = activity.startTimeString
                 endTime?.text = activity.endTimeString
+                this.itemView.contentDescription = activity.accessibilityString
             }
             //fragment.registerForContextMenu(holder?.itemView)
         }

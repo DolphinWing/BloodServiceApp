@@ -9,7 +9,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/title_display">
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:enabled="true"
             android:key="enable_sticky_header"
             android:summary="@string/title_sticky_header_in_gridview"

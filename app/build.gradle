@@ -45,7 +45,7 @@ android {
             minSdkVersion 14
         }
         flexible {
-            versionCode 89
+            versionCode 90
             versionName "2.2.5"
             dimension "mode"
             minSdkVersion 21
