@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var navigationFragment: NavigationDrawerFragment
+    private var navigationFragment: NavigationDrawerFragment? = null
     private var contentFragment: Fragment? = null
 
     private lateinit var helper: BloodDataHelper
@@ -51,20 +51,19 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        //navigationFragment = fragmentManager.findFragmentById(R.id.navigation_drawer) as NavigationDrawerFragment
         navigationFragment = NavigationDrawerFragment()
         supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.navigation_drawer, navigationFragment)
+                ?.replace(R.id.navigation_drawer, navigationFragment!!)
                 ?.commitNow()
-        navigationFragment.setUp(R.id.navigation_drawer, drawerLayout)
-        if (navigationFragment.selectedCenter == Int.MIN_VALUE) {
+        navigationFragment?.setUp(R.id.navigation_drawer, drawerLayout)
+        if (navigationFragment?.selectedCenter == Int.MIN_VALUE) {
             //switchToSection(R.id.action_settings)
-            navigationFragment.lockDrawer()
+            navigationFragment?.lockDrawer()
         } else {//load data
-            siteId = navigationFragment.selectedCenter
+            siteId = navigationFragment?.selectedCenter ?: siteId
             //supportActionBar?.title = helper.getBloodCenterName(siteId)
             //switchToSection(R.id.action_section2)
-            navigationFragment.unlockDrawer()
+            navigationFragment?.unlockDrawer()
         }
         switchToSection(R.id.action_section2) //auto load first section
 
@@ -86,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            android.R.id.home -> navigationFragment.openDrawer()
+            android.R.id.home -> navigationFragment?.openDrawer()
             R.id.action_facebook -> {
                 BloodDataHelper.getOpenFacebookIntent(this, siteId)?.let {
                     startActivity(it)
@@ -108,8 +107,8 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     override fun onBackPressed() {
-        if (navigationFragment.isDrawerOpen) {
-            navigationFragment.closeDrawer()
+        if (navigationFragment?.isDrawerOpen == true) {
+            navigationFragment?.closeDrawer()
             return
         }
 
@@ -128,7 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             return
         }
 
-        siteId = navigationFragment.selectedCenter
+        siteId = navigationFragment?.selectedCenter ?: siteId
         //Log.d(TAG, ">>> site id = $siteId")
         supportActionBar?.title = helper.getBloodCenterName(siteId)
         //refresh each fragment if exists
@@ -178,7 +177,8 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     private fun checkPrivatePolicyReview() {
-        if (navigationFragment.selectedCenter < 0) {
+        val c = navigationFragment?.selectedCenter ?: siteId
+        if (c < 0) {
             Log.w(TAG, "not yet ready... don't show privacy warning")
             return
         }
