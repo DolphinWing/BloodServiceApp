@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[93] @ 2019-02-13
+    fix #7 prepare location search list
+
 [92] @ 2019-02-13
     add fixed donation spot location item click handler
     fix possible crushes (#6) in spot location list
