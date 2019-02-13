@@ -2,7 +2,6 @@
 
 package dolphin.android.apps.BloodServiceApp.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,11 +15,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
     companion object {
         @JvmStatic
         fun showPrivacyPolicyReview(activity: AppCompatActivity) {
+            showAssetContentInDialog(activity, R.string.app_privacy_policy, "privacy_policy.txt")
+        }
+
+        @JvmStatic
+        fun showAssetContentInDialog(activity: AppCompatActivity, titleResId: Int, name: String,
+                                     encoding: String = "UTF-8") {
             androidx.appcompat.app.AlertDialog.Builder(activity)
-                    .setTitle(R.string.app_privacy_policy)
-                    .setMessage(GeneralPreferenceFragment.read_asset_text(activity,
-                            "privacy_policy.txt", "UTF-8"))
+                    .setTitle(titleResId)
+                    .setMessage(GeneralPreferenceFragment.read_asset_text(activity, name, encoding))
                     .setPositiveButton(android.R.string.ok, null)
+                    .setCancelable(true)
                     .show().apply {
                         findViewById<TextView>(android.R.id.message)?.textSize = 12f
                     }
@@ -42,7 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 return true
             }
             "privacy_policy" -> {
-                showAssetContent(R.string.app_privacy_policy, "privacy_policy.txt")
+                showPrivacyPolicyReview(activity as AppCompatActivity)
                 return true
             }
         }
@@ -51,13 +56,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun showAssetContent(titleResId: Int, name: String, encoding: String = "UTF-8") {
         activity?.runOnUiThread {
-            AlertDialog.Builder(activity!!)
-                    .setTitle(titleResId)
-                    .setMessage(GeneralPreferenceFragment.read_asset_text(activity!!, name, encoding))
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show().apply {
-                        findViewById<TextView>(android.R.id.message)?.textSize = 12f
-                    }
+            showAssetContentInDialog(activity as AppCompatActivity, titleResId, name, encoding)
         }
     }
 }

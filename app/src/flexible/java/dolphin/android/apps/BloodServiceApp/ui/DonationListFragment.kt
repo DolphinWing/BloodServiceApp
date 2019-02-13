@@ -72,8 +72,11 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     private val adapterList = ArrayList<AbstractFlexibleItem<*>>()
 
     private fun queryData() {
-        swipeRefreshLayout?.isEnabled = true
-        swipeRefreshLayout?.isRefreshing = true
+        activity?.runOnUiThread {
+            swipeRefreshLayout?.isEnabled = true
+            swipeRefreshLayout?.isRefreshing = true
+            recyclerView?.contentDescription = getString(R.string.title_downloading_data)
+        }
         viewModel?.getDonationData(siteId)?.observe(this, Observer { dayList ->
             //Log.d(TAG, "donation list: ${dayList?.size}")
             adapterList.clear()
@@ -104,6 +107,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             } catch (e: IllegalStateException) {
                 //try to catch the exception
             }
+            recyclerView?.contentDescription = null
             swipeRefreshLayout?.isRefreshing = false
             swipeRefreshLayout?.isEnabled = false
         })

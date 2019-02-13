@@ -5,7 +5,6 @@ package dolphin.android.apps.BloodServiceApp.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,8 +44,10 @@ class StorageFragment : Fragment() {
         viewModel?.getStorageData()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val contentView = inflater.inflate(R.layout.fragment_recycler_view_with_ads, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val contentView = inflater.inflate(R.layout.fragment_recycler_view_with_ads, container,
+                false)
         swipeRefreshLayout = contentView.findViewById(android.R.id.progress)
         swipeRefreshLayout?.isRefreshing = true
         recyclerView = contentView.findViewById(android.R.id.list)
@@ -93,22 +94,26 @@ class StorageFragment : Fragment() {
     }
 
     private fun queryData() {
-        swipeRefreshLayout?.isEnabled = true
-        swipeRefreshLayout?.isRefreshing = true
+        activity?.runOnUiThread {
+            swipeRefreshLayout?.isEnabled = true
+            swipeRefreshLayout?.isRefreshing = true
+            recyclerView?.contentDescription = getString(R.string.title_downloading_data)
+        }
         viewModel?.getStorageData()?.observe(this, Observer {
             val list = ArrayList<ItemView>()
-            it?.get(siteId)?.let {
-                Log.d(TAG, "site id = $siteId")
-                Log.d(TAG, "  A = ${it["A"]}")
-                list.add(ItemView(activity!!, "A", it["A"]!!))
-                Log.d(TAG, "  B = ${it["B"]}")
-                list.add(ItemView(activity!!, "B", it["B"]!!))
-                Log.d(TAG, "  O = ${it["O"]}")
-                list.add(ItemView(activity!!, "O", it["O"]!!))
-                Log.d(TAG, "  AB = ${it["AB"]}")
-                list.add(ItemView(activity!!, "AB", it["AB"]!!))
+            it?.get(siteId)?.let { map ->
+                Log.v(TAG, "site id = $siteId")
+                Log.v(TAG, "  A = ${map["A"]}")
+                list.add(ItemView(activity!!, "A", map["A"]!!))
+                Log.v(TAG, "  B = ${map["B"]}")
+                list.add(ItemView(activity!!, "B", map["B"]!!))
+                Log.v(TAG, "  O = ${map["O"]}")
+                list.add(ItemView(activity!!, "O", map["O"]!!))
+                Log.v(TAG, "  AB = ${map["AB"]}")
+                list.add(ItemView(activity!!, "AB", map["AB"]!!))
             }
             recyclerView?.adapter = FlexibleAdapter(list)
+            recyclerView?.contentDescription = null
             swipeRefreshLayout?.isRefreshing = false
             swipeRefreshLayout?.isEnabled = false
 

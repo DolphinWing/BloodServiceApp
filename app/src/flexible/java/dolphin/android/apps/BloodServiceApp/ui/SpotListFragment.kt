@@ -69,8 +69,11 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
     private fun queryData() {
-        swipeRefreshLayout?.isEnabled = true
-        swipeRefreshLayout?.isRefreshing = true
+        activity?.runOnUiThread {
+            swipeRefreshLayout?.isEnabled = true
+            swipeRefreshLayout?.isRefreshing = true
+            recyclerView?.contentDescription = getString(R.string.title_downloading_data)
+        }
         Log.d(TAG, "query $siteId")
         viewModel?.getSpotData(siteId)?.observe(this, Observer { spots ->
             Log.d(TAG, "spot list: ${spots!!.size}")
@@ -96,6 +99,7 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
             } catch (e: IllegalStateException) {
                 //try to catch the exception
             }
+            recyclerView?.contentDescription = null
             swipeRefreshLayout?.apply {
                 isRefreshing = false
                 isEnabled = false

@@ -15,7 +15,7 @@
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/title_section1"
+            android:contentDescription="@string/title_downloading_data"
             tools:listitem="@layout/listview_storage" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -23,7 +23,7 @@
         android:id="@android:id/custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@null"
+        android:contentDescription="@string/title_enable_adview"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
 
