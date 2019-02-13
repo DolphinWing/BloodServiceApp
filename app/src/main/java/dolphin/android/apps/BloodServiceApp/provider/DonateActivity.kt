@@ -226,18 +226,25 @@ class DonateActivity internal constructor(
         private const val TAG = "DonateActivity"
     }
 
+    private fun splitName(src: String, splitter: String): Array<String> {
+        return src.split(splitter.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+    }
+
     fun prepareLocationList(context: Context): ArrayList<String> {
+        Log.d(TAG, "prepare location for $name $location")
+
         val list = ArrayList<String>()
         list.add(name) //add name first
         //check if we should split the name
         if (name.contains("(")) {
-            val name1 = name.split("\\(")
+            val name1 = name.split("(")
             list.add(name1[0])
-            if (name1[1].contains(")")) {
-                list.add(name1[1].split(
-                        "\\)".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
-            } else {
-                list.add(name1[1])
+            if (name1.size > 1 && name1[1].isNotEmpty()) {
+                if (name1[1].contains(")")) {
+                    list.add(splitName(name1[1], "\\)")[0])
+                } else {
+                    list.add(name1[1])
+                }
             }
         }
         val lParen = context.getString(R.string.search_on_map_split_lparen)
@@ -245,48 +252,44 @@ class DonateActivity internal constructor(
         if (name.contains(lParen)) {
             val name1 = name.split(lParen)
             list.add(name1[0])
-            if (name1[1].contains(rParen)) {
-                list.add(name1[1].split(
-                        rParen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
-            } else {
-                list.add(name1[1])
+            if (name1.size > 1 && name1[1].isNotEmpty()) {
+                if (name1[1].contains(rParen)) {
+                    list.add(splitName(name1[1], rParen)[0])
+                } else {
+                    list.add(name1[1])
+                }
             }
         }
 
-        //check the lication
-        if (location.contains("　")) {
-            val loc = location.split("　".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            for (l in loc) {
-                if (l.isEmpty()) {
-                    continue
+        //check the location
+        when {
+            location.contains("　") ->
+                splitName(location, "　").forEach { l ->
+                    splitByParentheses1(l).forEach { l1 ->
+                        list.add(removeNumberTrailing(context, l1))
+                    }
                 }
-                val loc1 = splitByParentheses1(l)
-                for (l1 in loc1) {
-                    list.add(removeNumberTrailing(context, l1))
+            location.contains("(") ->
+                splitByParentheses1(location).forEach { l ->
+                    list.add(removeNumberTrailing(context, l))
                 }
-            }
-        } else if (location.contains("(")) {
-            val loc = splitByParentheses1(location)
-            for (l in loc) {
-                list.add(removeNumberTrailing(context, l))
-            }
-        } else {
-            val loc = splitByParentheses2(context, location)
-            for (l in loc) {
-                list.add(removeNumberTrailing(context, l))
-            }
+            else ->
+                splitByParentheses2(context, location).forEach { l ->
+                    list.add(removeNumberTrailing(context, l))
+                }
         }
 
-        //http://stackoverflow.com/a/203992
-        val s = LinkedHashSet(list)
-        list.clear()
-        list.addAll(s)
+//        //http://stackoverflow.com/a/203992
+//        val s = LinkedHashSet(list)
+//        list.clear()
+//        list.addAll(s)
         return list
     }
 
     private fun splitByParentheses1(location: String): Array<String> {
         if (location.contains("(")) {
-            val loc = location.split("\\(".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val loc = splitName(location, "\\(")
+            //location.split("\\(".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             for (i in loc.indices) {
                 loc[i] = if (loc[i].contains(")")) loc[i].substring(0,
                         loc[i].indexOf(")")) else loc[i]
@@ -300,7 +303,8 @@ class DonateActivity internal constructor(
         val lParen = context.getString(R.string.search_on_map_split_lparen)
         val rParen = context.getString(R.string.search_on_map_split_rparen)
         if (location.contains(lParen)) {
-            val loc = location.split(lParen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val loc = splitName(location, lParen)
+            //location.split(lParen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             for (i in loc.indices) {
                 loc[i] = when {
                     loc[i].contains(rParen) -> loc[i].substring(0, loc[i].indexOf(rParen))
