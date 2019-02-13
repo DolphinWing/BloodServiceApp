@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.pref;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -11,13 +12,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
@@ -42,6 +43,7 @@ public class PrefsUtil {
      *
      * @return true if user enables AdView
      */
+    @SuppressWarnings("unused")
     public boolean isEnableAdView() {
         return isEnableAdView(getContext());
     }
@@ -52,7 +54,9 @@ public class PrefsUtil {
      * @param context Context
      * @return true if user enables AdView
      */
+    @SuppressWarnings("WeakerAccess")
     public static boolean isEnableAdView(Context context) {
+        if (context == null) return true;
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getBoolean(GeneralPreferenceFragment.KEY_ENABLE_ADVIEW, true);
     }
@@ -72,9 +76,11 @@ public class PrefsUtil {
      * @param context Context
      * @return true if need stick header
      */
+    @SuppressWarnings("WeakerAccess")
     public static boolean isHeaderSticky(Context context) {
+        if (context == null) return false;
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        return pref.getBoolean(GeneralPreferenceFragment.KEY_HEADER_STICKY, true);
+        return pref.getBoolean(GeneralPreferenceFragment.KEY_HEADER_STICKY, false);
     }
 
     /**
@@ -84,6 +90,7 @@ public class PrefsUtil {
      * @return true if we use new BottomNavigation presentation.
      */
     public static boolean isUseActivity2(Context context) {
+        if (context == null) return true;
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getBoolean(GeneralPreferenceFragment.KEY_ENABLE_ACTIVITY2, true);
     }
@@ -99,6 +106,7 @@ public class PrefsUtil {
      * @param context Context
      * @param url     url
      */
+    @SuppressLint("ObsoleteSdkInt")
     public static void startBrowserActivity(Context context, String url) {
         if (context == null) {
             Log.e("BloodDataHelper", "no Context, no Activity");
@@ -139,12 +147,14 @@ public class PrefsUtil {
      * @param context Context
      * @return true if installed
      */
+    @SuppressWarnings("unused")
     public static boolean isGoogleChromeInstalled(Context context) {
         if (context == null) {
             return false;
         }
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BloodDataHelper.URL_BASE_BLOOD_ORG));
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(BloodDataHelper.URL_BASE_BLOOD_ORG));
         List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, 0);
         if (list != null && list.size() > 0) {
             for (ResolveInfo resolveInfo : list) {
@@ -175,6 +185,7 @@ public class PrefsUtil {
         }
     }
 
+    @SuppressWarnings("unused")
     public static boolean isEnableSearchOnMap(Context context) {
         return PrefsUtil.isGoogleMapsInstalled(context)
                 //| context.getResources().getBoolean(R.bool.feature_enable_search_on_map)

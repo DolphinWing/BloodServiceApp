@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
+import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -42,7 +43,8 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         prefs = PrefsUtil(activity!!)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         val contentView = inflater.inflate(R.layout.fragment_recycler_view, container, false)
         swipeRefreshLayout = contentView.findViewById(android.R.id.progress)
         swipeRefreshLayout?.apply {
@@ -82,10 +84,17 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
                     //list.add(SpotItem(cityItem, it))
                 }
             }
-            recyclerView?.adapter = FlexibleAdapter(list, this).apply {
-                setStickyHeaders(prefs?.isHeaderSticky ?: true)
+            val adapter = FlexibleAdapter(list, this).apply {
+                //setStickyHeaders(prefs?.isHeaderSticky ?: true)
                 setDisplayHeadersAtStartUp(true)
                 expandItemsAtStartUp()
+            }
+            recyclerView?.adapter = adapter
+            try {
+                //fix Enable sticky headers after setting Adapter to RecyclerView
+                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
+            } catch (e: IllegalStateException) {
+                //try to catch the exception
             }
             swipeRefreshLayout?.apply {
                 isRefreshing = false
@@ -95,13 +104,15 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
     internal class CityItem(private val city: String)
-        : AbstractExpandableHeaderItem<ExpandableViewHolder, SpotItem>(), IHeader<ExpandableViewHolder> {
+        : AbstractExpandableHeaderItem<ExpandableViewHolder, SpotItem>(),
+            IHeader<ExpandableViewHolder> {
         override fun createViewHolder(view: View?,
                                       adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?)
                 : ExpandableViewHolder = CityHolder(view, adapter)
 
         override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: ExpandableViewHolder?, position: Int, list: MutableList<Any>?) {
+                                    holder: ExpandableViewHolder?, position: Int,
+                                    list: MutableList<Any>?) {
             (holder as? CityHolder)?.apply {
                 title?.text = city
                 title?.isActivated = isExpanded
@@ -133,8 +144,12 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
                 : FlexibleViewHolder = SpotHolder(view, adapter)
 
         override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: FlexibleViewHolder?, position: Int, list: MutableList<Any>?) {
-            (holder as? SpotHolder)?.apply { location?.text = spot.spotName }
+                                    holder: FlexibleViewHolder?, position: Int,
+                                    list: MutableList<Any>?) {
+            (holder as? SpotHolder)?.apply {
+                location?.text = spot.spotName
+                itemView.tag = spot
+            }
         }
 
         override fun equals(other: Any?): Boolean = (other as? SpotItem)?.spot == spot
@@ -151,7 +166,13 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
-        Log.d(TAG, "click $position")
+        //Log.d(TAG, "click $position")
+        (view?.tag as? SpotInfo)?.let { spot ->
+            //Log.d(TAG, "spot: ${spot.spotId} ${spot.spotName}")
+            BloodDataHelper.getOpenSpotLocationMapIntent(activity, spot)?.let { intent ->
+                activity?.startActivity(intent) //show in browser, don't parse it
+            }
+        }
         return true
     }
 }

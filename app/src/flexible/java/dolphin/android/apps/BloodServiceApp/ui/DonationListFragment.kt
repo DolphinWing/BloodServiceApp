@@ -98,8 +98,12 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                 setDisplayHeadersAtStartUp(true)
             }
             recyclerView?.adapter = adapter
-            //fix Enable sticky headers after setting Adapter to RecyclerView
-            adapter.setStickyHeaders(prefs?.isHeaderSticky ?: true)
+            try {
+                //fix Enable sticky headers after setting Adapter to RecyclerView
+                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
+            } catch (e: IllegalStateException) {
+                //try to catch the exception
+            }
             swipeRefreshLayout?.isRefreshing = false
             swipeRefreshLayout?.isEnabled = false
         })
