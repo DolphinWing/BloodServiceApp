@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
                 ?.replace(R.id.navigation_drawer, navigationFragment!!)
                 ?.commitNow()
         navigationFragment?.setUp(R.id.navigation_drawer, drawerLayout)
+        //Log.d(TAG, "selected center: ${navigationFragment?.selectedCenter}")
         if (navigationFragment?.selectedCenter == Int.MIN_VALUE) {
             //switchToSection(R.id.action_settings)
             navigationFragment?.lockDrawer()
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             //switchToSection(R.id.action_section2)
             navigationFragment?.unlockDrawer()
         }
+        //Log.d(TAG, "site id = $siteId")
         switchToSection(R.id.action_section2) //auto load first section
 
         checkPrivatePolicyReview()
@@ -196,7 +198,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     private fun checkPrivatePolicyReview() {
         val c = navigationFragment?.selectedCenter ?: siteId
         if (c < 0) {
-            Log.w(TAG, "not yet ready... don't show privacy warning")
+            Log.w(TAG, "not yet ready ($c)... don't show privacy warning")
             return
         }
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)

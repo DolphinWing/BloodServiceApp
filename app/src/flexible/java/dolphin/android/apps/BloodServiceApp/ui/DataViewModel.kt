@@ -1,3 +1,5 @@
+@file:Suppress("PackageName")
+
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.app.Application
@@ -47,6 +49,7 @@ import kotlin.collections.ArrayList
 
     fun getDonationData(siteId: Int): DonationData {
         if (application.donationCache[siteId] == null) {
+            //Log.d(TAG, "get donation data $siteId")
             application.donationCache.put(siteId, DonationData(application.executor, helper, siteId))
         }
         return application.donationCache[siteId]
@@ -61,7 +64,10 @@ import kotlin.collections.ArrayList
         }
 
         private fun fetch() {
-            postValue(helper.getLatestWeekCalendar(siteId))
+            //Log.d(TAG, "start fetch $siteId")
+            val list = helper.getLatestWeekCalendar(siteId)
+            //Log.d(TAG, "fetch list ${list.size}")
+            postValue(list)
         }
     }
 
@@ -83,14 +89,15 @@ import kotlin.collections.ArrayList
         private fun fetch() {
             val data = helper.getDonationSpotLocationMap(siteId)
             //application.cityOrderCache.put(siteId, helper.cityOrder)
-            Log.d(TAG, "site id: $siteId")
+            //Log.d(TAG, "site id: $siteId")
             val list = ArrayList<SpotList>()
             helper.cityOrder?.forEach {
                 val cityId = it.toInt()
-                Log.d(TAG, "  city order: $it ${helper.getCityName(cityId)}")
+                Log.v(TAG, "  city order: $it ${helper.getCityName(cityId)}")
                 //application.cityNameCache.put(cityId, helper.getCityName(cityId))
                 list.add(data.get(cityId).apply { cityName = helper.getCityName(cityId) })
             }
+            //Log.d(TAG, "list size: ${list.size}")
             postValue(list)
         }
     }

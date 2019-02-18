@@ -72,6 +72,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     private val adapterList = ArrayList<AbstractFlexibleItem<*>>()
 
     private fun queryData() {
+        //Log.d(TAG, "start query data")
         activity?.runOnUiThread {
             swipeRefreshLayout?.isEnabled = true
             swipeRefreshLayout?.isRefreshing = true

@@ -33,6 +33,7 @@ class SpotList(
     constructor(cityId: String) : this(cityId.toInt())
 
     var cityName: String? = null
+
     /**
      * add a new spot location to static location list
 

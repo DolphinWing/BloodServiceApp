@@ -1,3 +1,5 @@
+@file:Suppress("PackageName")
+
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.content.Context
@@ -22,7 +24,6 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import dolphin.android.apps.BloodServiceApp.BuildConfig
-import dolphin.android.apps.BloodServiceApp.MyApplication
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
 import dolphin.android.util.PackageUtils
@@ -57,8 +58,8 @@ class SplashActivity : AppCompatActivity() {
         }
 
         if (!checkGoogleApiAvailability()) {
-            val myApp: MyApplication = application as MyApplication
-            myApp.setGooglePlayServiceNotSupported()
+//            val myApp: MyApplication = application as MyApplication
+//            myApp.setGooglePlayServiceNotSupported()
             return
         }
 
