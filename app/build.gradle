@@ -57,7 +57,7 @@ dependencies {
     designImplementation 'com.github.markushi:android-ui:1.2'
     //compile 'com.google.android.gms:play-services:6.1.71'
     implementation 'com.google.android.gms:play-services-base:16.1.0'
-    implementation 'com.google.android.gms:play-services-ads-lite:17.2.0'
+    implementation 'com.google.android.gms:play-services-ads-lite:17.2.1'
     designImplementation 'com.google.android.gms:play-services-analytics:16.0.8'
 
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
