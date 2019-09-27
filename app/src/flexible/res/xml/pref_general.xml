@@ -7,17 +7,12 @@
             android:key="privacy_policy"
             android:title="@string/app_privacy_policy" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/title_display">
+    <!--<PreferenceCategory android:title="@string/title_display">
         <CheckBoxPreference
             android:defaultValue="false"
             android:enabled="true"
             android:key="enable_sticky_header"
             android:summary="@string/title_sticky_header_in_gridview"
             android:title="@string/title_sticky_header" />
-        <!--<CheckBoxPreference
-            android:key="enable_adview"
-            android:title="@string/title_enable_adview"
-            android:summary="@string/title_enable_adview_in_storage_list"
-            android:defaultValue="true" />-->
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 </PreferenceScreen>

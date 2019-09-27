@@ -93,12 +93,12 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
                 expandItemsAtStartUp()
             }
             recyclerView?.adapter = adapter
-            try {
-                //fix Enable sticky headers after setting Adapter to RecyclerView
-                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
-            } catch (e: IllegalStateException) {
-                //try to catch the exception
-            }
+//            try {
+//                //fix Enable sticky headers after setting Adapter to RecyclerView
+//                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
+//            } catch (e: IllegalStateException) {
+//                //try to catch the exception
+//            }
             recyclerView?.contentDescription = null
             swipeRefreshLayout?.apply {
                 isRefreshing = false

@@ -36,7 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.pref_general)
         addPreferencesFromResource(R.xml.pref_open_source)
 
-        findPreference("app_version")?.summary =
+        findPreference<Preference>("app_version")?.summary =
                 PackageUtils.getPackageInfo(context, this::class.java)?.versionName ?: "x.x.x"
     }
 

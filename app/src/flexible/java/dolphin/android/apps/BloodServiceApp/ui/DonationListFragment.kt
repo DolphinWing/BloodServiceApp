@@ -5,6 +5,7 @@ package dolphin.android.apps.BloodServiceApp.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
@@ -57,7 +58,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             setHasFixedSize(true)
             layoutManager = SmoothScrollLinearLayoutManager(activity!!)
         }
-        queryData()
+        queryData() //onCreateView
         return contentView
     }
 
@@ -65,7 +66,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         super.setArguments(args)
         if (args?.containsKey("site_id") == true) {
             siteId = args.getInt("site_id", -1)
-            queryData()
+            queryData() //setArguments
         }
     }
 
@@ -102,12 +103,12 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                 setDisplayHeadersAtStartUp(true)
             }
             recyclerView?.adapter = adapter
-            try {
-                //fix Enable sticky headers after setting Adapter to RecyclerView
-                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
-            } catch (e: IllegalStateException) {
-                //try to catch the exception
-            }
+//            try {
+//                //fix Enable sticky headers after setting Adapter to RecyclerView
+//                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
+//            } catch (e: IllegalStateException) {
+//                //try to catch the exception
+//            }
             recyclerView?.contentDescription = null
             swipeRefreshLayout?.isRefreshing = false
             swipeRefreshLayout?.isEnabled = false

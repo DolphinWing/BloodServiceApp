@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
+import android.util.SparseArray
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -52,9 +53,9 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         navigationFragment = NavigationDrawerFragment()
-        supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.navigation_drawer, navigationFragment!!)
-                ?.commitNow()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.navigation_drawer, navigationFragment!!)
+                .commitNow()
         navigationFragment?.setUp(R.id.navigation_drawer, drawerLayout)
         //Log.d(TAG, "selected center: ${navigationFragment?.selectedCenter}")
         if (navigationFragment?.selectedCenter == Int.MIN_VALUE) {
@@ -116,7 +117,8 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
     override fun onBackPressed() {
         if (contentFragment is SettingsFragment) {
-            switchToSection(R.id.action_section2)
+            //switchToSection(R.id.action_section2)
+            bottomNavigationView.selectedItemId = R.id.action_section2
             return
         }
         if (navigationFragment?.isDrawerOpen == true) {
@@ -150,10 +152,10 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         }
     }
 
-    private val sectionCache = HashMap<Int, Fragment>()
+    private val sectionCache = SparseArray<Fragment>()
 
     private fun switchToSection(id: Int) {
-        val key = id.and(0xFFFF)
+        val key: Int = id.and(0xFFFF)
         contentFragment = if (sectionCache[key] == null) {
             when (id) {
                 R.id.action_section2 -> {
@@ -178,9 +180,9 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             fragment.arguments = Bundle().apply { putInt("site_id", siteId) }
             supportActionBar?.title = if (id == R.id.action_settings)
                 getString(R.string.action_settings) else helper.getBloodCenterName(siteId)
-            supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.main_container, fragment)
-                    ?.commitNowAllowingStateLoss()
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, fragment)
+                    .commitNowAllowingStateLoss()
             sectionCache.put(key, fragment)
         }
         //Log.d(TAG, "switch to section $id $contentFragment")

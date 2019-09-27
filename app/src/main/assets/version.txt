@@ -10,6 +10,16 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[101] @ 2019-09-27
+    update libs and version management
+    remove sticky header support (too many bugs in new libs)
+        java.lang.IllegalStateException: Adapter is not attached to RecyclerView.
+        Enable sticky headers after setting adapter to RecyclerView.
+    enable R8
+
+[95] @ 2019-06-06
+    update play store icon
+
 [94] @ 2019-02-18
     fix #8 Android 9.0 network security
 
