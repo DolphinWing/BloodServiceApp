@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[102] @ 2020-05-10
+    remove Tainan merged donation spots
+
 [101] @ 2019-09-27
     update libs and version management
     remove sticky header support (too many bugs in new libs)
