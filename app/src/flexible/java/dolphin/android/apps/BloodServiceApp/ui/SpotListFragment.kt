@@ -39,8 +39,8 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(DataViewModel::class.java)
-        prefs = PrefsUtil(activity!!)
+        viewModel = ViewModelProviders.of(requireActivity()).get(DataViewModel::class.java)
+        prefs = PrefsUtil(requireActivity())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +54,7 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         recyclerView = contentView.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)
-            layoutManager = SmoothScrollLinearLayoutManager(activity!!)
+            layoutManager = SmoothScrollLinearLayoutManager(requireActivity())
         }
         queryData()
         return contentView
@@ -75,7 +75,7 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
         Log.d(TAG, "query $siteId")
-        viewModel?.getSpotData(siteId)?.observe(this, Observer { spots ->
+        viewModel?.getSpotData(siteId)?.observe(viewLifecycleOwner, Observer { spots ->
             Log.d(TAG, "spot list: ${spots!!.size}")
             val list = ArrayList<IFlexible<*>>()
             spots.forEach { city ->

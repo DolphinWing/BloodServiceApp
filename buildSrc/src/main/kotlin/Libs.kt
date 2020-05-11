@@ -48,7 +48,7 @@ object Libs {
             Versions.androidx_lifecycle
 
     /**
-     * http://developer.android.com/tools/extras/support-library.html
+     * https://developer.android.com/jetpack/androidx
      */
     const val lifecycle_viewmodel_ktx: String = "androidx.lifecycle:lifecycle-viewmodel-ktx:" +
             Versions.androidx_lifecycle
@@ -83,7 +83,7 @@ object Libs {
     const val fragment_ktx: String = "androidx.fragment:fragment-ktx:" + Versions.fragment_ktx
 
     /**
-     * http://developer.android.com/tools/extras/support-library.html
+     * https://developer.android.com/jetpack/androidx
      */
     const val recyclerview: String = "androidx.recyclerview:recyclerview:" + Versions.recyclerview
 
@@ -110,7 +110,7 @@ object Libs {
     const val superslim: String = "com.tonicartos:superslim:" + Versions.superslim
 
     /**
-     * http://developer.android.com/tools/extras/support-library.html
+     * https://developer.android.com/jetpack/androidx
      */
     const val core_ktx: String = "androidx.core:core-ktx:" + Versions.core_ktx
 
@@ -120,7 +120,7 @@ object Libs {
     const val material: String = "com.google.android.material:material:" + Versions.material
 
     /**
-     * https://github.com/square/okhttp
+     * https://square.github.io/okhttp/
      */
     const val okhttp: String = "com.squareup.okhttp3:okhttp:" + Versions.okhttp
 
@@ -128,4 +128,6 @@ object Libs {
      * https://developer.android.com/studio
      */
     const val aapt2: String = "com.android.tools.build:aapt2:" + Versions.aapt2
+
+    const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
 }

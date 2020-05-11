@@ -5,7 +5,6 @@ package dolphin.android.apps.BloodServiceApp.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,8 +43,8 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(DataViewModel::class.java)
-        prefs = PrefsUtil(activity!!)
+        viewModel = ViewModelProviders.of(requireActivity()).get(DataViewModel::class.java)
+        prefs = PrefsUtil(requireActivity())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +55,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         recyclerView = contentView.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)
-            layoutManager = SmoothScrollLinearLayoutManager(activity!!)
+            layoutManager = SmoothScrollLinearLayoutManager(requireActivity())
         }
         queryData() //onCreateView
         return contentView
@@ -79,7 +78,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             swipeRefreshLayout?.isRefreshing = true
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
-        viewModel?.getDonationData(siteId)?.observe(this, Observer { dayList ->
+        viewModel?.getDonationData(siteId)?.observe(viewLifecycleOwner, Observer { dayList ->
             //Log.d(TAG, "donation list: ${dayList?.size}")
             adapterList.clear()
             val list = ArrayList<AbstractFlexibleItem<*>>()
@@ -200,7 +199,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         (adapterList[position] as? ActivityItem)?.let { item ->
             Log.d(TAG, "  ${item.activity.name}")
 
-            AlertDialog.Builder(activity!!)
+            AlertDialog.Builder(requireActivity())
                     .setTitle(R.string.action_more)
                     .setItems(arrayOf(getString(R.string.action_add_to_calendar),
                             getString(R.string.action_search_location))) { _, index ->
@@ -233,8 +232,8 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     }
 
     private fun showSearchMapDialog(donation: DonateActivity) {
-        val list = donation.prepareLocationList(activity!!).toTypedArray()
-        AlertDialog.Builder(activity!!)
+        val list = donation.prepareLocationList(requireActivity()).toTypedArray()
+        AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.action_search_on_maps)
                 .setItems(list) { _, index ->
                     //Log.d(TAG, "select $index ${list[index]}")
@@ -258,7 +257,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     private fun openActivityOnGoogleMapsInBrowser(location: String) {
         //https://www.google.com/maps/search/?api=1&query=centurylink+field
         val mapIntent = Intent(Intent.ACTION_VIEW,
-                "https://www.google.com/maps/search/?api=1&query=$location".toUri())
+                Uri.parse("https://www.google.com/maps/search/?api=1&query=$location"))
         mapIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         if (PackageUtils.isCallable(activity, mapIntent)) {
             startActivity(mapIntent)

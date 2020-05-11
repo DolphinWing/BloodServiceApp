@@ -40,7 +40,7 @@ class StorageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Log.d(TAG, "onCreate")
-        viewModel = ViewModelProviders.of(activity!!).get(DataViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(DataViewModel::class.java)
         viewModel?.getStorageData()
     }
 
@@ -53,7 +53,7 @@ class StorageFragment : Fragment() {
         recyclerView = contentView.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)
-            layoutManager = SmoothScrollLinearLayoutManager(activity!!)
+            layoutManager = SmoothScrollLinearLayoutManager(requireActivity())
         }
         adView = contentView.findViewById(android.R.id.custom)
 //        Handler().postDelayed({
@@ -99,18 +99,18 @@ class StorageFragment : Fragment() {
             swipeRefreshLayout?.isRefreshing = true
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
-        viewModel?.getStorageData()?.observe(this, Observer {
+        viewModel?.getStorageData()?.observe(viewLifecycleOwner, Observer {
             val list = ArrayList<ItemView>()
             it?.get(siteId)?.let { map ->
                 Log.v(TAG, "site id = $siteId")
                 Log.v(TAG, "  A = ${map["A"]}")
-                list.add(ItemView(activity!!, "A", map["A"]!!))
+                list.add(ItemView(requireActivity(), "A", map["A"]!!))
                 Log.v(TAG, "  B = ${map["B"]}")
-                list.add(ItemView(activity!!, "B", map["B"]!!))
+                list.add(ItemView(requireActivity(), "B", map["B"]!!))
                 Log.v(TAG, "  O = ${map["O"]}")
-                list.add(ItemView(activity!!, "O", map["O"]!!))
+                list.add(ItemView(requireActivity(), "O", map["O"]!!))
                 Log.v(TAG, "  AB = ${map["AB"]}")
-                list.add(ItemView(activity!!, "AB", map["AB"]!!))
+                list.add(ItemView(requireActivity(), "AB", map["AB"]!!))
             }
             recyclerView?.adapter = FlexibleAdapter(list)
             recyclerView?.contentDescription = null

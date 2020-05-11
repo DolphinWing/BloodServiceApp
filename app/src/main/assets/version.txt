@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[103] @ 2020-05-11
+    update library versions
+
 [102] @ 2020-05-10
     remove Tainan merged donation spots
 

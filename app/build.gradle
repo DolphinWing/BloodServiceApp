@@ -34,8 +34,8 @@ android {
             minSdkVersion 14
         }
         flexible {
-            versionCode 102
-            versionName "2.4.1"
+            versionCode 103
+            versionName "2.5.0"
             dimension "mode"
             minSdkVersion 21
         }
@@ -81,6 +81,7 @@ dependencies {
     flexibleImplementation (Libs.core_ktx)
     flexibleImplementation (Libs.fragment_ktx)
     flexibleImplementation (Libs.lifecycle_viewmodel_ktx)
+    implementation (Libs.swipeRefreshLayout)
 }
 
 apply plugin: 'com.google.gms.google-services'
