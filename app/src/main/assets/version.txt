@@ -10,6 +10,12 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[104] @ 2020-05-14
+    rewrite ViewModel and some kotlin improvements
+    move useless PreferenceFragment to design flavor
+    update gradle
+    add github workflow
+
 [103] @ 2020-05-11
     update library versions
 

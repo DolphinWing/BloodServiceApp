@@ -7,6 +7,7 @@ import android.util.Log
 import android.util.SparseArray
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dolphin.android.apps.BloodServiceApp.MyApplication
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
@@ -15,13 +16,14 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import kotlin.collections.ArrayList
 
-/*internal*/ class DataViewModel(app: Application) : AndroidViewModel(app) {
+class DataViewModel(app: Application) : AndroidViewModel(app) {
     companion object {
         private const val TAG = "DataViewModel"
     }
 
     private val application: MyApplication = app as MyApplication
     private val helper = BloodDataHelper(application)
+    val siteId = MutableLiveData<Int>()
 
     init {
         application.executor.submit { helper.warmup() }
@@ -34,8 +36,8 @@ import kotlin.collections.ArrayList
         return application.storageCache
     }
 
-    /*internal*/ class StorageData(private val executor: ExecutorService,
-                               private val helper: BloodDataHelper)
+    class StorageData(private val executor: ExecutorService,
+                      private val helper: BloodDataHelper)
         : LiveData<SparseArray<HashMap<String, Int>>>() {
         override fun onActive() {
             super.onActive()
@@ -47,17 +49,20 @@ import kotlin.collections.ArrayList
         }
     }
 
+    fun getDonationData(): DonationData = getDonationData(siteId.value ?: -1)
+
     fun getDonationData(siteId: Int): DonationData {
         if (application.donationCache[siteId] == null) {
             //Log.d(TAG, "get donation data $siteId")
-            application.donationCache.put(siteId, DonationData(application.executor, helper, siteId))
+            application.donationCache.put(siteId,
+                    DonationData(application.executor, helper, siteId))
         }
         return application.donationCache[siteId]
     }
 
-    /*internal*/ class DonationData(private val executor: ExecutorService,
-                                private val helper: BloodDataHelper,
-                                private val siteId: Int) : LiveData<ArrayList<DonateDay>>() {
+    class DonationData(private val executor: ExecutorService,
+                       private val helper: BloodDataHelper,
+                       private val siteId: Int) : LiveData<ArrayList<DonateDay>>() {
         override fun onActive() {
             super.onActive()
             executor.submit { if (value == null) fetch() }
@@ -71,6 +76,8 @@ import kotlin.collections.ArrayList
         }
     }
 
+    fun getSpotData(): SpotData = getSpotData(siteId.value ?: -1)
+
     fun getSpotData(siteId: Int): SpotData {
         if (application.spotCityCache[siteId] == null) {
             application.spotCityCache.put(siteId, SpotData(application, helper, siteId))
@@ -78,9 +85,9 @@ import kotlin.collections.ArrayList
         return application.spotCityCache[siteId]
     }
 
-    /*internal*/ class SpotData(private val application: MyApplication,
-                            private val helper: BloodDataHelper,
-                            private val siteId: Int) : LiveData<ArrayList<SpotList>>() {
+    class SpotData(private val application: MyApplication,
+                   private val helper: BloodDataHelper,
+                   private val siteId: Int) : LiveData<ArrayList<SpotList>>() {
         override fun onActive() {
             super.onActive()
             application.executor.submit { if (value == null) fetch() }

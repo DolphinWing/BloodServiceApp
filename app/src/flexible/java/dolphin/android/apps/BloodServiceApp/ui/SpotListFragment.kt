@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dolphin.android.apps.BloodServiceApp.R
@@ -33,49 +33,44 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var recyclerView: RecyclerView? = null
-    private var viewModel: DataViewModel? = null
-    private var siteId = -1
+    private val viewModel: DataViewModel by activityViewModels()
     private var prefs: PrefsUtil? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity()).get(DataViewModel::class.java)
+
         prefs = PrefsUtil(requireActivity())
+        viewModel.siteId.observe(this, Observer { id ->
+            queryData(id)
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val contentView = inflater.inflate(R.layout.fragment_recycler_view, container, false)
-        swipeRefreshLayout = contentView.findViewById(android.R.id.progress)
+                              savedInstanceState: Bundle?): View? = inflater.inflate(
+            R.layout.fragment_recycler_view, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        swipeRefreshLayout = view.findViewById(android.R.id.progress)
         swipeRefreshLayout?.apply {
             //isEnabled = false
             isRefreshing = true
         }
-        recyclerView = contentView.findViewById(android.R.id.list)
+        recyclerView = view.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)
             layoutManager = SmoothScrollLinearLayoutManager(requireActivity())
         }
-        queryData()
-        return contentView
     }
 
-    override fun setArguments(args: Bundle?) {
-        super.setArguments(args)
-        if (args?.containsKey("site_id") == true) {
-            siteId = args.getInt("site_id", -1)
-            queryData()
-        }
-    }
-
-    private fun queryData() {
+    private fun queryData(siteId: Int) {
         activity?.runOnUiThread {
             swipeRefreshLayout?.isEnabled = true
             swipeRefreshLayout?.isRefreshing = true
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
         Log.d(TAG, "query $siteId")
-        viewModel?.getSpotData(siteId)?.observe(viewLifecycleOwner, Observer { spots ->
+        viewModel.getSpotData(siteId).observe(viewLifecycleOwner, Observer { spots ->
             Log.d(TAG, "spot list: ${spots!!.size}")
             val list = ArrayList<IFlexible<*>>()
             spots.forEach { city ->

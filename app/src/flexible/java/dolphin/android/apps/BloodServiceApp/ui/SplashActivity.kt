@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.preference.PreferenceManager
 import android.text.Spannable
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
@@ -25,6 +24,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import dolphin.android.apps.BloodServiceApp.BuildConfig
 import dolphin.android.apps.BloodServiceApp.R
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
 import dolphin.android.util.PackageUtils
 import java.lang.ref.WeakReference
@@ -88,30 +88,30 @@ class SplashActivity : AppCompatActivity() {
 
     private fun prepareRemoteConfig() {
         //Google Mobile Ads SDK version 17.0.0
-        MobileAds.initialize(this, getString(R.string.admob_app_id))
+        MobileAds.initialize(this) { status ->
+            status.adapterStatusMap?.values?.forEach { s ->
+                Log.d(TAG, "MobileAds: ${s.initializationState.name} ${s.description}")
+            }
+        }
 
         config = FirebaseRemoteConfig.getInstance()
-        config.apply {
-            setConfigSettings(FirebaseRemoteConfigSettings.Builder()
-                    .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                    .build())
-            setDefaults(R.xml.remote_config_defaults)
-        }
+        val settings = FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(if (BuildConfig.DEBUG) 60 else 43200)
+                .build()
+        config.setConfigSettingsAsync(settings)
+        config.setDefaultsAsync(R.xml.remote_config_defaults)
         fetchFirebaseRemoteConfig()
     }
 
     private fun fetchFirebaseRemoteConfig() {
-        config.fetch(if (BuildConfig.DEBUG) 60 else 43200)
+        config.fetchAndActivate()
                 .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        config.activateFetched()
-                    }
                     checkPrivacyPolicyReview()
                 }
     }
 
     private fun checkPrivacyPolicyReview() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val prefs = PrefsUtil.getDefaultPreference(this)
         val updateCode = FirebaseRemoteConfig.getInstance().getLong("privacy_policy_update_code")
         //if private policy has been updated
         if (!prefs.getBoolean(NavigationDrawerFragment.PREF_USER_LEARNED_DRAWER, false) &&
@@ -154,7 +154,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data)
         if (checkGoogleApiAvailability()) {
             prepareRemoteConfig()
             handler.sendEmptyMessage(1) //show loading

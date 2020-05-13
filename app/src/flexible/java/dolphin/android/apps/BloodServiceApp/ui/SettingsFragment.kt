@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import dolphin.android.apps.BloodServiceApp.R
-import dolphin.android.apps.BloodServiceApp.pref.GeneralPreferenceFragment
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.util.PackageUtils
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -23,7 +23,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                                      encoding: String = "UTF-8") {
             androidx.appcompat.app.AlertDialog.Builder(activity)
                     .setTitle(titleResId)
-                    .setMessage(GeneralPreferenceFragment.read_asset_text(activity, name, encoding))
+                    .setMessage(PrefsUtil.read_asset_text(activity, name, encoding))
                     .setPositiveButton(android.R.string.ok, null)
                     .setCancelable(true)
                     .show().apply {

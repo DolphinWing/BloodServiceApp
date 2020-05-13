@@ -12,8 +12,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.gms.ads.AdRequest
@@ -30,46 +30,36 @@ class StorageFragment : Fragment() {
         private const val TAG = "StorageFragment"
     }
 
-    private var siteId: Int = -1
-
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var recyclerView: RecyclerView? = null
     private lateinit var adView: AdView
-    private var viewModel: DataViewModel? = null
+    private val viewModel: DataViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Log.d(TAG, "onCreate")
-        viewModel = ViewModelProviders.of(requireActivity()).get(DataViewModel::class.java)
-        viewModel?.getStorageData()
+
+        viewModel.siteId.observe(this, Observer { id ->
+            queryData(id)
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val contentView = inflater.inflate(R.layout.fragment_recycler_view_with_ads, container,
-                false)
-        swipeRefreshLayout = contentView.findViewById(android.R.id.progress)
+                              savedInstanceState: Bundle?): View? = inflater.inflate(
+            R.layout.fragment_recycler_view_with_ads, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        swipeRefreshLayout = view.findViewById(android.R.id.progress)
         swipeRefreshLayout?.isRefreshing = true
-        recyclerView = contentView.findViewById(android.R.id.list)
+        recyclerView = view.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)
             layoutManager = SmoothScrollLinearLayoutManager(requireActivity())
         }
-        adView = contentView.findViewById(android.R.id.custom)
+        adView = view.findViewById(android.R.id.custom)
 //        Handler().postDelayed({
 //            loadAds()
 //        }, 500) //delay load make ui show first
-        queryData()
-        return contentView
-    }
-
-    override fun setArguments(args: Bundle?) {
-        super.setArguments(args)
-        if (args?.containsKey("site_id") == true) {
-            siteId = args.getInt("site_id", -1)
-            //Log.d(TAG, "site id = $siteId")
-            queryData()
-        }
     }
 
     override fun onPause() {
@@ -89,17 +79,17 @@ class StorageFragment : Fragment() {
 
     private fun loadAds() {
         adView.loadAd(AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build())
     }
 
-    private fun queryData() {
+    private fun queryData(siteId: Int) {
         activity?.runOnUiThread {
             swipeRefreshLayout?.isEnabled = true
             swipeRefreshLayout?.isRefreshing = true
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
-        viewModel?.getStorageData()?.observe(viewLifecycleOwner, Observer {
+        viewModel.getStorageData()?.observe(viewLifecycleOwner, Observer {
             val list = ArrayList<ItemView>()
             it?.get(siteId)?.let { map ->
                 Log.v(TAG, "site id = $siteId")

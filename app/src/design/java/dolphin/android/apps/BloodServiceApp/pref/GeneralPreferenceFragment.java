@@ -35,9 +35,6 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
     public static final String KEY_APP_VERSION = "app_version";
     private static final String VERSION_FILE = "version.txt";
     private static final String VERSION_FILE_ENCODE = "UTF-8";
-    public final static String KEY_ENABLE_ADVIEW = "enable_adview";
-    public final static String KEY_HEADER_STICKY = "enable_sticky_header";
-    public final static String KEY_ENABLE_ACTIVITY2 = "enable_activity2";
 
     private boolean mEngMode = false;
 
@@ -63,7 +60,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         AlertDialog dialog = new AlertDialog.Builder(activity).create();
         dialog.setTitle(R.string.app_change_log);
         // windows Unicode file http://goo.gl/gRyTU
-        dialog.setMessage(read_asset_text(activity, VERSION_FILE, VERSION_FILE_ENCODE));
+        dialog.setMessage(PrefsUtil.read_asset_text(activity, VERSION_FILE, VERSION_FILE_ENCODE));
         dialog.setButton(AlertDialog.BUTTON_POSITIVE,
                 activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -111,36 +108,5 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
                 .setNegativeButton(R.string.action_restart_app_later, null)
                 .create();
         dialog.show();
-    }
-
-    public static String read_asset_text(Context context, String asset_name, String encoding) {
-        try {
-            InputStreamReader sr =
-                    new InputStreamReader(context.getAssets().open(asset_name),
-                            (encoding != null) ? encoding : "UTF8");
-            //Log.i(TAG, asset_name + " " + sr.getEncoding());
-
-            int len = 0;
-            StringBuilder sb = new StringBuilder();
-
-            while (true) {//read from buffer
-                char[] buffer = new char[1024];
-                len = sr.read(buffer);//, size, 512);
-                //Log.d(TAG, String.format("%d", len));
-                if (len > 0) {
-                    sb.append(buffer);
-                } else {
-                    break;
-                }
-            }
-            //Log.i(TAG, String.format("  length = %d", sb.length()));
-
-            sr.close();
-            return sb.toString().trim();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }

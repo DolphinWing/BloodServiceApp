@@ -4,20 +4,22 @@ package dolphin.android.apps.BloodServiceApp.ui
 
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.util.Log
 import android.util.SparseArray
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dolphin.android.apps.BloodServiceApp.R
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 
 class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -31,13 +33,18 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     private var contentFragment: Fragment? = null
 
     private lateinit var helper: BloodDataHelper
-    private var siteId: Int = -1
+    //private var siteId: Int = -1
+    private val model: DataViewModel by viewModels()
+    private val siteId: Int
+        get() = model.siteId.value ?: -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //ViewModelProviders.of(this).get(DataViewModel::class.java)
         helper = BloodDataHelper(this)
+        model.siteId.observe(this, Observer { id ->
+            supportActionBar?.title = helper.getBloodCenterName(id)
+        })
 
         setContentView(R.layout.activity_main_drawer)
         findViewById<Toolbar>(R.id.toolbar)?.apply { setSupportActionBar(this) }
@@ -62,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             //switchToSection(R.id.action_settings)
             navigationFragment?.lockDrawer()
         } else {//load data
-            siteId = navigationFragment?.selectedCenter ?: siteId
+            model.siteId.postValue(navigationFragment?.selectedCenter ?: -1)
             //supportActionBar?.title = helper.getBloodCenterName(siteId)
             //switchToSection(R.id.action_section2)
             navigationFragment?.unlockDrawer()
@@ -87,8 +94,8 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         return super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home ->
                 if (contentFragment is SettingsFragment) {
                     onBackPressed()
@@ -141,15 +148,15 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             return
         }
 
-        siteId = navigationFragment?.selectedCenter ?: siteId
+        model.siteId.postValue(navigationFragment?.selectedCenter ?: siteId)
         //Log.d(TAG, ">>> site id = $siteId")
-        supportActionBar?.title = helper.getBloodCenterName(siteId)
-        //refresh each fragment if exists
-        intArrayOf(R.id.action_section1, R.id.action_section2, R.id.action_section3).forEach { id ->
-            sectionCache[id.and(0xFFFF)]?.arguments = Bundle().apply {
-                putInt("site_id", siteId)
-            }
-        }
+//        supportActionBar?.title = helper.getBloodCenterName(siteId)
+//        //refresh each fragment if exists
+//        intArrayOf(R.id.action_section1, R.id.action_section2, R.id.action_section3).forEach { id ->
+//            sectionCache[id.and(0xFFFF)]?.arguments = Bundle().apply {
+//                putInt("site_id", siteId)
+//            }
+//        }
     }
 
     private val sectionCache = SparseArray<Fragment>()
@@ -203,12 +210,12 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             Log.w(TAG, "not yet ready ($c)... don't show privacy warning")
             return
         }
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val prefs = PrefsUtil.getDefaultPreference(this)
         val updateCode = FirebaseRemoteConfig.getInstance().getLong("privacy_policy_update_code")
         //if private policy has been updated
         if (prefs.getLong(PREF_PRIVATE_POLICY, 0) < updateCode) {
             Handler().postDelayed({
-                Snackbar.make(findViewById<View>(R.id.main_container),
+                Snackbar.make(findViewById(R.id.main_container),
                         R.string.snackbar_privacy_policy_updated, Snackbar.LENGTH_LONG)
                         .setAction(R.string.snackbar_privacy_policy_review) {
                             showPrivacyPolicyReview()

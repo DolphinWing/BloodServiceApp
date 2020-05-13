@@ -5,7 +5,6 @@ package dolphin.android.apps.BloodServiceApp.ui
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,11 +50,6 @@ class NavigationDrawerFragment : Fragment() {
      */
     private var mCallbacks: NavigationDrawerCallbacks? = null
 
-//    /**
-//     * Helper component that ties the action bar to the navigation drawer.
-//     */
-//    private val mDrawerToggle: ActionBarDrawerToggle? = null
-
     private var mDrawerLayout: DrawerLayout? = null
     private var mDrawerListView: ListView? = null
     private var mFragmentContainerView: View? = null
@@ -63,7 +57,6 @@ class NavigationDrawerFragment : Fragment() {
     private var mCurrentSelectedPosition = Int.MIN_VALUE
     private var mFromSavedInstanceState: Boolean = false
     private var mUserLearnedDrawer: Boolean = false
-//    private var mActionView: ActionView? = null
 
     val isDrawerOpen: Boolean
         get() = mDrawerLayout?.isDrawerOpen(mFragmentContainerView!!) ?: false
@@ -75,7 +68,7 @@ class NavigationDrawerFragment : Fragment() {
         get() = when {
             mCurrentSelectedPosition == Int.MIN_VALUE -> Int.MIN_VALUE
             activity != null ->
-                activity!!.resources!!.getIntArray(R.array.blood_center_id)[mCurrentSelectedPosition + 1]
+                requireActivity().resources!!.getIntArray(R.array.blood_center_id)[mCurrentSelectedPosition + 1]
             else -> -1
         }
 
@@ -84,7 +77,7 @@ class NavigationDrawerFragment : Fragment() {
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        val sp = PreferenceManager.getDefaultSharedPreferences(activity)
+        val sp = PrefsUtil.getDefaultPreference(activity)
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false)
 
         if (savedInstanceState != null) {
@@ -120,7 +113,7 @@ class NavigationDrawerFragment : Fragment() {
             onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                 selectItem(position)
             }
-            adapter = MyAdapter(activity!!, list)
+            adapter = MyAdapter(requireContext(), list)
             itemsCanFocus = false
             setItemChecked(mCurrentSelectedPosition, true)
         }
@@ -146,9 +139,8 @@ class NavigationDrawerFragment : Fragment() {
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
     fun setUp(fragmentId: Int, drawerLayout: DrawerLayout) {
-        mFragmentContainerView = activity!!.findViewById(fragmentId)
+        mFragmentContainerView = requireActivity().findViewById(fragmentId)
         mDrawerLayout = drawerLayout
-//        mActionView = actionView
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout?.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
@@ -192,7 +184,7 @@ class NavigationDrawerFragment : Fragment() {
         }
         mCurrentSelectedPosition = position
 
-        val sp = PreferenceManager.getDefaultSharedPreferences(activity)
+        val sp = PrefsUtil.getDefaultPreference(activity)
         val editor = sp.edit()
         editor.putInt(PREF_USER_NEAR_BY_CENTER, position)
         editor.putBoolean(PREF_USER_LEARNED_DRAWER, true)
