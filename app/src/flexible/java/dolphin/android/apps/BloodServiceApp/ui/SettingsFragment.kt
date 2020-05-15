@@ -2,8 +2,10 @@
 
 package dolphin.android.apps.BloodServiceApp.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -14,14 +16,14 @@ import dolphin.android.util.PackageUtils
 class SettingsFragment : PreferenceFragmentCompat() {
     companion object {
         @JvmStatic
-        fun showPrivacyPolicyReview(activity: AppCompatActivity) {
+        fun showPrivacyPolicyReview(activity: Activity) {
             showAssetContentInDialog(activity, R.string.app_privacy_policy, "privacy_policy.txt")
         }
 
         @JvmStatic
-        fun showAssetContentInDialog(activity: AppCompatActivity, titleResId: Int, name: String,
+        fun showAssetContentInDialog(activity: Activity, titleResId: Int, name: String,
                                      encoding: String = "UTF-8") {
-            androidx.appcompat.app.AlertDialog.Builder(activity)
+            AlertDialog.Builder(activity)
                     .setTitle(titleResId)
                     .setMessage(PrefsUtil.read_asset_text(activity, name, encoding))
                     .setPositiveButton(android.R.string.ok, null)
@@ -47,7 +49,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 return true
             }
             "privacy_policy" -> {
-                showPrivacyPolicyReview(activity as AppCompatActivity)
+                showPrivacyPolicyReview(requireActivity())
                 return true
             }
         }
@@ -56,7 +58,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun showAssetContent(titleResId: Int, name: String, encoding: String = "UTF-8") {
         activity?.runOnUiThread {
-            showAssetContentInDialog(activity as AppCompatActivity, titleResId, name, encoding)
+            showAssetContentInDialog(requireActivity(), titleResId, name, encoding)
         }
     }
 }

@@ -83,7 +83,7 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
                 }
             }
             val adapter = FlexibleAdapter(list, this).apply {
-                //setStickyHeaders(prefs?.isHeaderSticky ?: true)
+                setStickyHeaders(prefs?.isHeaderSticky ?: true)
                 setDisplayHeadersAtStartUp(true)
                 expandItemsAtStartUp()
             }

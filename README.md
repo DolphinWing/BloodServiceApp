@@ -1,4 +1,4 @@
-# README #
+![Android CI](https://github.com/DolphinWing/BloodServiceApp/workflows/Android%20CI/badge.svg)
 
 快速查詢最近的捐血活動，以及台灣各血液中心目前的庫存狀態。
 

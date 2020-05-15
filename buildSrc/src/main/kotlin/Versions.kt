@@ -64,6 +64,8 @@ object Versions {
 
     const val swipeRefreshLayout = "1.0.0"
 
+    const val browser = "1.2.0"
+
     /**
      * Current version: "5.4.1"
      * See issue 19: How to update Gradle itself?

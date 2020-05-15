@@ -35,7 +35,7 @@ android {
             minSdkVersion 14
         }
         flexible {
-            versionCode 104
+            versionCode 105
             versionName "2.5.0"
             dimension "mode"
             minSdkVersion 21
@@ -87,7 +87,7 @@ dependencies {
     flexibleImplementation (Libs.fragment_ktx)
     flexibleImplementation (Libs.lifecycle_viewmodel_ktx)
     implementation (Libs.swipeRefreshLayout)
-    implementation("androidx.preference:preference:1.1.1")
+    implementation (Libs.browser)
 }
 
 apply plugin: 'com.google.gms.google-services'

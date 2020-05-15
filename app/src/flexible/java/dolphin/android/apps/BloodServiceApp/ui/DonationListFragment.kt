@@ -91,7 +91,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             }
             //Log.d(TAG, "adapter list size: ${adapterList.size}")
             val adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
-                //setStickyHeaders(prefs?.isHeaderSticky ?: true)
+                setStickyHeaders(prefs?.isHeaderSticky ?: true)
                 setDisplayHeadersAtStartUp(true)
             }
             recyclerView?.adapter = adapter

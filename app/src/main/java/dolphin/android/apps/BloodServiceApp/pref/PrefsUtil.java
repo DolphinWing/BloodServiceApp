@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -19,6 +18,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import androidx.browser.customtabs.CustomTabsClient;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsService;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import dolphin.android.apps.BloodServiceApp.R;
@@ -90,7 +92,7 @@ public class PrefsUtil {
     public static boolean isHeaderSticky(Context context) {
         if (context == null) return false;
         SharedPreferences pref = getDefaultPreference(context);
-        return pref.getBoolean(KEY_HEADER_STICKY, false);
+        return pref.getBoolean(KEY_HEADER_STICKY, true);
     }
 
     /**
@@ -108,8 +110,10 @@ public class PrefsUtil {
 
     //https://developer.chrome.com/multidevice/android/customtabs
     //https://github.com/GoogleChrome/custom-tabs-client
-    public static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
-    public static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+    public static final String EXTRA_CUSTOM_TABS_SESSION =
+            "android.support.customtabs.extra.SESSION";
+    public static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR =
+            "android.support.customtabs.extra.TOOLBAR_COLOR";
 
     /**
      * start a browser activity
@@ -124,31 +128,24 @@ public class PrefsUtil {
             return;
         }
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                //[169]dolphin++ add Chrome Custom Tabs
-                Bundle extras = new Bundle();
-                extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
-                extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                        ContextCompat.getColor(context, R.color.bloody_color));
-                intent.putExtras(extras);
-//            if (!isGoogleChromeInstalled(context)) {//for non-chrome app
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            }
-            } else {
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-        } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+        //Intent intent = new Intent(Intent.ACTION_VIEW);
+        //intent.setData(Uri.parse(url));
+        CustomTabsIntent intent = new CustomTabsIntent.Builder()
+                .enableUrlBarHiding()
+                .setToolbarColor(ContextCompat.getColor(context, R.color.bloody_color))
+                .build();
 
-        try {//[97]dolphin++
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            //Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+        if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
+            intent.intent.putExtra(Intent.EXTRA_REFERRER,
+                    Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+            intent.launchUrl(context, Uri.parse(url));
+        } else {
+            try {//[97]dolphin++
+                context.startActivity(intent.intent);
+            } catch (ActivityNotFoundException e) {
+                //Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
     }
 
