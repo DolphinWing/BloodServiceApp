@@ -23,7 +23,6 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.util.PackageUtils
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.*
 import eu.davidea.viewholders.FlexibleViewHolder
 
@@ -58,7 +57,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         recyclerView = view.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)
-            layoutManager = SmoothScrollLinearLayoutManager(requireActivity())
+            layoutManager = FixedLayoutManager(requireActivity())
         }
     }
 

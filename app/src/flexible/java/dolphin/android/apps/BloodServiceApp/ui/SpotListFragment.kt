@@ -18,7 +18,6 @@ import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.AbstractExpandableHeaderItem
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -59,7 +58,7 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         recyclerView = view.findViewById(android.R.id.list)
         recyclerView?.apply {
             setHasFixedSize(true)
-            layoutManager = SmoothScrollLinearLayoutManager(requireActivity())
+            layoutManager = FixedLayoutManager(requireActivity())
         }
     }
 

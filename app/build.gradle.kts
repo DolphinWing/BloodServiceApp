@@ -32,8 +32,8 @@ android {
 
     productFlavors {
         create("flexible") {
-            versionCode = 105
-            versionName = "2.5.0"
+            versionCode = 107
+            versionName = "2.5.1"
             dimension("mode")
             minSdkVersion(21)
         }
