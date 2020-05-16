@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.provider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -51,12 +52,12 @@ public class BloodDataHelper {
             URL_BASE_BLOOD_ORG + "/Internet/mobile/docs/local_blood_center_map.aspx" +
                     "?site_id={site}&select_city={city}&spotID={spot}";
 
-    private Context mContext;
-    private OkHttpClient mClient;
-    private Calendar mStartDate;
+    private final Context mContext;
+    private final OkHttpClient mClient;
+    private final Calendar mStartDate;
 
-    private int[] mBloodCenterId;// = {0, 2, 3, 4, 5, 6, 7};
-    private String[] mBloodType;// = {"A", "B", "O", "AB"};
+    private final int[] mBloodCenterId;// = {0, 2, 3, 4, 5, 6, 7};
+    private final String[] mBloodType;// = {"A", "B", "O", "AB"};
     private SparseArray<String> mCityName;
 
     public BloodDataHelper(Context context) {
@@ -492,7 +493,8 @@ public class BloodDataHelper {
         return intent;
     }
 
-    private static Intent getBrowserIntent(Context context, String url) {
+    @SuppressLint("ObsoleteSdkInt")
+    public static Intent getBrowserIntent(Context context, String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
             Bundle extras = new Bundle(); //[44]dolphin++ add Chrome Custom Tabs

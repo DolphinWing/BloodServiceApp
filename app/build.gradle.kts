@@ -77,7 +77,7 @@ dependencies {
 
     implementation(Libs.AndroidX.appcompat)
     implementation(Libs.AndroidX.swipeRefreshLayout)
-    implementation(Libs.AndroidX.browser)
+    //implementation(Libs.AndroidX.browser)
     implementation(Libs.AndroidX.recyclerView)
     implementation(Libs.Google.material)
     implementation(Libs.AndroidX.constraintLayout)

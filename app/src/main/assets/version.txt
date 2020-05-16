@@ -10,6 +10,14 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[106] @ 2020-05-16
+    update to kts
+    change gradle refresh dependency plugin
+    add description to external browser
+        I hate to response those who thinks the browser is mine.
+        Maybe I should drop the custom tabs support?
+    remove androidx browser
+
 [105] @ 2020-05-15
     update Custom Tabs
     code refactor

@@ -2,7 +2,7 @@
 <resources>
     <bool name="default_line_indicator_snap">false</bool>
 
-    <bool name="feature_enable_chrome_custom_tabs">true</bool>
+    <bool name="feature_enable_chrome_custom_tabs">false</bool>
 
     <string name="admob_app_id" translatable="false">ca-app-pub-7557398389502445~3810446184</string>
 

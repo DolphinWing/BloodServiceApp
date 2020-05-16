@@ -5,6 +5,7 @@
     <!--<string name="hello_world">Hello world!</string>-->
     <string name="action_settings">設定</string>
     <string name="action_go_to_personal">捐血者網路查詢</string>
+    <string name="action_go_to_personal_summary">由台灣血液基金會提供</string>
 
     <!-- MainActivity -->
     <string name="pattern_separator">：</string>

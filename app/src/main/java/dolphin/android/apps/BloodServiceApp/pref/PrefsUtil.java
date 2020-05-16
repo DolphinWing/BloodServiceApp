@@ -8,9 +8,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
@@ -18,12 +18,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import androidx.browser.customtabs.CustomTabsClient;
-import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.browser.customtabs.CustomTabsService;
-import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
-import dolphin.android.apps.BloodServiceApp.R;
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
 /**
@@ -128,24 +122,31 @@ public class PrefsUtil {
             return;
         }
 
-        //Intent intent = new Intent(Intent.ACTION_VIEW);
-        //intent.setData(Uri.parse(url));
-        CustomTabsIntent intent = new CustomTabsIntent.Builder()
-                .enableUrlBarHiding()
-                .setToolbarColor(ContextCompat.getColor(context, R.color.bloody_color))
-                .build();
-
-        if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
-            intent.intent.putExtra(Intent.EXTRA_REFERRER,
-                    Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
-            intent.launchUrl(context, Uri.parse(url));
-        } else {
-            try {//[97]dolphin++
-                context.startActivity(intent.intent);
-            } catch (ActivityNotFoundException e) {
-                //Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
+//        //Intent intent = new Intent(Intent.ACTION_VIEW);
+//        //intent.setData(Uri.parse(url));
+//        CustomTabsIntent intent = new CustomTabsIntent.Builder()
+//                .enableUrlBarHiding()
+//                .setToolbarColor(ContextCompat.getColor(context, R.color.bloody_color))
+//                .build();
+//
+//        if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
+//            intent.intent.putExtra(Intent.EXTRA_REFERRER,
+//                    Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+//            intent.launchUrl(context, Uri.parse(url));
+//        } else {
+//            try {//[97]dolphin++
+//                context.startActivity(intent.intent);
+//            } catch (ActivityNotFoundException e) {
+//                //Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
+//                e.printStackTrace();
+//            }
+//        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
