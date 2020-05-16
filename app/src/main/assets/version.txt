@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[108] @ 2020-05-16
+    fix summary
+
 [107] @ 2020-05-16
     try to fix r105 test failed
 

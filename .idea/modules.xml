@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BloodServiceApp.iml" filepath="$PROJECT_DIR$/BloodServiceApp.iml" group="BloodServiceApp" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1393834804/Android.BloodServiceApp.iml" filepath="$PROJECT_DIR$/.idea/modules/1393834804/Android.BloodServiceApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-344827706/Android.BloodServiceApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/-344827706/Android.BloodServiceApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1387479313/Android.BloodServiceApp.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/1387479313/Android.BloodServiceApp.buildSrc.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/BloodServiceApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/BloodServiceApp.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BloodServiceApp.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/BloodServiceApp.buildSrc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="BloodServiceApp/app" />
-      <module fileurl="file://$PROJECT_DIR$/buildSrc/buildSrc.iml" filepath="$PROJECT_DIR$/buildSrc/buildSrc.iml" group="BloodServiceApp/buildSrc" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/github.BloodServiceApp.iml" filepath="$PROJECT_DIR$/.idea/modules/github.BloodServiceApp.iml" />
     </modules>
   </component>
