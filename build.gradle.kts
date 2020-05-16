@@ -7,15 +7,8 @@ buildscript {
     }
     dependencies {
         classpath (Libs.com_android_tools_build_gradle)
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        
-//        //https://github.com/castorflex/PlayServicesStrip-plugin
-//        classpath 'com.github.castorflex.playservicesstrip:plugin:1.0.2'
-
+        classpath(kotlin("gradle-plugin", version = Versions.org_jetbrains_kotlin))
         classpath (Libs.google_services)
-        classpath (Libs.kotlin_gradle_plugin)
     }
 }
 
@@ -29,4 +22,8 @@ allprojects {
         jcenter()
         //mavenCentral()
     }
+}
+
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
 }

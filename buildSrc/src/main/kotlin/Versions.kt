@@ -14,7 +14,7 @@ import org.gradle.plugin.use.PluginDependencySpec
 object Versions {
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.6.1" // available: "0.7.0"
 
-    const val com_android_tools_build_gradle: String = "3.6.3"
+    const val com_android_tools_build_gradle: String = "4.1.0-alpha09"
 
     const val play_services_analytics: String = "17.0.0"
 
@@ -30,6 +30,8 @@ object Versions {
 
     const val play_services_base: String = "17.2.1"
 
+    const val swiperefreshlayout: String = "1.0.0"
+
     const val constraintlayout: String = "1.1.3"
 
     const val flexible_adapter: String = "5.1.0"
@@ -42,9 +44,9 @@ object Versions {
 
     const val fragment_ktx: String = "1.2.4"
 
-    const val recyclerview: String =  "1.1.0"
+    const val recyclerview: String = "1.1.0"
 
-    const val lint_gradle: String = "26.6.3"
+    const val lint_gradle: String = "27.1.0-alpha09"
 
     const val android_ui: String = "1.2"
 
@@ -58,20 +60,20 @@ object Versions {
 
     const val material: String = "1.1.0"
 
-    const val okhttp: String = "4.6.0"
-
-    const val aapt2: String = "3.6.3-6040484"
-
     const val swipeRefreshLayout = "1.0.0"
 
-    const val browser = "1.2.0"
+    const val browser: String = "1.2.0"
+
+    const val okhttp: String = "4.6.0"
+
+    const val aapt2: String = "4.1.0-alpha09-6422342"
 
     /**
-     * Current version: "5.4.1"
+     * Current version: "6.4"
      * See issue 19: How to update Gradle itself?
      * https://github.com/jmfayard/buildSrcVersions/issues/19
      */
-    const val gradleLatestVersion: String = "6.4"
+    const val gradleLatestVersion: String = "6.4.1"
 }
 
 /**

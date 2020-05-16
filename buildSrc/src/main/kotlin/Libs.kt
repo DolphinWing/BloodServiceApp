@@ -8,115 +8,150 @@ import kotlin.String
  */
 object Libs {
     const val de_fayard_buildsrcversions_gradle_plugin: String =
-            "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:${Versions.de_fayard_buildsrcversions_gradle_plugin}"
+            "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
+            Versions.de_fayard_buildsrcversions_gradle_plugin
 
     /**
      * https://developer.android.com/studio
      */
-    const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:${Versions.com_android_tools_build_gradle}"
+    const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:" +
+            Versions.com_android_tools_build_gradle
 
-    const val play_services_analytics: String = "com.google.android.gms:play-services-analytics:${Versions.play_services_analytics}"
+    const val play_services_analytics: String = "com.google.android.gms:play-services-analytics:" +
+            Versions.play_services_analytics
 
-    const val play_services_ads_lite: String = "com.google.android.gms:play-services-ads-lite:${Versions.play_services_ads_lite}"
-
-    /**
-     * https://kotlinlang.org/
-     */
-    const val kotlin_gradle_plugin: String = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.org_jetbrains_kotlin}"
+    const val play_services_ads_lite: String = "com.google.android.gms:play-services-ads-lite:" +
+            Versions.play_services_ads_lite
 
     /**
      * https://kotlinlang.org/
      */
-    const val kotlin_stdlib_jdk7: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.org_jetbrains_kotlin}"
+    const val kotlin_android_extensions: String =
+            "org.jetbrains.kotlin:kotlin-android-extensions:" + Versions.org_jetbrains_kotlin
+
+    /**
+     * https://kotlinlang.org/
+     */
+    const val kotlin_android_extensions_runtime: String =
+            "org.jetbrains.kotlin:kotlin-android-extensions-runtime:" +
+            Versions.org_jetbrains_kotlin
+
+    /**
+     * https://kotlinlang.org/
+     */
+    const val kotlin_gradle_plugin: String = "org.jetbrains.kotlin:kotlin-gradle-plugin:" +
+            Versions.org_jetbrains_kotlin
+
+    /**
+     * https://kotlinlang.org/
+     */
+    const val kotlin_stdlib_jdk7: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:" +
+            Versions.org_jetbrains_kotlin
 
     /**
      * https://github.com/davideas/FlexibleAdapter
      */
-    const val flexible_adapter_ui: String = "eu.davidea:flexible-adapter-ui:${Versions.flexible_adapter_ui}"
+    const val flexible_adapter_ui: String = "eu.davidea:flexible-adapter-ui:" +
+            Versions.flexible_adapter_ui
 
     /**
      * https://developer.android.com/topic/libraries/architecture/index.html
      */
-    const val lifecycle_extensions: String = "androidx.lifecycle:lifecycle-extensions:${Versions.androidx_lifecycle}"
+    const val lifecycle_extensions: String = "androidx.lifecycle:lifecycle-extensions:" +
+            Versions.androidx_lifecycle
 
     /**
      * https://developer.android.com/jetpack/androidx
      */
-    const val lifecycle_viewmodel_ktx: String = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.androidx_lifecycle}"
+    const val lifecycle_viewmodel_ktx: String = "androidx.lifecycle:lifecycle-viewmodel-ktx:" +
+            Versions.androidx_lifecycle
 
-    const val firebase_analytics: String = "com.google.firebase:firebase-analytics:${Versions.firebase_analytics}"
+    const val firebase_analytics: String = "com.google.firebase:firebase-analytics:" +
+            Versions.firebase_analytics
 
-    const val play_services_base: String = "com.google.android.gms:play-services-base:${Versions.play_services_base}"
-
-    /**
-     * http://tools.android.com
-     */
-    const val constraintlayout: String = "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
-
-    /**
-     * https://github.com/davideas/FlexibleAdapter
-     */
-    const val flexible_adapter: String = "eu.davidea:flexible-adapter:${Versions.flexible_adapter}"
-
-    const val firebase_config: String = "com.google.firebase:firebase-config:${Versions.firebase_config}"
-
-    const val google_services: String = "com.google.gms:google-services:${Versions.google_services}"
-
-    const val firebase_core: String = "com.google.firebase:firebase-core:${Versions.firebase_core}"
-
-    /**
-     * https://developer.android.com/jetpack/androidx
-     */
-    const val fragment_ktx: String = "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
-
-    /**
-     * https://developer.android.com/jetpack/androidx
-     */
-    const val recyclerview: String = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
-
-    /**
-     * https://developer.android.com/studio
-     */
-    const val lint_gradle: String = "com.android.tools.lint:lint-gradle:${Versions.lint_gradle}"
-
-    /**
-     * https://github.com/markushi/android-ui
-     */
-    const val android_ui: String = "com.github.markushi:android-ui:${Versions.android_ui}"
-
-    /**
-     * https://developer.android.com/jetpack/androidx
-     */
-    const val preference: String = "androidx.preference:preference:${Versions.preference}"
-
-    /**
-     * https://developer.android.com/jetpack/androidx
-     */
-    const val appcompat: String = "androidx.appcompat:appcompat:${Versions.appcompat}"
-
-    const val superslim: String = "com.tonicartos:superslim:${Versions.superslim}"
-
-    /**
-     * https://developer.android.com/jetpack/androidx
-     */
-    const val core_ktx: String = "androidx.core:core-ktx:${Versions.core_ktx}"
+    const val play_services_base: String = "com.google.android.gms:play-services-base:" +
+            Versions.play_services_base
 
     /**
      * http://developer.android.com/tools/extras/support-library.html
      */
-    const val material: String = "com.google.android.material:material:${Versions.material}"
+    const val swiperefreshlayout: String = "androidx.swiperefreshlayout:swiperefreshlayout:" +
+            Versions.swiperefreshlayout
 
     /**
-     * https://square.github.io/okhttp/
+     * http://tools.android.com
      */
-    const val okhttp: String = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    const val constraintlayout: String = "androidx.constraintlayout:constraintlayout:" +
+            Versions.constraintlayout
+
+    /**
+     * https://github.com/davideas/FlexibleAdapter
+     */
+    const val flexible_adapter: String = "eu.davidea:flexible-adapter:" + Versions.flexible_adapter
+
+    const val firebase_config: String = "com.google.firebase:firebase-config:" +
+            Versions.firebase_config
+
+    const val google_services: String = "com.google.gms:google-services:" + Versions.google_services
+
+    const val firebase_core: String = "com.google.firebase:firebase-core:" + Versions.firebase_core
+
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val fragment_ktx: String = "androidx.fragment:fragment-ktx:" + Versions.fragment_ktx
+
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val recyclerview: String = "androidx.recyclerview:recyclerview:" + Versions.recyclerview
 
     /**
      * https://developer.android.com/studio
      */
-    const val aapt2: String = "com.android.tools.build:aapt2:${Versions.aapt2}"
+    const val lint_gradle: String = "com.android.tools.lint:lint-gradle:" + Versions.lint_gradle
+
+    /**
+     * https://github.com/markushi/android-ui
+     */
+    const val android_ui: String = "com.github.markushi:android-ui:" + Versions.android_ui
+
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val preference: String = "androidx.preference:preference:" + Versions.preference
+
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val appcompat: String = "androidx.appcompat:appcompat:" + Versions.appcompat
+
+    const val superslim: String = "com.tonicartos:superslim:" + Versions.superslim
+
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val core_ktx: String = "androidx.core:core-ktx:" + Versions.core_ktx
+
+    /**
+     * http://developer.android.com/tools/extras/support-library.html
+     */
+    const val material: String = "com.google.android.material:material:" + Versions.material
 
     const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
 
-    const val browser = "androidx.browser:browser:${Versions.browser}"
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val browser: String = "androidx.browser:browser:" + Versions.browser
+
+    /**
+     * https://square.github.io/okhttp/
+     */
+    const val okhttp: String = "com.squareup.okhttp3:okhttp:" + Versions.okhttp
+
+    /**
+     * https://developer.android.com/studio
+     */
+    const val aapt2: String = "com.android.tools.build:aapt2:" + Versions.aapt2
 }
