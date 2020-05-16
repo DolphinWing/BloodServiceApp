@@ -6,14 +6,10 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath (Libs.com_android_tools_build_gradle)
+        classpath (Libs.Google.gradleBuildTool)
         classpath(kotlin("gradle-plugin", version = Versions.org_jetbrains_kotlin))
-        classpath (Libs.google_services)
+        classpath (Libs.Google.services)
     }
-}
-
-plugins {
-    id("de.fayard.buildSrcVersions") version "0.6.1"
 }
 
 allprojects {
