@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
+    // kotlin("android.extensions")
     id("com.google.gms.google-services") // Google Services Gradle plugin
-    id("com.github.ben-manes.versions") version "0.28.0"
+    id("com.github.ben-manes.versions") version "0.29.0"
 }
 
 android {
@@ -18,13 +18,11 @@ android {
 
     buildTypes {
         getByName("release") {
-            minifyEnabled(true)
-            //useProguard true
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
         getByName("debug") {
-            minifyEnabled(false)
-            //useProguard false
+            isMinifyEnabled = false
         }
     }
 
@@ -32,16 +30,16 @@ android {
 
     productFlavors {
         create("flexible") {
-            versionCode = 108
-            versionName = "2.5.1"
-            dimension("mode")
+            versionCode = 110
+            versionName = "2.5.2"
+            setDimension("mode")
             minSdkVersion(21)
         }
         //legacy flavor
         create("design") {
             versionCode = 76
             versionName = "2.1.2"
-            dimension("mode")
+            setDimension("mode")
             minSdkVersion(14)
         }
     }
