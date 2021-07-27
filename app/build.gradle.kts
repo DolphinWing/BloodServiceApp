@@ -3,16 +3,16 @@ plugins {
     kotlin("android")
     // kotlin("android.extensions")
     id("com.google.gms.google-services") // Google Services Gradle plugin
-    id("com.github.ben-manes.versions") version "0.29.0"
+    id("com.github.ben-manes.versions") version "0.39.0"
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.3")
+    compileSdkVersion(30)
+    buildToolsVersion("30.0.3")
 
     defaultConfig {
         applicationId = "dolphin.android.apps.BloodServiceApp"
-        targetSdkVersion(29)
+        targetSdkVersion(30)
         resConfigs("zh_TW")
     }
 
@@ -30,18 +30,18 @@ android {
 
     productFlavors {
         create("flexible") {
-            versionCode = 110
-            versionName = "2.5.2"
-            setDimension("mode")
+            versionCode = 111
+            versionName = "2.5.3"
+            dimension("mode")
             minSdkVersion(21)
         }
-        //legacy flavor
-        create("design") {
-            versionCode = 76
-            versionName = "2.1.2"
-            setDimension("mode")
-            minSdkVersion(14)
-        }
+//        //legacy flavor
+//        create("design") {
+//            versionCode = 76
+//            versionName = "2.1.2"
+//            dimension("mode")
+//            minSdkVersion(14)
+//        }
     }
 
     // maybe https://github.com/evant/gradle-retrolambda
@@ -55,12 +55,24 @@ android {
     }
 }
 
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
 tasks {
     /**
      * https://github.com/ben-manes/gradle-versions-plugin
      * ./gradlew dependencyUpdates
      */
     withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
+        // Example 2: disallow release candidates as upgradable versions from stable versions
+        rejectVersionIf {
+            isNonStable(candidate.version) && !isNonStable(currentVersion)
+        }
+
         // optional parameters
         checkForGradleUpdate = true
         outputFormatter = "json"
@@ -70,7 +82,7 @@ tasks {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk7", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
+    implementation(kotlin("stdlib", Versions.org_jetbrains_kotlin))
     implementation(Libs.okhttp)
 
     implementation(Libs.AndroidX.appcompat)
@@ -81,12 +93,12 @@ dependencies {
     implementation(Libs.AndroidX.constraintLayout)
     implementation(Libs.AndroidX.preference)
 
-    "designImplementation"(Libs.android_ui)
     //play services
     implementation(Libs.Google.PlayServices.core)
     implementation(Libs.Google.PlayServices.ads)
-    "designImplementation"(Libs.Google.PlayServices.analytics)
-    "designImplementation"(Libs.superslim)
+//    "designImplementation"(Libs.Google.PlayServices.analytics)
+//    "designImplementation"(Libs.android_ui)
+//    "designImplementation"(Libs.superslim)
 
 
     //Firebase
@@ -99,9 +111,8 @@ dependencies {
     "flexibleImplementation"(Libs.FlexibleAdapter.core)
     "flexibleImplementation"(Libs.FlexibleAdapter.ui)
 
-    "flexibleImplementation"(Libs.AndroidX.lifecycleExtensions)
+    //"flexibleImplementation"(Libs.AndroidX.lifecycleExtensions)
     "flexibleImplementation"(Libs.AndroidX.lifecycleViewModel)
     "flexibleImplementation"(Libs.AndroidX.coreKtx)
     "flexibleImplementation"(Libs.AndroidX.fragment)
-
 }

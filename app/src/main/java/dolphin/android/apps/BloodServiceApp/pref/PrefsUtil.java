@@ -20,6 +20,7 @@ import java.util.List;
 
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper;
 
+
 /**
  * Created by dolphin on 2014/10/26.
  * <p/>

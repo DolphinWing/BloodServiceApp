@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.text.Spannable
 import android.text.Spanned
@@ -78,8 +79,8 @@ class SplashActivity : AppCompatActivity() {
             val textView = findViewById<TextView>(android.R.id.message)
             textView.text = googleAPI.getErrorString(result)
             val dialog = googleAPI.getErrorDialog(this, result, 0)
-            dialog.setOnDismissListener { prepareRemoteConfig() }
-            dialog.show()
+            dialog?.setOnDismissListener { prepareRemoteConfig() }
+            dialog?.show()
             return false//don't show progress bar
         }
 
@@ -89,15 +90,15 @@ class SplashActivity : AppCompatActivity() {
     private fun prepareRemoteConfig() {
         //Google Mobile Ads SDK version 17.0.0
         MobileAds.initialize(this) { status ->
-            status.adapterStatusMap?.values?.forEach { s ->
-                Log.d(TAG, "MobileAds: ${s.initializationState.name} ${s.description}")
+            status.adapterStatusMap.values.forEach { s ->
+                Log.v(TAG, "MobileAds: ${s.initializationState.name} ${s.description}")
             }
         }
 
         config = FirebaseRemoteConfig.getInstance()
         val settings = FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(if (BuildConfig.DEBUG) 60 else 43200)
-                .build()
+            .setMinimumFetchIntervalInSeconds(if (BuildConfig.DEBUG) 60 else 43200)
+            .build()
         config.setConfigSettingsAsync(settings)
         config.setDefaultsAsync(R.xml.remote_config_defaults)
         fetchFirebaseRemoteConfig()
@@ -105,9 +106,9 @@ class SplashActivity : AppCompatActivity() {
 
     private fun fetchFirebaseRemoteConfig() {
         config.fetchAndActivate()
-                .addOnCompleteListener {
-                    checkPrivacyPolicyReview()
-                }
+            .addOnCompleteListener {
+                checkPrivacyPolicyReview()
+            }
     }
 
     private fun checkPrivacyPolicyReview() {
@@ -115,7 +116,8 @@ class SplashActivity : AppCompatActivity() {
         val updateCode = FirebaseRemoteConfig.getInstance().getLong("privacy_policy_update_code")
         //if private policy has been updated
         if (!prefs.getBoolean(NavigationDrawerFragment.PREF_USER_LEARNED_DRAWER, false) &&
-                prefs.getLong(MainActivity.PREF_PRIVATE_POLICY, 0) < updateCode) {
+            prefs.getLong(MainActivity.PREF_PRIVATE_POLICY, 0) < updateCode
+        ) {
             findViewById<ViewStub>(android.R.id.list)?.inflate()
             findViewById<View>(android.R.id.text2)?.setOnClickListener {
                 prefs.edit().putLong(MainActivity.PREF_PRIVATE_POLICY, updateCode).apply()
@@ -164,15 +166,16 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private class MyHandler(a: SplashActivity) : Handler() {
+    private class MyHandler(a: SplashActivity) : Handler(Looper.getMainLooper()) {
         private val activity = WeakReference(a)
-        override fun handleMessage(msg: Message?) {
+
+        override fun handleMessage(msg: Message) {
             activity.get()?.handleMessage(msg)
         }
     }
 
-    internal fun handleMessage(msg: Message?) {
+    internal fun handleMessage(msg: Message) {
         findViewById<View>(android.R.id.progress)?.visibility =
-                if (msg?.what == 1) View.VISIBLE else View.INVISIBLE
+            if (msg.what == 1) View.VISIBLE else View.INVISIBLE
     }
 }

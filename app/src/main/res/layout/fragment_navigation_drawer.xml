@@ -33,32 +33,7 @@
         android:layout_height="1dp"
         android:background="@color/ripple_material_light" />
 
-    <LinearLayout
-        android:id="@+id/action_go_personal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/material_listview_header_height"
-        android:background="@drawable/abc_list_selector_holo_light"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/material_horizontal_margin"
-        android:paddingRight="@dimen/material_horizontal_margin">
-
-        <TextView
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_open_in_new"
-            android:gravity="center_vertical"
-            android:text="@string/action_go_to_personal" />
-
-        <TextView
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/action_go_to_personal_summary"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+    <include layout="@layout/layout_donation_weblink" />
 
     <TextView
         android:id="@android:id/edit"

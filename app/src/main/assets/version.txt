@@ -10,6 +10,12 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[111] @ 2021-07-27
+    update to Android Studio 4.2.2
+    build a new version for sdk bump to 30
+    change a little bit of ui style
+    libraries update
+
 [110] @ 2020-08-25
     update to Android Studio 4.0.1
     build a new version for sdk bump to 29
