@@ -56,12 +56,14 @@ object Libs {
         const val lifecycleViewModel: String =
                 "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.lifecycle}"
 
-        const val preference: String = "androidx.preference:preference:${Versions.AndroidX.preference}"
+        const val preference: String = "androidx.preference:preference-ktx:${Versions.AndroidX.preference}"
 
         const val swipeRefreshLayout =
                 "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.AndroidX.swipeRefreshLayout}"
 
         const val browser: String = "androidx.browser:browser:${Versions.AndroidX.browser}"
+
+        const val work: String = "androidx.work:work-runtime-ktx:${Versions.AndroidX.work}"
     }
 
     object Firebase {

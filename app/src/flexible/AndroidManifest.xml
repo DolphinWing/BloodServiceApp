@@ -15,13 +15,17 @@
 
         <activity
             android:name="dolphin.android.apps.BloodServiceApp.ui.MainActivity"
+            android:exported="false"
             android:screenOrientation="userPortrait"
+            tools:ignore="LockedOrientationActivity"
             tools:replace="android:screenOrientation" />
 
         <activity
             android:name="dolphin.android.apps.BloodServiceApp.ui.SplashActivity"
+            android:exported="true"
             android:screenOrientation="userPortrait"
             android:theme="@style/Theme.Bloody.Splash"
+            tools:ignore="LockedOrientationActivity"
             tools:replace="android:theme,android:screenOrientation">
             <!--suppress AndroidElementNotAllowed -->
             <layout

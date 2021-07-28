@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion("30.0.3")
+    compileSdkVersion(31)
+    // buildToolsVersion("31.0.0")
 
     defaultConfig {
         applicationId = "dolphin.android.apps.BloodServiceApp"
-        targetSdkVersion(30)
+        targetSdkVersion(31)
         resConfigs("zh_TW")
     }
 
@@ -30,7 +30,7 @@ android {
 
     productFlavors {
         create("flexible") {
-            versionCode = 111
+            versionCode = 112
             versionName = "2.5.3"
             dimension("mode")
             minSdkVersion(21)
@@ -87,31 +87,31 @@ dependencies {
 
     implementation(Libs.AndroidX.appcompat)
     implementation(Libs.AndroidX.swipeRefreshLayout)
-    //implementation(Libs.AndroidX.browser)
+    // implementation(Libs.AndroidX.browser)
     implementation(Libs.AndroidX.recyclerView)
     implementation(Libs.Google.material)
     implementation(Libs.AndroidX.constraintLayout)
     implementation(Libs.AndroidX.preference)
 
-    //play services
+    // play services
     implementation(Libs.Google.PlayServices.core)
     implementation(Libs.Google.PlayServices.ads)
+    implementation(Libs.AndroidX.work) // ads-lite depends on WorkManager
 //    "designImplementation"(Libs.Google.PlayServices.analytics)
 //    "designImplementation"(Libs.android_ui)
 //    "designImplementation"(Libs.superslim)
 
-
-    //Firebase
+    // Firebase
     implementation(Libs.Firebase.core)
     implementation(Libs.Firebase.analytics)
     implementation(Libs.Firebase.remoteConfig)
 
-    //flexible
-    //https://github.com/davideas/FlexibleAdapter
+    // flexible
+    // https://github.com/davideas/FlexibleAdapter
     "flexibleImplementation"(Libs.FlexibleAdapter.core)
     "flexibleImplementation"(Libs.FlexibleAdapter.ui)
 
-    //"flexibleImplementation"(Libs.AndroidX.lifecycleExtensions)
+    // "flexibleImplementation"(Libs.AndroidX.lifecycleExtensions)
     "flexibleImplementation"(Libs.AndroidX.lifecycleViewModel)
     "flexibleImplementation"(Libs.AndroidX.coreKtx)
     "flexibleImplementation"(Libs.AndroidX.fragment)

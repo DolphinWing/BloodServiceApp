@@ -6,17 +6,26 @@
     android:background="@drawable/bloody_list_selector_holo_light"
     android:gravity="center_vertical"
     android:importantForAccessibility="no"
+    android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
         android:id="@android:id/title"
         style="@style/Theme.Bloody.Widget.Donation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp"
         android:singleLine="true"
         android:text="@string/title_section3" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#10000000" />
 
 </LinearLayout>

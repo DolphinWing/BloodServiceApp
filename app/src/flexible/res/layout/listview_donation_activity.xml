@@ -57,4 +57,10 @@
         app:layout_constraintStart_toEndOf="@android:id/text2"
         app:layout_constraintTop_toTopOf="@android:id/text2" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#10000000"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

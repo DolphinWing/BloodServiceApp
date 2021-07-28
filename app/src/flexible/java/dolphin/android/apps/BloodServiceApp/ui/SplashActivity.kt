@@ -16,8 +16,10 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.view.ViewStub
+import android.view.ViewTreeObserver.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -38,6 +40,7 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var config: FirebaseRemoteConfig
     private lateinit var handler: MyHandler
+    private val ready = MutableLiveData(false)
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleUtil.onAttach(newBase!!))
@@ -56,6 +59,12 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 packageInfo?.versionCode?.toString()
             } ?: "-"
+        }
+
+        // https://developer.android.com/about/versions/12/features/splash-screen#implement
+        // Set up an OnPreDrawListener to the root view.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            setupPreDrawListener()
         }
 
         if (!checkGoogleApiAvailability()) {
@@ -105,10 +114,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun fetchFirebaseRemoteConfig() {
-        config.fetchAndActivate()
-            .addOnCompleteListener {
-                checkPrivacyPolicyReview()
-            }
+        config.fetchAndActivate().addOnCompleteListener {
+            checkPrivacyPolicyReview()
+        }
     }
 
     private fun checkPrivacyPolicyReview() {
@@ -121,7 +129,7 @@ class SplashActivity : AppCompatActivity() {
             findViewById<ViewStub>(android.R.id.list)?.inflate()
             findViewById<View>(android.R.id.text2)?.setOnClickListener {
                 prefs.edit().putLong(MainActivity.PREF_PRIVATE_POLICY, updateCode).apply()
-                startMainActivity()
+                startMainActivity() // confirm policy
             }
             //https://stackoverflow.com/q/5183645/2673859
             val text = getString(R.string.splash_privacy_policy_review)
@@ -146,6 +154,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
+        ready.postValue(true)
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
         overridePendingTransition(0, 0)
@@ -174,8 +183,27 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    internal fun handleMessage(msg: Message) {
+    private fun handleMessage(msg: Message) {
         findViewById<View>(android.R.id.progress)?.visibility =
             if (msg.what == 1) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun setupPreDrawListener() {
+        // https://developer.android.com/about/versions/12/features/splash-screen#implement
+        // Set up an OnPreDrawListener to the root view.
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(object : OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                // Check if the initial data is ready.
+                return if (ready.value == true) {
+                    // The content is ready; start drawing.
+                    content.viewTreeObserver.removeOnPreDrawListener(this)
+                    true
+                } else {
+                    // The content is not ready; suspend.
+                    false
+                }
+            }
+        })
     }
 }

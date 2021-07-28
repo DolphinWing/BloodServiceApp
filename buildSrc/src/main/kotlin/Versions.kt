@@ -34,6 +34,8 @@ object Versions {
         const val swipeRefreshLayout = "1.1.0"
 
         const val browser: String = "1.2.0"
+
+        const val work: String = "2.7.0-alpha05"
     }
 
     object Firebase {
