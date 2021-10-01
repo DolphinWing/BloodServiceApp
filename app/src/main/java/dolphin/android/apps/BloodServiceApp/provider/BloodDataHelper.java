@@ -81,7 +81,7 @@ public class BloodDataHelper {
         try {
             mClient.newCall(request).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "warm: " + e.getMessage());
         }
     }
 

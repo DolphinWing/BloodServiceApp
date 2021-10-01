@@ -8,7 +8,7 @@ object Libs {
 
     object Google {
         const val gradleBuildTool =
-                "com.android.tools.build:gradle:${Versions.Google.gradleBuildTool}"
+            "com.android.tools.build:gradle:${Versions.Google.gradleBuildTool}"
 
         const val services: String = "com.google.gms:google-services:${Versions.Google.services}"
 
@@ -24,7 +24,7 @@ object Libs {
          * http://developer.android.com/tools/extras/support-library.html
          */
         const val material: String =
-                "com.google.android.material:material:${Versions.Google.material}"
+            "com.google.android.material:material:${Versions.Google.material}"
     }
 
     /**
@@ -41,33 +41,66 @@ object Libs {
         const val coreKtx: String = "androidx.core:core-ktx:${Versions.AndroidX.coreKtx}"
 
         const val constraintLayout: String =
-                "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.constraintLayout}"
+            "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.constraintLayout}"
 
         const val fragment: String = "androidx.fragment:fragment-ktx:${Versions.AndroidX.fragment}"
 
         const val recyclerView: String =
-                "androidx.recyclerview:recyclerview:${Versions.AndroidX.recyclerView}"
+            "androidx.recyclerview:recyclerview:${Versions.AndroidX.recyclerView}"
 
         /**
          * https://developer.android.com/topic/libraries/architecture/index.html
          */
         const val lifecycleExtensions: String =
-                "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.lifecycle}"
+            "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.lifecycle}"
         const val lifecycleViewModel: String =
-                "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.lifecycle}"
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.lifecycle}"
+        const val liveData: String =
+            "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.lifecycle}"
 
-        const val preference: String = "androidx.preference:preference-ktx:${Versions.AndroidX.preference}"
+        const val preference: String =
+            "androidx.preference:preference-ktx:${Versions.AndroidX.preference}"
 
         const val swipeRefreshLayout =
-                "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.AndroidX.swipeRefreshLayout}"
+            "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.AndroidX.swipeRefreshLayout}"
 
         const val browser: String = "androidx.browser:browser:${Versions.AndroidX.browser}"
 
         const val work: String = "androidx.work:work-runtime-ktx:${Versions.AndroidX.work}"
+
+        // Compose
+        object Compose {
+            const val runtime = "androidx.compose.runtime:runtime:${Versions.AndroidX.compose}"
+            const val livedata =
+                "androidx.compose.runtime:runtime-livedata:${Versions.AndroidX.compose}"
+
+            const val activity =
+                "androidx.activity:activity-compose:${Versions.AndroidX.activity}"
+            const val lifecycle =
+                "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.viewModelCompose}"
+
+            const val core = "androidx.compose.ui:ui:${Versions.AndroidX.compose}"
+            const val compiler = "androidx.compose.compiler:compiler:${Versions.AndroidX.compose}"
+
+            const val foundation =
+                "androidx.compose.foundation:foundation:${Versions.AndroidX.compose}"
+            const val layout =
+                "androidx.compose.foundation:foundation-layout:${Versions.AndroidX.compose}"
+
+            const val material = "androidx.compose.material:material:${Versions.AndroidX.compose}"
+            const val materialRipple =
+                "androidx.compose.material:material-ripple:${Versions.AndroidX.compose}"
+            const val materialIcons =
+                "androidx.compose.material:material-icons-extended:${Versions.AndroidX.compose}"
+
+            const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.AndroidX.compose}"
+        }
     }
 
     object Firebase {
         private const val firebase = "com.google.firebase"
+
+        const val bom: String = "$firebase:firebase-bom:${Versions.Firebase.bom}"
 
         const val core: String = "$firebase:firebase-core:${Versions.Firebase.core}"
 
@@ -85,10 +118,10 @@ object Libs {
         const val ui: String = "$ownerProject-ui:${Versions.FlexibleAdapter.ui}"
     }
 
-    /**
-     * https://github.com/markushi/android-ui
-     */
-    const val android_ui: String = "com.github.markushi:android-ui:" + Versions.android_ui
-
-    const val superslim: String = "com.tonicartos:superslim:" + Versions.superslim
+//    /**
+//     * https://github.com/markushi/android-ui
+//     */
+//    const val android_ui: String = "com.github.markushi:android-ui:" + Versions.android_ui
+//
+//    const val superslim: String = "com.tonicartos:superslim:" + Versions.superslim
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android P - CLEARTEXT communication not permitted by network security policy -->
+<!-- http://www.douevencode.com/articles/2018-07/cleartext-communication-not-permitted/ -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">www.blood.org.tw</domain>
+        <domain includeSubdomains="true">www.tp.blood.org.tw</domain>
+        <domain includeSubdomains="true">www.sc.blood.org.tw</domain>
+        <domain includeSubdomains="true">www.tc.blood.org.tw</domain>
+        <domain includeSubdomains="true">www.tn.blood.org.tw</domain>
+        <domain includeSubdomains="true">www.ks.blood.org.tw</domain>
+    </domain-config>
+</network-security-config>

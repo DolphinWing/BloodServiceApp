@@ -103,6 +103,26 @@ public class PrefsUtil {
         return pref.getBoolean(KEY_ENABLE_ACTIVITY2, true);
     }
 
+    public long getPolicyCode() {
+        SharedPreferences pref = getDefaultPreference(mContext);
+        return pref.getLong("private_policy", 0);
+    }
+
+    public void setPolicyCode(long code) {
+        SharedPreferences pref = getDefaultPreference(mContext);
+        pref.edit().putLong("private_policy", code).apply();
+    }
+
+    public int getCenterId() {
+        SharedPreferences pref = getDefaultPreference(mContext);
+        return pref.getInt("near_by_center", 5);
+    }
+
+    public void setCenterId(int id) {
+        SharedPreferences pref = getDefaultPreference(mContext);
+        pref.edit().putInt("near_by_center", id).apply();
+    }
+
     //https://developer.chrome.com/multidevice/android/customtabs
     //https://github.com/GoogleChrome/custom-tabs-client
     public static final String EXTRA_CUSTOM_TABS_SESSION =
@@ -123,25 +143,6 @@ public class PrefsUtil {
             return;
         }
 
-//        //Intent intent = new Intent(Intent.ACTION_VIEW);
-//        //intent.setData(Uri.parse(url));
-//        CustomTabsIntent intent = new CustomTabsIntent.Builder()
-//                .enableUrlBarHiding()
-//                .setToolbarColor(ContextCompat.getColor(context, R.color.bloody_color))
-//                .build();
-//
-//        if (context.getResources().getBoolean(R.bool.feature_enable_chrome_custom_tabs)) {
-//            intent.intent.putExtra(Intent.EXTRA_REFERRER,
-//                    Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
-//            intent.launchUrl(context, Uri.parse(url));
-//        } else {
-//            try {//[97]dolphin++
-//                context.startActivity(intent.intent);
-//            } catch (ActivityNotFoundException e) {
-//                //Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
-//                e.printStackTrace();
-//            }
-//        }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {

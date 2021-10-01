@@ -10,7 +10,10 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
-[112] @ 20201-07-28
+[201] @ 2021-10-01
+    add compose flavor with Jetpack Compose UI
+
+[112] @ 2021-07-28
     sdk bump to 31
     ui tweaks
 

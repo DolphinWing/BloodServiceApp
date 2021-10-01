@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdk = 31
     // buildToolsVersion("31.0.0")
 
     defaultConfig {
         applicationId = "dolphin.android.apps.BloodServiceApp"
-        targetSdkVersion(31)
-        resConfigs("zh_TW")
+        targetSdk = 31
+        resourceConfigurations.addAll(arrayOf("zh_TW"))
     }
 
     buildTypes {
@@ -26,22 +26,24 @@ android {
         }
     }
 
-    flavorDimensions("mode")
-
+    flavorDimensions.add("mode")
     productFlavors {
+        create("compose") {
+            versionCode = 201
+            versionName = "3.0.0"
+            dimension = "mode"
+            minSdk = 21
+        }
         create("flexible") {
             versionCode = 112
             versionName = "2.5.3"
-            dimension("mode")
-            minSdkVersion(21)
+            dimension = "mode"
+            minSdk = 21
         }
-//        //legacy flavor
-//        create("design") {
-//            versionCode = 76
-//            versionName = "2.1.2"
-//            dimension("mode")
-//            minSdkVersion(14)
-//        }
+    }
+
+    lint {
+        disable("PackageName")
     }
 
     // maybe https://github.com/evant/gradle-retrolambda
@@ -52,6 +54,13 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    buildFeatures.compose = true
+
+    composeOptions {
+        // kotlinCompilerVersion = Versions.AndroidX.composeCompiler
+        kotlinCompilerExtensionVersion = Versions.AndroidX.compose
     }
 }
 
@@ -97,22 +106,36 @@ dependencies {
     implementation(Libs.Google.PlayServices.core)
     implementation(Libs.Google.PlayServices.ads)
     implementation(Libs.AndroidX.work) // ads-lite depends on WorkManager
-//    "designImplementation"(Libs.Google.PlayServices.analytics)
-//    "designImplementation"(Libs.android_ui)
-//    "designImplementation"(Libs.superslim)
 
     // Firebase
-    implementation(Libs.Firebase.core)
-    implementation(Libs.Firebase.analytics)
-    implementation(Libs.Firebase.remoteConfig)
+    implementation(platform(Libs.Firebase.bom))
+//    implementation(Libs.Firebase.core)
+//    implementation(Libs.Firebase.analytics)
+    implementation("com.google.firebase:firebase-analytics-ktx")
+//    implementation(Libs.Firebase.remoteConfig)
+    implementation("com.google.firebase:firebase-config-ktx")
 
     // flexible
     // https://github.com/davideas/FlexibleAdapter
     "flexibleImplementation"(Libs.FlexibleAdapter.core)
     "flexibleImplementation"(Libs.FlexibleAdapter.ui)
-
-    // "flexibleImplementation"(Libs.AndroidX.lifecycleExtensions)
-    "flexibleImplementation"(Libs.AndroidX.lifecycleViewModel)
-    "flexibleImplementation"(Libs.AndroidX.coreKtx)
     "flexibleImplementation"(Libs.AndroidX.fragment)
+
+    implementation(Libs.AndroidX.coreKtx)
+    implementation(Libs.AndroidX.lifecycleViewModel)
+    implementation(Libs.AndroidX.liveData)
+    // implementation(Libs.AndroidX.lifecycleExtensions)
+
+    /* Jetpack Compose */
+    implementation(Libs.AndroidX.Compose.compiler)
+    implementation(Libs.AndroidX.Compose.runtime)
+    implementation(Libs.AndroidX.Compose.livedata)
+    implementation(Libs.AndroidX.Compose.activity)
+    implementation(Libs.AndroidX.Compose.lifecycle)
+    implementation(Libs.AndroidX.Compose.core)
+    implementation(Libs.AndroidX.Compose.foundation)
+    implementation(Libs.AndroidX.Compose.layout)
+    implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.materialIcons)
+    implementation(Libs.AndroidX.Compose.uiTooling)
 }

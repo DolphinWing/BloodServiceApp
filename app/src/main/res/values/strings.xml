@@ -27,7 +27,9 @@
         <item>0型</item>
         <item>AB型</item>
     </string-array>
-    
+
+    <string name="choose_near_by_blood_center">請選擇一個您附近的捐血中心，讓我們幫你顯示那附近的捐血活動</string>
+
     <!-- NavigationDrawerFragment -->
     <string-array name="blood_center">
         <item>台灣血液基金會</item>
@@ -36,6 +38,15 @@
         <item>台中捐血中心</item>
         <item>台南捐血中心</item>
         <item>高雄捐血中心</item>
+        <!--<item>花蓮捐血中心</item>-->
+    </string-array>
+    <string-array name="blood_center_donate_station_city">
+        <item>台灣</item>
+        <item>台北市、新北市、基隆市、宜蘭縣、花蓮縣</item>
+        <item>桃園市、新竹縣市、苗栗縣</item>
+        <item>台中市、彰化縣、雲林縣、南投縣</item>
+        <item>台南市、嘉義縣市</item>
+        <item>高雄市、屏東縣、澎湖縣、台東縣</item>
         <!--<item>花蓮捐血中心</item>-->
     </string-array>
 
@@ -74,7 +85,7 @@
     <string name="app_privacy_policy">隱私權政策</string>
 
     <string name="action_go_to_facebook">前往粉絲團</string>
-    <string name="action_go_to_website">行動版網頁</string>
+    <string name="action_go_to_website">開啟行動版網頁</string>
     <string name="action_go_to_station">捐血站點</string>
 
     <string name="action_restart_app_now">立即使用</string>
@@ -89,5 +100,9 @@
     <string name="splash_privacy_policy_review">在本應用程式使用過程中，可能會收集一些操作資訊，以供未來程式改進使用。這些資訊不會包含您的個人資料與隱私。您可以在這裡檢視相關的隱私權政策。繼續使用本程式代表您同意本應用程式的行為。</string>
     <string name="splash_continue">繼續</string>
 
+    <string name="section0_summary">還想看看其他地方的捐血活動？</string>
+    <string name="section1_summary">最近的庫存狀況</string>
+    <string name="section2_summary">最近的捐血活動</string>
+    <string name="section3_summary">固定/巡迴 捐血點</string>
 </resources>
 

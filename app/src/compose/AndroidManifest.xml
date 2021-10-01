@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dolphin.android.apps.BloodServiceApp">
+
+    <!-- <uses-sdk tools:node="replace" /> -->
+    <application
+        android:icon="@mipmap/ic_adaptive_launcher"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:resizeableActivity="true"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:replace="android:icon"
+        tools:targetApi="n">
+
+        <activity
+            android:name="dolphin.android.apps.BloodServiceApp.MainActivity"
+            android:exported="true"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:ignore="LockedOrientationActivity"
+            tools:replace="android:theme,android:screenOrientation">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!--suppress AndroidElementNotAllowed -->
+            <layout
+                android:defaultWidth="480dp"
+                android:defaultHeight="720dp"
+                android:gravity="top|end"
+                android:minWidth="480dp"
+                android:minHeight="640dp"
+                tools:targetApi="n" />
+        </activity>
+    </application>
+
+</manifest>
