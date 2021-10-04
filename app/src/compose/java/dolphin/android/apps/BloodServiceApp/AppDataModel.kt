@@ -49,6 +49,9 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
         }
 
     var storageCache: SparseArray<HashMap<String, Int>>? = null
+    private val storages = MutableLiveData<HashMap<String, Int>>()
+    val storageMap: LiveData<HashMap<String, Int>> = storages
+
     fun getStorageData(
         helper: BloodDataHelper,
         forceRefresh: Boolean = false
@@ -64,7 +67,13 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
         return storageCache?.get(siteId) ?: HashMap()
     }
 
+    fun updateStorageMap(id: Int = center.value?.id ?: -1, maps: HashMap<String, Int>) {
+        storages.postValue(maps)
+    }
+
     private var donationCache = SparseArray<ArrayList<DonateDay>>()
+    private val _daysList = MutableLiveData<List<DonateDay>>()
+    val daysList: LiveData<List<DonateDay>> = _daysList
 
     fun getDonationData(
         helper: BloodDataHelper,
@@ -77,7 +86,13 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
             emit(donationCache[siteId])
         }
 
+    fun updateEventList(id: Int = center.value?.id ?: -1, list: List<DonateDay>) {
+        _daysList.postValue(list)
+    }
+
     private val spotCityCache = SparseArray<ArrayList<SpotList>>()
+    private val _spotList = MutableLiveData<List<SpotList>>()
+    val spotList: LiveData<List<SpotList>> = _spotList
 
     fun getSpotList(
         helper: BloodDataHelper,
@@ -96,4 +111,8 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
             }
             emit(spotCityCache[siteId])
         }
+
+    fun updateSpotList(id: Int = center.value?.id ?: -1, list: List<SpotList>) {
+        _spotList.postValue(list)
+    }
 }

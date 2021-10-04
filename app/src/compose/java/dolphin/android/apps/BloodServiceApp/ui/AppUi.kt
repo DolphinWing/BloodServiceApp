@@ -1,5 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -9,14 +11,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dolphin.android.apps.BloodServiceApp.AppDataModel
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
@@ -56,6 +61,79 @@ fun Separator(
             .requiredHeight(1.dp)
             .padding(vertical = verticalPadding)
     )
+}
+
+interface AppUiCallback : WelcomeUiCallback, MainUiCallback, SpotUiCallback, SettingsUiCallback {
+    fun pressBack()
+    fun reviewSource(center: BloodCenter.Center)
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun AppUiPane(
+    model: AppDataModel,
+    center: BloodCenter,
+    callback: AppUiCallback,
+    modifier: Modifier = Modifier,
+) {
+    AppTheme {
+        val selected = model.center.observeAsState()
+        val days = model.daysList.observeAsState()
+        val maps = model.storageMap.observeAsState()
+        val cities = model.spotList.observeAsState()
+
+        Crossfade(targetState = model.uiState.observeAsState().value) { state ->
+            when (state) {
+                UiState.Welcome ->
+                    WelcomeUi(
+                        list = center.values(),
+                        onComplete = { index -> callback.reviewComplete(center.values()[index]) },
+                        modifier = modifier,
+                        onReview = { callback.reviewPrivacy() },
+                        onSource = { callback.reviewSource(center.main()) },
+                    )
+
+                UiState.Main ->
+                    MainUi(
+                        centers = center.values(),
+                        selected = selected.value ?: center.main(),
+                        modifier = modifier,
+                        daysList = days.value ?: ArrayList(),
+                        storageMap = maps.value ?: HashMap(),
+                        onCenterChange = { c -> callback.changeBloodCenter(c) },
+                        onAddCalendar = { event -> callback.addToCalendar(event) },
+                        enableAddCalendar = callback.enableAddToCalendar(),
+                        onSearchOnMap = { event -> callback.searchOnMaps(event) },
+                        enableSearchOnMap = callback.enableSearchOnMap(),
+                        onSpotListClick = { c -> callback.showSpotList(c) },
+                        onDonorClick = { callback.showDonorInfo() },
+                        onSettingsClick = { model.changeUiState(UiState.Settings) },
+                        onReviewSource = { c -> callback.reviewSource(c) },
+                        onFacebookClick = { c -> callback.showFacebookPages(c) },
+                    )
+
+                UiState.Spots ->
+                    SpotUi(
+                        list = cities.value ?: ArrayList(),
+                        modifier = modifier,
+                        onBackPress = { callback.pressBack() },
+                        onSpotClick = { info -> callback.showSpotInfo(info) },
+                        // selected = city.observeAsState().value ?: 0,
+                    )
+
+                UiState.Settings ->
+                    SettingsUi(
+                        modifier = modifier,
+                        onBackPress = { callback.pressBack() },
+                        version = callback.versionInfo(),
+                        onReview = { title, asset -> callback.showAssetInDialog(title, asset) },
+                        showChangeLog = callback.enableVersionSummary(),
+                    )
+
+                else -> Text("Hello, Compose $state")
+            }
+        }
+    }
 }
 
 object PreviewSample {

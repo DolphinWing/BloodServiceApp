@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[203] @ 2021-10-04
+    refactor app structure
+
 [202] @ 2021-10-04
     implement all features in Compose
 

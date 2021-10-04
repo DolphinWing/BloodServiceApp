@@ -12,46 +12,38 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.MutableLiveData
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
-import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
-import dolphin.android.apps.BloodServiceApp.provider.SpotList
-import dolphin.android.apps.BloodServiceApp.ui.AppTheme
-import dolphin.android.apps.BloodServiceApp.ui.MainUi
-import dolphin.android.apps.BloodServiceApp.ui.SettingsUi
-import dolphin.android.apps.BloodServiceApp.ui.SpotUi
+import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
+import dolphin.android.apps.BloodServiceApp.ui.AppUiPane
 import dolphin.android.apps.BloodServiceApp.ui.UiState
-import dolphin.android.apps.BloodServiceApp.ui.WelcomeUi
 import dolphin.android.util.PackageUtils
 
 @ExperimentalFoundationApi
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AppUiCallback {
     companion object {
         private const val TAG = "MainUi"
     }
 
     private val model: AppDataModel by viewModels()
-    private lateinit var center: BloodCenter
+    private lateinit var centerInstance: BloodCenter
     private lateinit var prefs: PrefsUtil
     private lateinit var helper: BloodDataHelper
 
-    private val events = MutableLiveData<List<DonateDay>>()
-    private val maps = MutableLiveData<HashMap<String, Int>>()
-    private val places = MutableLiveData<List<SpotList>>()
-    // private val city = MutableLiveData(0)
+//    private val events = MutableLiveData<List<DonateDay>>()
+//    private val maps = MutableLiveData<HashMap<String, Int>>()
+//    private val places = MutableLiveData<List<SpotList>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        center = BloodCenter(this)
+        centerInstance = BloodCenter(this)
         prefs = PrefsUtil(this)
         helper = BloodDataHelper(this)
 
@@ -64,74 +56,12 @@ class MainActivity : AppCompatActivity() {
         setupViewModel()
 
         setContent {
-            val state = model.uiState.observeAsState()
-            val bloodCenter = model.center.observeAsState()
-
-            AppTheme {
-                when (state.value) {
-                    UiState.Welcome ->
-                        WelcomeUi(
-                            list = center.values(),
-                            onComplete = { index ->
-                                changeOnSiteCenter(center.values()[index])
-                                onAcceptPrivacyPolicy()
-                            },
-                            modifier = Modifier.fillMaxSize(),
-                            onReview = {
-                                showAssetContentInDialog(
-                                    titleResId = R.string.app_privacy_policy,
-                                    name = "privacy_policy.txt",
-                                )
-                            },
-                            onSource = { showDataSource(center.main()) },
-                        )
-
-                    UiState.Main ->
-                        MainUi(
-                            centers = center.values(),
-                            selected = bloodCenter.value ?: center.main(),
-                            modifier = Modifier.fillMaxSize(),
-                            donations = events.observeAsState().value ?: ArrayList(),
-                            storage = maps.observeAsState().value ?: HashMap(),
-                            onCenterChange = { bloodCenter ->
-                                // Log.d(TAG, "change center ${bloodCenter.id}")
-                                changeOnSiteCenter(bloodCenter)
-                            },
-                            onAddCalendar = { event -> addActivityToCalendar(event) },
-                            onSearchOnMap = { event -> showSearchMapDialog(event) },
-                            onStationsClick = { c -> showSpotList(c) },
-                            onDonorClick = { showDonorInfo() },
-                            onSettingsClick = { model.changeUiState(UiState.Settings) },
-                            showSearchOnMap = Firebase.remoteConfig.getBoolean("enable_search_on_map"),
-                            onMobileSiteClick = { c -> showDataSource(c) },
-                            onFacebookClick = { c -> showFacebook(c) },
-                        )
-
-                    UiState.Spots ->
-                        SpotUi(
-                            list = places.observeAsState().value ?: ArrayList(),
-                            modifier = Modifier.fillMaxSize(),
-                            onBackPress = { onBackPressed() },
-                            onSpotClick = { info -> showSpotInfo(info) },
-                            // selected = city.observeAsState().value ?: 0,
-                        )
-
-                    UiState.Settings ->
-                        SettingsUi(
-                            modifier = Modifier.fillMaxSize(),
-                            onBackPress = { onBackPressed() },
-                            version = versionInfo(),
-                            onReview = { title, asset ->
-                                showAssetContentInDialog(titleResId = title, name = asset)
-                            },
-                            showChangeLog = BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean(
-                                "enable_change_log_summary"
-                            ),
-                        )
-
-                    else -> Text("Hello, Compose ${state.value}")
-                }
-            }
+            AppUiPane(
+                model = model,
+                center = centerInstance,
+                callback = this,
+                modifier = Modifier.fillMaxSize(),
+            )
         }
 
         setupFirebaseRemoteConfig()
@@ -171,17 +101,20 @@ class MainActivity : AppCompatActivity() {
             if (ready) model.getStorageData(helper, true).observe(this) { cache ->
                 // Log.d(TAG, ">> array: ${cache.size()}")
                 model.center.value?.let { center ->
-                    maps.postValue(cache[center.id])
+                    model.updateStorageMap(center.id, cache[center.id])
                 }
             }
         }
-        model.center.observe(this) { center ->
-            Log.v(TAG, "change to ${center.name}")
-            queryDonationData(center.id)
-            queryStorageData(center.id)
+        model.center.observe(this) { bloodCenter ->
+            Log.v(TAG, "change to ${bloodCenter.name}")
+            setUserProperty("center", bloodCenter.name)
+            queryDonationData(bloodCenter.id)
+            queryStorageData(bloodCenter.id)
         }
-        model.center.postValue(center.find(prefs.centerId))
-
+        model.center.postValue(centerInstance.find(prefs.centerId))
+        model.uiState.observe(this) { state ->
+            setScreenName(state.name)
+        }
     }
 
     private fun checkPrivacyPolicyReview() {
@@ -195,12 +128,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onAcceptPrivacyPolicy() {
-        // Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show()
-        // prefs.policyCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
-        model.changeUiState(UiState.Main)
-    }
-
     override fun onBackPressed() {
         when (model.state) {
             UiState.Spots, UiState.Settings -> model.changeUiState(UiState.Main)
@@ -208,90 +135,143 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeOnSiteCenter(bloodCenter: BloodCenter.Center) {
-        model.center.postValue(bloodCenter)
-        prefs.centerId = bloodCenter.id
+    override fun pressBack() {
+        onBackPressed()
+    }
+
+    override fun reviewSource(center: BloodCenter.Center) {
+        if (center.id == 0) {
+            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
+                putString(FirebaseAnalytics.Param.ITEM_ID, centerInstance.main().name)
+            }
+            PrefsUtil.startBrowserActivity(
+                this,
+                Firebase.remoteConfig.getString("url_blood_center_main")
+            )
+        } else {
+            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
+                putString(FirebaseAnalytics.Param.ITEM_ID, center.name)
+            }
+            BloodDataHelper.getOpenBloodCalendarSourceIntent(this, center.id)?.let { intent ->
+                startActivity(intent)
+            }
+        }
+    }
+
+    override fun reviewPrivacy() {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+            putString(FirebaseAnalytics.Param.ITEM_ID, "review-privacy")
+        }
+        showAssetInDialog(
+            title = R.string.app_privacy_policy,
+            asset = "privacy_policy.txt",
+        )
+    }
+
+    override fun reviewComplete(center: BloodCenter.Center) {
+        // Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show()
+        prefs.policyCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
+        changeBloodCenter(center)
+        model.changeUiState(UiState.Main)
+    }
+
+    override fun changeBloodCenter(center: BloodCenter.Center) {
+        model.center.postValue(center)
+        prefs.centerId = center.id
+    }
+
+    override fun showFacebookPages(center: BloodCenter.Center) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
+            putString(FirebaseAnalytics.Param.ITEM_ID, "show-facebook")
+        }
+        BloodDataHelper.getOpenFacebookIntent(this, center.id)?.let { intent ->
+            startActivity(intent)
+        }
     }
 
     private fun queryDonationData(id: Int) {
         model.loading(true) // download donation events
         model.getDonationData(helper, id).observe(this) { days ->
-//            Log.d(TAG, "list: ${days.size}")
-//            days.forEach { day ->
-//                Log.d(TAG, "  ${day.dateString} ${day.activityCount}")
-//            }
-            events.postValue(days)
+            model.updateEventList(id, days)
             model.loading(false) // donation events downloaded
         }
     }
 
     private fun queryStorageData(id: Int) {
-        val map = model.getStorageData(id)
-//        Log.d(TAG, "  A: ${map["A"]}")
-//        Log.d(TAG, "  B: ${map["B"]}")
-//        Log.d(TAG, "  O: ${map["O"]}")
-//        Log.d(TAG, " AB: ${map["AB"]}")
-        maps.postValue(map)
-    }
-
-    private fun addActivityToCalendar(donation: DonateActivity) {
-        IntentHelper.addToCalendar(this, donation)
-    }
-
-    private fun showSearchMapDialog(donation: DonateActivity) {
-        IntentHelper.searchOnMap(this, donation)
+        model.updateStorageMap(id, model.getStorageData(id))
     }
 
     private fun querySpotList(id: Int) {
         model.loading(true) // download spot list
-        places.postValue(ArrayList()) // empty the list first
+        model.updateSpotList(id, ArrayList()) // empty the list first
         model.getSpotList(helper, id).observe(this) { spotList ->
-            Log.d(TAG, "list: ${spotList.size}")
-            spotList.forEach { city ->
-                Log.d(TAG, "  ${city.cityName} ${city.locations.size}")
-            }
-            places.postValue(spotList)
-            // city.postValue(spotList.first().cityId)
+            model.updateSpotList(id, spotList)
             model.loading(false) // spot list downloaded
+        }
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+            putString(FirebaseAnalytics.Param.ITEM_ID, "donation-spot-list")
         }
     }
 
-    private fun showSpotList(bloodCenter: BloodCenter.Center) {
-        querySpotList(bloodCenter.id)
+    override fun showSpotList(center: BloodCenter.Center) {
+        querySpotList(center.id)
         model.changeUiState(UiState.Spots)
     }
 
-    private fun showSpotInfo(info: SpotInfo) {
+    override fun showSpotInfo(info: SpotInfo) {
         IntentHelper.showSpotInfo(this, info)
     }
 
-    private fun showDonorInfo() {
+    override fun addToCalendar(event: DonateActivity) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+            putString(FirebaseAnalytics.Param.ITEM_ID, "add-to-calendar")
+        }
+        IntentHelper.addToCalendar(this, event)
+    }
+
+    override fun enableAddToCalendar(): Boolean = true
+
+    override fun searchOnMaps(event: DonateActivity) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+            putString(FirebaseAnalytics.Param.ITEM_ID, "search-on-map")
+        }
+        IntentHelper.searchOnMap(this, event)
+    }
+
+    override fun enableSearchOnMap(): Boolean {
+        return Firebase.remoteConfig.getBoolean("enable_search_on_map")
+    }
+
+    override fun showDonorInfo() {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
+            putString(FirebaseAnalytics.Param.ITEM_ID, "show-donor-info")
+        }
         PrefsUtil.startBrowserActivity(
             this,
             Firebase.remoteConfig.getString("url_blood_donor_info")
         )
     }
 
-    private fun showFacebook(bloodCenter: BloodCenter.Center) {
-        BloodDataHelper.getOpenFacebookIntent(this, bloodCenter.id)?.let { intent ->
-            startActivity(intent)
-        }
-    }
-
-    private fun showDataSource(bloodCenter: BloodCenter.Center) {
-        if (bloodCenter.id == 0) {
-            PrefsUtil.startBrowserActivity(
-                this,
-                Firebase.remoteConfig.getString("url_blood_center_main")
-            )
-        } else {
-            BloodDataHelper.getOpenBloodCalendarSourceIntent(this, bloodCenter.id)?.let { intent ->
-                startActivity(intent)
+    override fun showAssetInDialog(title: Int, asset: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(PrefsUtil.read_asset_text(this, asset, "UTF-8"))
+            .setPositiveButton(android.R.string.ok, null)
+            .setCancelable(true)
+            .show().apply {
+                findViewById<TextView>(android.R.id.message)?.textSize = 12f
             }
-        }
     }
 
-    private fun versionInfo(): String {
+    override fun versionInfo(): String {
         return PackageUtils.getPackageInfo(this, this::class.java)?.let { info ->
             val code = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 info.longVersionCode
@@ -302,18 +282,26 @@ class MainActivity : AppCompatActivity() {
         } ?: kotlin.run { "" }
     }
 
-    private fun showAssetContentInDialog(
-        titleResId: Int,
-        name: String,
-        encoding: String = "UTF-8"
-    ) {
-        AlertDialog.Builder(this)
-            .setTitle(titleResId)
-            .setMessage(PrefsUtil.read_asset_text(this, name, encoding))
-            .setPositiveButton(android.R.string.ok, null)
-            .setCancelable(true)
-            .show().apply {
-                findViewById<TextView>(android.R.id.message)?.textSize = 12f
-            }
+    override fun enableVersionSummary(): Boolean {
+        return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean("enable_change_log_summary")
+    }
+
+    private fun logEvent(name: String, block: (Bundle.() -> Unit)? = null) {
+        val data = if (block != null) Bundle().apply(block) else null
+        FirebaseAnalytics.getInstance(this).logEvent(name, data)
+    }
+
+    private fun setScreenName(screenName: String?, screenClassOverride: String? = null) {
+        // See https://firebase.googleblog.com/2020/08/google-analytics-manual-screen-view.html
+        // firebaseAnalytics.setCurrentScreen(activity, screenName, screenClassOverride)
+        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+            screenClassOverride?.let { s -> putString(FirebaseAnalytics.Param.SCREEN_CLASS, s) }
+        }
+    }
+
+    @Suppress("SameParameterValue")
+    private fun setUserProperty(key: String, value: String?) {
+        FirebaseAnalytics.getInstance(this).setUserProperty(key, value)
     }
 }

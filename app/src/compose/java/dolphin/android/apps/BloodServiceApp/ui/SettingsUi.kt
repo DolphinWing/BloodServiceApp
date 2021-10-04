@@ -32,6 +32,12 @@ import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 
+interface SettingsUiCallback {
+    fun showAssetInDialog(title: Int, asset: String)
+    fun versionInfo(): String
+    fun enableVersionSummary(): Boolean
+}
+
 @Composable
 fun SettingsUi(
     modifier: Modifier = Modifier,

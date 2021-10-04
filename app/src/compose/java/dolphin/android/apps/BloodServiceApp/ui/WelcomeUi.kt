@@ -39,6 +39,11 @@ import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 
+interface WelcomeUiCallback {
+    fun reviewPrivacy()
+    fun reviewComplete(center: BloodCenter.Center)
+}
+
 @Composable
 fun WelcomeUi(
     list: List<BloodCenter.Center>,
@@ -142,7 +147,9 @@ fun WelcomeCenterSelectionUi(
         Spacer(modifier = Modifier.requiredHeight(8.dp))
         list.forEachIndexed { index, center ->
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .clickable { onSelectedChange.invoke(index) }
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (index == selected) {
@@ -155,7 +162,7 @@ fun WelcomeCenterSelectionUi(
                     Spacer(modifier = Modifier.requiredSize(24.dp))
                 }
                 Spacer(modifier = Modifier.requiredWidth(8.dp))
-                Column(modifier = Modifier.clickable { onSelectedChange.invoke(index) }) {
+                Column {
                     Text(
                         center.name,
                         style = MaterialTheme.typography.body1,

@@ -36,9 +36,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
-import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
+
+interface SpotUiCallback {
+    fun showSpotInfo(info: SpotInfo)
+}
 
 @Composable
 fun SpotUi(

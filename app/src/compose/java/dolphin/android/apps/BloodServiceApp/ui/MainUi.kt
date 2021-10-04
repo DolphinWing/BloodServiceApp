@@ -50,21 +50,34 @@ import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 
+interface MainUiCallback {
+    fun changeBloodCenter(center: BloodCenter.Center)
+    fun showFacebookPages(center: BloodCenter.Center)
+    fun showSpotList(center: BloodCenter.Center)
+    fun addToCalendar(event: DonateActivity)
+    fun searchOnMaps(event: DonateActivity)
+    fun showDonorInfo()
+    fun enableSearchOnMap(): Boolean
+    fun enableAddToCalendar(): Boolean
+}
+
+typealias BloodCenterCallback = (BloodCenter.Center) -> Unit
+
 @ExperimentalFoundationApi
 @Composable
 fun MainUi(
     centers: List<BloodCenter.Center>,
     selected: BloodCenter.Center,
     modifier: Modifier = Modifier,
-    onCenterChange: ((BloodCenter.Center) -> Unit)? = null,
-    onFacebookClick: ((BloodCenter.Center) -> Unit)? = null,
-    onMobileSiteClick: ((BloodCenter.Center) -> Unit)? = null,
-    onStationsClick: ((BloodCenter.Center) -> Unit)? = null,
-    donations: List<DonateDay> = ArrayList(),
-    storage: HashMap<String, Int> = HashMap(),
-    showAddCalendar: Boolean = true,
+    onCenterChange: BloodCenterCallback? = null,
+    onFacebookClick: BloodCenterCallback? = null,
+    onReviewSource: BloodCenterCallback? = null,
+    onSpotListClick: BloodCenterCallback? = null,
+    daysList: List<DonateDay> = ArrayList(),
+    storageMap: HashMap<String, Int> = HashMap(),
+    enableAddCalendar: Boolean = true,
     onAddCalendar: ((DonateActivity) -> Unit)? = null,
-    showSearchOnMap: Boolean = true,
+    enableSearchOnMap: Boolean = true,
     onSearchOnMap: ((DonateActivity) -> Unit)? = null,
     onDonorClick: (() -> Unit)? = null,
     onSettingsClick: (() -> Unit)? = null,
@@ -125,7 +138,7 @@ fun MainUi(
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             StoragePane(
-                map = storage,
+                map = storageMap,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp, horizontal = 16.dp),
@@ -144,7 +157,7 @@ fun MainUi(
                     color = MaterialTheme.colors.onSurface,
                     fontWeight = FontWeight.Bold,
                 )
-                TextButton(onClick = { onMobileSiteClick?.invoke(selected) }) {
+                TextButton(onClick = { onReviewSource?.invoke(selected) }) {
                     Icon(
                         Icons.Rounded.OpenInBrowser,
                         contentDescription = stringResource(id = R.string.action_go_to_website),
@@ -153,7 +166,7 @@ fun MainUi(
                 }
                 Spacer(modifier = Modifier.requiredWidth(4.dp))
             }
-            if (donations.isEmpty()) {
+            if (daysList.isEmpty()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -164,18 +177,18 @@ fun MainUi(
                 }
             } else {
                 DonationPane(
-                    donations = donations,
+                    donations = daysList,
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f),
-                    showAddCalendar, onAddCalendar, showSearchOnMap, onSearchOnMap,
+                    enableAddCalendar, onAddCalendar, enableSearchOnMap, onSearchOnMap,
                 )
             }
 
             Separator()
             Row(
                 modifier = Modifier
-                    .clickable { onStationsClick?.invoke(selected) }
+                    .clickable { onSpotListClick?.invoke(selected) }
                     .fillMaxWidth()
                     .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -214,8 +227,8 @@ private fun PreviewMainUi() {
         MainUi(
             centers = PreviewSample.centers,
             selected = PreviewSample.selectedCenter,
-            donations = PreviewSample.donations,
-            storage = PreviewSample.storage(3, 2, 1, 3),
+            daysList = PreviewSample.donations,
+            storageMap = PreviewSample.storage(3, 2, 1, 3),
         )
     }
 }
@@ -228,10 +241,10 @@ private fun PreviewMainUi2() {
         MainUi(
             centers = PreviewSample.centers,
             selected = PreviewSample.selectedCenter,
-            donations = PreviewSample.donations,
-            storage = PreviewSample.storage(0, 1, 2, 3),
-            showAddCalendar = false,
-            showSearchOnMap = false,
+            daysList = PreviewSample.donations,
+            storageMap = PreviewSample.storage(0, 1, 2, 3),
+            enableAddCalendar = false,
+            enableSearchOnMap = false,
         )
     }
 }
