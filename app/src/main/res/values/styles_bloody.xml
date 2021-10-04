@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.Bloody" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Bloody" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <!-- Remove system title bars; we will add the action bar ourselves. -->
         <item name="android:windowNoTitle">true</item>

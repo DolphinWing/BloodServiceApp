@@ -70,6 +70,7 @@ fun MainUi(
     onSettingsClick: (() -> Unit)? = null,
 ) {
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar {
                 Text(
@@ -122,27 +123,7 @@ fun MainUi(
             }
         }
     ) { padding ->
-        Column(modifier = modifier.padding(padding)) {
-            Row(
-                modifier = Modifier
-                    .clickable { onStationsClick?.invoke(selected) }
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(id = R.string.section3_summary),
-                    modifier = Modifier.weight(1f),
-                    color = MaterialTheme.colors.onSurface,
-                )
-                Icon(
-                    Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = null,
-                    tint = Color.LightGray,
-                )
-            }
-
-            Separator(modifier = Modifier.fillMaxWidth())
+        Column(modifier = Modifier.padding(padding)) {
             StoragePane(
                 map = storage,
                 modifier = Modifier
@@ -150,7 +131,7 @@ fun MainUi(
                     .padding(vertical = 4.dp, horizontal = 16.dp),
             )
 
-            Separator(modifier = Modifier.fillMaxWidth())
+            Separator()
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -161,6 +142,7 @@ fun MainUi(
                         .padding(start = 16.dp, end = 8.dp)
                         .weight(1f),
                     color = MaterialTheme.colors.onSurface,
+                    fontWeight = FontWeight.Bold,
                 )
                 TextButton(onClick = { onMobileSiteClick?.invoke(selected) }) {
                     Icon(
@@ -190,7 +172,28 @@ fun MainUi(
                 )
             }
 
-            Separator(modifier = Modifier.fillMaxWidth())
+            Separator()
+            Row(
+                modifier = Modifier
+                    .clickable { onStationsClick?.invoke(selected) }
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    stringResource(id = R.string.section3_summary),
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colors.onSurface,
+                    fontWeight = FontWeight.Bold,
+                )
+                Icon(
+                    Icons.Rounded.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = Color.LightGray,
+                )
+            }
+
+            Separator()
             SwitchCenterPane(
                 list = centers,
                 selected = selected,
@@ -283,6 +286,7 @@ private fun StoragePane(
             stringResource(id = R.string.section1_summary),
             // modifier = Modifier.padding(horizontal = 16.dp),
             color = MaterialTheme.colors.onSurface,
+            fontWeight = FontWeight.Bold,
         )
         Spacer(modifier = Modifier.requiredWidth(8.dp))
 
@@ -321,8 +325,12 @@ private fun DonationPane(
     val list = ArrayList<Any>()
     donations.forEach { day ->
         list.add(day)
-        day.activities.forEach { event ->
-            list.add(event)
+        if (day.activityCount <= 0) {
+            list.add(0)
+        } else {
+            day.activities.forEach { event ->
+                list.add(event)
+            }
         }
     }
 
@@ -341,6 +349,13 @@ private fun DonationPane(
                     onSearchOnMap = onSearchOnMap,
                 )
             }
+            (item as? Int)?.let {
+                Text(
+                    stringResource(id = R.string.title_data_not_available),
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                    style = MaterialTheme.typography.body2,
+                )
+            }
         }
     }
 }
@@ -350,7 +365,7 @@ private fun DayPane(day: DonateDay, modifier: Modifier = Modifier) {
     Text(
         day.dateString,
         modifier = modifier
-            .background(MaterialTheme.colors.primary.copy(alpha = .2f))
+            .background(MaterialTheme.colors.secondary.copy(alpha = .1f))
             .padding(horizontal = 16.dp, vertical = 8.dp),
     )
 }
@@ -364,6 +379,7 @@ private fun EventPane(
     showSearchOnMap: Boolean = true,
     onSearchOnMap: ((DonateActivity) -> Unit)? = null,
 ) {
+    val buttonColor = MaterialTheme.colors.secondary.copy(alpha = .5f)
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         if (showAddCalendar) {
             Spacer(modifier = Modifier.requiredWidth(4.dp))
@@ -371,7 +387,7 @@ private fun EventPane(
                 Icon(
                     Icons.Rounded.Schedule,
                     contentDescription = stringResource(id = R.string.action_add_to_calendar),
-                    tint = Color.LightGray,
+                    tint = buttonColor,
                 )
             }
         } else {
@@ -392,7 +408,7 @@ private fun EventPane(
                 Icon(
                     Icons.Rounded.Map,
                     contentDescription = stringResource(id = R.string.action_search_location),
-                    tint = Color.LightGray,
+                    tint = buttonColor,
                 )
             }
         } else {

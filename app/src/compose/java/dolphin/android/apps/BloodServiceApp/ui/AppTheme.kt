@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
@@ -40,13 +42,19 @@ fun AppTheme(content: @Composable BoxScope.() -> Unit) {
 }
 
 @Composable
-fun Separator(modifier: Modifier = Modifier) {
+fun Separator(
+    modifier: Modifier = Modifier,
+    horizontalPadding: Dp = 8.dp,
+    verticalPadding: Dp = 4.dp,
+    color: Color = Color.LightGray.copy(alpha = .5f),
+) {
     Spacer(
         modifier = modifier
-            .padding(horizontal = 8.dp)
-            .background(Color.LightGray.copy(alpha = .5f))
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding)
+            .background(color)
             .requiredHeight(1.dp)
-            .padding(vertical = 4.dp)
+            .padding(vertical = verticalPadding)
     )
 }
 
@@ -64,6 +72,18 @@ object PreviewSample {
             id = 2,
             cityIds = "13,14,12,32,31",
             cities = "Northern Taiwan",
+        ),
+        BloodCenter.Center(
+            name = "Hsinchu Center",
+            id = 2,
+            cityIds = "16,17,15,18",
+            cities = "Northern Taiwan other areas",
+        ),
+        BloodCenter.Center(
+            name = "Taichung Center",
+            id = 2,
+            cityIds = "19,21,22,33",
+            cities = "Central Taiwan",
         ),
         selectedCenter,
         BloodCenter.Center(
@@ -91,6 +111,7 @@ object PreviewSample {
                 DonateActivity("Higginbotham Rd", "Georgetown, South Carolina"),
             )
         ),
+        DonateDay(activities = listOf()), // put an empty list for test
         DonateDay(
             activities = listOf(
                 DonateActivity("De-Jaiz Mens Clothing", "439 Wines Lane, Houston"),

@@ -1,7 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,15 +42,16 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList
 
 @Composable
 fun SpotUi(
-    selected: BloodCenter.Center,
     list: List<SpotList>,
     modifier: Modifier = Modifier,
+    selected: Int = if (list.isNotEmpty()) list.first().cityId else 0,
     onBackPress: (() -> Unit)? = null,
     onSpotClick: ((SpotInfo) -> Unit)? = null,
 ) {
-    var city by remember { mutableStateOf(if (list.isNotEmpty()) list.first().cityId else 0) }
+    var city by remember { mutableStateOf(selected) }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar {
                 IconButton(onClick = { onBackPress?.invoke() }) {
@@ -68,7 +68,7 @@ fun SpotUi(
             }
         },
     ) { padding ->
-        Column(modifier = modifier.padding(padding)) {
+        Column(modifier = Modifier.padding(padding)) {
             if (list.isEmpty()) {
                 Box(
                     modifier = Modifier
@@ -85,7 +85,7 @@ fun SpotUi(
                     modifier = Modifier.fillMaxWidth(),
                     selected = city,
                 )
-                Separator(modifier = Modifier.fillMaxWidth())
+                Separator()
                 PlacePane(
                     list = list.find { c -> c.cityId == city } ?: SpotList(0),
                     onSpotClick = { spot -> onSpotClick?.invoke(spot) },
@@ -100,10 +100,7 @@ fun SpotUi(
 @Composable
 private fun PreviewDonationPlacePane() {
     AppTheme {
-        SpotUi(
-            selected = PreviewSample.selectedCenter,
-            list = PreviewSample.spots,
-        )
+        SpotUi(list = PreviewSample.spots)
     }
 }
 
@@ -155,7 +152,7 @@ private fun PlacePane(list: SpotList, onSpotClick: (SpotInfo) -> Unit, modifier:
                     Icon(
                         Icons.Rounded.OpenInBrowser,
                         contentDescription = stringResource(id = R.string.action_go_to_website),
-                        tint = Color.LightGray,
+                        tint = MaterialTheme.colors.secondary.copy(alpha = .5f),
                     )
                 }
             }

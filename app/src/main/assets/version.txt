@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[202] @ 2021-10-04
+    implement all features in Compose
+
 [201] @ 2021-10-01
     add compose flavor with Jetpack Compose UI
 

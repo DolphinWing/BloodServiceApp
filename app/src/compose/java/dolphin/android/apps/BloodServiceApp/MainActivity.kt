@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private val events = MutableLiveData<List<DonateDay>>()
     private val maps = MutableLiveData<HashMap<String, Int>>()
     private val places = MutableLiveData<List<SpotList>>()
+    // private val city = MutableLiveData(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +77,13 @@ class MainActivity : AppCompatActivity() {
                                 onAcceptPrivacyPolicy()
                             },
                             modifier = Modifier.fillMaxSize(),
+                            onReview = {
+                                showAssetContentInDialog(
+                                    titleResId = R.string.app_privacy_policy,
+                                    name = "privacy_policy.txt",
+                                )
+                            },
+                            onSource = { showDataSource(center.main()) },
                         )
 
                     UiState.Main ->
@@ -92,15 +102,18 @@ class MainActivity : AppCompatActivity() {
                             onStationsClick = { c -> showSpotList(c) },
                             onDonorClick = { showDonorInfo() },
                             onSettingsClick = { model.changeUiState(UiState.Settings) },
+                            showSearchOnMap = Firebase.remoteConfig.getBoolean("enable_search_on_map"),
+                            onMobileSiteClick = { c -> showDataSource(c) },
+                            onFacebookClick = { c -> showFacebook(c) },
                         )
 
                     UiState.Spots ->
                         SpotUi(
-                            selected = bloodCenter.value ?: center.main(),
                             list = places.observeAsState().value ?: ArrayList(),
                             modifier = Modifier.fillMaxSize(),
                             onBackPress = { onBackPressed() },
                             onSpotClick = { info -> showSpotInfo(info) },
+                            // selected = city.observeAsState().value ?: 0,
                         )
 
                     UiState.Settings ->
@@ -108,6 +121,12 @@ class MainActivity : AppCompatActivity() {
                             modifier = Modifier.fillMaxSize(),
                             onBackPress = { onBackPressed() },
                             version = versionInfo(),
+                            onReview = { title, asset ->
+                                showAssetContentInDialog(titleResId = title, name = asset)
+                            },
+                            showChangeLog = BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean(
+                                "enable_change_log_summary"
+                            ),
                         )
 
                     else -> Text("Hello, Compose ${state.value}")
@@ -232,6 +251,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "  ${city.cityName} ${city.locations.size}")
             }
             places.postValue(spotList)
+            // city.postValue(spotList.first().cityId)
             model.loading(false) // spot list downloaded
         }
     }
@@ -252,6 +272,25 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun showFacebook(bloodCenter: BloodCenter.Center) {
+        BloodDataHelper.getOpenFacebookIntent(this, bloodCenter.id)?.let { intent ->
+            startActivity(intent)
+        }
+    }
+
+    private fun showDataSource(bloodCenter: BloodCenter.Center) {
+        if (bloodCenter.id == 0) {
+            PrefsUtil.startBrowserActivity(
+                this,
+                Firebase.remoteConfig.getString("url_blood_center_main")
+            )
+        } else {
+            BloodDataHelper.getOpenBloodCalendarSourceIntent(this, bloodCenter.id)?.let { intent ->
+                startActivity(intent)
+            }
+        }
+    }
+
     private fun versionInfo(): String {
         return PackageUtils.getPackageInfo(this, this::class.java)?.let { info ->
             val code = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -261,5 +300,20 @@ class MainActivity : AppCompatActivity() {
             }
             "v${info.versionName} (r$code)"
         } ?: kotlin.run { "" }
+    }
+
+    private fun showAssetContentInDialog(
+        titleResId: Int,
+        name: String,
+        encoding: String = "UTF-8"
+    ) {
+        AlertDialog.Builder(this)
+            .setTitle(titleResId)
+            .setMessage(PrefsUtil.read_asset_text(this, name, encoding))
+            .setPositiveButton(android.R.string.ok, null)
+            .setCancelable(true)
+            .show().apply {
+                findViewById<TextView>(android.R.id.message)?.textSize = 12f
+            }
     }
 }

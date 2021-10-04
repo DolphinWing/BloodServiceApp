@@ -6,8 +6,13 @@
         <value>false</value>
     </entry>
     <entry>
+        <key>url_blood_center_main</key>
+        <value>http://www.blood.org.tw/</value>
+    </entry>
+    <entry>
         <key>url_blood_donor_info</key>
-        <value>https://cbsfnotes1.blood.org.tw/web/login.htm</value>
+        <!--<value>https://cbsfnotes1.blood.org.tw/web/login.htm</value>-->
+        <value>https://dh.blood.org.tw/donor/</value>
     </entry>
     <entry>
         <key>enable_change_log_summary</key>

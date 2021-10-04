@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">捐血活動快查</string>
+    <string name="app_intro">本程式可快速查詢最近的捐血活動，以及台灣各血液中心目前的庫存狀態。資料來源為[醫療財團法人台灣血液基金會]，需要網路連線來抓取最新資料，以便提供最即時資訊。</string>
     <!--<string name="hello_world">Hello world!</string>-->
     <string name="action_settings">設定</string>
     <string name="action_go_to_personal">捐血者網路查詢</string>
@@ -100,7 +101,7 @@
     <string name="splash_privacy_policy_review">在本應用程式使用過程中，可能會收集一些操作資訊，以供未來程式改進使用。這些資訊不會包含您的個人資料與隱私。您可以在這裡檢視相關的隱私權政策。繼續使用本程式代表您同意本應用程式的行為。</string>
     <string name="splash_continue">繼續</string>
 
-    <string name="section0_summary">還想看看其他地方的捐血活動？</string>
+    <string name="section0_summary">還想看看其他地方？</string>
     <string name="section1_summary">最近的庫存狀況</string>
     <string name="section2_summary">最近的捐血活動</string>
     <string name="section3_summary">固定/巡迴 捐血點</string>
