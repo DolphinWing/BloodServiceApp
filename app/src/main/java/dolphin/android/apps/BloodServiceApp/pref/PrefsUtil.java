@@ -115,7 +115,7 @@ public class PrefsUtil {
 
     public int getCenterId() {
         SharedPreferences pref = getDefaultPreference(mContext);
-        return pref.getInt("near_by_center", 5);
+        return pref.getInt("near_by_center", 0);
     }
 
     public void setCenterId(int id) {

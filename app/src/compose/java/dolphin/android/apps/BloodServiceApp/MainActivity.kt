@@ -97,7 +97,11 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
             if (ready) model.getStorageData(helper, true).observe(this) { cache ->
                 // Log.d(TAG, ">> array: ${cache.size()}")
                 model.center.value?.let { center ->
-                    model.updateStorageMap(center.id, cache[center.id])
+                    try {
+                        model.updateStorageMap(center.id, cache[center.id])
+                    } catch (e: Exception) {
+                        // pre-30 app can't use cache.contains(center.id)
+                    }
                 }
             }
         }

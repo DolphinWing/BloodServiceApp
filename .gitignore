@@ -27,4 +27,5 @@ library/MyUtilsLibrary/build/
 # Android Studio captures folder
 captures/
 
-app/release
+app/releas
+*.png
