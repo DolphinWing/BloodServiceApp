@@ -40,7 +40,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,19 +56,73 @@ import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 
+/**
+ * Main UI callbacks
+ */
 interface MainUiCallback {
+    /**
+     * Change to another blood center.
+     *
+     * @param center new blood center
+     */
     fun changeBloodCenter(center: BloodCenter.Center)
+
+    /**
+     * Show Facebook Pages in browser.
+     *
+     * @param center target blood center
+     */
     fun showFacebookPages(center: BloodCenter.Center)
+
+    /**
+     * Show donation spot list in cities.
+     *
+     * @param center target blood center
+     */
     fun showSpotList(center: BloodCenter.Center)
+
+    /**
+     * Add donation event to phone calendar.
+     *
+     * @param event donation event
+     */
     fun addToCalendar(event: DonateActivity)
+
+    /**
+     * Search location on Google Maps.
+     *
+     * @param event donation event
+     */
     fun searchOnMaps(event: DonateActivity)
+
+    /**
+     * Show donor info web page in a browser.
+     */
     fun showDonorInfo()
+
+    /**
+     * Enable or disable search on maps.
+     *
+     * @return true if enable this feature
+     */
     fun enableSearchOnMap(): Boolean
+
+    /**
+     * Enable or disable add to phone calendar.
+     *
+     * @return true if enable this feature
+     */
     fun enableAddToCalendar(): Boolean
 }
 
+/**
+ * Callback alias
+ */
 typealias BloodCenterCallback = (BloodCenter.Center) -> Unit
 
+/**
+ * Main UI in Compose way.
+ */
 @ExperimentalFoundationApi
 @Composable
 fun MainUi(
@@ -119,12 +179,6 @@ fun MainUi(
                     )
                     Text(stringResource(id = R.string.action_go_to_personal))
                 }
-//                Text(
-//                    stringResource(id = R.string.action_go_to_personal_summary),
-//                    fontSize = 12.sp,
-//                    modifier = Modifier.weight(1f),
-//                    color = MaterialTheme.colors.onPrimary
-//                )
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { onSettingsClick?.invoke() }) {
                     Icon(
@@ -289,6 +343,9 @@ private fun StoragePane(
         colorResource(id = android.R.color.holo_orange_light),
         colorResource(id = android.R.color.holo_green_light),
     )
+    // add semantics to icon
+    val statusMap = stringArrayResource(id = R.array.blood_storage_status)
+    val typeMap = stringArrayResource(id = R.array.blood_type)
 
     Row(
         modifier = modifier,
@@ -303,17 +360,20 @@ private fun StoragePane(
         )
         Spacer(modifier = Modifier.requiredWidth(8.dp))
 
-        arrayOf("A", "B", "O", "AB").forEach { type ->
+        arrayOf("A", "B", "O", "AB").forEachIndexed { index, type ->
             Box(
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 4.dp)
                     .background(color = colorMap[map[type] ?: 0], shape = CircleShape)
-                    .requiredSize(28.dp),
+                    .requiredSize(28.dp)
+                    .semantics(mergeDescendants = true) {
+                        stateDescription = typeMap[index] + statusMap[map[type] ?: 0]
+                    },
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     type,
-                    // fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clearAndSetSemantics { },
                     fontFamily = FontFamily.SansSerif,
                     color = Color.White.copy(alpha = .95f),
                 )
@@ -393,22 +453,44 @@ private fun EventPane(
     onSearchOnMap: ((DonateActivity) -> Unit)? = null,
 ) {
     val buttonColor = MaterialTheme.colors.secondary.copy(alpha = .5f)
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+    // See https://developer.android.com/jetpack/compose/accessibility
+    val addLabel = stringResource(id = R.string.action_add_to_calendar)
+    val searchLabel = stringResource(id = R.string.action_search_location)
+    val timeToLabel = stringResource(id = R.string.label_time_to)
+
+    Row(
+        modifier = modifier.semantics(mergeDescendants = true) {
+            customActions = listOf(
+                CustomAccessibilityAction(addLabel) {
+                    if (showAddCalendar) onAddCalendar?.invoke(event)
+                    showAddCalendar
+                },
+                CustomAccessibilityAction(searchLabel) {
+                    if (showSearchOnMap) onSearchOnMap?.invoke(event)
+                    showSearchOnMap
+                }
+            )
+        },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         if (showAddCalendar) {
             Spacer(modifier = Modifier.requiredWidth(4.dp))
-            IconButton(onClick = { onAddCalendar?.invoke(event) }) {
-                Icon(
-                    Icons.Rounded.Schedule,
-                    contentDescription = stringResource(id = R.string.action_add_to_calendar),
-                    tint = buttonColor,
-                )
+            IconButton(
+                onClick = { onAddCalendar?.invoke(event) },
+                modifier = Modifier.clearAndSetSemantics { }, // merge to Row
+            ) {
+                Icon(Icons.Rounded.Schedule, contentDescription = addLabel, tint = buttonColor)
             }
         } else {
             Spacer(modifier = Modifier.requiredWidth(28.dp))
         }
         Column {
             Text(event.startTimeString, style = MaterialTheme.typography.caption)
-            Spacer(modifier = Modifier.requiredHeight(4.dp))
+            Spacer(
+                modifier = Modifier
+                    .requiredHeight(4.dp)
+                    .semantics { stateDescription = timeToLabel }, // add hidden semantics
+            )
             Text(event.endTimeString, style = MaterialTheme.typography.caption)
         }
         Spacer(modifier = Modifier.requiredWidth(8.dp))
@@ -417,12 +499,11 @@ private fun EventPane(
             Text(event.location, style = MaterialTheme.typography.body2)
         }
         if (showSearchOnMap) {
-            IconButton(onClick = { onSearchOnMap?.invoke(event) }) {
-                Icon(
-                    Icons.Rounded.Map,
-                    contentDescription = stringResource(id = R.string.action_search_location),
-                    tint = buttonColor,
-                )
+            IconButton(
+                onClick = { onSearchOnMap?.invoke(event) },
+                modifier = Modifier.clearAndSetSemantics { }, // merge to Row
+            ) {
+                Icon(Icons.Rounded.Map, contentDescription = searchLabel, tint = buttonColor)
             }
         } else {
             Spacer(modifier = Modifier.requiredWidth(12.dp))

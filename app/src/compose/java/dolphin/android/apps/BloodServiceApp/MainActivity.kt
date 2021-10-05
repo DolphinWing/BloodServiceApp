@@ -37,10 +37,6 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private lateinit var prefs: PrefsUtil
     private lateinit var helper: BloodDataHelper
 
-//    private val events = MutableLiveData<List<DonateDay>>()
-//    private val maps = MutableLiveData<HashMap<String, Int>>()
-//    private val places = MutableLiveData<List<SpotList>>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         centerInstance = BloodCenter(this)
@@ -97,7 +93,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun setupViewModel() {
         model.init(helper).observe(this) { ready ->
-            Log.d(TAG, "storage ready $ready")
+            // Log.d(TAG, "storage ready $ready")
             if (ready) model.getStorageData(helper, true).observe(this) { cache ->
                 // Log.d(TAG, ">> array: ${cache.size()}")
                 model.center.value?.let { center ->
@@ -122,9 +118,9 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         val firebaseCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
         Log.v(TAG, "firebase code = $firebaseCode")
         if (prefs.centerId > 0) {
-            model.changeUiState(UiState.Welcome)
-        } else {
             model.changeUiState(UiState.Main)
+        } else {
+            model.changeUiState(UiState.Welcome)
         }
     }
 
@@ -145,18 +141,13 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
                 putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
                 putString(FirebaseAnalytics.Param.ITEM_ID, centerInstance.main().name)
             }
-            PrefsUtil.startBrowserActivity(
-                this,
-                Firebase.remoteConfig.getString("url_blood_center_main")
-            )
+            IntentHelper.showMainSource(this)
         } else {
             logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
                 putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
                 putString(FirebaseAnalytics.Param.ITEM_ID, center.name)
             }
-            BloodDataHelper.getOpenBloodCalendarSourceIntent(this, center.id)?.let { intent ->
-                startActivity(intent)
-            }
+            IntentHelper.showBloodCenterSource(this, center.id)
         }
     }
 
@@ -179,8 +170,8 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun changeBloodCenter(center: BloodCenter.Center) {
-        model.center.postValue(center)
         prefs.centerId = center.id
+        model.center.postValue(center)
     }
 
     override fun showFacebookPages(center: BloodCenter.Center) {
@@ -188,9 +179,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
             putString(FirebaseAnalytics.Param.ITEM_ID, "show-facebook")
         }
-        BloodDataHelper.getOpenFacebookIntent(this, center.id)?.let { intent ->
-            startActivity(intent)
-        }
+        IntentHelper.showBloodCenterFacebookPages(this, center.id)
     }
 
     private fun queryDonationData(id: Int) {
@@ -254,10 +243,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
             putString(FirebaseAnalytics.Param.ITEM_ID, "show-donor-info")
         }
-        PrefsUtil.startBrowserActivity(
-            this,
-            Firebase.remoteConfig.getString("url_blood_donor_info")
-        )
+        IntentHelper.showDonorInfo(this)
     }
 
     override fun showAssetInDialog(title: Int, asset: String) {

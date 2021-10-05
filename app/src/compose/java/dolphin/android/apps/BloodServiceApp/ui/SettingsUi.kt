@@ -32,12 +32,36 @@ import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 
+/**
+ * Settings UI callbacks
+ */
 interface SettingsUiCallback {
-    fun showAssetInDialog(title: Int, asset: String)
+    /**
+     * Show asset file content in a dialog.
+     *
+     * @param title title id
+     * @param asset asset file name
+     */
+    fun showAssetInDialog(@StringRes title: Int, asset: String)
+
+    /**
+     * App version info.
+     *
+     * @return app version info
+     */
     fun versionInfo(): String
+
+    /**
+     * Enable or disable if we can read change logs.
+     *
+     * @return true if change logs can be shown in a dialog
+     */
     fun enableVersionSummary(): Boolean
 }
 
+/**
+ * Settings UI in Compose way.
+ */
 @Composable
 fun SettingsUi(
     modifier: Modifier = Modifier,
@@ -140,6 +164,13 @@ private fun SettingsTwoLinedText(
     }
 }
 
+/**
+ * Show a alert dialog with assent content.
+ *
+ * @param asset asset file name
+ * @param visible true if alert dialog is visible
+ * @param onDismiss dismiss callback of the alert dialog
+ */
 @Composable
 fun ShowAssetContentDialog(asset: String, visible: Boolean, onDismiss: () -> Unit) {
     val context = LocalContext.current

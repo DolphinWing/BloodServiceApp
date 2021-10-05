@@ -29,6 +29,11 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
 
+/**
+ * Main theme of the app.
+ *
+ * @param content page content
+ */
 @Composable
 fun AppTheme(content: @Composable BoxScope.() -> Unit) {
     MaterialTheme(
@@ -46,6 +51,14 @@ fun AppTheme(content: @Composable BoxScope.() -> Unit) {
     }
 }
 
+/**
+ * Common separator.
+ *
+ * @param modifier [Modifier] to apply to this layout node.
+ * @param horizontalPadding horizontal padding
+ * @param verticalPadding vertical padding
+ * @param color separator line color
+ */
 @Composable
 fun Separator(
     modifier: Modifier = Modifier,
@@ -63,11 +76,33 @@ fun Separator(
     )
 }
 
-interface AppUiCallback : WelcomeUiCallback, MainUiCallback, SpotUiCallback, SettingsUiCallback {
+/**
+ * App UI callbacks
+ */
+interface AppUiCallback : WelcomeUiCallback, MainUiCallback, SpotListUiCallback,
+    SettingsUiCallback {
+
+    /**
+     * Callback when user press BACK button on UI.
+     */
     fun pressBack()
+
+    /**
+     * Review data source in a browser
+     *
+     * @param center target blood center
+     */
     fun reviewSource(center: BloodCenter.Center)
 }
 
+/**
+ * App UI in Compose way.
+ *
+ * @param model data model that contains all essential data
+ * @param center a [BloodCenter] instance that loads all translations
+ * @param callback a interface to interact with the main controller (usually a Activity or Fragment)
+ * @param modifier [Modifier] to apply to this layout node.
+ */
 @ExperimentalFoundationApi
 @Composable
 fun AppUiPane(
@@ -113,7 +148,7 @@ fun AppUiPane(
                     )
 
                 UiState.Spots ->
-                    SpotUi(
+                    SpotListUi(
                         list = cities.value ?: ArrayList(),
                         modifier = modifier,
                         onBackPress = { callback.pressBack() },
@@ -136,6 +171,9 @@ fun AppUiPane(
     }
 }
 
+/**
+ * A data collection for compose preview and debug.
+ */
 object PreviewSample {
     val selectedCenter = BloodCenter.Center(
         name = "Tainan Center",

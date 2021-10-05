@@ -39,11 +39,26 @@ import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 
+/**
+ * Welcome UI callbacks
+ */
 interface WelcomeUiCallback {
+    /**
+     * Review privacy policy.
+     */
     fun reviewPrivacy()
+
+    /**
+     * Review and accept privacy policy.
+     *
+     * @param center selected blood center
+     */
     fun reviewComplete(center: BloodCenter.Center)
 }
 
+/**
+ * Welcome UI in Compose way.
+ */
 @Composable
 fun WelcomeUi(
     list: List<BloodCenter.Center>,
@@ -84,7 +99,7 @@ fun WelcomeUi(
 }
 
 @Composable
-fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
+private fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
     val layoutResult = remember {
         mutableStateOf<TextLayoutResult?>(null)
     }
@@ -132,7 +147,7 @@ fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
 }
 
 @Composable
-fun WelcomeCenterSelectionUi(
+private fun WelcomeCenterSelectionUi(
     list: List<BloodCenter.Center>,
     selected: Int,
     onSelectedChange: (Int) -> Unit,
@@ -180,7 +195,7 @@ fun WelcomeCenterSelectionUi(
 }
 
 @Composable
-fun PrivacyPolicyPane(
+private fun PrivacyPolicyPane(
     onAccept: () -> Unit,
     modifier: Modifier = Modifier,
     onReview: (() -> Unit)? = null,

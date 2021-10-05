@@ -39,12 +39,23 @@ import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
 
-interface SpotUiCallback {
+/**
+ * Spot list UI callbacks
+ */
+interface SpotListUiCallback {
+    /**
+     * Show spot info in browser.
+     *
+     * @param info spot info
+     */
     fun showSpotInfo(info: SpotInfo)
 }
 
+/**
+ * Spot list UI in Compose way.
+ */
 @Composable
-fun SpotUi(
+fun SpotListUi(
     list: List<SpotList>,
     modifier: Modifier = Modifier,
     selected: Int = if (list.isNotEmpty()) list.first().cityId else 0,
@@ -89,7 +100,7 @@ fun SpotUi(
                     selected = city,
                 )
                 Separator()
-                PlacePane(
+                SpotPane(
                     list = list.find { c -> c.cityId == city } ?: SpotList(0),
                     onSpotClick = { spot -> onSpotClick?.invoke(spot) },
                     modifier = Modifier.weight(1f),
@@ -103,7 +114,7 @@ fun SpotUi(
 @Composable
 private fun PreviewDonationPlacePane() {
     AppTheme {
-        SpotUi(list = PreviewSample.spots)
+        SpotListUi(list = PreviewSample.spots)
     }
 }
 
@@ -139,7 +150,7 @@ private fun CityPane(
 }
 
 @Composable
-private fun PlacePane(list: SpotList, onSpotClick: (SpotInfo) -> Unit, modifier: Modifier) {
+private fun SpotPane(list: SpotList, onSpotClick: (SpotInfo) -> Unit, modifier: Modifier) {
     LazyColumn(modifier = modifier) {
         items(list.locations) { spot ->
             Row(

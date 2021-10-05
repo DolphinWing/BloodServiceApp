@@ -10,6 +10,10 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[204] @ 2021-10-05
+    add semantics to support TalkBack
+    add comments for dokka (and better reading)
+
 [203] @ 2021-10-04
     refactor app structure
 

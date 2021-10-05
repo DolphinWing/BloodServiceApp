@@ -25,7 +25,7 @@
     <string-array name="blood_type">
         <item>A型</item>
         <item>B型</item>
-        <item>0型</item>
+        <item>O型</item>
         <item>AB型</item>
     </string-array>
 
@@ -53,6 +53,7 @@
 
     <string name="title_downloading_data">查詢中</string>
     <string name="title_data_not_available">目前暫無資料</string>
+    <string name="label_time_to">至</string>
     <string name="action_go_next_week">下一周</string>
     <string name="action_go_last_week">上一周</string>
     <string name="action_go_back_today">回到今日</string>
