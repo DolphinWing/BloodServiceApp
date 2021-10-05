@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -165,7 +165,8 @@ fun AppUiPane(
                         showChangeLog = callback.enableVersionSummary(),
                     )
 
-                else -> Text("Hello, Compose $state")
+                else -> // Text("Hello, Compose $state")
+                    CircularProgressIndicator()
             }
         }
     }
