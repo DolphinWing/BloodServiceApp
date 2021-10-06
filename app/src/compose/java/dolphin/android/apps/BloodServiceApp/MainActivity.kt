@@ -250,6 +250,10 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         IntentHelper.showDonorInfo(this)
     }
 
+    override fun showReviewPolicy(): Boolean {
+        return prefs.policyCode < Firebase.remoteConfig.getLong("privacy_policy_update_code")
+    }
+
     override fun showAssetInDialog(title: Int, asset: String) {
         AlertDialog.Builder(this)
             .setTitle(title)

@@ -145,6 +145,10 @@ fun AppUiPane(
                         onSettingsClick = { model.changeUiState(UiState.Settings) },
                         onReviewSource = { c -> callback.reviewSource(c) },
                         onFacebookClick = { c -> callback.showFacebookPages(c) },
+                        onReviewIgnore = {
+                            callback.reviewComplete(selected.value ?: center.main())
+                        },
+                        onReviewPolicy = { callback.reviewPrivacy() }
                     )
 
                 UiState.Spots ->

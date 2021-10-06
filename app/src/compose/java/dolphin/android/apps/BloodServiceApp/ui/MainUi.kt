@@ -113,6 +113,13 @@ interface MainUiCallback {
      * @return true if enable this feature
      */
     fun enableAddToCalendar(): Boolean
+
+    /**
+     * Enable or disable review policy in main ui.
+     *
+     * @return true if enable this feature
+     */
+    fun showReviewPolicy(): Boolean
 }
 
 /**
@@ -141,6 +148,9 @@ fun MainUi(
     onSearchOnMap: ((DonateActivity) -> Unit)? = null,
     onDonorClick: (() -> Unit)? = null,
     onSettingsClick: (() -> Unit)? = null,
+    showReviewPolicy: Boolean = false,
+    onReviewPolicy: (() -> Unit)? = null,
+    onReviewIgnore: (() -> Unit)? = null,
 ) {
     Scaffold(
         modifier = modifier,
@@ -191,6 +201,32 @@ fun MainUi(
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
+            if (showReviewPolicy) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.secondary)
+                        .padding(start = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        stringResource(id = R.string.snackbar_privacy_policy_updated),
+                        modifier = Modifier.weight(1f),
+                        color = MaterialTheme.colors.onSecondary,
+                    )
+                    TextButton(onClick = { onReviewIgnore?.invoke() }) {
+                        Text(stringResource(id = R.string.snackbar_privacy_policy_ignore))
+                    }
+                    TextButton(
+                        onClick = { onReviewPolicy?.invoke() },
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = MaterialTheme.colors.onPrimary
+                        ),
+                    ) {
+                        Text(stringResource(id = R.string.snackbar_privacy_policy_review))
+                    }
+                }
+            }
             StoragePane(
                 map = storageMap,
                 modifier = Modifier
@@ -299,6 +335,7 @@ private fun PreviewMainUi2() {
             storageMap = PreviewSample.storage(0, 1, 2, 3),
             enableAddCalendar = false,
             enableSearchOnMap = false,
+            showReviewPolicy = true,
         )
     }
 }
