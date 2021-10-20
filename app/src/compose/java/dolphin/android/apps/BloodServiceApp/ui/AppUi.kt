@@ -3,6 +3,7 @@ package dolphin.android.apps.BloodServiceApp.ui
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
@@ -35,7 +36,7 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList
  * @param content page content
  */
 @Composable
-fun AppTheme(content: @Composable BoxScope.() -> Unit) {
+fun AppTheme(dark: Boolean = isSystemInDarkTheme(), content: @Composable BoxScope.() -> Unit) {
     MaterialTheme(
         colors = lightColors(
             primary = colorResource(id = R.color.bloody_color),

@@ -4,7 +4,7 @@
  */
 object Versions {
     object Google {
-        const val gradleBuildTool = "7.0.2"
+        const val gradleBuildTool = "7.0.3"
         const val services: String = "4.3.10"
 
         const val playServices = "17.6.0"

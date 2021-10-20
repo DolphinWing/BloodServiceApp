@@ -49,6 +49,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
@@ -162,7 +163,7 @@ fun MainUi(
                         .weight(1f)
                         .padding(horizontal = 12.dp),
                     color = MaterialTheme.colors.onPrimary,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.h6,
                 )
 
                 IconButton(onClick = { onFacebookClick?.invoke(selected) }) {
@@ -202,30 +203,11 @@ fun MainUi(
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             if (showReviewPolicy) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colors.secondary)
-                        .padding(start = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        stringResource(id = R.string.snackbar_privacy_policy_updated),
-                        modifier = Modifier.weight(1f),
-                        color = MaterialTheme.colors.onSecondary,
-                    )
-                    TextButton(onClick = { onReviewIgnore?.invoke() }) {
-                        Text(stringResource(id = R.string.snackbar_privacy_policy_ignore))
-                    }
-                    TextButton(
-                        onClick = { onReviewPolicy?.invoke() },
-                        colors = ButtonDefaults.textButtonColors(
-                            contentColor = MaterialTheme.colors.onPrimary
-                        ),
-                    ) {
-                        Text(stringResource(id = R.string.snackbar_privacy_policy_review))
-                    }
-                }
+                PrivacyReviewSnackbar(
+                    modifier = Modifier.fillMaxWidth(),
+                    onReviewPolicy = onReviewPolicy,
+                    onReviewIgnore = onReviewIgnore,
+                )
             }
             StoragePane(
                 map = storageMap,
@@ -245,7 +227,7 @@ fun MainUi(
                         .padding(start = 16.dp, end = 8.dp)
                         .weight(1f),
                     color = MaterialTheme.colors.onSurface,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.h6,
                 )
                 TextButton(onClick = { onReviewSource?.invoke(selected) }) {
                     Icon(
@@ -287,7 +269,7 @@ fun MainUi(
                     stringResource(id = R.string.section3_summary),
                     modifier = Modifier.weight(1f),
                     color = MaterialTheme.colors.onSurface,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.h6,
                 )
                 Icon(
                     Icons.Rounded.KeyboardArrowRight,
@@ -307,7 +289,6 @@ fun MainUi(
     }
 
 }
-
 
 @ExperimentalFoundationApi
 @Preview("Main Ui", showSystemUi = true)
@@ -337,6 +318,37 @@ private fun PreviewMainUi2() {
             enableSearchOnMap = false,
             showReviewPolicy = true,
         )
+    }
+}
+
+@Composable
+private fun PrivacyReviewSnackbar(
+    modifier: Modifier = Modifier,
+    onReviewPolicy: (() -> Unit)? = null,
+    onReviewIgnore: (() -> Unit)? = null,
+) {
+    Row(
+        modifier = modifier
+            .background(MaterialTheme.colors.secondary)
+            .padding(start = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            stringResource(id = R.string.snackbar_privacy_policy_updated),
+            modifier = Modifier.weight(1f),
+            color = MaterialTheme.colors.onSecondary,
+        )
+        TextButton(onClick = { onReviewIgnore?.invoke() }) {
+            Text(stringResource(id = R.string.snackbar_privacy_policy_ignore))
+        }
+        TextButton(
+            onClick = { onReviewPolicy?.invoke() },
+            colors = ButtonDefaults.textButtonColors(
+                contentColor = MaterialTheme.colors.onPrimary
+            ),
+        ) {
+            Text(stringResource(id = R.string.snackbar_privacy_policy_review))
+        }
     }
 }
 
@@ -385,15 +397,14 @@ private fun StoragePane(
     val typeMap = stringArrayResource(id = R.array.blood_type)
 
     Row(
-        modifier = modifier,
+        modifier = modifier.padding(top = 4.dp, bottom = 4.dp),
         // horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             stringResource(id = R.string.section1_summary),
-            // modifier = Modifier.padding(horizontal = 16.dp),
             color = MaterialTheme.colors.onSurface,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
         )
         Spacer(modifier = Modifier.requiredWidth(8.dp))
 
@@ -402,7 +413,7 @@ private fun StoragePane(
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 4.dp)
                     .background(color = colorMap[map[type] ?: 0], shape = CircleShape)
-                    .requiredSize(28.dp)
+                    .requiredSize(32.dp)
                     .semantics(mergeDescendants = true) {
                         stateDescription = typeMap[index] + statusMap[map[type] ?: 0]
                     },
@@ -413,6 +424,7 @@ private fun StoragePane(
                     modifier = Modifier.clearAndSetSemantics { },
                     fontFamily = FontFamily.SansSerif,
                     color = Color.White.copy(alpha = .95f),
+                    fontWeight = FontWeight.Bold,
                 )
             }
         }
@@ -476,7 +488,7 @@ private fun DayPane(day: DonateDay, modifier: Modifier = Modifier) {
         day.dateString,
         modifier = modifier
             .background(MaterialTheme.colors.secondary.copy(alpha = .1f))
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(start = 16.dp, top = 12.dp, bottom = 8.dp, end = 16.dp),
     )
 }
 
@@ -496,18 +508,20 @@ private fun EventPane(
     val timeToLabel = stringResource(id = R.string.label_time_to)
 
     Row(
-        modifier = modifier.semantics(mergeDescendants = true) {
-            customActions = listOf(
-                CustomAccessibilityAction(addLabel) {
-                    if (showAddCalendar) onAddCalendar?.invoke(event)
-                    showAddCalendar
-                },
-                CustomAccessibilityAction(searchLabel) {
-                    if (showSearchOnMap) onSearchOnMap?.invoke(event)
-                    showSearchOnMap
-                }
-            )
-        },
+        modifier = modifier
+            .padding(vertical = 6.dp)
+            .semantics(mergeDescendants = true) {
+                customActions = listOf(
+                    CustomAccessibilityAction(addLabel) {
+                        if (showAddCalendar) onAddCalendar?.invoke(event)
+                        showAddCalendar
+                    },
+                    CustomAccessibilityAction(searchLabel) {
+                        if (showSearchOnMap) onSearchOnMap?.invoke(event)
+                        showSearchOnMap
+                    }
+                )
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (showAddCalendar) {
@@ -532,8 +546,19 @@ private fun EventPane(
         }
         Spacer(modifier = Modifier.requiredWidth(8.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Text(event.name, style = MaterialTheme.typography.body1)
-            Text(event.location, style = MaterialTheme.typography.body2)
+            Text(
+                event.name,
+                style = MaterialTheme.typography.body1,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
+            // Spacer(modifier = Modifier.requiredHeight(4.dp))
+            Text(
+                event.location,
+                style = MaterialTheme.typography.body2,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
         }
         if (showSearchOnMap) {
             IconButton(

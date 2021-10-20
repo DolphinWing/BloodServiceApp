@@ -10,6 +10,9 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[206] @ 2021-10-20
+    layout adjustments
+
 [205] @ 2021-10-05
     fix loading screen under Android 12
 
