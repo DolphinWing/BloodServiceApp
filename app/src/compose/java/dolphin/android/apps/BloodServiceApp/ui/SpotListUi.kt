@@ -25,10 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.OpenInBrowser
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,12 +54,11 @@ interface SpotListUiCallback {
 fun SpotListUi(
     list: List<SpotList>,
     modifier: Modifier = Modifier,
-    selected: Int = if (list.isNotEmpty()) list.first().cityId else 0,
+    selectedCity: Int = if (list.isNotEmpty()) list.first().cityId else 0,
     onBackPress: (() -> Unit)? = null,
+    onCityClick: ((SpotList) -> Unit)? = null,
     onSpotClick: ((SpotInfo) -> Unit)? = null,
 ) {
-    var city by remember { mutableStateOf(selected) }
-
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -95,13 +90,13 @@ fun SpotListUi(
             } else {
                 CityPane(
                     list = list,
-                    onCityClick = { c -> city = c.cityId },
+                    onCityClick = { c -> onCityClick?.invoke(c) },
                     modifier = Modifier.fillMaxWidth(),
-                    selected = city,
+                    selected = selectedCity,
                 )
                 Separator()
                 SpotPane(
-                    list = list.find { c -> c.cityId == city } ?: SpotList(0),
+                    list = list.find { c -> c.cityId == selectedCity } ?: SpotList(0),
                     onSpotClick = { spot -> onSpotClick?.invoke(spot) },
                     modifier = Modifier.weight(1f),
                 )

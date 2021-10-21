@@ -93,23 +93,18 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      */
     fun getStorageData(
         helper: BloodDataHelper,
-        forceRefresh: Boolean = false
-    ): LiveData<SparseArray<HashMap<String, Int>>> =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            if (storageCache == null) {
-                storageCache = helper.getBloodStorage(forceRefresh)
-            }
-            storageCache?.let { cache -> emit(cache) }
+        forceRefresh: Boolean = false,
+        centerId: Int? = -1,
+    ): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        if (storageCache == null || forceRefresh) {
+            storageCache = helper.getBloodStorage(forceRefresh)
         }
-
-    /**
-     * Get blood center storage data
-     *
-     * @param id target blood center id
-     * @return storage data of target blood center
-     */
-    fun getStorageData(id: Int = center.value?.id ?: -1): HashMap<String, Int> {
-        return storageCache?.get(id) ?: HashMap()
+        storageCache?.let { cache ->
+            centerId?.let { id -> updateStorageMap(cache[id]) }
+        } ?: kotlin.run {
+            updateStorageMap(HashMap())
+        }
+        emit(true)
     }
 
     private val storages = MutableLiveData<HashMap<String, Int>>()
@@ -122,10 +117,9 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     /**
      * Update storage data to compose ui.
      *
-     * @param id target blood center id
      * @param maps target blood center storage
      */
-    fun updateStorageMap(id: Int = center.value?.id ?: -1, maps: HashMap<String, Int>) {
+    private fun updateStorageMap(maps: HashMap<String, Int>) {
         storages.postValue(maps)
     }
 
@@ -136,17 +130,18 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      *
      * @param helper a helper instance to read data from internet
      * @param id target blood center id
+     * @return true if update success
      */
     fun getDonationData(
         helper: BloodDataHelper,
         id: Int = center.value?.id ?: -1
-    ): LiveData<ArrayList<DonateDay>> =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            if (donationCache[id] == null) {
-                donationCache.put(id, helper.getLatestWeekCalendar(id))
-            }
-            emit(donationCache[id])
+    ): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        if (donationCache[id] == null) {
+            donationCache.put(id, helper.getLatestWeekCalendar(id))
         }
+        updateEventList(donationCache[id])
+        emit(true)
+    }
 
     private val _daysList = MutableLiveData<List<DonateDay>>()
 
@@ -158,10 +153,9 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     /**
      * Update donation list to compose ui.
      *
-     * @param id target blood center id
      * @param list donation list of target blood center
      */
-    fun updateEventList(id: Int = center.value?.id ?: -1, list: List<DonateDay>) {
+    private fun updateEventList(list: List<DonateDay>) {
         _daysList.postValue(list)
     }
 
@@ -172,24 +166,26 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      *
      * @param helper a helper instance to read data from internet
      * @param id target blood center id
+     * @return true if update success
      */
     fun getSpotList(
         helper: BloodDataHelper,
         id: Int = center.value?.id ?: -1
-    ): LiveData<ArrayList<SpotList>> =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            if (spotCityCache[id] == null) {
-                val data = helper.getDonationSpotLocationMap(id)
-                val list = ArrayList<SpotList>()
-                helper.cityOrder?.forEach { id ->
-                    val cityId = id.toInt()
-                    //application.cityNameCache.put(cityId, helper.getCityName(cityId))
-                    list.add(data.get(cityId).apply { cityName = helper.getCityName(cityId) })
-                }
-                spotCityCache.put(id, list)
+    ): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        emit(false)
+        if (spotCityCache[id] == null) {
+            updateSpotList(list = ArrayList()) // empty the list first
+            val data = helper.getDonationSpotLocationMap(id)
+            val list = ArrayList<SpotList>()
+            helper.cityOrder?.forEach { id ->
+                val cityId = id.toInt()
+                list.add(data.get(cityId).apply { cityName = helper.getCityName(cityId) })
             }
-            emit(spotCityCache[id])
+            spotCityCache.put(id, list)
         }
+        updateSpotList(list = spotCityCache[id])
+        emit(true)
+    }
 
     private val _spotList = MutableLiveData<List<SpotList>>()
 
@@ -201,10 +197,24 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     /**
      * Update spot list to compose ui.
      *
-     * @param id target blood center id
      * @param list spot list of target blood center
      */
-    fun updateSpotList(id: Int = center.value?.id ?: -1, list: List<SpotList>) {
+    private fun updateSpotList(list: List<SpotList>) {
         _spotList.postValue(list)
+        changeCity(if (list.isNotEmpty()) list.first().cityId else 0)
+    }
+
+    /**
+     * Current selected city. Only useful in SpotListUi.
+     */
+    val currentCity = MutableLiveData<Int>()
+
+    /**
+     * Change a new city
+     *
+     * @param cityId new city
+     */
+    fun changeCity(cityId: Int) {
+        currentCity.postValue(cityId)
     }
 }

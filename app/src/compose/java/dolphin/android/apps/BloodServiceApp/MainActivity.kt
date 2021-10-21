@@ -25,6 +25,8 @@ import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
 import dolphin.android.apps.BloodServiceApp.ui.AppUiPane
 import dolphin.android.apps.BloodServiceApp.ui.UiState
 import dolphin.android.util.PackageUtils
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 
 @ExperimentalFoundationApi
 class MainActivity : AppCompatActivity(), AppUiCallback {
@@ -94,16 +96,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private fun setupViewModel() {
         model.init(helper).observe(this) { ready ->
             // Log.d(TAG, "storage ready $ready")
-            if (ready) model.getStorageData(helper, true).observe(this) { cache ->
-                // Log.d(TAG, ">> array: ${cache.size()}")
-                model.center.value?.let { center ->
-                    try {
-                        model.updateStorageMap(center.id, cache[center.id])
-                    } catch (e: Exception) {
-                        // pre-30 app can't use cache.contains(center.id)
-                    }
-                }
-            }
+            if (ready) model.getStorageData(helper, true, model.center.value?.id)
         }
         model.center.observe(this) { bloodCenter ->
             Log.v(TAG, "change to ${bloodCenter.name}")
@@ -188,21 +181,21 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun queryDonationData(id: Int) {
         model.loading(true) // download donation events
-        model.getDonationData(helper, id).observe(this) { days ->
-            model.updateEventList(id, days)
+        model.getDonationData(helper, id).observe(this) {
             model.loading(false) // donation events downloaded
         }
     }
 
     private fun queryStorageData(id: Int) {
-        model.updateStorageMap(id, model.getStorageData(id))
+        model.loading(true) // download storage
+        model.getStorageData(helper, false, id).observe(this) {
+            model.loading(false) // storage downloaded
+        }
     }
 
     private fun querySpotList(id: Int) {
         model.loading(true) // download spot list
-        model.updateSpotList(id, ArrayList()) // empty the list first
-        model.getSpotList(helper, id).observe(this) { spotList ->
-            model.updateSpotList(id, spotList)
+        model.getSpotList(helper, id).observe(this) {
             model.loading(false) // spot list downloaded
         }
         logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {

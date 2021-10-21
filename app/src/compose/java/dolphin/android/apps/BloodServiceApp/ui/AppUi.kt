@@ -117,6 +117,7 @@ fun AppUiPane(
         val days = model.daysList.observeAsState()
         val maps = model.storageMap.observeAsState()
         val cities = model.spotList.observeAsState()
+        val city = model.currentCity.observeAsState()
 
         Crossfade(targetState = model.uiState.observeAsState().value) { state ->
             when (state) {
@@ -158,7 +159,8 @@ fun AppUiPane(
                         modifier = modifier,
                         onBackPress = { callback.pressBack() },
                         onSpotClick = { info -> callback.showSpotInfo(info) },
-                        // selected = city.observeAsState().value ?: 0,
+                        onCityClick = { c -> model.changeCity(c.cityId) },
+                        selectedCity = city.value ?: 0,
                     )
 
                 UiState.Settings ->
