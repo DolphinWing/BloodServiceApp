@@ -12,6 +12,7 @@ This is a gradle project. You should use Android Studio to modify codes.
 ----
 [207] @ 2021-10-21
     fix not auto select first city
+    try Flow to replace LiveData
 
 [206] @ 2021-10-20
     layout adjustments

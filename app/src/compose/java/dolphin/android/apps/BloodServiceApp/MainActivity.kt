@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -25,8 +26,8 @@ import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
 import dolphin.android.apps.BloodServiceApp.ui.AppUiPane
 import dolphin.android.apps.BloodServiceApp.ui.UiState
 import dolphin.android.util.PackageUtils
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 class MainActivity : AppCompatActivity(), AppUiCallback {
@@ -180,9 +181,10 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     private fun queryDonationData(id: Int) {
-        model.loading(true) // download donation events
-        model.getDonationData(helper, id).observe(this) {
-            model.loading(false) // donation events downloaded
+        lifecycleScope.launch {
+            model.getDonationData(helper, id).collect { loading ->
+                Log.d(TAG, "  queryDonationData loading = $loading")
+            }
         }
     }
 
@@ -194,9 +196,10 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     private fun querySpotList(id: Int) {
-        model.loading(true) // download spot list
-        model.getSpotList(helper, id).observe(this) {
-            model.loading(false) // spot list downloaded
+        lifecycleScope.launch {
+            model.getSpotListData(helper, id).collect { loading ->
+                Log.d(TAG, "  querySpotList loading = $loading")
+            }
         }
         logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")

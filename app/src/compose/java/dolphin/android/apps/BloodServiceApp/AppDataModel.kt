@@ -13,6 +13,12 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
 import dolphin.android.apps.BloodServiceApp.ui.UiState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 
 /**
  * App data [ViewModel] in [SavedStateHandle].
@@ -130,53 +136,49 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      *
      * @param helper a helper instance to read data from internet
      * @param id target blood center id
-     * @return true if update success
+     * @return true if update in progressing
      */
     fun getDonationData(
         helper: BloodDataHelper,
         id: Int = center.value?.id ?: -1
-    ): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+    ): StateFlow<Boolean> = flow {
         if (donationCache[id] == null) {
+            _daysList.emit(ArrayList()) // clear the list
             donationCache.put(id, helper.getLatestWeekCalendar(id))
         }
-        updateEventList(donationCache[id])
-        emit(true)
-    }
+        _daysList.emit(donationCache[id])
+        emit(false)
+    }.flowOn(Dispatchers.IO).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = true,
+    )
 
-    private val _daysList = MutableLiveData<List<DonateDay>>()
+    private val _daysList = MutableStateFlow<List<DonateDay>>(ArrayList())
 
     /**
      * A donation list live data to update compose ui.
      */
-    val daysList: LiveData<List<DonateDay>> = _daysList
-
-    /**
-     * Update donation list to compose ui.
-     *
-     * @param list donation list of target blood center
-     */
-    private fun updateEventList(list: List<DonateDay>) {
-        _daysList.postValue(list)
-    }
+    val daysList: StateFlow<List<DonateDay>> = _daysList
 
     private val spotCityCache = SparseArray<ArrayList<SpotList>>()
 
     /**
-     * Get donation list from internet.
+     * Get donation spot list from internet.
      *
      * @param helper a helper instance to read data from internet
      * @param id target blood center id
-     * @return true if update success
+     * @return true if update in progressing
      */
-    fun getSpotList(
+    fun getSpotListData(
         helper: BloodDataHelper,
         id: Int = center.value?.id ?: -1
-    ): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(false)
+    ): StateFlow<Boolean> = flow {
         if (spotCityCache[id] == null) {
-            updateSpotList(list = ArrayList()) // empty the list first
-            val data = helper.getDonationSpotLocationMap(id)
             val list = ArrayList<SpotList>()
+            updateSpotList(list) // clear the list
+
+            val data = helper.getDonationSpotLocationMap(id)
             helper.cityOrder?.forEach { id ->
                 val cityId = id.toInt()
                 list.add(data.get(cityId).apply { cityName = helper.getCityName(cityId) })
@@ -184,30 +186,36 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
             spotCityCache.put(id, list)
         }
         updateSpotList(list = spotCityCache[id])
-        emit(true)
-    }
+        emit(false)
+    }.flowOn(Dispatchers.IO).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = true,
+    )
 
-    private val _spotList = MutableLiveData<List<SpotList>>()
+    private val _spotList = MutableStateFlow<List<SpotList>>(ArrayList())
 
     /**
      * A spot list live data to update compose ui.
      */
-    val spotList: LiveData<List<SpotList>> = _spotList
+    val spotList: StateFlow<List<SpotList>> = _spotList
 
     /**
      * Update spot list to compose ui.
      *
      * @param list spot list of target blood center
      */
-    private fun updateSpotList(list: List<SpotList>) {
-        _spotList.postValue(list)
-        changeCity(if (list.isNotEmpty()) list.first().cityId else 0)
+    private suspend fun updateSpotList(list: List<SpotList>) {
+        _spotList.emit(list)
+        currentCity.emit(if (list.isNotEmpty()) list.first().cityId else 0)
     }
+
+    private val currentCity = MutableStateFlow(0)
 
     /**
      * Current selected city. Only useful in SpotListUi.
      */
-    val currentCity = MutableLiveData<Int>()
+    val city: StateFlow<Int> = currentCity
 
     /**
      * Change a new city
@@ -215,6 +223,6 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      * @param cityId new city
      */
     fun changeCity(cityId: Int) {
-        currentCity.postValue(cityId)
+        currentCity.value = cityId
     }
 }

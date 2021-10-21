@@ -15,6 +15,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -114,10 +115,10 @@ fun AppUiPane(
 ) {
     AppTheme {
         val selected = model.center.observeAsState()
-        val days = model.daysList.observeAsState()
         val maps = model.storageMap.observeAsState()
-        val cities = model.spotList.observeAsState()
-        val city = model.currentCity.observeAsState()
+        val days = model.daysList.collectAsState()
+        val cities = model.spotList.collectAsState()
+        val city = model.city.collectAsState()
 
         Crossfade(targetState = model.uiState.observeAsState().value) { state ->
             when (state) {
@@ -135,7 +136,7 @@ fun AppUiPane(
                         centers = center.values(),
                         selected = selected.value ?: center.main(),
                         modifier = modifier,
-                        daysList = days.value ?: ArrayList(),
+                        daysList = days.value,
                         storageMap = maps.value ?: HashMap(),
                         onCenterChange = { c -> callback.changeBloodCenter(c) },
                         onAddCalendar = { event -> callback.addToCalendar(event) },
@@ -155,12 +156,12 @@ fun AppUiPane(
 
                 UiState.Spots ->
                     SpotListUi(
-                        list = cities.value ?: ArrayList(),
+                        list = cities.value,
                         modifier = modifier,
                         onBackPress = { callback.pressBack() },
                         onSpotClick = { info -> callback.showSpotInfo(info) },
                         onCityClick = { c -> model.changeCity(c.cityId) },
-                        selectedCity = city.value ?: 0,
+                        selectedCity = city.value,
                     )
 
                 UiState.Settings ->
