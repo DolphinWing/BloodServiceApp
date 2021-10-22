@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.stateIn
 class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     companion object {
         private const val KEY_UI_STATE = "ui_state"
-        private const val KEY_LOADING = "loading"
+        // private const val KEY_LOADING = "loading"
     }
 
     /**
@@ -59,17 +59,6 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
         this.state = state
     }
 
-    // val loading: LiveData<Boolean> = savedState.getLiveData(KEY_LOADING)
-
-    /**
-     * Set app loading state.
-     *
-     * @param value true if app is loading something in the background
-     */
-    fun loading(value: Boolean) {
-        savedState.set(KEY_LOADING, value)
-    }
-
     /**
      * Selected blood center
      */
@@ -81,12 +70,14 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      * @param helper a helper instance to read data from internet
      * @return true if helper is ready
      */
-    fun init(helper: BloodDataHelper): LiveData<Boolean> =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            helper.warmup()
-            // getStorageData(helper, true)
-            emit(true)
-        }
+    fun init(helper: BloodDataHelper): StateFlow<Boolean> = flow {
+        helper.warmup()
+        emit(true)
+    }.flowOn(Dispatchers.IO).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = false,
+    )
 
     private var storageCache: SparseArray<HashMap<String, Int>>? = null
 
@@ -95,38 +86,43 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      *
      * @param helper a helper instance to read data from internet
      * @param forceRefresh true if we want to download latest data from internet
-     * @return all storage data
+     * @return true if update is in progressing
      */
     fun getStorageData(
         helper: BloodDataHelper,
         forceRefresh: Boolean = false,
         centerId: Int? = -1,
-    ): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+    ): StateFlow<Boolean> = flow {
         if (storageCache == null || forceRefresh) {
+            emitStorageMap(HashMap()) // clear the list
             storageCache = helper.getBloodStorage(forceRefresh)
         }
         storageCache?.let { cache ->
-            centerId?.let { id -> updateStorageMap(cache[id]) }
+            centerId?.let { id -> emitStorageMap(cache[id] ?: HashMap()) }
         } ?: kotlin.run {
-            updateStorageMap(HashMap())
+            emitStorageMap(HashMap())
         }
-        emit(true)
-    }
+        emit(false)
+    }.flowOn(Dispatchers.IO).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = true,
+    )
 
-    private val storages = MutableLiveData<HashMap<String, Int>>()
+    private val storages = MutableStateFlow<HashMap<String, Int>>(HashMap())
 
     /**
      * A storage cache live data to update compose ui.
      */
-    val storageMap: LiveData<HashMap<String, Int>> = storages
+    val storageMap: StateFlow<HashMap<String, Int>> = storages
 
     /**
      * Update storage data to compose ui.
      *
      * @param maps target blood center storage
      */
-    private fun updateStorageMap(maps: HashMap<String, Int>) {
-        storages.postValue(maps)
+    private suspend fun emitStorageMap(maps: HashMap<String, Int>) {
+        storages.emit(maps)
     }
 
     private var donationCache = SparseArray<ArrayList<DonateDay>>()
@@ -136,7 +132,7 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      *
      * @param helper a helper instance to read data from internet
      * @param id target blood center id
-     * @return true if update in progressing
+     * @return true if update is in progressing
      */
     fun getDonationData(
         helper: BloodDataHelper,
@@ -168,7 +164,7 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      *
      * @param helper a helper instance to read data from internet
      * @param id target blood center id
-     * @return true if update in progressing
+     * @return true if update is in progressing
      */
     fun getSpotListData(
         helper: BloodDataHelper,
@@ -176,7 +172,7 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     ): StateFlow<Boolean> = flow {
         if (spotCityCache[id] == null) {
             val list = ArrayList<SpotList>()
-            updateSpotList(list) // clear the list
+            emitSpotList(list) // clear the list
 
             val data = helper.getDonationSpotLocationMap(id)
             helper.cityOrder?.forEach { id ->
@@ -185,7 +181,7 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
             }
             spotCityCache.put(id, list)
         }
-        updateSpotList(list = spotCityCache[id])
+        emitSpotList(list = spotCityCache[id])
         emit(false)
     }.flowOn(Dispatchers.IO).stateIn(
         scope = viewModelScope,
@@ -205,7 +201,7 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      *
      * @param list spot list of target blood center
      */
-    private suspend fun updateSpotList(list: List<SpotList>) {
+    private suspend fun emitSpotList(list: List<SpotList>) {
         _spotList.emit(list)
         currentCity.emit(if (list.isNotEmpty()) list.first().cityId else 0)
     }

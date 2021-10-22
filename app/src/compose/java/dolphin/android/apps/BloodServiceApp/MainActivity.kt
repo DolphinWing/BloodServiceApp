@@ -26,6 +26,7 @@ import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
 import dolphin.android.apps.BloodServiceApp.ui.AppUiPane
 import dolphin.android.apps.BloodServiceApp.ui.UiState
 import dolphin.android.util.PackageUtils
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -95,9 +96,13 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     private fun setupViewModel() {
-        model.init(helper).observe(this) { ready ->
-            // Log.d(TAG, "storage ready $ready")
-            if (ready) model.getStorageData(helper, true, model.center.value?.id)
+        lifecycleScope.launch {
+            model.init(helper).collect { ready ->
+                // Log.d(TAG, "storage ready $ready")
+                if (ready) {
+                    queryStorageData(model.center.value?.id ?: -1, forceRefresh = true)
+                }
+            }
         }
         model.center.observe(this) { bloodCenter ->
             Log.v(TAG, "change to ${bloodCenter.name}")
@@ -180,23 +185,31 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         IntentHelper.showBloodCenterFacebookPages(this, center.id)
     }
 
+    private var queryDonationJob: Job? = null
+    private var queryStorageJob: Job? = null
+    private var querySpotListJob: Job? = null
+
     private fun queryDonationData(id: Int) {
-        lifecycleScope.launch {
+        queryDonationJob?.cancel()
+        queryDonationJob = lifecycleScope.launch {
             model.getDonationData(helper, id).collect { loading ->
                 Log.d(TAG, "  queryDonationData loading = $loading")
             }
         }
     }
 
-    private fun queryStorageData(id: Int) {
-        model.loading(true) // download storage
-        model.getStorageData(helper, false, id).observe(this) {
-            model.loading(false) // storage downloaded
+    private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {
+        queryStorageJob?.cancel()
+        queryStorageJob = lifecycleScope.launch {
+            model.getStorageData(helper, forceRefresh, centerId = id).collect { loading ->
+                Log.d(TAG, "  queryStorageData loading = $loading")
+            }
         }
     }
 
     private fun querySpotList(id: Int) {
-        lifecycleScope.launch {
+        querySpotListJob?.cancel()
+        querySpotListJob = lifecycleScope.launch {
             model.getSpotListData(helper, id).collect { loading ->
                 Log.d(TAG, "  querySpotList loading = $loading")
             }

@@ -115,7 +115,7 @@ fun AppUiPane(
 ) {
     AppTheme {
         val selected = model.center.observeAsState()
-        val maps = model.storageMap.observeAsState()
+        val maps = model.storageMap.collectAsState()
         val days = model.daysList.collectAsState()
         val cities = model.spotList.collectAsState()
         val city = model.city.collectAsState()
