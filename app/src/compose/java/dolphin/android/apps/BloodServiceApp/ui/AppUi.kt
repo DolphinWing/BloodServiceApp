@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,12 +39,22 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList
  */
 @Composable
 fun AppTheme(dark: Boolean = isSystemInDarkTheme(), content: @Composable BoxScope.() -> Unit) {
+    val colors = if (dark) darkColors(
+        primary = colorResource(id = R.color.material_orange_300),
+        primaryVariant = colorResource(id = R.color.bloody_popup_color),
+        onPrimary = Color.White,
+        secondary = colorResource(id = R.color.material_indigo_500),
+        onSecondary = Color.White,
+    ) else lightColors(
+        primary = colorResource(id = R.color.bloody_color),
+        primaryVariant = colorResource(id = R.color.bloody_darker_color),
+        onPrimary = Color.Black,
+        secondary = colorResource(id = R.color.material_light_green_400),
+        onSecondary = Color.Black,
+    )
+
     MaterialTheme(
-        colors = lightColors(
-            primary = colorResource(id = R.color.bloody_color),
-            primaryVariant = colorResource(id = R.color.bloody_darker_color),
-            secondary = colorResource(id = R.color.material_light_green_700),
-        ),
+        colors = colors,
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),

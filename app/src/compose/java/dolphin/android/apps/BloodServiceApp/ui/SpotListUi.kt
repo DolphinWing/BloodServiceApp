@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -106,6 +107,7 @@ fun SpotListUi(
 }
 
 @Preview("list", showSystemUi = true)
+@Preview("list night", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewDonationPlacePane() {
     AppTheme {

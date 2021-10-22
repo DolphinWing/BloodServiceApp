@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- https://material.google.com/style/color.html#color-color-palette -->
-    <color name="material_orange_100">#ffe0b2</color>
-    <color name="material_light_green_700">#558B2F</color>
+    <!-- https://material.io/design/color/the-color-system.html#color-usage-and-palettes -->
+    <color name="material_orange_400">#FFA726</color>
+    <color name="material_orange_300">#FFB74D</color>
+    <color name="material_light_green_400">#9CCC65</color>
+    <color name="material_light_green_800">#558B2F</color>
     <color name="material_indigo_500">#3f51b5</color>
     <color name="material_orange_800">#EF6C00</color>
     <color name="material_orange_900">#E65100</color>

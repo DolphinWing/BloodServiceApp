@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.Bloody" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.Bloody" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="windowActionBar">false</item>
         <!-- Remove system title bars; we will add the action bar ourselves. -->
         <item name="android:windowNoTitle">true</item>
@@ -26,7 +26,7 @@
 
         <item name="colorPrimary">@color/bloody_color</item>
         <item name="colorPrimaryDark">@color/bloody_darker_color</item>
-        <item name="colorAccent">@color/material_light_green_700</item>
+        <item name="colorAccent">@color/material_light_green_800</item>
 
         <!-- Holo style generator -->
         <item name="android:listChoiceBackgroundIndicator">@drawable/bloody_list_selector_holo_light</item>
@@ -44,7 +44,7 @@
     <style name="Theme.Bloody.Settings" parent="Theme.Bloody">
         <item name="colorPrimary">@color/bloody_color</item>
         <item name="colorPrimaryDark">@color/bloody_darker_color</item>
-        <item name="colorAccent">@color/material_light_green_700</item>
+        <item name="colorAccent">@color/material_light_green_800</item>
 
         <!-- Holo style generator -->
         <item name="android:listChoiceBackgroundIndicator">@drawable/bloody_list_selector_holo_light</item>

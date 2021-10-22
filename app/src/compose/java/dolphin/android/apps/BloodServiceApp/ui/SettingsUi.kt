@@ -1,14 +1,18 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -117,7 +121,7 @@ fun SettingsUi(
                     .clickable { showDialog(R.string.app_privacy_policy, "privacy_policy.txt") }
                     .fillMaxWidth(),
             )
-            Separator()
+            // Separator()
             SettingsSectionTitle(stringResource(id = R.string.title_open_source))
             SettingsTwoLinedText(
                 title = stringResource(id = R.string.title_open_source_jetpack),
@@ -127,12 +131,13 @@ fun SettingsUi(
                 title = stringResource(id = R.string.title_open_source_okhttp),
                 summary = stringResource(id = R.string.summary_open_source_okhttp),
             )
-            Separator()
+            // Separator()
         }
     }
 }
 
 @Preview("Settings", showSystemUi = true)
+@Preview("Settings Night", showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewSettingsUi() {
     AppTheme {
@@ -144,9 +149,10 @@ private fun PreviewSettingsUi() {
 private fun SettingsSectionTitle(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
-        modifier = modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp, end = 16.dp),
+        modifier = modifier.padding(start = 24.dp, top = 16.dp, bottom = 4.dp, end = 24.dp),
         style = MaterialTheme.typography.subtitle2,
         color = MaterialTheme.colors.secondary,
+        // fontWeight = FontWeight.Bold,
     )
 }
 
@@ -156,10 +162,20 @@ private fun SettingsTwoLinedText(
     modifier: Modifier = Modifier,
     summary: String? = null,
 ) {
-    Column(modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-        Text(title, style = MaterialTheme.typography.body1)
+    Column(
+        modifier = modifier
+            .padding(horizontal = 24.dp, vertical = 4.dp)
+            .defaultMinSize(minHeight = 48.dp),
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(title, style = MaterialTheme.typography.h6, modifier = Modifier.fillMaxWidth())
         if (summary?.isNotEmpty() == true) {
-            Text(summary, style = MaterialTheme.typography.body2)
+            Spacer(modifier = Modifier.requiredHeight(2.dp))
+            Text(
+                summary,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

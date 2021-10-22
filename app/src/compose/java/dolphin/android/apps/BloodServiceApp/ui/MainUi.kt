@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -162,8 +163,7 @@ fun MainUi(
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 12.dp),
-                    color = MaterialTheme.colors.onPrimary,
-                    style = MaterialTheme.typography.h6,
+                    // style = MaterialTheme.typography.h6,
                 )
 
                 IconButton(onClick = { onFacebookClick?.invoke(selected) }) {
@@ -186,7 +186,6 @@ fun MainUi(
                     Icon(
                         Icons.Rounded.OpenInBrowser,
                         contentDescription = stringResource(id = R.string.action_go_to_personal_summary),
-                        tint = MaterialTheme.colors.onPrimary,
                     )
                     Text(stringResource(id = R.string.action_go_to_personal))
                 }
@@ -195,7 +194,6 @@ fun MainUi(
                     Icon(
                         Icons.Rounded.Settings,
                         contentDescription = stringResource(id = R.string.title_activity_settings),
-                        tint = MaterialTheme.colors.onPrimary,
                     )
                 }
             }
@@ -292,6 +290,7 @@ fun MainUi(
 
 @ExperimentalFoundationApi
 @Preview("Main Ui", showSystemUi = true)
+@Preview("Main Ui Night", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewMainUi() {
     AppTheme {
@@ -306,6 +305,7 @@ private fun PreviewMainUi() {
 
 @ExperimentalFoundationApi
 @Preview("Main Ui: hide", showSystemUi = true)
+@Preview("Main Ui Night", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewMainUi2() {
     AppTheme {
@@ -336,6 +336,7 @@ private fun PrivacyReviewSnackbar(
         Text(
             stringResource(id = R.string.snackbar_privacy_policy_updated),
             modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.body2,
             color = MaterialTheme.colors.onSecondary,
         )
         TextButton(onClick = { onReviewIgnore?.invoke() }) {
@@ -344,7 +345,7 @@ private fun PrivacyReviewSnackbar(
         TextButton(
             onClick = { onReviewPolicy?.invoke() },
             colors = ButtonDefaults.textButtonColors(
-                contentColor = MaterialTheme.colors.onPrimary
+                contentColor = MaterialTheme.colors.onPrimary,
             ),
         ) {
             Text(stringResource(id = R.string.snackbar_privacy_policy_review))

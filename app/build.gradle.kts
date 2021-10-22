@@ -29,8 +29,8 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 207
-            versionName = "3.0.2"
+            versionCode = 208
+            versionName = "3.0.3"
             dimension = "mode"
             minSdk = 21
         }

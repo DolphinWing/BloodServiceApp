@@ -13,6 +13,7 @@ This is a gradle project. You should use Android Studio to modify codes.
 [208] @ 2021-10-22
     add more Flow replacing LiveData
     fix possible crash in storage update
+    support night mode
 
 [207] @ 2021-10-21
     fix not auto select first city
