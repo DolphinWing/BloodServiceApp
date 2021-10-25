@@ -10,3 +10,5 @@
 * [DolphinWing's App play yard](http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/)
 
 This is a gradle project. You should use Android Studio to modify codes.
+
+MIT License. Copyright (c) 2021 DolphinWing
