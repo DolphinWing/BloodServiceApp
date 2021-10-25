@@ -9,7 +9,6 @@ import android.content.pm.ResolveInfo
 
 class PackageUtils {
     companion object {
-
         /**
          * get package info
          *

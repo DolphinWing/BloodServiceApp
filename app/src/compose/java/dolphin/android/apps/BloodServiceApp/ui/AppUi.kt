@@ -43,7 +43,7 @@ fun AppTheme(dark: Boolean = isSystemInDarkTheme(), content: @Composable BoxScop
         primary = colorResource(id = R.color.material_orange_300),
         primaryVariant = colorResource(id = R.color.bloody_popup_color),
         onPrimary = Color.White,
-        secondary = colorResource(id = R.color.material_indigo_500),
+        secondary = colorResource(id = R.color.bloody_accent_color),
         onSecondary = Color.White,
     ) else lightColors(
         primary = colorResource(id = R.color.bloody_color),

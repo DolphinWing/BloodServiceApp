@@ -1,16 +1,18 @@
 package dolphin.android.apps.BloodServiceApp
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.provider.CalendarContract
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
-import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
+import dolphin.android.apps.BloodServiceApp.provider.IntentBuilder
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 
 /**
@@ -55,7 +57,7 @@ object IntentHelper {
             .setCancelable(true)
             .setItems(list) { _, index ->
                 // Log.d(TAG, "select $index ${list[index]}")
-                if (PrefsUtil.isGoogleMapsInstalled(activity)) {
+                if (IntentBuilder.isGoogleMapsInstalled(activity)) {
                     openActivityOnGoogleMaps(activity, list[index])
                 } else {
                     openActivityOnGoogleMapsInBrowser(activity, list[index])
@@ -87,7 +89,7 @@ object IntentHelper {
      * @param info target donation spot info
      */
     fun showSpotInfo(context: Context, info: SpotInfo) {
-        BloodDataHelper.getOpenSpotLocationMapIntent(context, info)?.let { intent ->
+        IntentBuilder.makeOpenSpotLocationMapIntent(context, info)?.let { intent ->
             context.startActivity(intent) //show in browser, don't parse it
         }
     }
@@ -99,7 +101,7 @@ object IntentHelper {
      * @param id target blood center id
      */
     fun showBloodCenterFacebookPages(context: Context, id: Int) {
-        BloodDataHelper.getOpenFacebookIntent(context, id)?.let { intent ->
+        IntentBuilder.makeOpenFacebookIntent(context, id)?.let { intent ->
             context.startActivity(intent)
         }
     }
@@ -111,8 +113,24 @@ object IntentHelper {
      * @param id target blood center id
      */
     fun showBloodCenterSource(context: Context, id: Int) {
-        BloodDataHelper.getOpenBloodCalendarSourceIntent(context, id)?.let { intent ->
+        IntentBuilder.makeOpenBloodCalendarSourceIntent(context, id)?.let { intent ->
             context.startActivity(intent)
+        }
+    }
+
+    /**
+     * start a browser activity
+     *
+     * @param context Context
+     * @param url     url
+     */
+    private fun startBrowserActivity(context: Context, url: String?) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        try {
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
         }
     }
 
@@ -122,10 +140,7 @@ object IntentHelper {
      * @param context Android Context
      */
     fun showMainSource(context: Context) {
-        PrefsUtil.startBrowserActivity(
-            context,
-            Firebase.remoteConfig.getString("url_blood_center_main")
-        )
+        startBrowserActivity(context, Firebase.remoteConfig.getString("url_blood_center_main"))
     }
 
     /**
@@ -134,9 +149,6 @@ object IntentHelper {
      * @param context Android Context
      */
     fun showDonorInfo(context: Context) {
-        PrefsUtil.startBrowserActivity(
-            context,
-            Firebase.remoteConfig.getString("url_blood_donor_info")
-        )
+        startBrowserActivity(context, Firebase.remoteConfig.getString("url_blood_donor_info"))
     }
 }

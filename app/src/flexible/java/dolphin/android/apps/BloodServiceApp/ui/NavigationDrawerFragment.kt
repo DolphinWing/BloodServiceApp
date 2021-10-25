@@ -3,7 +3,9 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -100,8 +103,10 @@ class NavigationDrawerFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false)
 
         val centre = resources.getStringArray(R.array.blood_center)
@@ -242,10 +247,12 @@ class NavigationDrawerFragment : Fragment() {
     }
 
     fun lockDrawer() {
-        mDrawerLayout?.setDrawerLockMode(if (isDrawerOpen)
-            DrawerLayout.LOCK_MODE_LOCKED_OPEN
-        else
-            DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        mDrawerLayout?.setDrawerLockMode(
+            if (isDrawerOpen)
+                DrawerLayout.LOCK_MODE_LOCKED_OPEN
+            else
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+        )
     }
 
     fun unlockDrawer() {
@@ -257,7 +264,16 @@ class NavigationDrawerFragment : Fragment() {
         : ArrayAdapter<String>(context, R.layout.listview_blood_center, android.R.id.title, objects)
 
     private fun startPersonalData() {
-        PrefsUtil.startBrowserActivity(activity,
-                FirebaseRemoteConfig.getInstance().getString("url_blood_donor_info"))
+        activity?.let { context ->
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                FirebaseRemoteConfig.getInstance().getString("url_blood_donor_info").toUri()
+            ).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+            try {
+                context.startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+            }
+        }
     }
 }

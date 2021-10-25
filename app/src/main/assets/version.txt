@@ -10,6 +10,11 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[209] @ 2021-10-25
+    add MIT license
+    refactor codes for better reading
+    dependency updates
+
 [208] @ 2021-10-22
     add more Flow replacing LiveData
     fix possible crash in storage update

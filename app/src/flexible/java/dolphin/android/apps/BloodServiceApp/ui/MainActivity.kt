@@ -21,6 +21,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
+import dolphin.android.apps.BloodServiceApp.provider.IntentBuilder
 
 class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDrawerCallbacks {
     companion object {
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         menu?.findItem(R.id.action_personal)?.isVisible = false
         menu?.findItem(R.id.action_settings)?.isVisible = false
         menu?.findItem(R.id.action_facebook)?.isVisible =
-                BloodDataHelper.getOpenFacebookIntent(this, siteId) != null && !settings
+            IntentBuilder.makeOpenFacebookIntent(this, siteId) != null && !settings
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -103,13 +104,13 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
                     navigationFragment?.openDrawer()
                 }
             R.id.action_facebook -> {
-                BloodDataHelper.getOpenFacebookIntent(this, siteId)?.let {
+                IntentBuilder.makeOpenFacebookIntent(this, siteId)?.let {
                     startActivity(it)
                 }
                 return true
             }
             R.id.action_go_to_website -> {
-                BloodDataHelper.getOpenBloodCalendarSourceIntent(this, siteId)?.let {
+                IntentBuilder.makeOpenBloodCalendarSourceIntent(this, siteId)?.let {
                     startActivity(it)
                 }
                 return true

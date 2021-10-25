@@ -21,6 +21,7 @@ import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
+import dolphin.android.apps.BloodServiceApp.provider.IntentBuilder
 import dolphin.android.util.PackageUtils
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.*
@@ -28,7 +29,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 
 
 class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
-        FlexibleAdapter.OnItemLongClickListener {
+    FlexibleAdapter.OnItemLongClickListener {
     companion object {
         private const val TAG = "DonationListFragment"
     }
@@ -46,9 +47,12 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? = inflater.inflate(
-            R.layout.fragment_recycler_view, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(
+        R.layout.fragment_recycler_view, container, false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -109,12 +113,14 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     /**
      * https://github.com/davideas/FlexibleAdapter/wiki/5.x-%7C-Headers-and-Sections#sticky-headers
      */
-    internal class DateItem(private val day: DonateDay)
-        : AbstractHeaderItem<FlexibleViewHolder>(), IHeader<FlexibleViewHolder> {
+    internal class DateItem(private val day: DonateDay) : AbstractHeaderItem<FlexibleViewHolder>(),
+        IHeader<FlexibleViewHolder> {
 
-        override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: FlexibleViewHolder?, position: Int,
-                                    list: MutableList<Any>?) {
+        override fun bindViewHolder(
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
+            holder: FlexibleViewHolder?, position: Int,
+            list: MutableList<Any>?
+        ) {
             (holder as? DateHolder)?.apply {
                 title?.text = day.dateString
                 count?.text = day.activityCount.toString()
@@ -122,13 +128,16 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         }
 
         override fun equals(
-                other: Any?) = (other as? DateItem)?.day?.timeInMillis == day.timeInMillis
+            other: Any?
+        ) = (other as? DateItem)?.day?.timeInMillis == day.timeInMillis
 
         override fun hashCode(): Int = day.timeInMillis.hashCode()
 
-        override fun createViewHolder(view: View?,
-                                      adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?)
-                : FlexibleViewHolder = DateHolder(view, adapter)
+        override fun createViewHolder(
+            view: View?,
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
+        )
+            : FlexibleViewHolder = DateHolder(view, adapter)
 
         override fun getLayoutRes() = if (day.activityCount > 0) {
             R.layout.listview_donation_date
@@ -136,26 +145,30 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             R.layout.listview_donation_date_no_children
         }
 
-        internal class DateHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?)
-            : FlexibleViewHolder(view, adapter, true) {
+        internal class DateHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?) :
+            FlexibleViewHolder(view, adapter, true) {
             var title: TextView? = view?.findViewById(android.R.id.text1)
             var count: TextView? = view?.findViewById(android.R.id.text2)
         }
     }
 
-    internal class ActivityItem(header: DateItem?, val activity: DonateActivity)
-        : AbstractSectionableItem<FlexibleViewHolder, DateItem>(header) {
+    internal class ActivityItem(header: DateItem?, val activity: DonateActivity) :
+        AbstractSectionableItem<FlexibleViewHolder, DateItem>(header) {
         init {
             this.header = header
         }
 
-        override fun createViewHolder(view: View?,
-                                      adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?)
-                : FlexibleViewHolder = ActivityHolder(view, adapter)
+        override fun createViewHolder(
+            view: View?,
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
+        )
+            : FlexibleViewHolder = ActivityHolder(view, adapter)
 
-        override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: FlexibleViewHolder?, position: Int,
-                                    list: MutableList<Any>?) {
+        override fun bindViewHolder(
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
+            holder: FlexibleViewHolder?, position: Int,
+            list: MutableList<Any>?
+        ) {
             (holder as? ActivityHolder)?.apply {
                 title?.text = activity.name
                 location?.text = activity.location
@@ -172,8 +185,8 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
 
         override fun getLayoutRes(): Int = R.layout.listview_donation_activity
 
-        internal class ActivityHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?)
-            : FlexibleViewHolder(view, adapter) {
+        internal class ActivityHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?) :
+            FlexibleViewHolder(view, adapter) {
             val title: TextView? = view?.findViewById(android.R.id.title)
             val startTime: TextView? = view?.findViewById(android.R.id.text1)
             val endTime: TextView? = view?.findViewById(android.R.id.text2)
@@ -192,16 +205,20 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             Log.d(TAG, "  ${item.activity.name}")
 
             AlertDialog.Builder(requireActivity())
-                    .setTitle(R.string.action_more)
-                    .setItems(arrayOf(getString(R.string.action_add_to_calendar),
-                            getString(R.string.action_search_location))) { _, index ->
-                        //Log.d(TAG, "select $index")
-                        when (index) {
-                            0 -> addActivityToCalendar(item.activity)
-                            1 -> showSearchMapDialog(item.activity)
-                        }
+                .setTitle(R.string.action_more)
+                .setItems(
+                    arrayOf(
+                        getString(R.string.action_add_to_calendar),
+                        getString(R.string.action_search_location)
+                    )
+                ) { _, index ->
+                    //Log.d(TAG, "select $index")
+                    when (index) {
+                        0 -> addActivityToCalendar(item.activity)
+                        1 -> showSearchMapDialog(item.activity)
                     }
-                    .show()
+                }
+                .show()
         }
     }
 
@@ -212,8 +229,10 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
             setDataAndType(CalendarContract.Events.CONTENT_URI, "vnd.android.cursor.item/event")
             putExtra(CalendarContract.Events.TITLE, donation.name)
             putExtra(CalendarContract.Events.EVENT_LOCATION, donation.location)
-            putExtra(CalendarContract.Events.DESCRIPTION,
-                    getString(R.string.action_add_to_calendar_description))
+            putExtra(
+                CalendarContract.Events.DESCRIPTION,
+                getString(R.string.action_add_to_calendar_description)
+            )
             putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
             putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, donation.startTime.timeInMillis)
             putExtra(CalendarContract.EXTRA_EVENT_END_TIME, donation.endTime.timeInMillis)
@@ -226,16 +245,16 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     private fun showSearchMapDialog(donation: DonateActivity) {
         val list = donation.prepareLocationList(requireActivity()).toTypedArray()
         AlertDialog.Builder(requireActivity())
-                .setTitle(R.string.action_search_on_maps)
-                .setItems(list) { _, index ->
-                    //Log.d(TAG, "select $index ${list[index]}")
-                    if (PrefsUtil.isGoogleMapsInstalled(activity)) {
-                        openActivityOnGoogleMaps(list[index])
-                    } else {
-                        openActivityOnGoogleMapsInBrowser(list[index])
-                    }
+            .setTitle(R.string.action_search_on_maps)
+            .setItems(list) { _, index ->
+                //Log.d(TAG, "select $index ${list[index]}")
+                if (IntentBuilder.isGoogleMapsInstalled(activity)) {
+                    openActivityOnGoogleMaps(list[index])
+                } else {
+                    openActivityOnGoogleMapsInBrowser(list[index])
                 }
-                .show()
+            }
+            .show()
     }
 
     private fun openActivityOnGoogleMaps(location: String) {
@@ -248,8 +267,10 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
 
     private fun openActivityOnGoogleMapsInBrowser(location: String) {
         //https://www.google.com/maps/search/?api=1&query=centurylink+field
-        val mapIntent = Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://www.google.com/maps/search/?api=1&query=$location"))
+        val mapIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://www.google.com/maps/search/?api=1&query=$location")
+        )
         mapIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         if (PackageUtils.isCallable(activity, mapIntent)) {
             startActivity(mapIntent)

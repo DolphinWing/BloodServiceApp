@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
+import dolphin.android.apps.BloodServiceApp.provider.IntentBuilder
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractExpandableHeaderItem
@@ -167,8 +168,10 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         //Log.d(TAG, "click $position")
         (view?.tag as? SpotInfo)?.let { spot ->
             //Log.d(TAG, "spot: ${spot.spotId} ${spot.spotName}")
-            BloodDataHelper.getOpenSpotLocationMapIntent(activity, spot)?.let { intent ->
-                activity?.startActivity(intent) //show in browser, don't parse it
+            activity?.let { context ->
+                IntentBuilder.makeOpenSpotLocationMapIntent(context, spot)?.let { intent ->
+                    context.startActivity(intent) //show in browser, don't parse it
+                }
             }
         }
         return true

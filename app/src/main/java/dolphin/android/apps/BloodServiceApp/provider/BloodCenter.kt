@@ -4,6 +4,19 @@ import android.content.Context
 import dolphin.android.apps.BloodServiceApp.R
 
 class BloodCenter(context: Context) {
+    companion object {
+        const val URL_BASE_BLOOD_ORG = "http://www.blood.org.tw"
+        const val URL_BLOOD_STORAGE = "$URL_BASE_BLOOD_ORG/Internet/main/index.aspx"
+        const val URL_LOCAL_BLOOD_CENTER_WEEK =
+            URL_BASE_BLOOD_ORG + "/Internet/mobile/docs/local_blood_center_week.aspx" +
+                "?site_id={site}&date={date}" //y yyy/MM/dd
+
+        const val QS_LOCATION_MAP_CITY =  /* blood_center_donate_station + */ "&cityID={city}"
+        const val URL_LOCAL_BLOOD_LOCATION_MAP =
+            URL_BASE_BLOOD_ORG + "/Internet/mobile/docs/local_blood_center_map.aspx" +
+                "?site_id={site}&select_city={city}&spotID={spot}"
+    }
+
     private val names = context.resources.getStringArray(R.array.blood_center)
     private val ids = context.resources.getIntArray(R.array.blood_center_id)
     private val fbs = context.resources.getStringArray(R.array.blood_center_facebook)
