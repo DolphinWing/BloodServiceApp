@@ -10,6 +10,10 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[210] @ 2021-10-27
+    README update
+    v3.0.3 test
+
 [209] @ 2021-10-25
     add MIT license
     refactor codes for better reading

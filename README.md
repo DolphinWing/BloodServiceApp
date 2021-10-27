@@ -1,4 +1,4 @@
-![Android CI](https://github.com/DolphinWing/BloodServiceApp/workflows/Android%20CI/badge.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/DolphinWing/BloodServiceApp?logo=github) ![Android CI](https://github.com/DolphinWing/BloodServiceApp/workflows/Android%20CI/badge.svg)
 
 快速查詢最近的捐血活動，以及台灣各血液中心目前的庫存狀態。
 
@@ -11,4 +11,4 @@
 
 This is a gradle project. You should use Android Studio to modify codes.
 
-MIT License. Copyright (c) 2021 DolphinWing
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) Copyright (c) 2021 DolphinWing
