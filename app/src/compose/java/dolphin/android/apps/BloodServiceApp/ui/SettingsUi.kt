@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,16 +12,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,6 +66,7 @@ interface SettingsUiCallback {
 /**
  * Settings UI in Compose way.
  */
+@ExperimentalMaterial3Api
 @Composable
 fun SettingsUi(
     modifier: Modifier = Modifier,
@@ -89,19 +90,17 @@ fun SettingsUi(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar {
-                IconButton(onClick = { onBackPress?.invoke() }) {
-                    Icon(
-                        Icons.Rounded.ArrowBack,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.onPrimary,
-                    )
+            MediumTopAppBar(
+                title = { Text(stringResource(id = R.string.title_activity_settings)) },
+                navigationIcon = {
+                    IconButton(onClick = { onBackPress?.invoke() }) {
+                        Icon(
+                            Icons.Rounded.ArrowBack,
+                            contentDescription = null,
+                        )
+                    }
                 }
-                Text(
-                    stringResource(id = R.string.title_activity_settings),
-                    color = MaterialTheme.colors.onPrimary,
-                )
-            }
+            )
         },
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
@@ -136,6 +135,7 @@ fun SettingsUi(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview("Settings", showSystemUi = true)
 @Preview("Settings Night", showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
@@ -150,8 +150,8 @@ private fun SettingsSectionTitle(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         modifier = modifier.padding(start = 24.dp, top = 16.dp, bottom = 4.dp, end = 24.dp),
-        style = MaterialTheme.typography.subtitle2,
-        color = MaterialTheme.colors.secondary,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.tertiary,
         // fontWeight = FontWeight.Bold,
     )
 }
@@ -168,12 +168,16 @@ private fun SettingsTwoLinedText(
             .defaultMinSize(minHeight = 48.dp),
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(title, style = MaterialTheme.typography.h6, modifier = Modifier.fillMaxWidth())
+        Text(
+            title,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.fillMaxWidth(),
+        )
         if (summary?.isNotEmpty() == true) {
             Spacer(modifier = Modifier.requiredHeight(2.dp))
             Text(
                 summary,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -197,11 +201,9 @@ fun ShowAssetContentDialog(asset: String, visible: Boolean, onDismiss: () -> Uni
         AlertDialog(
             onDismissRequest = onDismiss,
             modifier = Modifier.fillMaxHeight(.95f),
-            buttons = {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = onDismiss) {
-                        Text(stringResource(id = android.R.string.ok))
-                    }
+            confirmButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(id = android.R.string.ok))
                 }
             },
             text = {

@@ -8,23 +8,25 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.OpenInBrowser
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +53,7 @@ interface SpotListUiCallback {
 /**
  * Spot list UI in Compose way.
  */
+@ExperimentalMaterial3Api
 @Composable
 fun SpotListUi(
     list: List<SpotList>,
@@ -63,19 +66,14 @@ fun SpotListUi(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar {
-                IconButton(onClick = { onBackPress?.invoke() }) {
-                    Icon(
-                        Icons.Rounded.ArrowBack,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.onPrimary,
-                    )
-                }
-                Text(
-                    stringResource(id = R.string.title_section3),
-                    color = MaterialTheme.colors.onPrimary,
-                )
-            }
+            MediumTopAppBar(
+                title = { Text(stringResource(id = R.string.title_section3)) },
+                navigationIcon = {
+                    IconButton(onClick = { onBackPress?.invoke() }) {
+                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
+                    }
+                },
+            )
         },
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
@@ -86,7 +84,7 @@ fun SpotListUi(
                         .padding(32.dp),
                     contentAlignment = Alignment.Center,
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
             } else {
                 CityPane(
@@ -95,6 +93,7 @@ fun SpotListUi(
                     modifier = Modifier.fillMaxWidth(),
                     selected = selectedCity,
                 )
+                Spacer(modifier = Modifier.requiredHeight(8.dp))
                 Separator()
                 SpotPane(
                     list = list.find { c -> c.cityId == selectedCity } ?: SpotList(0),
@@ -106,6 +105,7 @@ fun SpotListUi(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview("list", showSystemUi = true)
 @Preview("list night", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -122,10 +122,10 @@ private fun CityPane(
     modifier: Modifier,
     selected: Int = 0,
 ) {
-    val primaryColor = MaterialTheme.colors.primary
+    val primaryColor = MaterialTheme.colorScheme.primary
     val secondaryColor = primaryColor.copy(alpha = .8f)
 
-    LazyRow(modifier = modifier.padding(8.dp)) {
+    LazyRow(modifier = modifier.padding(horizontal = 16.dp)) {
         items(list) { city ->
             TextButton(
                 onClick = { onCityClick.invoke(city) },
@@ -158,12 +158,13 @@ private fun SpotPane(list: SpotList, onSpotClick: (SpotInfo) -> Unit, modifier: 
                 Text(
                     spot.spotName,
                     modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 IconButton(onClick = { onSpotClick.invoke(spot) }) {
                     Icon(
                         Icons.Rounded.OpenInBrowser,
                         contentDescription = stringResource(id = R.string.action_go_to_website),
-                        tint = MaterialTheme.colors.secondary.copy(alpha = .5f),
+                        tint = MaterialTheme.colorScheme.secondary.copy(alpha = .5f),
                     )
                 }
             }

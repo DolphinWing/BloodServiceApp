@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -11,14 +12,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +64,7 @@ interface WelcomeUiCallback {
 /**
  * Welcome UI in Compose way.
  */
+@ExperimentalMaterial3Api
 @Composable
 fun WelcomeUi(
     list: List<BloodCenter.Center>,
@@ -72,13 +78,16 @@ fun WelcomeUi(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar {
-                Image(
-                    painterResource(id = R.mipmap.ic_adaptive_launcher_fg),
-                    contentDescription = null
-                )
-                Text(stringResource(id = R.string.app_name))
-            }
+            SmallTopAppBar(
+                title = { Text(stringResource(id = R.string.app_name)) },
+                navigationIcon = {
+                    Image(
+                        painterResource(id = R.mipmap.ic_adaptive_launcher_fg),
+                        contentDescription = null,
+                        modifier = Modifier.size(48.dp),
+                    )
+                },
+            )
         },
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
@@ -87,8 +96,9 @@ fun WelcomeUi(
                 list = list,
                 selected = selected,
                 onSelectedChange = { selected = it },
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
             )
+            Spacer(modifier = Modifier.weight(1f))
             PrivacyPolicyPane(
                 onAccept = { onComplete.invoke(selected) },
                 onReview = onReview,
@@ -111,8 +121,9 @@ private fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -> Unit)? = 
         append(text.substring(0, startIndex))
         pushStyle(
             style = SpanStyle(
+                color = MaterialTheme.colorScheme.secondary,
                 textDecoration = TextDecoration.Underline,
-                color = MaterialTheme.colors.secondary,
+                fontWeight = FontWeight.Bold,
             )
         )
         append(text.substring(startIndex + 1, endIndex))
@@ -142,7 +153,7 @@ private fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -> Unit)? = 
                 }
             },
         onTextLayout = { l -> layoutResult.value = l },
-        style = MaterialTheme.typography.subtitle1,
+        style = MaterialTheme.typography.titleMedium,
     )
 }
 
@@ -153,11 +164,15 @@ private fun WelcomeCenterSelectionUi(
     onSelectedChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
+            .padding(4.dp),
+    ) {
         Text(
             stringResource(id = R.string.choose_near_by_blood_center),
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyMedium,
+            // fontWeight = FontWeight.Bold,
         )
         Spacer(modifier = Modifier.requiredHeight(8.dp))
         list.forEachIndexed { index, center ->
@@ -170,8 +185,8 @@ private fun WelcomeCenterSelectionUi(
                 if (index == selected) {
                     Icon(
                         Icons.Rounded.Check,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.secondary,
+                        contentDescription = stringResource(id = R.string.title_display),
+                        tint = MaterialTheme.colorScheme.tertiary,
                     )
                 } else {
                     Spacer(modifier = Modifier.requiredSize(24.dp))
@@ -180,12 +195,12 @@ private fun WelcomeCenterSelectionUi(
                 Column {
                     Text(
                         center.name,
-                        style = MaterialTheme.typography.body1,
+                        style = MaterialTheme.typography.titleMedium,
                     )
 
                     Text(
                         center.cities,
-                        style = MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.bodySmall,
                     )
                 }
             }
@@ -212,7 +227,7 @@ private fun PrivacyPolicyPane(
         pushStyle(
             style = SpanStyle(
                 textDecoration = TextDecoration.Underline,
-                color = MaterialTheme.colors.secondary,
+                color = MaterialTheme.colorScheme.secondary,
             )
         )
         append(target)
@@ -250,7 +265,7 @@ private fun PrivacyPolicyPane(
                 }
             },
             onTextLayout = { l -> layoutResult.value = l },
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.bodyMedium,
         )
         Spacer(modifier = Modifier.requiredHeight(16.dp))
         Button(onClick = onAccept, modifier = Modifier.requiredWidth(120.dp)) {
@@ -259,6 +274,7 @@ private fun PrivacyPolicyPane(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview("Welcome", showSystemUi = true)
 @Composable
 private fun PreviewWelcomeUi() {

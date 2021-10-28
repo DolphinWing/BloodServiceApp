@@ -19,6 +19,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
         getByName("debug") {
@@ -29,7 +30,7 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 210
+            versionCode = 211
             versionName = "3.0.3"
             dimension = "mode"
             minSdk = 21
@@ -101,6 +102,7 @@ dependencies {
     implementation(Libs.Google.material)
     implementation(Libs.AndroidX.constraintLayout)
     implementation(Libs.AndroidX.preference)
+    implementation(Libs.AndroidX.activity)
 
     // play services
     implementation(Libs.Google.PlayServices.core)
@@ -136,6 +138,7 @@ dependencies {
     implementation(Libs.AndroidX.Compose.foundation)
     implementation(Libs.AndroidX.Compose.layout)
     implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.material3)
     implementation(Libs.AndroidX.Compose.materialIcons)
     implementation(Libs.AndroidX.Compose.uiTooling)
 }

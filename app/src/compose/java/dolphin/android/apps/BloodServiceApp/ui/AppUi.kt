@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -12,20 +13,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.os.BuildCompat
 import dolphin.android.apps.BloodServiceApp.AppDataModel
-import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
@@ -37,24 +39,23 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList
  *
  * @param content page content
  */
+@SuppressLint("NewApi")
 @Composable
-fun AppTheme(dark: Boolean = isSystemInDarkTheme(), content: @Composable BoxScope.() -> Unit) {
-    val colors = if (dark) darkColors(
-        primary = colorResource(id = R.color.material_orange_300),
-        primaryVariant = colorResource(id = R.color.bloody_popup_color),
-        onPrimary = Color.White,
-        secondary = colorResource(id = R.color.bloody_accent_color),
-        onSecondary = Color.White,
-    ) else lightColors(
-        primary = colorResource(id = R.color.bloody_color),
-        primaryVariant = colorResource(id = R.color.bloody_darker_color),
-        onPrimary = Color.Black,
-        secondary = colorResource(id = R.color.material_light_green_400),
-        onSecondary = Color.Black,
-    )
+fun AppTheme(
+    dark: Boolean = isSystemInDarkTheme(),
+    dynamic: Boolean = BuildCompat.isAtLeastS(),
+    content: @Composable BoxScope.() -> Unit
+) {
+    val colorScheme = when {
+        dynamic && dark -> dynamicDarkColorScheme(LocalContext.current)
+        dynamic && !dark -> dynamicLightColorScheme(LocalContext.current)
+        dark -> DarkThemeColors
+        else -> LightThemeColors
+    }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colorScheme,
+        typography = AppTypography,
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -77,7 +78,7 @@ fun Separator(
     modifier: Modifier = Modifier,
     horizontalPadding: Dp = 8.dp,
     verticalPadding: Dp = 4.dp,
-    color: Color = Color.LightGray.copy(alpha = .5f),
+    color: Color = MaterialTheme.colorScheme.outline.copy(alpha = .25f),
 ) {
     Spacer(
         modifier = modifier
@@ -116,6 +117,8 @@ interface AppUiCallback : WelcomeUiCallback, MainUiCallback, SpotListUiCallback,
  * @param callback a interface to interact with the main controller (usually a Activity or Fragment)
  * @param modifier [Modifier] to apply to this layout node.
  */
+@SuppressLint("NewApi")
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
 fun AppUiPane(
@@ -148,7 +151,7 @@ fun AppUiPane(
                         selected = selected.value ?: center.main(),
                         modifier = modifier,
                         daysList = days.value,
-                        storageMap = maps.value ?: HashMap(),
+                        storageMap = maps.value,
                         onCenterChange = { c -> callback.changeBloodCenter(c) },
                         onAddCalendar = { event -> callback.addToCalendar(event) },
                         enableAddCalendar = callback.enableAddToCalendar(),

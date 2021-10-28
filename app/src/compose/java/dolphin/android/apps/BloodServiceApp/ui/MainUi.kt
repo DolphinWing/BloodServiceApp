@@ -18,16 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
@@ -35,6 +26,14 @@ import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.OpenInBrowser
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -132,6 +131,7 @@ typealias BloodCenterCallback = (BloodCenter.Center) -> Unit
 /**
  * Main UI in Compose way.
  */
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
 fun MainUi(
@@ -157,31 +157,25 @@ fun MainUi(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar {
-                Text(
-                    selected.name,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 12.dp),
-                    // style = MaterialTheme.typography.h6,
-                )
-
-                IconButton(onClick = { onFacebookClick?.invoke(selected) }) {
-                    Image(
-                        painterResource(id = R.drawable.ic_action_facebook),
-                        contentDescription = stringResource(id = R.string.action_go_to_facebook),
-                    )
+            MediumTopAppBar(
+                title = {
+                    Text(selected.name)
+                },
+                actions = {
+                    IconButton(onClick = { onFacebookClick?.invoke(selected) }) {
+                        Image(
+                            painterResource(id = R.drawable.ic_action_facebook),
+                            contentDescription = stringResource(id = R.string.action_go_to_facebook),
+                        )
+                    }
                 }
-            }
+            )
         },
         bottomBar = {
-            BottomAppBar {
+            Row(modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)) {
                 TextButton(
                     onClick = { onDonorClick?.invoke() },
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = MaterialTheme.colors.onPrimary,
-                    )
                 ) {
                     Icon(
                         Icons.Rounded.OpenInBrowser,
@@ -215,45 +209,15 @@ fun MainUi(
             )
 
             Separator()
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(id = R.string.section2_summary),
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 8.dp)
-                        .weight(1f),
-                    color = MaterialTheme.colors.onSurface,
-                    style = MaterialTheme.typography.h6,
-                )
-                TextButton(onClick = { onReviewSource?.invoke(selected) }) {
-                    Icon(
-                        Icons.Rounded.OpenInBrowser,
-                        contentDescription = stringResource(id = R.string.action_go_to_website),
-                    )
-                    Text(stringResource(id = R.string.action_go_to_website))
-                }
-                Spacer(modifier = Modifier.requiredWidth(4.dp))
-            }
-            if (daysList.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                DonationPane(
-                    donations = daysList,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    enableAddCalendar, onAddCalendar, enableSearchOnMap, onSearchOnMap,
-                )
-            }
+            DayListPane(
+                daysList = daysList,
+                modifier = Modifier.weight(1f),
+                showAddCalendar = enableAddCalendar,
+                onAddCalendar = onAddCalendar,
+                showSearchOnMap = enableSearchOnMap,
+                onSearchOnMap = onSearchOnMap,
+                onReviewSource = { onReviewSource?.invoke(selected) },
+            )
 
             Separator()
             Row(
@@ -266,8 +230,7 @@ fun MainUi(
                 Text(
                     stringResource(id = R.string.section3_summary),
                     modifier = Modifier.weight(1f),
-                    color = MaterialTheme.colors.onSurface,
-                    style = MaterialTheme.typography.h6,
+                    style = MaterialTheme.typography.titleLarge,
                 )
                 Icon(
                     Icons.Rounded.KeyboardArrowRight,
@@ -288,6 +251,7 @@ fun MainUi(
 
 }
 
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Preview("Main Ui", showSystemUi = true)
 @Preview("Main Ui Night", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -303,6 +267,7 @@ private fun PreviewMainUi() {
     }
 }
 
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Preview("Main Ui: hide", showSystemUi = true)
 @Preview("Main Ui Night", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -329,24 +294,21 @@ private fun PrivacyReviewSnackbar(
 ) {
     Row(
         modifier = modifier
-            .background(MaterialTheme.colors.secondary)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(start = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             stringResource(id = R.string.snackbar_privacy_policy_updated),
             modifier = Modifier.weight(1f),
-            style = MaterialTheme.typography.body2,
-            color = MaterialTheme.colors.onSecondary,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
         )
         TextButton(onClick = { onReviewIgnore?.invoke() }) {
             Text(stringResource(id = R.string.snackbar_privacy_policy_ignore))
         }
         TextButton(
             onClick = { onReviewPolicy?.invoke() },
-            colors = ButtonDefaults.textButtonColors(
-                contentColor = MaterialTheme.colors.onPrimary,
-            ),
         ) {
             Text(stringResource(id = R.string.snackbar_privacy_policy_review))
         }
@@ -368,9 +330,9 @@ private fun SwitchCenterPane(
             Text(
                 stringResource(id = R.string.section0_summary),
                 modifier = Modifier
-                    .background(MaterialTheme.colors.surface)
+                    .background(MaterialTheme.colorScheme.surface)
                     .padding(start = 16.dp), // , end = 4.dp
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
         items(selection) { center ->
@@ -404,8 +366,7 @@ private fun StoragePane(
     ) {
         Text(
             stringResource(id = R.string.section1_summary),
-            color = MaterialTheme.colors.onSurface,
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.titleLarge,
         )
         Spacer(modifier = Modifier.requiredWidth(8.dp))
 
@@ -438,8 +399,61 @@ private fun StoragePane(
 }
 
 @Composable
+private fun DayListPane(
+    daysList: List<DonateDay>,
+    modifier: Modifier = Modifier,
+    showAddCalendar: Boolean = true,
+    onAddCalendar: ((DonateActivity) -> Unit)? = null,
+    showSearchOnMap: Boolean = true,
+    onSearchOnMap: ((DonateActivity) -> Unit)? = null,
+    onReviewSource: (() -> Unit)? = null,
+) {
+    Column(modifier = modifier) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                stringResource(id = R.string.section2_summary),
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 8.dp)
+                    .weight(1f),
+                style = MaterialTheme.typography.titleLarge,
+            )
+            TextButton(onClick = { onReviewSource?.invoke() }) {
+                Icon(
+                    Icons.Rounded.OpenInBrowser,
+                    contentDescription = stringResource(id = R.string.action_go_to_website),
+                )
+                Text(stringResource(id = R.string.action_go_to_website))
+            }
+            Spacer(modifier = Modifier.requiredWidth(4.dp))
+        }
+        if (daysList.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            }
+        } else {
+            DonationPane(
+                donations = daysList,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                showAddCalendar, onAddCalendar, showSearchOnMap, onSearchOnMap,
+            )
+        }
+    }
+}
+
+@Composable
 private fun DonationPane(
-    donations: List<DonateDay>, modifier: Modifier = Modifier,
+    donations: List<DonateDay>,
+    modifier: Modifier = Modifier,
     showAddCalendar: Boolean = true,
     onAddCalendar: ((DonateActivity) -> Unit)? = null,
     showSearchOnMap: Boolean = true,
@@ -476,7 +490,7 @@ private fun DonationPane(
                 Text(
                     stringResource(id = R.string.title_data_not_available),
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         }
@@ -488,7 +502,7 @@ private fun DayPane(day: DonateDay, modifier: Modifier = Modifier) {
     Text(
         day.dateString,
         modifier = modifier
-            .background(MaterialTheme.colors.secondary.copy(alpha = .1f))
+            .background(MaterialTheme.colorScheme.secondary.copy(alpha = .1f))
             .padding(start = 16.dp, top = 12.dp, bottom = 8.dp, end = 16.dp),
     )
 }
@@ -502,7 +516,7 @@ private fun EventPane(
     showSearchOnMap: Boolean = true,
     onSearchOnMap: ((DonateActivity) -> Unit)? = null,
 ) {
-    val buttonColor = MaterialTheme.colors.secondary.copy(alpha = .5f)
+    val buttonColor = MaterialTheme.colorScheme.secondary.copy(alpha = .5f)
     // See https://developer.android.com/jetpack/compose/accessibility
     val addLabel = stringResource(id = R.string.action_add_to_calendar)
     val searchLabel = stringResource(id = R.string.action_search_location)
@@ -531,32 +545,43 @@ private fun EventPane(
                 onClick = { onAddCalendar?.invoke(event) },
                 modifier = Modifier.clearAndSetSemantics { }, // merge to Row
             ) {
-                Icon(Icons.Rounded.Schedule, contentDescription = addLabel, tint = buttonColor)
+                Icon(
+                    Icons.Rounded.Schedule,
+                    contentDescription = addLabel,
+                    tint = buttonColor,
+                )
             }
         } else {
             Spacer(modifier = Modifier.requiredWidth(28.dp))
         }
         Column {
-            Text(event.startTimeString, style = MaterialTheme.typography.caption)
+            Spacer(modifier = Modifier.requiredHeight(2.dp))
+            Text(
+                event.startTimeString,
+                style = MaterialTheme.typography.labelMedium,
+            )
             Spacer(
                 modifier = Modifier
-                    .requiredHeight(4.dp)
+                    .requiredHeight(2.dp)
                     .semantics { stateDescription = timeToLabel }, // add hidden semantics
             )
-            Text(event.endTimeString, style = MaterialTheme.typography.caption)
+            Text(
+                event.endTimeString,
+                style = MaterialTheme.typography.labelMedium,
+            )
         }
         Spacer(modifier = Modifier.requiredWidth(8.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 event.name,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.titleSmall,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
             )
-            // Spacer(modifier = Modifier.requiredHeight(4.dp))
+            Spacer(modifier = Modifier.requiredHeight(4.dp))
             Text(
                 event.location,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodySmall,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
             )
@@ -566,7 +591,11 @@ private fun EventPane(
                 onClick = { onSearchOnMap?.invoke(event) },
                 modifier = Modifier.clearAndSetSemantics { }, // merge to Row
             ) {
-                Icon(Icons.Rounded.Map, contentDescription = searchLabel, tint = buttonColor)
+                Icon(
+                    Icons.Rounded.Map,
+                    contentDescription = searchLabel,
+                    tint = buttonColor,
+                )
             }
         } else {
             Spacer(modifier = Modifier.requiredWidth(12.dp))

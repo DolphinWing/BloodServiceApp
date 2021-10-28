@@ -12,7 +12,7 @@ object Versions {
         const val analytics = "17.0.0"
         const val ads = "20.4.0"
 
-        const val material: String = "1.4.0"
+        const val material: String = "1.5.0-alpha05"
     }
 
     const val okhttp: String = "4.9.2"
@@ -20,17 +20,17 @@ object Versions {
     object AndroidX {
         const val appcompat: String = "1.3.1"
 
-        const val coreKtx: String = "1.6.0"
+        const val coreKtx: String = "1.7.0"
 
-        const val lifecycle: String = "2.3.1"
-        const val viewModelCompose = "1.0.0-alpha07"
+        const val lifecycle: String = "2.4.0"
+        // const val viewModelCompose = "1.0.0-alpha07"
 
         const val constraintLayout: String = "2.1.1"
 
         /**
          * https://developer.android.com/jetpack/androidx/releases/activity
          */
-        const val activity = "1.3.1"
+        const val activity = "1.4.0"
 
         /**
          * https://developer.android.com/jetpack/androidx/releases/fragment
@@ -51,6 +51,7 @@ object Versions {
          * https://developer.android.com/jetpack/androidx/releases/compose
          */
         const val compose = "1.0.4"
+        const val composeMaterial3 = "1.0.0-alpha01"
     }
 
     object Firebase {
@@ -113,6 +114,7 @@ object Libs {
         const val constraintLayout: String =
             "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.constraintLayout}"
 
+        const val activity = "androidx.activity:activity-ktx:${Versions.AndroidX.activity}"
         const val fragment: String = "androidx.fragment:fragment-ktx:${Versions.AndroidX.fragment}"
 
         const val recyclerView: String =
@@ -147,7 +149,7 @@ object Libs {
             const val activity =
                 "androidx.activity:activity-compose:${Versions.AndroidX.activity}"
             const val lifecycle =
-                "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.viewModelCompose}"
+                "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.lifecycle}"
 
             const val core = "androidx.compose.ui:ui:${Versions.AndroidX.compose}"
             const val compiler = "androidx.compose.compiler:compiler:${Versions.AndroidX.compose}"
@@ -158,6 +160,8 @@ object Libs {
                 "androidx.compose.foundation:foundation-layout:${Versions.AndroidX.compose}"
 
             const val material = "androidx.compose.material:material:${Versions.AndroidX.compose}"
+            const val material3 =
+                "androidx.compose.material3:material3:${Versions.AndroidX.composeMaterial3}"
 //            const val materialRipple =
 //                "androidx.compose.material:material-ripple:${Versions.AndroidX.compose}"
             const val materialIcons =

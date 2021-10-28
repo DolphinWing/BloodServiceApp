@@ -2,6 +2,7 @@ package dolphin.android.apps.BloodServiceApp
 
 import android.app.Application
 import android.content.Context
+import com.google.android.material.color.DynamicColors
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
@@ -19,5 +20,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Firebase.remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+        // https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md#apply-dynamic-colors-to-all-activities-in-the-app
+        DynamicColors.applyToActivitiesIfAvailable(this)
     }
 }
