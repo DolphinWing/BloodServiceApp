@@ -49,8 +49,8 @@ fun AppTheme(
     val colorScheme = when {
         dynamic && dark -> dynamicDarkColorScheme(LocalContext.current)
         dynamic && !dark -> dynamicLightColorScheme(LocalContext.current)
-        dark -> DarkThemeColors
-        else -> LightThemeColors
+        dark -> AppDarkThemeColors
+        else -> AppLightThemeColors
     }
 
     MaterialTheme(

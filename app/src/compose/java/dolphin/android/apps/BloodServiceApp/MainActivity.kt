@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -266,7 +267,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun showAssetInDialog(title: Int, asset: String) {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle(title)
             .setMessage(PrefsUtil.read_asset_text(this, asset, "UTF-8"))
             .setPositiveButton(android.R.string.ok, null)

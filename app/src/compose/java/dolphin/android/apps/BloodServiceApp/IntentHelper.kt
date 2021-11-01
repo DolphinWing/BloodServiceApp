@@ -5,10 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
-import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
@@ -52,7 +51,7 @@ object IntentHelper {
      */
     fun searchOnMap(activity: AppCompatActivity, event: DonateActivity) {
         val list = event.prepareLocationList(activity).toTypedArray()
-        AlertDialog.Builder(activity)
+        MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.action_search_on_maps)
             .setCancelable(true)
             .setItems(list) { _, index ->

@@ -30,8 +30,8 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 211
-            versionName = "3.0.3"
+            versionCode = 212
+            versionName = "3.1.0"
             dimension = "mode"
             minSdk = 21
         }
@@ -99,10 +99,11 @@ dependencies {
     implementation(Libs.AndroidX.swipeRefreshLayout)
     // implementation(Libs.AndroidX.browser)
     implementation(Libs.AndroidX.recyclerView)
-    implementation(Libs.Google.material)
     implementation(Libs.AndroidX.constraintLayout)
     implementation(Libs.AndroidX.preference)
     implementation(Libs.AndroidX.activity)
+    implementation(Libs.Google.material)
+    // implementation(Libs.Google.mdcAdapter)
 
     // play services
     implementation(Libs.Google.PlayServices.core)

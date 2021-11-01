@@ -28,6 +28,6 @@
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
         <!-- https://stackoverflow.com/a/27839184 -->
-        <item name="android:navigationBarColor">@color/md_theme_dark_surfaceVariant</item>
+        <!--<item name="android:navigationBarColor">@color/md_theme_dark_surfaceVariant</item>-->
     </style>
 </resources>

@@ -31,7 +31,7 @@ private val md_theme_light_outline = Color(0xFF837569)
 private val md_theme_light_inverseOnSurface = Color(0xFFfaefe7)
 private val md_theme_light_inverseSurface = Color(0xFF352f2a)
 
-val LightThemeColors = lightColorScheme(
+val AppLightThemeColors = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
     primaryContainer = md_theme_light_primaryContainer,
@@ -85,7 +85,7 @@ private val md_theme_dark_outline = Color(0xFF9e8e81)
 private val md_theme_dark_inverseOnSurface = Color(0xFF1f1b17)
 private val md_theme_dark_inverseSurface = Color(0xFFebe0d9)
 
-val DarkThemeColors = darkColorScheme(
+val AppDarkThemeColors = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
     primaryContainer = md_theme_dark_primaryContainer,

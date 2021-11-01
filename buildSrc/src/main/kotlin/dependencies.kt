@@ -1,4 +1,3 @@
-
 /**
  * https://github.com/ben-manes/gradle-versions-plugin
  * ./gradlew dependencyUpdates
@@ -55,7 +54,7 @@ object Versions {
     }
 
     object Firebase {
-        const val bom: String = "28.4.2"
+        const val bom: String = "29.0.0"
 
         const val core: String = "19.0.0"
         const val analytics: String = "19.0.0"
@@ -96,6 +95,8 @@ object Libs {
          */
         const val material: String =
             "com.google.android.material:material:${Versions.Google.material}"
+        const val mdcAdapter =
+            "com.google.android.material:compose-theme-adapter:${Versions.AndroidX.compose}"
     }
 
     /**
@@ -162,10 +163,10 @@ object Libs {
             const val material = "androidx.compose.material:material:${Versions.AndroidX.compose}"
             const val material3 =
                 "androidx.compose.material3:material3:${Versions.AndroidX.composeMaterial3}"
-//            const val materialRipple =
-//                "androidx.compose.material:material-ripple:${Versions.AndroidX.compose}"
             const val materialIcons =
                 "androidx.compose.material:material-icons-extended:${Versions.AndroidX.compose}"
+            const val materialRipple =
+                "androidx.compose.material:material-ripple:${Versions.AndroidX.compose}"
 
             const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.AndroidX.compose}"
         }

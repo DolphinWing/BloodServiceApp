@@ -10,6 +10,10 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[212] @ 2021-11-01
+    fix navigation bar color
+    fix material you alert dialog
+
 [211] @ 2021-10-29
     Material 3 style
 
