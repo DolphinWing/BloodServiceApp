@@ -73,14 +73,14 @@ class SplashActivity : AppCompatActivity() {
             return
         }
 
-        //startMainActivity()
+        // startMainActivity()
         prepareRemoteConfig()
-        handler.sendEmptyMessageDelayed(1, 1000) //show loading
+        handler.sendEmptyMessageDelayed(1, 1000) // show loading
     }
 
     private fun checkGoogleApiAvailability(): Boolean {
-        //http://stackoverflow.com/a/31016761/2673859
-        //check google play service and authentication
+        // http://stackoverflow.com/a/31016761/2673859
+        // check google play service and authentication
         val googleAPI = GoogleApiAvailability.getInstance()
         val result = googleAPI.isGooglePlayServicesAvailable(this)
         if (result != ConnectionResult.SUCCESS) {
@@ -90,14 +90,14 @@ class SplashActivity : AppCompatActivity() {
             val dialog = googleAPI.getErrorDialog(this, result, 0)
             dialog?.setOnDismissListener { prepareRemoteConfig() }
             dialog?.show()
-            return false//don't show progress bar
+            return false // don't show progress bar
         }
 
         return true
     }
 
     private fun prepareRemoteConfig() {
-        //Google Mobile Ads SDK version 17.0.0
+        // Google Mobile Ads SDK version 17.0.0
         MobileAds.initialize(this) { status ->
             status.adapterStatusMap.values.forEach { s ->
                 Log.v(TAG, "MobileAds: ${s.initializationState.name} ${s.description}")
@@ -122,7 +122,7 @@ class SplashActivity : AppCompatActivity() {
     private fun checkPrivacyPolicyReview() {
         val prefs = PrefsUtil.getDefaultPreference(this)
         val updateCode = FirebaseRemoteConfig.getInstance().getLong("privacy_policy_update_code")
-        //if private policy has been updated
+        // if private policy has been updated
         if (!prefs.getBoolean(NavigationDrawerFragment.PREF_USER_LEARNED_DRAWER, false) &&
             prefs.getLong(MainActivity.PREF_PRIVATE_POLICY, 0) < updateCode
         ) {
@@ -131,26 +131,29 @@ class SplashActivity : AppCompatActivity() {
                 prefs.edit().putLong(MainActivity.PREF_PRIVATE_POLICY, updateCode).apply()
                 startMainActivity() // confirm policy
             }
-            //https://stackoverflow.com/q/5183645/2673859
+            // https://stackoverflow.com/q/5183645/2673859
             val text = getString(R.string.splash_privacy_policy_review)
             val target = getString(R.string.app_privacy_policy)
             val startIndex = text.indexOf(target)
             val span = Spannable.Factory.getInstance().newSpannable(text)
-            span.setSpan(object : ClickableSpan() {
-                override fun onClick(view: View) {
-                    //Toast.makeText(this@SplashActivity, "!", Toast.LENGTH_SHORT).show()
-                    SettingsFragment.showPrivacyPolicyReview(this@SplashActivity)
-                }
-            }, startIndex, startIndex + target.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            span.setSpan(
+                object : ClickableSpan() {
+                    override fun onClick(view: View) {
+                        // Toast.makeText(this@SplashActivity, "!", Toast.LENGTH_SHORT).show()
+                        SettingsFragment.showPrivacyPolicyReview(this@SplashActivity)
+                    }
+                },
+                startIndex, startIndex + target.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             findViewById<TextView>(android.R.id.text1)?.apply {
                 setText(span)
                 movementMethod = LinkMovementMethod.getInstance()
             }
         } else {
-            startMainActivity() //everything is ready
+            startMainActivity() // everything is ready
         }
-        handler.removeMessages(1) //cancel delay message to show loading
-        handler.sendEmptyMessage(0) //hide loading
+        handler.removeMessages(1) // cancel delay message to show loading
+        handler.sendEmptyMessage(0) // hide loading
     }
 
     private fun startMainActivity() {
@@ -168,7 +171,7 @@ class SplashActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (checkGoogleApiAvailability()) {
             prepareRemoteConfig()
-            handler.sendEmptyMessage(1) //show loading
+            handler.sendEmptyMessage(1) // show loading
         } else {
             Log.e(TAG, "onActivityResult still no google api")
             finish()

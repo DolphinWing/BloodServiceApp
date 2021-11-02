@@ -4,7 +4,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath (Libs.Google.gradleBuildTool)
@@ -17,7 +16,13 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
+        jcenter() {
+            content {
+                // https://github.com/davideas/FlexibleAdapter/issues/768
+                includeModule("eu.davidea", "flexible-adapter")
+                includeModule("eu.davidea", "flexible-adapter-ui")
+            }
+        }
     }
 }
 

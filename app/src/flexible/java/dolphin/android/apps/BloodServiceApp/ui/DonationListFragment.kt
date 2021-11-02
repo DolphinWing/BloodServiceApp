@@ -1,5 +1,3 @@
-@file:Suppress("PackageName")
-
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.content.Intent
@@ -24,11 +22,16 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.IntentBuilder
 import dolphin.android.util.PackageUtils
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.items.*
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import eu.davidea.flexibleadapter.items.AbstractHeaderItem
+import eu.davidea.flexibleadapter.items.AbstractSectionableItem
+import eu.davidea.flexibleadapter.items.IFlexible
+import eu.davidea.flexibleadapter.items.IHeader
 import eu.davidea.viewholders.FlexibleViewHolder
 
-
-class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
+class DonationListFragment :
+    Fragment(),
+    FlexibleAdapter.OnItemClickListener,
     FlexibleAdapter.OnItemLongClickListener {
     companion object {
         private const val TAG = "DonationListFragment"
@@ -42,13 +45,17 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = PrefsUtil(requireActivity())
-        viewModel.siteId.observe(this, Observer { id ->
-            queryData(id)
-        })
+        viewModel.siteId.observe(
+            this,
+            Observer { id ->
+                queryData(id)
+            }
+        )
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(
         R.layout.fragment_recycler_view, container, false
@@ -68,57 +75,62 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     private val adapterList = ArrayList<AbstractFlexibleItem<*>>()
 
     private fun queryData(siteId: Int) {
-        //Log.d(TAG, "start query data")
+        // Log.d(TAG, "start query data")
         activity?.runOnUiThread {
             swipeRefreshLayout?.isEnabled = true
             swipeRefreshLayout?.isRefreshing = true
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
-        viewModel.getDonationData(siteId).observe(viewLifecycleOwner, Observer { dayList ->
-            //Log.d(TAG, "donation list: ${dayList?.size}")
-            adapterList.clear()
-            val list = ArrayList<AbstractFlexibleItem<*>>()
-            dayList?.forEach { day ->
-                //Log.d(TAG, "${it.dateString} has ${it.activityCount}")
-                if (day.activities.isNotEmpty()) {//make sure it is not empty
-                    val dateItem = DateItem(day)
-                    adapterList.add(dateItem)
-                    day.activities.forEach { act ->
-                        //Log.d(TAG, "  ${it.name} @ ${it.location}")
-                        adapterList.add(ActivityItem(dateItem, act))
-                        list.add(adapterList.last())
+        viewModel.getDonationData(siteId).observe(
+            viewLifecycleOwner,
+            Observer { dayList ->
+                // Log.d(TAG, "donation list: ${dayList?.size}")
+                adapterList.clear()
+                val list = ArrayList<AbstractFlexibleItem<*>>()
+                dayList?.forEach { day ->
+                    // Log.d(TAG, "${it.dateString} has ${it.activityCount}")
+                    if (day.activities.isNotEmpty()) { // make sure it is not empty
+                        val dateItem = DateItem(day)
+                        adapterList.add(dateItem)
+                        day.activities.forEach { act ->
+                            // Log.d(TAG, "  ${it.name} @ ${it.location}")
+                            adapterList.add(ActivityItem(dateItem, act))
+                            list.add(adapterList.last())
+                        }
+                    } else {
+                        Log.w(TAG, "no activities in ${day.dateString}")
                     }
-                } else {
-                    Log.w(TAG, "no activities in ${day.dateString}")
                 }
-            }
-            //Log.d(TAG, "adapter list size: ${adapterList.size}")
-            val adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
-                setStickyHeaders(prefs?.isHeaderSticky ?: true)
-                setDisplayHeadersAtStartUp(true)
-            }
-            recyclerView?.adapter = adapter
+                // Log.d(TAG, "adapter list size: ${adapterList.size}")
+                val adapter = FlexibleAdapter(list, this@DonationListFragment).apply {
+                    setStickyHeaders(prefs?.isHeaderSticky ?: true)
+                    setDisplayHeadersAtStartUp(true)
+                }
+                recyclerView?.adapter = adapter
 //            try {
 //                //fix Enable sticky headers after setting Adapter to RecyclerView
 //                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
 //            } catch (e: IllegalStateException) {
 //                //try to catch the exception
 //            }
-            recyclerView?.contentDescription = null
-            swipeRefreshLayout?.isRefreshing = false
-            swipeRefreshLayout?.isEnabled = false
-        })
+                recyclerView?.contentDescription = null
+                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout?.isEnabled = false
+            }
+        )
     }
 
     /**
      * https://github.com/davideas/FlexibleAdapter/wiki/5.x-%7C-Headers-and-Sections#sticky-headers
      */
-    internal class DateItem(private val day: DonateDay) : AbstractHeaderItem<FlexibleViewHolder>(),
+    internal class DateItem(private val day: DonateDay) :
+        AbstractHeaderItem<FlexibleViewHolder>(),
         IHeader<FlexibleViewHolder> {
 
         override fun bindViewHolder(
             adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-            holder: FlexibleViewHolder?, position: Int,
+            holder: FlexibleViewHolder?,
+            position: Int,
             list: MutableList<Any>?
         ) {
             (holder as? DateHolder)?.apply {
@@ -136,8 +148,8 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         override fun createViewHolder(
             view: View?,
             adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
-        )
-            : FlexibleViewHolder = DateHolder(view, adapter)
+        ): FlexibleViewHolder =
+            DateHolder(view, adapter)
 
         override fun getLayoutRes() = if (day.activityCount > 0) {
             R.layout.listview_donation_date
@@ -161,12 +173,13 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         override fun createViewHolder(
             view: View?,
             adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
-        )
-            : FlexibleViewHolder = ActivityHolder(view, adapter)
+        ): FlexibleViewHolder =
+            ActivityHolder(view, adapter)
 
         override fun bindViewHolder(
             adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-            holder: FlexibleViewHolder?, position: Int,
+            holder: FlexibleViewHolder?,
+            position: Int,
             list: MutableList<Any>?
         ) {
             (holder as? ActivityHolder)?.apply {
@@ -176,7 +189,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                 endTime?.text = activity.endTimeString
                 this.itemView.contentDescription = activity.accessibilityString
             }
-            //fragment.registerForContextMenu(holder?.itemView)
+            // fragment.registerForContextMenu(holder?.itemView)
         }
 
         override fun equals(other: Any?) = (other as? ActivityItem)?.activity == activity
@@ -195,12 +208,12 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
-        //Log.d(TAG, "onItemClick $position")
+        // Log.d(TAG, "onItemClick $position")
         return false
     }
 
     override fun onItemLongClick(position: Int) {
-        //Log.d(TAG, "onItemLongClick $position")
+        // Log.d(TAG, "onItemLongClick $position")
         (adapterList[position] as? ActivityItem)?.let { item ->
             Log.d(TAG, "  ${item.activity.name}")
 
@@ -212,7 +225,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
                         getString(R.string.action_search_location)
                     )
                 ) { _, index ->
-                    //Log.d(TAG, "select $index")
+                    // Log.d(TAG, "select $index")
                     when (index) {
                         0 -> addActivityToCalendar(item.activity)
                         1 -> showSearchMapDialog(item.activity)
@@ -222,8 +235,8 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         }
     }
 
-    //Android Essentials: Adding Events to the User’s Calendar
-    //http://goo.gl/jyT75l
+    // Android Essentials: Adding Events to the User’s Calendar
+    // http://goo.gl/jyT75l
     private fun addActivityToCalendar(donation: DonateActivity) {
         val calIntent = Intent(Intent.ACTION_INSERT).apply {
             setDataAndType(CalendarContract.Events.CONTENT_URI, "vnd.android.cursor.item/event")
@@ -247,7 +260,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
         AlertDialog.Builder(requireActivity())
             .setTitle(R.string.action_search_on_maps)
             .setItems(list) { _, index ->
-                //Log.d(TAG, "select $index ${list[index]}")
+                // Log.d(TAG, "select $index ${list[index]}")
                 if (IntentBuilder.isGoogleMapsInstalled(activity)) {
                     openActivityOnGoogleMaps(list[index])
                 } else {
@@ -266,7 +279,7 @@ class DonationListFragment : Fragment(), FlexibleAdapter.OnItemClickListener,
     }
 
     private fun openActivityOnGoogleMapsInBrowser(location: String) {
-        //https://www.google.com/maps/search/?api=1&query=centurylink+field
+        // https://www.google.com/maps/search/?api=1&query=centurylink+field
         val mapIntent = Intent(
             Intent.ACTION_VIEW,
             Uri.parse("https://www.google.com/maps/search/?api=1&query=$location")

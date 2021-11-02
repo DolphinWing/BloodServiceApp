@@ -2,7 +2,6 @@
 
 package dolphin.android.apps.BloodServiceApp
 
-
 import android.app.Application
 import android.content.Context
 import android.util.SparseArray

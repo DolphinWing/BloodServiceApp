@@ -6,7 +6,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import dolphin.android.apps.BloodServiceApp.R
@@ -21,16 +20,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun showAssetContentInDialog(activity: Activity, titleResId: Int, name: String,
-                                     encoding: String = "UTF-8") {
+        fun showAssetContentInDialog(
+            activity: Activity,
+            titleResId: Int,
+            name: String,
+            encoding: String = "UTF-8"
+        ) {
             AlertDialog.Builder(activity)
-                    .setTitle(titleResId)
-                    .setMessage(PrefsUtil.read_asset_text(activity, name, encoding))
-                    .setPositiveButton(android.R.string.ok, null)
-                    .setCancelable(true)
-                    .show().apply {
-                        findViewById<TextView>(android.R.id.message)?.textSize = 12f
-                    }
+                .setTitle(titleResId)
+                .setMessage(PrefsUtil.read_asset_text(activity, name, encoding))
+                .setPositiveButton(android.R.string.ok, null)
+                .setCancelable(true)
+                .show().apply {
+                    findViewById<TextView>(android.R.id.message)?.textSize = 12f
+                }
         }
     }
 
@@ -39,7 +42,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.pref_open_source)
 
         findPreference<Preference>("app_version")?.summary =
-                PackageUtils.getPackageInfo(context, this::class.java)?.versionName ?: "x.x.x"
+            PackageUtils.getPackageInfo(context, this::class.java)?.versionName ?: "x.x.x"
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {

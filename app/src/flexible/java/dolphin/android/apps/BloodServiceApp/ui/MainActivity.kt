@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     private var contentFragment: Fragment? = null
 
     private lateinit var helper: BloodDataHelper
-    //private var siteId: Int = -1
+    // private var siteId: Int = -1
     private val model: DataViewModel by viewModels()
     private val siteId: Int
         get() = model.siteId.value ?: -1
@@ -43,9 +43,12 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         super.onCreate(savedInstanceState)
 
         helper = BloodDataHelper(this)
-        model.siteId.observe(this, Observer { id ->
-            supportActionBar?.title = helper.getBloodCenterName(id)
-        })
+        model.siteId.observe(
+            this,
+            Observer { id ->
+                supportActionBar?.title = helper.getBloodCenterName(id)
+            }
+        )
 
         setContentView(R.layout.activity_main_drawer)
         findViewById<Toolbar>(R.id.toolbar)?.apply { setSupportActionBar(this) }
@@ -55,33 +58,33 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            switchToSection(menuItem.itemId) //switch when click bottom navigation
+            switchToSection(menuItem.itemId) // switch when click bottom navigation
             true
         }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         navigationFragment = NavigationDrawerFragment()
         supportFragmentManager.beginTransaction()
-                .replace(R.id.navigation_drawer, navigationFragment!!)
-                .commitNow()
+            .replace(R.id.navigation_drawer, navigationFragment!!)
+            .commitNow()
         navigationFragment?.setUp(R.id.navigation_drawer, drawerLayout)
-        //Log.d(TAG, "selected center: ${navigationFragment?.selectedCenter}")
+        // Log.d(TAG, "selected center: ${navigationFragment?.selectedCenter}")
         if (navigationFragment?.selectedCenter == Int.MIN_VALUE) {
-            //switchToSection(R.id.action_settings)
+            // switchToSection(R.id.action_settings)
             navigationFragment?.lockDrawer()
-        } else {//load data
+        } else { // load data
             model.siteId.postValue(navigationFragment?.selectedCenter ?: -1)
-            //supportActionBar?.title = helper.getBloodCenterName(siteId)
-            //switchToSection(R.id.action_section2)
+            // supportActionBar?.title = helper.getBloodCenterName(siteId)
+            // switchToSection(R.id.action_section2)
             navigationFragment?.unlockDrawer()
         }
-        //Log.d(TAG, "site id = $siteId")
-        switchToSection(R.id.action_section2) //auto load first section
+        // Log.d(TAG, "site id = $siteId")
+        switchToSection(R.id.action_section2) // auto load first section
 
         checkPrivatePolicyReview()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.action_bar_main, menu)
         return true
     }
@@ -115,17 +118,17 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
                 }
                 return true
             }
-            //R.id.action_private_policy -> {
+            // R.id.action_private_policy -> {
             //    showPrivacyPolicyReview()
             //    return true
-            //}
+            // }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
         if (contentFragment is SettingsFragment) {
-            //switchToSection(R.id.action_section2)
+            // switchToSection(R.id.action_section2)
             bottomNavigationView.selectedItemId = R.id.action_section2
             return
         }
@@ -138,10 +141,10 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
     }
 
     override fun onNavigationDrawerItemSelected(position: Int) {
-        //Log.d(TAG, "onNavigationDrawerItemSelected: $position")
+        // Log.d(TAG, "onNavigationDrawerItemSelected: $position")
         if (position == NavigationDrawerFragment.ITEM_SETTINGS) {
             switchToSection(R.id.action_settings)
-            //bottomNavigationView.selectedItemId = R.id.action_settings
+            // bottomNavigationView.selectedItemId = R.id.action_settings
             return
         }
         if (position == NavigationDrawerFragment.ITEM_PRIVACY_POLICY) {
@@ -150,7 +153,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         }
 
         model.siteId.postValue(navigationFragment?.selectedCenter ?: siteId)
-        //Log.d(TAG, ">>> site id = $siteId")
+        // Log.d(TAG, ">>> site id = $siteId")
 //        supportActionBar?.title = helper.getBloodCenterName(siteId)
 //        //refresh each fragment if exists
 //        intArrayOf(R.id.action_section1, R.id.action_section2, R.id.action_section3).forEach { id ->
@@ -177,7 +180,7 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
                 }
                 R.id.action_settings -> {
                     SettingsFragment()
-                    //bottomNavigationView.selectedItemId = R.id.action_settings
+                    // bottomNavigationView.selectedItemId = R.id.action_settings
                 }
                 else -> DonationListFragment()
             }
@@ -189,15 +192,16 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
             supportActionBar?.title = if (id == R.id.action_settings)
                 getString(R.string.action_settings) else helper.getBloodCenterName(siteId)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, fragment)
-                    .commitNowAllowingStateLoss()
+                .replace(R.id.main_container, fragment)
+                .commitNowAllowingStateLoss()
             sectionCache.put(key, fragment)
         }
-        //Log.d(TAG, "switch to section $id $contentFragment")
+        // Log.d(TAG, "switch to section $id $contentFragment")
         val settings = contentFragment is SettingsFragment
         bottomNavigationView.visibility = if (settings) View.GONE else View.VISIBLE
         supportActionBar?.setHomeAsUpIndicator(
-                if (settings) R.drawable.ic_action_arrow_back else R.drawable.ic_action_notes)
+            if (settings) R.drawable.ic_action_arrow_back else R.drawable.ic_action_notes
+        )
         invalidateOptionsMenu()
     }
 
@@ -213,19 +217,21 @@ class MainActivity : AppCompatActivity(), NavigationDrawerFragment.NavigationDra
         }
         val prefs = PrefsUtil.getDefaultPreference(this)
         val updateCode = FirebaseRemoteConfig.getInstance().getLong("privacy_policy_update_code")
-        //if private policy has been updated
+        // if private policy has been updated
         if (prefs.getLong(PREF_PRIVATE_POLICY, 0) < updateCode) {
             Handler().postDelayed({
-                Snackbar.make(findViewById(R.id.main_container),
-                        R.string.snackbar_privacy_policy_updated, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.snackbar_privacy_policy_review) {
-                            showPrivacyPolicyReview()
-                            prefs.edit().putLong(PREF_PRIVATE_POLICY, updateCode).apply()
-                        }
-                        //.setAction(R.string.snackbar_privacy_policy_ignore) {
-                        //    prefs.edit().putLong(PREF_PRIVATE_POLICY, updateCode).apply()
-                        //}
-                        .show()
+                Snackbar.make(
+                    findViewById(R.id.main_container),
+                    R.string.snackbar_privacy_policy_updated, Snackbar.LENGTH_LONG
+                )
+                    .setAction(R.string.snackbar_privacy_policy_review) {
+                        showPrivacyPolicyReview()
+                        prefs.edit().putLong(PREF_PRIVATE_POLICY, updateCode).apply()
+                    }
+                    // .setAction(R.string.snackbar_privacy_policy_ignore) {
+                    //    prefs.edit().putLong(PREF_PRIVATE_POLICY, updateCode).apply()
+                    // }
+                    .show()
             }, 10000)
         }
     }

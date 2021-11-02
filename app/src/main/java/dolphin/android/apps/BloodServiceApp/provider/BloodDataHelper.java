@@ -162,14 +162,17 @@ public class BloodDataHelper {
                     if (name.contains(separator)) {
                         name = name.substring(name.indexOf(separator) + 1);
                     }
+
                     String time = matcher.group(2).trim();
                     if (time.contains(separator)) {
                         time = time.substring(time.indexOf(separator) + 1);
                     }
+
                     String location = matcher.group(1).trim();
                     if (location.contains(separator)) {
                         location = location.substring(location.indexOf(separator) + 1);
                     }
+
                     // Log.d(TAG, String.format("    name: %s", name));
                     // Log.d(TAG, String.format(" time: %s", time));
                     // Log.d(TAG, String.format("location: %s", location));

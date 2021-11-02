@@ -3,41 +3,42 @@ package dolphin.android.apps.BloodServiceApp.provider
 import androidx.annotation.Keep
 
 /**
- * Created by jimmyhu on 2017/2/22.
  * Donation Spot information
  */
 @Keep
 data class SpotInfo(
-        /**
-         * get donation spot id
-
-         * @return donation spot id
-         */
-        val spotId: Int,
-        /**
-         * get donation spot city id
-
-         * @return city id
-         */
-        val cityId: Int,
-        /**
-         * get donation spot name
-
-         * @return donation spot name
-         */
-        val spotName: String) {
     /**
-     * get blood center site id of donation spot
-
-     * @return blood center site id
+     * donation spot id
      */
-    /**
-     * set blood center site id of donation spot
+    val spotId: Int,
 
-     * @param siteId blood center site id
+    /**
+     * donation spot city id
+     */
+    val cityId: Int,
+
+    /**
+     * donation spot name
+     */
+    val spotName: String,
+
+    /**
+     * blood center site id of donation spot
      */
     var siteId: Int = 0
-
-    constructor(spotId: String, cityId: String, name: String) : this(Integer.parseInt(spotId),
-            Integer.parseInt(cityId), name)
+) {
+    constructor(spotId: String, cityId: String, name: String) :
+        this(
+            try {
+                Integer.parseInt(spotId)
+            } catch (e: NumberFormatException) {
+                0
+            },
+            try {
+                Integer.parseInt(cityId)
+            } catch (e: NumberFormatException) {
+                0
+            },
+            name,
+        )
 }

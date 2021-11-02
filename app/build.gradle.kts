@@ -3,7 +3,8 @@ plugins {
     kotlin("android")
     // kotlin("android.extensions")
     id("com.google.gms.google-services") // Google Services Gradle plugin
-    id("com.github.ben-manes.versions") version "0.39.0"
+    id("com.github.ben-manes.versions") version Versions.gradleVersionsPlugin
+    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
 }
 
 android {
@@ -30,7 +31,7 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 212
+            versionCode = 213
             versionName = "3.1.0"
             dimension = "mode"
             minSdk = 21
@@ -112,10 +113,7 @@ dependencies {
 
     // Firebase
     implementation(platform(Libs.Firebase.bom))
-//    implementation(Libs.Firebase.core)
-//    implementation(Libs.Firebase.analytics)
     implementation("com.google.firebase:firebase-analytics-ktx")
-//    implementation(Libs.Firebase.remoteConfig)
     implementation("com.google.firebase:firebase-config-ktx")
 
     // flexible
@@ -142,4 +140,11 @@ dependencies {
     implementation(Libs.AndroidX.Compose.material3)
     implementation(Libs.AndroidX.Compose.materialIcons)
     implementation(Libs.AndroidX.Compose.uiTooling)
+}
+
+// https://github.com/jlleitschuh/ktlint-gradle
+// https://github.com/JLLeitschuh/ktlint-gradle/blob/master/samples/android-app/build.gradle.kts
+ktlint {
+    android.set(true)
+    // outputColorName.set("RED")
 }

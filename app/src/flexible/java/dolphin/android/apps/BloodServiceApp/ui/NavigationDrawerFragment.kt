@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
-import java.util.*
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -71,7 +70,8 @@ class NavigationDrawerFragment : Fragment() {
         get() = when {
             mCurrentSelectedPosition == Int.MIN_VALUE -> Int.MIN_VALUE
             activity != null ->
-                requireActivity().resources!!.getIntArray(R.array.blood_center_id)[mCurrentSelectedPosition + 1]
+                requireActivity().resources!!
+                    .getIntArray(R.array.blood_center_id)[mCurrentSelectedPosition + 1]
             else -> -1
         }
 
@@ -90,7 +90,7 @@ class NavigationDrawerFragment : Fragment() {
             mCurrentSelectedPosition = sp.getInt(PREF_USER_NEAR_BY_CENTER, Integer.MIN_VALUE)
         }
 
-        if (mCurrentSelectedPosition == 5) {//Hualien center has been merged to Taipei center
+        if (mCurrentSelectedPosition == 5) { // Hualien center has been merged to Taipei center
             mCurrentSelectedPosition = 0
         }
         // Select either the default item (0) or the last selected item.
@@ -104,13 +104,14 @@ class NavigationDrawerFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false)
 
         val centre = resources.getStringArray(R.array.blood_center)
-        val list = ArrayList(Arrays.asList(*centre))
+        val list = ArrayList(listOf(*centre))
         list.removeAt(0)
 
         mDrawerListView = layout.findViewById(android.R.id.list)
@@ -159,7 +160,7 @@ class NavigationDrawerFragment : Fragment() {
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
         if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            //mDrawerLayout.openDrawer(mFragmentContainerView);
+            // mDrawerLayout.openDrawer(mFragmentContainerView);
             openDrawer()
         }
 
@@ -182,7 +183,7 @@ class NavigationDrawerFragment : Fragment() {
         if (position == Integer.MIN_VALUE) {
             openDrawer()
             return
-        } else if (position == ITEM_SETTINGS || position == ITEM_PRIVACY_POLICY) {//settings
+        } else if (position == ITEM_SETTINGS || position == ITEM_PRIVACY_POLICY) { // settings
             closeDrawer()
             mCallbacks?.onNavigationDrawerItemSelected(position)
             return
@@ -196,7 +197,7 @@ class NavigationDrawerFragment : Fragment() {
         editor.apply()
         unlockDrawer()
 
-        //actionBar?.title = mDrawerListView.getItemAtPosition(position).toString()
+        // actionBar?.title = mDrawerListView.getItemAtPosition(position).toString()
         mDrawerListView?.setItemChecked(position, true)
         closeDrawer()
         mCallbacks?.onNavigationDrawerItemSelected(position)
@@ -259,9 +260,8 @@ class NavigationDrawerFragment : Fragment() {
         mDrawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
-    private inner class MyAdapter(context: Context, objects: List<String>)
-    //android.R.layout.simple_list_item_activated_1
-        : ArrayAdapter<String>(context, R.layout.listview_blood_center, android.R.id.title, objects)
+    private inner class MyAdapter(context: Context, objects: List<String>) :
+        ArrayAdapter<String>(context, R.layout.listview_blood_center, android.R.id.title, objects)
 
     private fun startPersonalData() {
         activity?.let { context ->

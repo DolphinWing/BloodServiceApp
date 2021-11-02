@@ -22,7 +22,6 @@ object Versions {
         const val coreKtx: String = "1.7.0"
 
         const val lifecycle: String = "2.4.0"
-        // const val viewModelCompose = "1.0.0-alpha07"
 
         const val constraintLayout: String = "2.1.1"
 
@@ -68,12 +67,22 @@ object Versions {
     }
 
     const val org_jetbrains_kotlin: String = "1.5.31"
+
+    /**
+     * https://github.com/ben-manes/gradle-versions-plugin
+     * ./gradlew dependencyUpdates
+     */
+    const val gradleVersionsPlugin = "0.39.0"
+
+    /**
+     * https://github.com/jlleitschuh/ktlint-gradle
+     * ./gradlew --continue ktlintCheck
+     * ./gradlew :app:ktlintComposeSourceSetCheck
+     * ./gradlew runKtlintFormatOverFlexibleSourceSet
+     */
+    const val ktlintGradle = "10.2.0"
 }
 
-/**
- * https://github.com/ben-manes/gradle-versions-plugin
- * ./gradlew dependencyUpdates
- */
 object Libs {
 
     object Google {

@@ -176,7 +176,7 @@ fun MainUi(
                     IconButton(onClick = { onFacebookClick?.invoke(selected) }) {
                         Image(
                             painterResource(id = R.drawable.ic_action_facebook),
-                            contentDescription = stringResource(id = R.string.action_go_to_facebook),
+                            contentDescription = stringResource(R.string.action_go_to_facebook),
                         )
                     }
                 }
@@ -190,12 +190,8 @@ fun MainUi(
             ) {
                 TextButton(
                     onClick = { onDonorClick?.invoke() },
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    // modifier = Modifier.padding(horizontal = 8.dp),
                 ) {
-//                    Icon(
-//                        Icons.Rounded.OpenInBrowser,
-//                        contentDescription = stringResource(id = R.string.action_go_to_personal_summary),
-//                    )
                     Text(stringResource(id = R.string.action_go_to_personal))
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -208,7 +204,11 @@ fun MainUi(
             }
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding).fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize(),
+        ) {
             if (showReviewPolicy) {
                 PrivacyReviewSnackbar(
                     modifier = Modifier.fillMaxWidth(),
@@ -263,7 +263,6 @@ fun MainUi(
             )
         }
     }
-
 }
 
 @ExperimentalMaterial3Api
@@ -365,7 +364,6 @@ private fun SwitchCenterPane(
             }
         }
     }
-
 }
 
 @Composable

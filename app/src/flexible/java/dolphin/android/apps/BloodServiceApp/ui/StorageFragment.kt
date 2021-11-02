@@ -38,14 +38,21 @@ class StorageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.siteId.observe(this, Observer { id ->
-            queryData(id)
-        })
+        viewModel.siteId.observe(
+            this,
+            Observer { id ->
+                queryData(id)
+            }
+        )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? = inflater.inflate(
-            R.layout.fragment_recycler_view_with_ads, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(
+        R.layout.fragment_recycler_view_with_ads, container, false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,9 +85,11 @@ class StorageFragment : Fragment() {
     }
 
     private fun loadAds() {
-        adView.loadAd(AdRequest.Builder()
-                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build())
+        adView.loadAd(
+            AdRequest.Builder()
+                // .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build()
+        )
     }
 
     private fun queryData(siteId: Int) {
@@ -89,40 +98,49 @@ class StorageFragment : Fragment() {
             swipeRefreshLayout?.isRefreshing = true
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
-        viewModel.getStorageData()?.observe(viewLifecycleOwner, Observer {
-            val list = ArrayList<ItemView>()
-            it?.get(siteId)?.let { map ->
-                Log.v(TAG, "site id = $siteId")
-                Log.v(TAG, "  A = ${map["A"]}")
-                list.add(ItemView(requireActivity(), "A", map["A"]!!))
-                Log.v(TAG, "  B = ${map["B"]}")
-                list.add(ItemView(requireActivity(), "B", map["B"]!!))
-                Log.v(TAG, "  O = ${map["O"]}")
-                list.add(ItemView(requireActivity(), "O", map["O"]!!))
-                Log.v(TAG, "  AB = ${map["AB"]}")
-                list.add(ItemView(requireActivity(), "AB", map["AB"]!!))
-            }
-            recyclerView?.adapter = FlexibleAdapter(list)
-            recyclerView?.contentDescription = null
-            swipeRefreshLayout?.isRefreshing = false
-            swipeRefreshLayout?.isEnabled = false
+        viewModel.getStorageData()?.observe(
+            viewLifecycleOwner,
+            Observer {
+                val list = ArrayList<ItemView>()
+                it?.get(siteId)?.let { map ->
+                    Log.v(TAG, "site id = $siteId")
+                    Log.v(TAG, "  A = ${map["A"]}")
+                    list.add(ItemView(requireActivity(), "A", map["A"]!!))
+                    Log.v(TAG, "  B = ${map["B"]}")
+                    list.add(ItemView(requireActivity(), "B", map["B"]!!))
+                    Log.v(TAG, "  O = ${map["O"]}")
+                    list.add(ItemView(requireActivity(), "O", map["O"]!!))
+                    Log.v(TAG, "  AB = ${map["AB"]}")
+                    list.add(ItemView(requireActivity(), "AB", map["AB"]!!))
+                }
+                recyclerView?.adapter = FlexibleAdapter(list)
+                recyclerView?.contentDescription = null
+                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout?.isEnabled = false
 
-            loadAds()
-        })
+                loadAds()
+            }
+        )
     }
 
-    internal class ItemView(context: Context, private val type: String, private val status: Int)
-        : AbstractFlexibleItem<ItemView.ItemHolder>() {
+    internal class ItemView(context: Context, private val type: String, private val status: Int) :
+        AbstractFlexibleItem<ItemView.ItemHolder>() {
         private val bloodTypeText = context.resources.getStringArray(R.array.blood_type)
         private val bloodStorage = context.resources.getStringArray(R.array.blood_storage_status)
-        private val bloodStatusIcon = intArrayOf(android.R.color.black,
-                R.drawable.ic_storage_stock1,
-                R.drawable.ic_storage_stock2,
-                R.drawable.ic_storage_stock3)
+        private val bloodStatusIcon = intArrayOf(
+            android.R.color.black,
+            R.drawable.ic_storage_stock1,
+            R.drawable.ic_storage_stock2,
+            R.drawable.ic_storage_stock3
+        )
 
         @SuppressLint("SetTextI18n")
-        override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: ItemHolder?, position: Int, list: MutableList<Any>?) {
+        override fun bindViewHolder(
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
+            holder: ItemHolder?,
+            position: Int,
+            list: MutableList<Any>?
+        ) {
             holder?.apply {
                 text?.text = "${bloodTypeText[position]}${bloodStorage[status]}"
                 icon?.setImageResource(bloodStatusIcon[status])
@@ -133,14 +151,16 @@ class StorageFragment : Fragment() {
 
         override fun hashCode(): Int = type.hashCode()
 
-        override fun createViewHolder(view: View?,
-                                      adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?)
-                : ItemHolder = ItemHolder(view, adapter)
+        override fun createViewHolder(
+            view: View?,
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
+        ): ItemHolder =
+            ItemHolder(view, adapter)
 
         override fun getLayoutRes(): Int = R.layout.listview_storage
 
         internal class ItemHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?) :
-                FlexibleViewHolder(view, adapter) {
+            FlexibleViewHolder(view, adapter) {
             var icon: ImageView? = view?.findViewById(android.R.id.icon)
             var text: TextView? = view?.findViewById(android.R.id.title)
         }

@@ -36,9 +36,11 @@ class DataViewModel(app: Application) : AndroidViewModel(app) {
         return application.storageCache
     }
 
-    class StorageData(private val executor: ExecutorService,
-                      private val helper: BloodDataHelper)
-        : LiveData<SparseArray<HashMap<String, Int>>>() {
+    class StorageData(
+        private val executor: ExecutorService,
+        private val helper: BloodDataHelper
+    ) :
+        LiveData<SparseArray<HashMap<String, Int>>>() {
         override fun onActive() {
             super.onActive()
             executor.submit { if (value == null) fetch() }
@@ -53,25 +55,29 @@ class DataViewModel(app: Application) : AndroidViewModel(app) {
 
     fun getDonationData(siteId: Int): DonationData {
         if (application.donationCache[siteId] == null) {
-            //Log.d(TAG, "get donation data $siteId")
-            application.donationCache.put(siteId,
-                    DonationData(application.executor, helper, siteId))
+            // Log.d(TAG, "get donation data $siteId")
+            application.donationCache.put(
+                siteId,
+                DonationData(application.executor, helper, siteId)
+            )
         }
         return application.donationCache[siteId]
     }
 
-    class DonationData(private val executor: ExecutorService,
-                       private val helper: BloodDataHelper,
-                       private val siteId: Int) : LiveData<ArrayList<DonateDay>>() {
+    class DonationData(
+        private val executor: ExecutorService,
+        private val helper: BloodDataHelper,
+        private val siteId: Int
+    ) : LiveData<ArrayList<DonateDay>>() {
         override fun onActive() {
             super.onActive()
             executor.submit { if (value == null) fetch() }
         }
 
         private fun fetch() {
-            //Log.d(TAG, "start fetch $siteId")
+            // Log.d(TAG, "start fetch $siteId")
             val list = helper.getLatestWeekCalendar(siteId)
-            //Log.d(TAG, "fetch list ${list.size}")
+            // Log.d(TAG, "fetch list ${list.size}")
             postValue(list)
         }
     }
@@ -85,9 +91,11 @@ class DataViewModel(app: Application) : AndroidViewModel(app) {
         return application.spotCityCache[siteId]
     }
 
-    class SpotData(private val application: MyApplication,
-                   private val helper: BloodDataHelper,
-                   private val siteId: Int) : LiveData<ArrayList<SpotList>>() {
+    class SpotData(
+        private val application: MyApplication,
+        private val helper: BloodDataHelper,
+        private val siteId: Int
+    ) : LiveData<ArrayList<SpotList>>() {
         override fun onActive() {
             super.onActive()
             application.executor.submit { if (value == null) fetch() }
@@ -95,16 +103,16 @@ class DataViewModel(app: Application) : AndroidViewModel(app) {
 
         private fun fetch() {
             val data = helper.getDonationSpotLocationMap(siteId)
-            //application.cityOrderCache.put(siteId, helper.cityOrder)
-            //Log.d(TAG, "site id: $siteId")
+            // application.cityOrderCache.put(siteId, helper.cityOrder)
+            // Log.d(TAG, "site id: $siteId")
             val list = ArrayList<SpotList>()
             helper.cityOrder?.forEach {
                 val cityId = it.toInt()
                 Log.v(TAG, "  city order: $it ${helper.getCityName(cityId)}")
-                //application.cityNameCache.put(cityId, helper.getCityName(cityId))
+                // application.cityNameCache.put(cityId, helper.getCityName(cityId))
                 list.add(data.get(cityId).apply { cityName = helper.getCityName(cityId) })
             }
-            //Log.d(TAG, "list size: ${list.size}")
+            // Log.d(TAG, "list size: ${list.size}")
             postValue(list)
         }
     }

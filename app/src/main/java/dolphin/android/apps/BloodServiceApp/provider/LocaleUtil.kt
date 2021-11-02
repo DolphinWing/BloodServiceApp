@@ -1,9 +1,10 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
-import java.util.*
+import java.util.Locale
 
 /**
  * Created by jimmyhu on 7/7/17.
@@ -30,6 +31,7 @@ class LocaleUtil {
             return context.createConfigurationContext(configuration)
         }
 
+        @SuppressLint("ObsoleteSdkInt")
         @Suppress("DEPRECATION")
         private fun updateResourcesLegacy(context: Context, locale: Locale): Context {
             val resources = context.resources
@@ -39,7 +41,7 @@ class LocaleUtil {
                 configuration.setLayoutDirection(locale)
             }
             resources.updateConfiguration(configuration, resources.displayMetrics)
-            return context;
+            return context
         }
     }
 }

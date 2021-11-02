@@ -4,10 +4,16 @@ import androidx.annotation.Keep
 
 /**
  * Donation location
- *
- * Created by jimmyhu on 2015/6/3.
  */
 @Keep
-data class DonateLocation(var isFixed: Boolean, var name: String?, val spotId: String,
-                          val cityId: String, var address: String?, var phone: String?,
-                          var operationTime: String?, var extraMessage: String?, val mapUrl: String)
+data class DonateLocation(
+    var isFixed: Boolean,
+    var name: String? = null,
+    val spotId: String,
+    val cityId: String,
+    val mapUrl: String,
+    var address: String? = null,
+    var phone: String? = null,
+    var operationTime: String? = null,
+    var extraMessage: String? = null,
+)

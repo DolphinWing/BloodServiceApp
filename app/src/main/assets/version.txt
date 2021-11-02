@@ -12,6 +12,7 @@ This is a gradle project. You should use Android Studio to modify codes.
 ----
 [213] @ 2021-11-02
     M3 restyle
+    add ktlint check
 
 [212] @ 2021-11-01
     fix navigation bar color

@@ -5,7 +5,6 @@ import android.content.Context
 import com.google.android.material.color.DynamicColors
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
 
 /**

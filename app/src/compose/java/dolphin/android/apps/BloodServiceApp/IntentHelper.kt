@@ -89,7 +89,7 @@ object IntentHelper {
      */
     fun showSpotInfo(context: Context, info: SpotInfo) {
         IntentBuilder.makeOpenSpotLocationMapIntent(context, info)?.let { intent ->
-            context.startActivity(intent) //show in browser, don't parse it
+            context.startActivity(intent) // show in browser, don't parse it
         }
     }
 

@@ -93,7 +93,10 @@ fun Separator(
 /**
  * App UI callbacks
  */
-interface AppUiCallback : WelcomeUiCallback, MainUiCallback, SpotListUiCallback,
+interface AppUiCallback :
+    WelcomeUiCallback,
+    MainUiCallback,
+    SpotListUiCallback,
     SettingsUiCallback {
 
     /**
@@ -107,6 +110,10 @@ interface AppUiCallback : WelcomeUiCallback, MainUiCallback, SpotListUiCallback,
      * @param center target blood center
      */
     fun reviewSource(center: BloodCenter.Center)
+}
+
+enum class UiState {
+    Welcome, Main, Settings, Spots
 }
 
 /**

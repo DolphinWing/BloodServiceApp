@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
-import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 import dolphin.android.apps.BloodServiceApp.provider.IntentBuilder
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -40,20 +39,27 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
 
         prefs = PrefsUtil(requireActivity())
-        viewModel.siteId.observe(this, Observer { id ->
-            queryData(id)
-        })
+        viewModel.siteId.observe(
+            this,
+            Observer { id ->
+                queryData(id)
+            }
+        )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? = inflater.inflate(
-            R.layout.fragment_recycler_view, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(
+        R.layout.fragment_recycler_view, container, false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout = view.findViewById(android.R.id.progress)
         swipeRefreshLayout?.apply {
-            //isEnabled = false
+            // isEnabled = false
             isRefreshing = true
         }
         recyclerView = view.findViewById(android.R.id.list)
@@ -70,48 +76,56 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
             recyclerView?.contentDescription = getString(R.string.title_downloading_data)
         }
         Log.d(TAG, "query $siteId")
-        viewModel.getSpotData(siteId).observe(viewLifecycleOwner, Observer { spots ->
-            Log.d(TAG, "spot list: ${spots!!.size}")
-            val list = ArrayList<IFlexible<*>>()
-            spots.forEach { city ->
-                //Log.d(TAG, "city: $cityId ${spots?.get(cityId.toInt())}")
-                val cityItem = CityItem(city.cityName ?: city.cityId.toString())
-                list.add(cityItem)
-                city.locations.forEach { spot ->
-                    SpotItem(cityItem, spot)
-                    //list.add(SpotItem(cityItem, it))
+        viewModel.getSpotData(siteId).observe(
+            viewLifecycleOwner,
+            Observer { spots ->
+                Log.d(TAG, "spot list: ${spots!!.size}")
+                val list = ArrayList<IFlexible<*>>()
+                spots.forEach { city ->
+                    // Log.d(TAG, "city: $cityId ${spots?.get(cityId.toInt())}")
+                    val cityItem = CityItem(city.cityName ?: city.cityId.toString())
+                    list.add(cityItem)
+                    city.locations.forEach { spot ->
+                        SpotItem(cityItem, spot)
+                        // list.add(SpotItem(cityItem, it))
+                    }
                 }
-            }
-            val adapter = FlexibleAdapter(list, this).apply {
-                setStickyHeaders(prefs?.isHeaderSticky ?: true)
-                setDisplayHeadersAtStartUp(true)
-                expandItemsAtStartUp()
-            }
-            recyclerView?.adapter = adapter
+                val adapter = FlexibleAdapter(list, this).apply {
+                    setStickyHeaders(prefs?.isHeaderSticky ?: true)
+                    setDisplayHeadersAtStartUp(true)
+                    expandItemsAtStartUp()
+                }
+                recyclerView?.adapter = adapter
 //            try {
 //                //fix Enable sticky headers after setting Adapter to RecyclerView
 //                adapter.setStickyHeaders(prefs?.isHeaderSticky ?: false)
 //            } catch (e: IllegalStateException) {
 //                //try to catch the exception
 //            }
-            recyclerView?.contentDescription = null
-            swipeRefreshLayout?.apply {
-                isRefreshing = false
-                isEnabled = false
+                recyclerView?.contentDescription = null
+                swipeRefreshLayout?.apply {
+                    isRefreshing = false
+                    isEnabled = false
+                }
             }
-        })
+        )
     }
 
-    internal class CityItem(private val city: String)
-        : AbstractExpandableHeaderItem<ExpandableViewHolder, SpotItem>(),
-            IHeader<ExpandableViewHolder> {
-        override fun createViewHolder(view: View?,
-                                      adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?)
-                : ExpandableViewHolder = CityHolder(view, adapter)
+    internal class CityItem(private val city: String) :
+        AbstractExpandableHeaderItem<ExpandableViewHolder, SpotItem>(),
+        IHeader<ExpandableViewHolder> {
+        override fun createViewHolder(
+            view: View?,
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
+        ): ExpandableViewHolder =
+            CityHolder(view, adapter)
 
-        override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: ExpandableViewHolder?, position: Int,
-                                    list: MutableList<Any>?) {
+        override fun bindViewHolder(
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
+            holder: ExpandableViewHolder?,
+            position: Int,
+            list: MutableList<Any>?
+        ) {
             (holder as? CityHolder)?.apply {
                 title?.text = city
                 title?.isActivated = isExpanded
@@ -124,27 +138,32 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
         override fun getLayoutRes(): Int = R.layout.listview_spot_city
 
-        internal class CityHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?)
-            : ExpandableViewHolder(view, adapter, true) {
+        internal class CityHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?) :
+            ExpandableViewHolder(view, adapter, true) {
             val title: TextView? = view?.findViewById(android.R.id.title)
             override fun shouldNotifyParentOnClick(): Boolean = true
         }
     }
 
-    internal class SpotItem(header: CityItem, private val spot: SpotInfo)
-        : AbstractSectionableItem<FlexibleViewHolder, CityItem>(header) {
+    internal class SpotItem(header: CityItem, private val spot: SpotInfo) :
+        AbstractSectionableItem<FlexibleViewHolder, CityItem>(header) {
         init {
             this.header = header
             header.addSubItem(this)
         }
 
-        override fun createViewHolder(view: View?,
-                                      adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?)
-                : FlexibleViewHolder = SpotHolder(view, adapter)
+        override fun createViewHolder(
+            view: View?,
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
+        ): FlexibleViewHolder =
+            SpotHolder(view, adapter)
 
-        override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
-                                    holder: FlexibleViewHolder?, position: Int,
-                                    list: MutableList<Any>?) {
+        override fun bindViewHolder(
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
+            holder: FlexibleViewHolder?,
+            position: Int,
+            list: MutableList<Any>?
+        ) {
             (holder as? SpotHolder)?.apply {
                 location?.text = spot.spotName
                 itemView.tag = spot
@@ -157,20 +176,20 @@ class SpotListFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
         override fun getLayoutRes(): Int = R.layout.listview_spot_location
 
-        internal class SpotHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?)
-            : FlexibleViewHolder(view, adapter) {
+        internal class SpotHolder(view: View?, adapter: FlexibleAdapter<out IFlexible<*>>?) :
+            FlexibleViewHolder(view, adapter) {
             val location: TextView? = view?.findViewById(android.R.id.title)
-            //override fun shouldNotifyParentOnClick(): Boolean = true
+            // override fun shouldNotifyParentOnClick(): Boolean = true
         }
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
-        //Log.d(TAG, "click $position")
+        // Log.d(TAG, "click $position")
         (view?.tag as? SpotInfo)?.let { spot ->
-            //Log.d(TAG, "spot: ${spot.spotId} ${spot.spotName}")
+            // Log.d(TAG, "spot: ${spot.spotId} ${spot.spotName}")
             activity?.let { context ->
                 IntentBuilder.makeOpenSpotLocationMapIntent(context, spot)?.let { intent ->
-                    context.startActivity(intent) //show in browser, don't parse it
+                    context.startActivity(intent) // show in browser, don't parse it
                 }
             }
         }
