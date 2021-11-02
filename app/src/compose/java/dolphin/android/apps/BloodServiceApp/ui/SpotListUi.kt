@@ -18,6 +18,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.OpenInBrowser
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -122,27 +122,49 @@ private fun CityPane(
     modifier: Modifier,
     selected: Int = 0,
 ) {
-    val primaryColor = MaterialTheme.colorScheme.primary
-    val secondaryColor = primaryColor.copy(alpha = .8f)
-
     LazyRow(modifier = modifier.padding(horizontal = 16.dp)) {
         items(list) { city ->
-            TextButton(
-                onClick = { onCityClick.invoke(city) },
-                border = BorderStroke(
-                    1.dp,
-                    if (selected == city.cityId) primaryColor else Color.Transparent
-                ),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = if (selected == city.cityId) primaryColor else secondaryColor
-                )
-            ) {
-                Text(
-                    city.cityName ?: city.cityId.toString(),
-                )
-            }
+            FilterChipImpl(
+                content = city.cityName ?: city.cityId.toString(),
+                onCheckedChanged = { checked ->
+                    if (checked) onCityClick.invoke(city)
+                },
+                checked = selected == city.cityId,
+                modifier = Modifier.padding(end = 8.dp),
+            )
         }
+    }
+}
+
+@Composable
+private fun FilterChipImpl(
+    content: String,
+    onCheckedChanged: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    checked: Boolean = false,
+) {
+    Button(
+        onClick = { onCheckedChanged.invoke(!checked) },
+        border = BorderStroke(
+            if (checked) 0.dp else 1.dp,
+            if (checked) Color.Transparent else MaterialTheme.colorScheme.outline,
+        ),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = if (checked) {
+                MaterialTheme.colorScheme.secondaryContainer
+            } else {
+                MaterialTheme.colorScheme.surface
+            },
+            contentColor = if (checked) {
+                MaterialTheme.colorScheme.onSecondaryContainer
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
+        ),
+        modifier = modifier,
+    ) {
+        Text(content, style = MaterialTheme.typography.labelLarge)
     }
 }
 

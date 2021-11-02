@@ -4,26 +4,33 @@ import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.Map
-import androidx.compose.material.icons.rounded.OpenInBrowser
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +42,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -172,15 +183,19 @@ fun MainUi(
             )
         },
         bottomBar = {
-            Row(modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)) {
+            Row(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .padding(vertical = 4.dp)
+            ) {
                 TextButton(
                     onClick = { onDonorClick?.invoke() },
                     modifier = Modifier.padding(horizontal = 8.dp),
                 ) {
-                    Icon(
-                        Icons.Rounded.OpenInBrowser,
-                        contentDescription = stringResource(id = R.string.action_go_to_personal_summary),
-                    )
+//                    Icon(
+//                        Icons.Rounded.OpenInBrowser,
+//                        contentDescription = stringResource(id = R.string.action_go_to_personal_summary),
+//                    )
                     Text(stringResource(id = R.string.action_go_to_personal))
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -193,7 +208,7 @@ fun MainUi(
             }
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column(modifier = Modifier.padding(padding).fillMaxSize()) {
             if (showReviewPolicy) {
                 PrivacyReviewSnackbar(
                     modifier = Modifier.fillMaxWidth(),
@@ -325,21 +340,49 @@ private fun SwitchCenterPane(
 ) {
     val selection = list.filter { c -> c.id != selected.id }
 
-    LazyRow(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        stickyHeader {
-            Text(
-                stringResource(id = R.string.section0_summary),
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(start = 16.dp), // , end = 4.dp
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-        }
-        items(selection) { center ->
-            TextButton(onClick = { onCenterChange?.invoke(center) }) {
-                Text(center.name)
+    Row(
+        modifier = modifier.padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            stringResource(id = R.string.section0_summary),
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(start = 16.dp, end = 4.dp),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        LazyRow(
+            modifier = Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            items(selection) { center ->
+                SuggestionChipImpl(
+                    content = center.name,
+                    onClick = { onCenterChange?.invoke(center) },
+                    modifier = Modifier.padding(end = 8.dp),
+                )
             }
         }
+    }
+
+}
+
+@Composable
+private fun SuggestionChipImpl(
+    content: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick)
+            .height(32.dp)
+            .padding(horizontal = 16.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(content, style = MaterialTheme.typography.labelLarge)
     }
 }
 
@@ -408,10 +451,12 @@ private fun DayListPane(
     onSearchOnMap: ((DonateActivity) -> Unit)? = null,
     onReviewSource: (() -> Unit)? = null,
 ) {
-    Column(modifier = modifier) {
+    var showMenu by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier, horizontalAlignment = Alignment.End) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 stringResource(id = R.string.section2_summary),
@@ -420,15 +465,30 @@ private fun DayListPane(
                     .weight(1f),
                 style = MaterialTheme.typography.titleLarge,
             )
-            TextButton(onClick = { onReviewSource?.invoke() }) {
-                Icon(
-                    Icons.Rounded.OpenInBrowser,
-                    contentDescription = stringResource(id = R.string.action_go_to_website),
-                )
-                Text(stringResource(id = R.string.action_go_to_website))
+            // https://foso.github.io/Jetpack-Compose-Playground/material/dropdownmenu/
+            Box(modifier = Modifier.wrapContentSize()) {
+                IconButton(onClick = { showMenu = true }) {
+                    Icon(
+                        Icons.Rounded.MoreVert,
+                        contentDescription = stringResource(id = R.string.action_more),
+                    )
+                }
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false },
+                ) {
+                    DropdownMenuItem(
+                        onClick = {
+                            showMenu = false
+                            onReviewSource?.invoke()
+                        },
+                    ) {
+                        Text(stringResource(id = R.string.action_go_to_website))
+                    }
+                }
             }
-            Spacer(modifier = Modifier.requiredWidth(4.dp))
         }
+
         if (daysList.isEmpty()) {
             Box(
                 modifier = Modifier

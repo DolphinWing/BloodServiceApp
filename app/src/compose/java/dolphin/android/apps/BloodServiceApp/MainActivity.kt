@@ -8,7 +8,6 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -282,7 +281,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
             val code = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 info.longVersionCode
             } else {
-                info.versionCode
+                @Suppress("deprecation") info.versionCode
             }
             "v${info.versionName} (r$code)"
         } ?: kotlin.run { "" }
