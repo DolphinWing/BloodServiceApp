@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -63,6 +62,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
@@ -183,32 +183,14 @@ fun MainUi(
             )
         },
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(vertical = 4.dp)
-            ) {
-                TextButton(
-                    onClick = { onDonorClick?.invoke() },
-                    // modifier = Modifier.padding(horizontal = 8.dp),
-                ) {
-                    Text(stringResource(id = R.string.action_go_to_personal))
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { onSettingsClick?.invoke() }) {
-                    Icon(
-                        Icons.Rounded.Settings,
-                        contentDescription = stringResource(id = R.string.title_activity_settings),
-                    )
-                }
-            }
+            BottomMainUiBar(
+                onDonorClick = { onDonorClick?.invoke() },
+                onSettingsClick = { onSettingsClick?.invoke() },
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize(),
-        ) {
+        Column(modifier = Modifier.padding(padding)) {
             if (showReviewPolicy) {
                 PrivacyReviewSnackbar(
                     modifier = Modifier.fillMaxWidth(),
@@ -235,24 +217,10 @@ fun MainUi(
             )
 
             Separator()
-            Row(
-                modifier = Modifier
-                    .clickable { onSpotListClick?.invoke(selected) }
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(id = R.string.section3_summary),
-                    modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-                Icon(
-                    Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = null,
-                    tint = Color.LightGray,
-                )
-            }
+            SpotListPane(
+                onClick = { onSpotListClick?.invoke(selected) },
+                modifier = Modifier.fillMaxWidth(),
+            )
 
             Separator()
             SwitchCenterPane(
@@ -325,6 +293,30 @@ private fun PrivacyReviewSnackbar(
             onClick = { onReviewPolicy?.invoke() },
         ) {
             Text(stringResource(id = R.string.snackbar_privacy_policy_review))
+        }
+    }
+}
+
+@Composable
+private fun BottomMainUiBar(
+    onSettingsClick: () -> Unit,
+    onDonorClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(vertical = 4.dp),
+    ) {
+        TextButton(onClick = onDonorClick) {
+            Text(stringResource(id = R.string.action_go_to_personal))
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        IconButton(onClick = onSettingsClick) {
+            Icon(
+                Icons.Rounded.Settings,
+                contentDescription = stringResource(id = R.string.title_activity_settings),
+            )
         }
     }
 }
@@ -412,30 +404,42 @@ private fun StoragePane(
         Spacer(modifier = Modifier.requiredWidth(8.dp))
 
         arrayOf("A", "B", "O", "AB").forEachIndexed { index, type ->
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                    .background(color = colorMap[map[type] ?: 0], shape = CircleShape)
-                    .requiredSize(32.dp)
-                    .semantics(mergeDescendants = true) {
-                        stateDescription = typeMap[index] + statusMap[map[type] ?: 0]
-                    },
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    type,
-                    modifier = Modifier.clearAndSetSemantics { },
-                    fontFamily = FontFamily.SansSerif,
-                    color = Color.White.copy(alpha = .95f),
-                    fontWeight = FontWeight.Bold,
-                )
-            }
+            TypeStorageStatusIcon(
+                type = type,
+                color = colorMap[map[type] ?: 0],
+                contentDescription = typeMap[index] + statusMap[map[type] ?: 0],
+            )
         }
         onToolTip?.let { callback ->
             IconButton(onClick = callback) {
                 Icon(Icons.Outlined.Info, contentDescription = null, tint = Color.LightGray)
             }
         }
+    }
+}
+
+@Composable
+private fun TypeStorageStatusIcon(
+    type: String,
+    color: Color,
+    contentDescription: String,
+) {
+    Box(
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .background(color = color, shape = CircleShape)
+            .requiredSize(32.dp)
+            .semantics(mergeDescendants = true) { stateDescription = contentDescription },
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            type,
+            modifier = Modifier.clearAndSetSemantics { },
+            fontSize = 16.sp,
+            fontFamily = FontFamily.SansSerif,
+            color = Color.White.copy(alpha = .95f),
+            fontWeight = FontWeight.Bold,
+        )
     }
 }
 
@@ -474,6 +478,7 @@ private fun DayListPane(
                 DropdownMenu(
                     expanded = showMenu,
                     onDismissRequest = { showMenu = false },
+                    modifier = Modifier.background(MaterialTheme.colorScheme.surface), // M3
                 ) {
                     DropdownMenuItem(
                         onClick = {
@@ -658,5 +663,26 @@ private fun EventPane(
         } else {
             Spacer(modifier = Modifier.requiredWidth(12.dp))
         }
+    }
+}
+
+@Composable
+private fun SpotListPane(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(id = R.string.section3_summary),
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.titleLarge,
+        )
+        Icon(
+            Icons.Rounded.KeyboardArrowRight,
+            contentDescription = null,
+            tint = Color.LightGray,
+        )
     }
 }

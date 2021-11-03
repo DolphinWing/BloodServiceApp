@@ -1,5 +1,6 @@
 package dolphin.android.apps.BloodServiceApp
 
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +11,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -58,6 +61,11 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         setupViewModel()
 
         setContent {
+            val dark = isSystemInDarkTheme() // try to detect system theme
+            LaunchedEffect(Unit) {
+                changeToDarkMode(dark)
+            }
+
             AppUiPane(
                 model = model,
                 center = centerInstance,
@@ -308,5 +316,24 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     @Suppress("SameParameterValue")
     private fun setUserProperty(key: String, value: String?) {
         FirebaseAnalytics.getInstance(this).setUserProperty(key, value)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // dynamic changed with the system
+        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                changeToDarkMode(false)
+                Log.d(TAG, "Night mode is not active, we're using the light theme")
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                changeToDarkMode(true)
+                Log.d(TAG, "Night mode is active, we're using dark theme")
+            }
+        }
+    }
+
+    private fun changeToDarkMode(dark: Boolean = true) {
+        lifecycleScope.launch { model.darkMode.emit(dark) }
     }
 }

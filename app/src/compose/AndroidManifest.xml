@@ -17,6 +17,7 @@
             android:exported="true"
             android:screenOrientation="userPortrait"
             android:theme="@style/Theme.Bloody"
+            android:configChanges="uiMode"
             tools:ignore="LockedOrientationActivity"
             tools:replace="android:theme,android:screenOrientation">
 

@@ -27,13 +27,17 @@ import kotlinx.coroutines.flow.stateIn
 class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     companion object {
         private const val KEY_UI_STATE = "ui_state"
-        // private const val KEY_LOADING = "loading"
     }
 
     /**
      * A flag of app about Firebase RemoteConfig load up.
      */
     val ready = MutableLiveData(false)
+
+    /**
+     * A flag of app about system dark mode is enabled or not
+     */
+    val darkMode = MutableStateFlow(false)
 
     /**
      * App UI state.

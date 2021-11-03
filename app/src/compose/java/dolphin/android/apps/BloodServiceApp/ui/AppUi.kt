@@ -134,20 +134,23 @@ fun AppUiPane(
     callback: AppUiCallback,
     modifier: Modifier = Modifier,
 ) {
-    AppTheme {
+    AppTheme(dark = model.darkMode.collectAsState().value) {
         val selected = model.center.observeAsState()
         val maps = model.storageMap.collectAsState()
         val days = model.daysList.collectAsState()
         val cities = model.spotList.collectAsState()
         val city = model.city.collectAsState()
 
-        Crossfade(targetState = model.uiState.observeAsState().value) { state ->
+        Crossfade(
+            targetState = model.uiState.observeAsState().value,
+            modifier = modifier
+        ) { state ->
             when (state) {
                 UiState.Welcome ->
                     WelcomeUi(
                         list = center.values(),
                         onComplete = { index -> callback.reviewComplete(center.values()[index]) },
-                        modifier = modifier,
+                        modifier = Modifier.fillMaxSize(),
                         onReview = { callback.reviewPrivacy() },
                         onSource = { callback.reviewSource(center.main()) },
                     )
@@ -156,7 +159,7 @@ fun AppUiPane(
                     MainUi(
                         centers = center.values(),
                         selected = selected.value ?: center.main(),
-                        modifier = modifier,
+                        modifier = Modifier.fillMaxSize(),
                         daysList = days.value,
                         storageMap = maps.value,
                         onCenterChange = { c -> callback.changeBloodCenter(c) },
@@ -178,7 +181,7 @@ fun AppUiPane(
                 UiState.Spots ->
                     SpotListUi(
                         list = cities.value,
-                        modifier = modifier,
+                        modifier = Modifier.fillMaxSize(),
                         onBackPress = { callback.pressBack() },
                         onSpotClick = { info -> callback.showSpotInfo(info) },
                         onCityClick = { c -> model.changeCity(c.cityId) },
@@ -187,15 +190,17 @@ fun AppUiPane(
 
                 UiState.Settings ->
                     SettingsUi(
-                        modifier = modifier,
+                        modifier = Modifier.fillMaxSize(),
                         onBackPress = { callback.pressBack() },
                         version = callback.versionInfo(),
                         onReview = { title, asset -> callback.showAssetInDialog(title, asset) },
                         showChangeLog = callback.enableVersionSummary(),
                     )
 
-                else -> // Text("Hello, Compose $state")
-                    CircularProgressIndicator()
+                else ->
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    }
             }
         }
     }
