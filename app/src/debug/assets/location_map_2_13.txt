@@ -1,0 +1,64 @@
+        <div id="CalendarInnerContent">
+            <div id="CalendarInnerContentLeft_Map">
+                <div id="CalendarContentMapBox">
+                    <div id="CalendarContentMap">
+                        <iframe id="ctl00_ContentPlaceHolder1_frame_map" width="504" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&amp;hl=zh-TW&amp;geocode=&amp;q=%e8%87%ba%e5%8c%97%e5%b8%82%e5%8c%97%e6%8a%95%e5%8d%80%e7%ab%8b%e5%be%b7%e8%b7%af123%e8%99%9f(%e5%92%8c%e4%bf%a1%e9%86%ab%e9%99%a2%e6%97%81%ef%bc%8c%e6%8d%b7%e9%81%8b%e6%b7%a1%e6%b0%b4%e4%bf%a1%e7%be%a9%e7%b7%9aR%e5%bf%a0%e7%be%a9%e7%ab%99%ef%bc%8c%e6%ad%a5%e8%a1%8c%e7%b4%8410%e5%88%86%e9%90%98)&amp;z=16&amp;output=embed&amp;t="></iframe>
+                    </div>
+                    <div id="CalendarContentMapInfo">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <li><span class="font009">地址：</span>臺北市北投區立德路123號(和信醫院旁，捷運淡水信義線R忠義站，步行約10分鐘)</li>
+                                            <li><span class="font009">電話：</span>(02)2897-1600</li>
+                                            <li><span class="font009">作業時間：</span>8:00~17:00</li>
+                                            <li><span class="font009">備註：</span></li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <img id="ctl00_ContentPlaceHolder1_img_qrCode" src="https://chart.googleapis.com/chart?chs=112x92&amp;cht=qr&amp;chl=http%3a%2f%2fwww.tp.blood.org.tw%2fInternet%2ftaipei%2fLocationMap.aspx%3fspotID%3d68&amp;choe=UTF-8&amp;chld=M|0" alt="行動條碼圖片" style="height:84px;width:97px;border-width:0px;" />
+                                    </td>
+                                    <td valign="top" align ="left" class="MAPicon">
+                                        <ul>
+                                            <li>
+                                                <img src="images/CalendarContentMapIcon01.jpg" alt="捐血中心" border="0" />
+                                                台北捐血中心捐血點
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="CalendarContentRight">
+                
+                <div id="SelectCity">
+                    <select name="ctl00$ContentPlaceHolder1$ddl_SelectCity" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$ddl_SelectCity\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_ddl_SelectCity" class="SelectCity">
+	<option selected="selected" value="13">臺北市</option>
+	<option value="14">新北市</option>
+	<option value="12">基隆市</option>
+	<option value="32">宜蘭縣</option>
+	<option value="31">花蓮縣</option>
+
+</select>
+				</div>
+
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader001.jpg" alt="固定捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=343&cityID=13' data-ajax='false'> 大安號捐血車</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=79&cityID=13' data-ajax='false'> 公園號捐血車</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=72&cityID=13' data-ajax='false'> 市府捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=378&cityID=13' data-ajax='false'> 忠孝捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=73&cityID=13' data-ajax='false'> 長春捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=71&cityID=13' data-ajax='false'> 南海捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=81&cityID=13' data-ajax='false'> 峨嵋號捐血車</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=77&cityID=13' data-ajax='false'> 捷運捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=83&cityID=13' data-ajax='false'> 新光站前號捐血車</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=70&cityID=13' data-ajax='false'> 關渡捐血室</a></td></tr></table>
+                </div>
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader002.jpg" alt="巡迴捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=205&cityID=13' data-ajax='false'> 士林區巡迴捐血車</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=216&cityID=13' data-ajax='false'> 內湖區巡迴捐血車</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=210&cityID=13' data-ajax='false'> 北投區巡迴捐血車 (磺港路)</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=215&cityID=13' data-ajax='false'> 南港區巡迴捐血車</a></td></tr></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ShortCutBox">

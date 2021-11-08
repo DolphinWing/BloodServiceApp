@@ -10,6 +10,10 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[215] @ 2021-11-08
+    add unit tests
+    refactor with kotlin
+
 [214] @ 2021-11-03
     fix M3 not support DropDownMenu now. the background didn't follow dark theme
     add dynamic dark mode support

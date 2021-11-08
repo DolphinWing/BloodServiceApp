@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
-import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
+import dolphin.android.apps.BloodServiceApp.provider.BloodDataParser
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
 import dolphin.android.apps.BloodServiceApp.ui.UiState
@@ -73,8 +73,8 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
      * @param helper a helper instance to read data from internet
      * @return true if helper is ready
      */
-    fun init(helper: BloodDataHelper): StateFlow<Boolean> = flow {
-        helper.warmup()
+    fun init(helper: BloodDataParser): StateFlow<Boolean> = flow {
+        helper.warmUp()
         emit(true)
     }.flowOn(Dispatchers.IO).stateIn(
         scope = viewModelScope,
@@ -87,18 +87,18 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     /**
      * Get storage data from internet
      *
-     * @param helper a helper instance to read data from internet
+     * @param parser a helper instance to read data from internet
      * @param forceRefresh true if we want to download latest data from internet
      * @return true if update is in progressing
      */
     fun getStorageData(
-        helper: BloodDataHelper,
+        parser: BloodDataParser,
         forceRefresh: Boolean = false,
         centerId: Int? = -1,
     ): StateFlow<Boolean> = flow {
         if (storageCache == null || forceRefresh) {
             emitStorageMap(HashMap()) // clear the list
-            storageCache = helper.getBloodStorage(forceRefresh)
+            storageCache = parser.getBloodStorage(forceRefresh)
         }
         storageCache?.let { cache ->
             centerId?.let { id -> emitStorageMap(cache[id] ?: HashMap()) }
@@ -128,22 +128,22 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
         storages.emit(maps)
     }
 
-    private var donationCache = SparseArray<ArrayList<DonateDay>>()
+    private var donationCache = SparseArray<List<DonateDay>>()
 
     /**
      * Get donation list from internet.
      *
-     * @param helper a helper instance to read data from internet
+     * @param parser a helper instance to read data from internet
      * @param id target blood center id
      * @return true if update is in progressing
      */
     fun getDonationData(
-        helper: BloodDataHelper,
+        parser: BloodDataParser,
         id: Int = center.value?.id ?: -1
     ): StateFlow<Boolean> = flow {
         if (donationCache[id] == null) {
             _daysList.emit(ArrayList()) // clear the list
-            donationCache.put(id, helper.getLatestWeekCalendar(id))
+            donationCache.put(id, parser.getLatestWeekCalendar(id))
         }
         _daysList.emit(donationCache[id])
         emit(false)
@@ -165,23 +165,20 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     /**
      * Get donation spot list from internet.
      *
-     * @param helper a helper instance to read data from internet
+     * @param parser a helper instance to read data from internet
      * @param id target blood center id
      * @return true if update is in progressing
      */
     fun getSpotListData(
-        helper: BloodDataHelper,
+        parser: BloodDataParser,
         id: Int = center.value?.id ?: -1
     ): StateFlow<Boolean> = flow {
         if (spotCityCache[id] == null) {
             val list = ArrayList<SpotList>()
             emitSpotList(list) // clear the list
 
-            val data = helper.getDonationSpotLocationMap(id)
-            helper.cityOrder?.forEach { id ->
-                val cityId = id.toInt()
-                list.add(data.get(cityId).apply { cityName = helper.getCityName(cityId) })
-            }
+            val (order, data) = parser.getDonationSpotLocationMap(id)
+            order.forEach { id -> list.add(data.get(id)) }
             spotCityCache.put(id, list)
         }
         emitSpotList(list = spotCityCache[id])

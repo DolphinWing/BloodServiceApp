@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>
+	台灣血液基金會
+</title><link rel="stylesheet" href="../css/themes/default/jquery.mobile-1.2.0.css" /><link rel="stylesheet" href="_assets/css/jqm-docs.css" />
+	<script src="../js/jquery.js"></script>
+	<script src="_assets/js/jqm-docs.js"></script>
+	<script src="../js/jquery.mobile-1.2.0.js"></script>
+	<script src="../js/popup-examples.js"></script>
+
+    
+</head>
+<body>
+    <form name="aspnetForm" method="post" action="./local_blood_center_week.aspx?site_id=5" id="aspnetForm">
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4FDC2ECA" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAhxpIKnJdBxq4ta3p/VyOmWxtOULXhWq0e/NHWc649mbZWoLGayQT6z8/jnNiyq4Ld5zhO27cg5EoVgB/6skXqidzKKRtNMlvbhbFrR7m5snezgiXYilrQ0oxxfSM1LrT8VrJLbpiLKyQsPfvbNjr+dvQvPqPnZnZlwJ6xR3IHS5dYyXk4YP1FlRucuXzssxvSTrH9XuiEXYluGPUw9R/G+" />
+</div>
+       
+        <div data-role="page" class="type-interior">
+            <div data-role="header" data-theme="f" data-position="fixed">
+  <h1>&nbsp;</h1>
+  <a target="_top" href="index.aspx" data-icon="home" data-iconpos="notext" data-direction="reverse" data-theme="c" id="head_homeicon">Home</a>
+  <a href="#popupNested"  data-icon="grid" data-rel="popup" data-iconpos="notext" data-transition="slide"  data-theme="c" data-inline="true" id="head_homeicon">Date</a>
+			
+			<div data-role="popup" id="popupNested" data-theme="none">
+			<div data-role="collapsible-set" data-theme="b" data-content-theme="c" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" style="margin:0; width:300px;">
+				<div data-role="collapsible" data-inset="false">
+					<h2>月曆</h2>
+					<ul data-role="listview">
+						<li><a href="local_blood_center_month.aspx?site_id=5&year=2021&month=10" data-rel="dialog" target="_top">上個月</a></li>
+						<li><a href="local_blood_center_month.aspx?site_id=5&year=2021&month=11" data-rel="dialog" target="_top">這個月</a></li>
+						<li><a href="local_blood_center_month.aspx?site_id=5&year=2021&month=12" data-rel="dialog" target="_top">下個月</a></li>
+					</ul>
+				</div><!-- /collapsible -->
+				<div data-role="collapsible" data-inset="false">
+					<h2>週曆</h2>
+					<ul data-role="listview">
+					    <li><a href="local_blood_center_week.aspx?site_id=5&date=2021/10/24" data-rel="dialog" target="_top">上一週</a></li>
+						<li><a href="local_blood_center_week.aspx?site_id=5&date=2021/10/31" data-rel="dialog" target="_top">這一週</a></li>
+						<li><a href="local_blood_center_week.aspx?site_id=5&date=2021/11/07" data-rel="dialog" target="_top">下一週</a></li>
+					</ul>
+				</div><!-- /collapsible -->
+				<!-- /collapsible -->
+			</div><!-- /collapsible set -->
+		</div><!-- /popup -->
+</div>
+            <div class="red_title"><span id="ctl00_site_name">台南捐血中心</span> </div>
+            <div data-role="navbar">
+                <ul class="ui-bar-c">
+                    <li><a href="local_blood_center.aspx?site_id=5" class="ui-btn-active_red" target="_top">捐血活動</a></li>
+                    <li><a href="local_blood_center_map.aspx?site_id=5" target="_top">捐血地點地圖</a></li>
+            </div>
+            
+<div data-role="fieldcontain">
+	<label for="select-choice-2" class="select">其他捐血中心:</label>
+     <select name="ctl00$ContentPlaceHolder1$ddl_site" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$ddl_site\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_ddl_site" class="citymeun" data-theme="e">
+	<option value="2">台北捐血中心</option>
+	<option value="3">新竹捐血中心</option>
+	<option value="4">台中捐血中心</option>
+	<option selected="selected" value="5">台南捐血中心</option>
+	<option value="6">高雄捐血中心</option>
+	<option value="7">花蓮捐血中心</option>
+
+</select>
+</div>
+<div data-role="controlgroup" data-type="horizontal" data-mini="true">
+			
+            <a id="ctl00_ContentPlaceHolder1_back_month" data-role="button" data-icon="back" target="_top" style="display:inline-block;height:30px;width:100px;">回月曆頁</a>
+            <a id="ctl00_ContentPlaceHolder1_img_preWeek" data-role="button" data-icon="arrow-l" target="_top" style="display:inline-block;height:30px;width:100px;">上一週</a>
+			<a id="ctl00_ContentPlaceHolder1_img_nextWeek" data-role="button" data-icon="arrow-r" target="_top" style="display:inline-block;height:30px;width:100px;">下一週</a>
+</div>
+<div id="calendar">  
+    <ul data-role="listview" data-theme="b" data-divider-theme="d">
+			<li data-role="list-divider">星期日 10月 31 , 2021<span class="ui-li-count">6</span></li>
+            <li>
+                                               <h3>中正大學對面空地</h3>
+                                               <p><strong>作業時間：8:30~16:30</strong></p>	
+					                           <p><strong>主辦單位：平安喜樂會</strong></p>
+					                           			
+			                                   </li><li>
+                                               <h3>嘉義捐血站</h3>
+                                               <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：先鋒農產玄玉米糧愛心團隊</strong></p>
+					                           			
+			                                   </li><li>
+                                               <h3>小東捐血室</h3>
+                                               <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：亞東保全股份有限公司台南分公司</strong></p>
+					                           			
+			                                   </li><li>
+                                               <h3>台南公園-台南轉運站對面(中山捐血車)</h3>
+                                               <p><strong>作業時間：9:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：財團法人豁落院仁慈堂</strong></p>
+					                           			
+			                                   </li><li>
+                                               <h3>新營捐血室</h3>
+                                               <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：新營扶輪社</strong></p>
+					                           			
+			                                   </li><li>
+                                               <h3>垂楊捐血室</h3>
+                                               <p><strong>作業時間：9:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：福松慈善功德會</strong></p>
+					                           			
+			                                   </li>
+			    
+			<li data-role="list-divider">星期一 11月 01 , 2021<span class="ui-li-count">2</span></li>
+            <li>
+                                               <h3>嘉義捐血站</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				
+			                                   </li><li>
+                                               <h3>新營捐血室</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				
+			                                   </li>
+				 
+			<li data-role="list-divider">星期二 11月 02 , 2021<span class="ui-li-count">5</span></li>
+            <li>
+                                               <h3>嘉義捐血站</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				
+			                                   </li><li>
+                                               <h3>新營捐血室</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				
+			                                   </li><li>
+                                               <h3>中埔鄉公所前(嘉義縣中埔鄉中埔村128號)</h3>
+					                           <p><strong>作業時間：9:30~16:30</strong></p>
+					                           <p><strong>主辦單位：江榮德愛心團隊 團隊心愛心情</strong></p>
+				
+			                                   </li><li>
+                                               <h3>行政大樓(台南市歸仁區長榮路一段396號)</h3>
+					                           <p><strong>作業時間：10:00~18:00</strong></p>
+					                           <p><strong>主辦單位：長榮大學</strong></p>
+				
+			                                   </li><li>
+                                               <h3>麻豆分局前南側停車格(臺南市麻豆區興國路6號)</h3>
+					                           <p><strong>作業時間：9:30~17:00</strong></p>
+					                           <p><strong>主辦單位：警察廣播電臺臺南臺</strong></p>
+				
+			                                   </li>
+				
+			<li data-role="list-divider">星期三 11月 03 , 2021<span class="ui-li-count">11</span></li>
+            <li>
+                                               <h3>嘉義捐血站</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				
+			                                   </li><li>
+                                               <h3>垂楊捐血室</h3>
+					                           <p><strong>作業時間：9:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				
+			                                   </li><li>
+                                               <h3>新營捐血室</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				
+			                                   </li><li>
+                                               <h3>公司內(台南市永康區環工路75號)</h3>
+					                           <p><strong>作業時間：8:30~11:30</strong></p>
+					                           <p><strong>主辦單位：至寶光電</strong></p>
+				
+			                                   </li><li>
+                                               <h3>公司內(台南市山上區明和村256號)</h3>
+					                           <p><strong>作業時間：8:30~11:30</strong></p>
+					                           <p><strong>主辦單位：宏遠興業公司</strong></p>
+				
+			                                   </li><li>
+                                               <h3>行政大樓(台南市歸仁區長榮路一段396號)</h3>
+					                           <p><strong>作業時間：10:00~18:00</strong></p>
+					                           <p><strong>主辦單位：長榮大學</strong></p>
+				
+			                                   </li><li>
+                                               <h3>行政大樓前(台南市永康區中山南路193號)</h3>
+					                           <p><strong>作業時間：12:30~16:00</strong></p>
+					                           <p><strong>主辦單位：國立台南高級工業職業學校</strong></p>
+				
+			                                   </li><li>
+                                               <h3>校門前(台南市中西區健康路一段342號)</h3>
+					                           <p><strong>作業時間：13:00~16:00</strong></p>
+					                           <p><strong>主辦單位：國立臺南家齊高級中等學校</strong></p>
+				
+			                                   </li><li>
+                                               <h3>中正堂前(台南市永康區中山南路636號)</h3>
+					                           <p><strong>作業時間：7:30~16:30</strong></p>
+					                           <p><strong>主辦單位：陸軍砲兵訓練指揮部</strong></p>
+				
+			                                   </li><li>
+                                               <h3>中正堂前(台南市永康區中山南路636號)</h3>
+					                           <p><strong>作業時間：13:30~19:00</strong></p>
+					                           <p><strong>主辦單位：陸軍砲兵訓練指揮部</strong></p>
+				
+			                                   </li><li>
+                                               <h3>本場次不對外開放</h3>
+					                           <p><strong>作業時間：9:00~11:30</strong></p>
+					                           <p><strong>主辦單位：優貝克南科廠</strong></p>
+				
+			                                   </li>
+				
+            <li data-role="list-divider">星期四 11月 04 , 2021<span class="ui-li-count">8</span></li>
+            <li>
+                                               <h3>仁德區丹丹漢堡旁(台南市仁德區中山路268號)</h3>
+					                           <p><strong>作業時間：10:00~18:00</strong></p>
+					                           <p><strong>主辦單位：仁德丹丹漢堡</strong></p>
+				                                
+			                                   </li><li>
+                                               <h3>嘉義捐血站</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				                                
+			                                   </li><li>
+                                               <h3>垂楊捐血室</h3>
+					                           <p><strong>作業時間：9:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				                                
+			                                   </li><li>
+                                               <h3>新營捐血室</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+				                                
+			                                   </li><li>
+                                               <h3>行政大樓(台南市歸仁區長榮路一段396號)</h3>
+					                           <p><strong>作業時間：10:00~18:00</strong></p>
+					                           <p><strong>主辦單位：長榮大學</strong></p>
+				                                
+			                                   </li><li>
+                                               <h3>飯店前(台南市東區大學路西段89號)</h3>
+					                           <p><strong>作業時間：10:00~17:00</strong></p>
+					                           <p><strong>主辦單位：香格里拉</strong></p>
+				                                
+			                                   </li><li>
+                                               <h3>紫微殿大門口(高雄市阿蓮區峰山村峰南路66-16號)</h3>
+					                           <p><strong>作業時間：9:30~17:00</strong></p>
+					                           <p><strong>主辦單位：紫微殿</strong></p>
+				                                
+			                                   </li><li>
+                                               <h3>歸仁區公所(台南市歸仁區中山路二段二號)</h3>
+					                           <p><strong>作業時間：9:00~17:00</strong></p>
+					                           <p><strong>主辦單位：歸仁團委會</strong></p>
+				                                
+			                                   </li>
+				
+            <li data-role="list-divider">星期五 11月 05 , 2021<span class="ui-li-count">4</span></li>
+            <li>
+                                               <h3>嘉義捐血站</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>垂楊捐血室</h3>
+					                           <p><strong>作業時間：9:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>新營捐血室</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：台南市新豐獅子會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>高鐵停車場2號出口7號公車月台(台南市歸仁區武東村15鄰中正南路二段9巷20弄20號)</h3>
+					                           <p><strong>作業時間：9:30~16:30</strong></p>	
+					                           <p><strong>主辦單位：台灣高鐵</strong></p>
+			
+			                                   </li>
+				
+            <li data-role="list-divider">星期六 11月 06 , 2021<span class="ui-li-count">7</span></li>
+            <li>
+                                               <h3>嘉義捐血站</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：木蘭同濟會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>垂楊捐血室</h3>
+					                           <p><strong>作業時間：9:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：木蘭同濟會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>永康探索公園(台南市永康區永華路與永平路口)</h3>
+					                           <p><strong>作業時間：8:30~17:00</strong></p>	
+					                           <p><strong>主辦單位：台南市永康獅子會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>和緯捐血室</h3>
+					                           <p><strong>作業時間：10:00~18:00</strong></p>	
+					                           <p><strong>主辦單位：台南市行善協會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>新營捐血室</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：南山壽新營新森通訊處</strong></p>
+			
+			                                   </li><li>
+                                               <h3>小東捐血室</h3>
+					                           <p><strong>作業時間：8:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：新化國際青年商會</strong></p>
+			
+			                                   </li><li>
+                                               <h3>台南公園-台南轉運站對面(中山捐血車)</h3>
+					                           <p><strong>作業時間：9:00~17:00</strong></p>	
+					                           <p><strong>主辦單位：竇爸食品公司</strong></p>
+			
+			                                   </li>
+				
+		</ul>  
+</div> 
+
+
+            <div class="BackToTop" id="toTop">
+                <a href="#">回頂端</a>
+            </div>
+            <div data-role="content" id="onfooter">
+                <a href="javascript: void(window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href) +'&t='+encodeURIComponent(document.title)));"><img src="_assets/images/fb.gif"></a> 
+                <a href="javascript: void(window.open('http://twitter.com/home/?status='+encodeURIComponent(location.href)+'%20'+encodeURIComponent(document.title)));"><img src="_assets/images/tweet.gif"></a>
+                <a href="javascript: void(window.open('http://www.plurk.com/?qualifier=shares&status='+encodeURIComponent(location.href)+'%20('+encodeURIComponent(document.title)+')'));"><img src="_assets/images/plurk.gif"></a>
+            </div>
+            
+            <div class="ui-footer ui-bar-e" style="overflow: auto; padding:10px 15px;" data-ajax-warning="true"></div>
+        </div>
+        <!--回到最上面-->
+        <!-- easing plugin ( optional ) -->
+        <script src="../js/jquery.easing.1.3.js" type="text/javascript"></script>
+        <!-- UItoTop plugin -->
+        <script src="../js/jquery.ui.totop.js" type="text/javascript"></script>
+        <!-- Starting the plugin -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                /*
+                var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear' 
+                };
+                */
+
+                $().UItoTop({ easingType: 'easeOutQuart' });
+
+            });
+        </script>
+
+    </form>
+</body>
+</html>
+

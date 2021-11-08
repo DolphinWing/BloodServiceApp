@@ -30,7 +30,7 @@ class BloodCenter(context: Context) {
         val name: String = "",
         val id: Int = 0,
         val facebook: String = "",
-        private val stations: String = "",
+        val stations: String = "",
         val cities: String = "",
         private val cityIds: String = "",
     ) {
@@ -48,19 +48,22 @@ class BloodCenter(context: Context) {
             cityIds.split(",").forEach { id -> list.add(id.toInt()) }
             return list
         }
+
+        fun stationsUrl(cityId: Int): String =
+            (stations + QS_LOCATION_MAP_CITY).replace("{city}", cityId.toString())
     }
 
     fun main(): Center = Center(0, this)
 
-    private fun taipei(): Center = Center(1, this)
+    fun taipei(): Center = Center(1, this)
 
-    private fun hsinchu(): Center = Center(2, this)
+    fun hsinchu(): Center = Center(2, this)
 
-    private fun taichung(): Center = Center(3, this)
+    fun taichung(): Center = Center(3, this)
 
-    private fun tainan(): Center = Center(4, this)
+    fun tainan(): Center = Center(4, this)
 
-    private fun kaohsiung(): Center = Center(5, this)
+    fun kaohsiung(): Center = Center(5, this)
 
     fun values(): List<Center> = arrayListOf(
         taipei(), hsinchu(), taichung(), tainan(), kaohsiung(),

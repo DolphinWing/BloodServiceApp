@@ -2,7 +2,6 @@ package dolphin.android.apps.BloodServiceApp.provider
 
 import android.text.format.DateUtils
 import androidx.annotation.Keep
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -19,17 +18,13 @@ class DonateDay(
 ) {
     private val day: Calendar = Calendar.getInstance(Locale.TAIWAN)
 
-    init {
-        activities.forEach { a -> a.day = this }
-    }
-
     @Suppress("unused")
-    fun setDate(year: Int, month: Int, dayOfMonth: Int) {
+    fun setDate(year: Int, monthOfJava: Int, dayOfMonth: Int) {
         // day = Calendar.getInstance();
-        if (month >= 12 || month < 0)
+        if (monthOfJava >= 12 || monthOfJava < 0)
             throw IllegalArgumentException("month is between 0~11")
-        resetToMidNight(day)
-        day.set(year, month - 1, dayOfMonth)
+        day.reset()
+        day.set(year, monthOfJava, dayOfMonth)
     }
 
     /**
@@ -39,7 +34,7 @@ class DonateDay(
      */
     fun setDate(calendar: Calendar) {
         day.timeInMillis = calendar.timeInMillis
-        resetToMidNight(day)
+        day.reset()
     }
 
     /**
@@ -64,7 +59,7 @@ class DonateDay(
      * date string
      */
     val dateString: String
-        get() = getSimpleDateString(day)
+        get() = SimpleDateFormat("yyyy/MM/dd (E)", Locale.TAIWAN).format(day.time)
 
     /**
      * activity count
@@ -72,6 +67,9 @@ class DonateDay(
     val activityCount: Int
         get() = activities.size
 
+    /**
+     * @suppress {@inheritDoc}
+     */
     override fun toString(): String {
         var str = StringBuilder()
         for (activity in activities) {
@@ -80,55 +78,17 @@ class DonateDay(
         str = StringBuilder(if (activityCount > 0) str.substring(0, str.length - 2) else "(null)")
         return "DonateDay{day=$dateString,list={$str}}"
     }
+}
 
-    companion object {
-
-        /**
-         * Set date time to midnight
-         *
-         * @param calendar Calendar
-         * @return formatted time
-         */
-        fun resetToMidNight(calendar: Calendar): Calendar {
-            val cal = Calendar.getInstance(Locale.TAIWAN)
-            cal.timeInMillis = calendar.timeInMillis
-            cal.set(Calendar.HOUR_OF_DAY, 0)
-            cal.set(Calendar.MINUTE, 0)
-            cal.set(Calendar.SECOND, 0)
-            cal.set(Calendar.MILLISECOND, 0)
-            calendar.timeInMillis = cal.timeInMillis // set back to original calendar
-            return cal
-        }
-
-        /**
-         * Get simple date string
-         *
-         * @param cal Calendar
-         * @return date string
-         */
-        fun getSimpleDateString(cal: Calendar): String {
-            return SimpleDateFormat("yyyy/MM/dd (E)", Locale.TAIWAN).format(cal.time)
-        }
-
-        /**
-         * Get simple date and time string
-         *
-         * @param cal Calendar
-         * @return date and time string
-         */
-        fun getSimpleDateTimeString(cal: Calendar): String {
-            return SimpleDateFormat("MM/dd HH:mm", Locale.TAIWAN).format(cal.time)
-        }
-
-        /**
-         * Get date string in default format
-         *
-         * @param cal Calendar
-         * @return date string
-         */
-        @Suppress("unused")
-        fun getDefaultDateString(cal: Calendar): String {
-            return DateFormat.getDateInstance(DateFormat.FULL).format(cal.time)
-        }
-    }
+/**
+ * Set date time to midnight of the day
+ *
+ * @return formatted time
+ */
+fun Calendar.reset(): Calendar {
+    set(Calendar.HOUR_OF_DAY, 0)
+    set(Calendar.MINUTE, 0)
+    set(Calendar.SECOND, 0)
+    set(Calendar.MILLISECOND, 0)
+    return this
 }

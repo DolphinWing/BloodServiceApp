@@ -1,0 +1,134 @@
+    <div id="PageLinkBox">
+        <div id="PageLink">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <a href="index.aspx" data-ajax="false">
+                            <img src="images/PageLinkHome.jpg" alt="首頁" border="0" /></a>
+                    </td>
+                    <td>
+                        <a class="font004" href="index.aspx" data-ajax="false">首頁</a>
+                    </td>
+                    <td>&gt;</td>
+                    <td>
+                        <a id="ctl00_ContentPlaceHolder1_lnk_webPath" class="Current" href="http://www.ks.blood.org.tw/Internet/Kaohsiung/LocationMap.aspx?spotID=174&amp;cityID=34">哪裡可以捐血</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="clear: both;">
+        </div>
+    </div>
+    <div id="ContentInnerPage">
+        <div id="InnerHeader">
+            <div id="InnerHeaderTitle">
+                哪裡可以捐血
+            </div>
+        </div>
+    </div>
+    <div id="CalendarInnerBox">
+        <div id="CalendarInnerHeader">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="2%" align="left">
+                            <img src="images/HeaderIcon003.jpg" alt="活動行事曆" border="0" />
+                        </td>
+                        <td width="17%" align="left" class="title">
+                            <span class="font005">活動行事曆</span>
+                        </td>
+                        <td width="9%" align="left" class="title">
+                            <a class='font002' href='LocationMap.aspx?spotID=174' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='地圖' border='0' />地圖</a>
+                        </td>
+                        <td width="12%" align="left" class="title">
+                            <a class='font002' href='LocationMonth.aspx?site_id=6' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='行事曆' border='0' />行事曆</a>
+                        </td>
+                        <td width="60%" align="right" class="share">
+                            
+                            
+
+<a href="javascript: void(window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href) +'&t='+encodeURIComponent(document.title)));"><img src="images/IconFB.jpg" alt="facebook" border="0" /></a>
+<a href="javascript: void(window.open('http://www.plurk.com/?qualifier=shares&status='+encodeURIComponent(location.href)+'%20('+encodeURIComponent(document.title)+')'));"><img src="images/IconPL.jpg" alt="plurk" border="0" /></a>
+<a href="javascript: void(window.open('http://twitter.com/home/?status='+encodeURIComponent(location.href)+'%20'+encodeURIComponent(document.title)));"><img src="images/IconTT.jpg" alt="twitter" border="0" /></a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="CalendarInnerContent">
+            <div id="CalendarInnerContentLeft_Map">
+                <div id="CalendarContentMapBox">
+                    <div id="CalendarContentMap">
+                        <iframe id="ctl00_ContentPlaceHolder1_frame_map" width="504" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&amp;hl=zh-TW&amp;geocode=&amp;q=%e9%ab%98%e9%9b%84%e5%b8%82%e6%a5%a0%e6%a2%93%e5%8d%80%e9%ab%98%e6%a5%a0%e5%85%ac%e8%b7%af1837%e8%99%9f&amp;z=16&amp;output=embed&amp;t="></iframe>
+                    </div>
+                    <div id="CalendarContentMapInfo">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <li><span class="font009">地址：</span>高雄市楠梓區高楠公路1837號</li>
+                                        <li><span class="font009">電話：</span>07-3641832</li>
+                                        <li><span class="font009">作業時間：</span>08:00-17:00</li>
+                                        <li><span class="font009">備註：</span>歡迎預約分離術捐血/110/8/31前作業時間09:00-20:00</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <img id="ctl00_ContentPlaceHolder1_img_qrCode" src="https://chart.googleapis.com/chart?chs=112x92&amp;cht=qr&amp;chl=http%3a%2f%2fwww.ks.blood.org.tw%2fInternet%2fKaohsiung%2fLocationMap.aspx%3fspotID%3d174%26cityID%3d34&amp;choe=UTF-8&amp;chld=M|0" alt="行動條碼圖片" style="height:84px;width:97px;border-width:0px;" />
+                                </td>
+                                <td valign="top" align ="left" class="MAPicon">
+                                    <ul>
+                                        <li>
+                                            <img src="images/CalendarContentMapIcon01.jpg" alt="捐血中心" border="0" />
+                                            楠梓捐血室
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="CalendarContentRight">
+                
+                <div id="SelectCity">
+                    <select name="ctl00$ContentPlaceHolder1$ddl_SelectCity" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$ddl_SelectCity\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_ddl_SelectCity" class="SelectCity">
+	<option value="27">高雄市</option>
+	<option value="29">屏東縣</option>
+	<option selected="selected" value="34">澎湖縣</option>
+	<option value="30">臺東縣</option>
+
+</select>
+				</div>
+
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader001.jpg" alt="固定捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=109&cityID=34' data-ajax='false'> 馬公捐血站</a></td></tr></table>
+                </div>
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader002.jpg" alt="巡迴捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ShortCutBox">
+        
+
+<div id="ShortCut">
+	<div>
+		<a href="#" onclick="$.mobile.silentScroll(0)" onkeypress="$.mobile.silentScroll(0)"  data-role="button"><img src="images/ShortCutTop.jpg" alt="回最上端" border="0" /></a>
+	</div>
+	<div>
+		<img src="images/ShortCutIcon.jpg" alt="Short Cut" border="0" />
+	</div>
+	<div>
+		<a href="javascript:history.go(-1);"><img src="images/ShortCutPrevious.jpg" alt="回上一頁" border="0" /></a>
+	</div>
+</div>
+
+    </div>

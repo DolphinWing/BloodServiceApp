@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
+    <!-- name tests -->
+    <string name="paren_test_name_01">宜蘭縣宜蘭市擺厘路16-7號1樓(配合宜蘭站)</string>
+    <string-array name="paren_test_name_01_result">
+        <item>宜蘭縣宜蘭市擺厘路16-7號1樓(配合宜蘭站)</item>
+        <item>宜蘭縣宜蘭市擺厘路16-7號1樓</item>
+        <item>配合宜蘭站</item>
+        <item>somewhere</item>
+    </string-array>
+    <string name="paren_test_name_02">台南公園-台南轉運站對面（中山捐血車）</string>
+    <string-array name="paren_test_name_02_result">
+        <item>台南公園-台南轉運站對面（中山捐血車）</item>
+        <item>台南公園-台南轉運站對面</item>
+        <item>中山捐血車</item>
+        <item>nowhere</item>
+    </string-array>
+    <!-- location tests -->
+    <string name="paren_test_location_01">新竹縣新埔鎮中正路792號(新埔國中內)</string>
+    <string-array name="paren_test_location_01_result">
+        <item>someone</item>
+        <item>新竹縣新埔鎮中正路792號</item>
+        <item>新埔國中</item>
+    </string-array>
+    <string name="paren_test_location_02">台南公園-台南轉運站對面（中山捐血車）</string>
+    <string-array name="paren_test_location_02_result">
+        <item>no one</item>
+        <item>台南公園-台南轉運站</item>
+        <item>中山捐血車</item>
+    </string-array>
+    <string name="paren_test_location_03">南門捐血室(桃園市桃園區三民路3段182號3樓之1)</string>
+    <string-array name="paren_test_location_03_result">
+        <item>anyone</item>
+        <item>南門捐血室</item>
+        <item>桃園市桃園區三民路3段182號</item>
+    </string-array>
+    <string name="paren_test_location_04">龍潭運動公園(北龍路肯德基對面)</string>
+    <string-array name="paren_test_location_04_result">
+        <item>004</item>
+        <item>龍潭運動公園</item>
+        <item>北龍路肯德基</item>
+    </string-array>
+    <string name="paren_test_location_05">高鐵新竹站(竹北市高鐵七路6號)4號出口處</string>
+    <string-array name="paren_test_location_05_result">
+        <item>005</item>
+        <item>高鐵新竹站</item>
+        <item>竹北市高鐵七路6號</item>
+    </string-array>
+    <string name="paren_test_location_06">桃園火車站旁(桃園市桃園區中正路20號)</string>
+    <string-array name="paren_test_location_06_result">
+        <item>006</item>
+        <item>桃園火車站</item>
+        <item>桃園市桃園區中正路20號</item>
+    </string-array>
+    <string name="paren_test_location_07">臺北市大安區B1東區地下街9號出口旁副走道(第四廣場旁)(配合忠孝室)</string>
+    <string-array name="paren_test_location_07_result">
+        <item>007</item>
+        <item>臺北市大安區B1東區地下街9號</item>
+        <item>第四廣場</item>
+        <item>配合忠孝室</item>
+    </string-array>
+</resources>

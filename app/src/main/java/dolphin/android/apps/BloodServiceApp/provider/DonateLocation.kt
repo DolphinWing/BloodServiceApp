@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 /**
  * Donation location
  */
+@Deprecated("no longer needed", replaceWith = ReplaceWith("SpotInfo and SpotList"))
 @Keep
 data class DonateLocation(
     var isFixed: Boolean,

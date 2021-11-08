@@ -81,6 +81,7 @@
     <string name="search_on_map_split_in_front" translatable="false">前</string>
     <string name="search_on_map_split_across" translatable="false">對面</string>
     <string name="search_on_map_split_aside" translatable="false">旁</string>
+    <string name="search_on_map_split_inside" translatable="false">內</string>
     <string name="search_on_map_split_lparen" translatable="false">（</string>
     <string name="search_on_map_split_rparen" translatable="false">）</string>
 

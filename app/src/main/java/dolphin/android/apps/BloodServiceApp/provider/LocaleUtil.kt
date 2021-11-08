@@ -7,8 +7,6 @@ import android.os.Build
 import java.util.Locale
 
 /**
- * Created by jimmyhu on 7/7/17.
- *
  * http://gunhansancar.com/change-language-programmatically-in-android/
  */
 class LocaleUtil {

@@ -1,0 +1,99 @@
+    </div>
+    <div id="ContentInnerPage">
+        <div id="InnerHeader">
+            <div id="InnerHeaderTitle">
+                哪裡可以捐血
+            </div>
+        </div>
+    </div>
+    <div id="CalendarInnerBox">
+        <div id="CalendarInnerHeader">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="2%" align="left">
+                            <img src="images/HeaderIcon003.jpg" alt="活動行事曆" border="0" />
+                        </td>
+                        <td width="17%" align="left" class="title">
+                            <span class="font005">活動行事曆</span>
+                        </td>
+                        <td width="9%" align="left" class="title">
+                            <a class='font002' href='LocationMap.aspx?spotID=3' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='地圖' border='0' />地圖</a>
+                        </td>
+                        <td width="12%" align="left" class="title">
+                            <a class='font002' href='LocationMonth.aspx?site_id=4' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='行事曆' border='0' />行事曆</a>
+                        </td>
+                        <td width="60%" align="right" class="share">
+                            
+                            
+
+<a href="javascript: void(window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href) +'&t='+encodeURIComponent(document.title)));"><img src="images/IconFB.jpg" alt="facebook" border="0" /></a>
+<a href="javascript: void(window.open('http://www.plurk.com/?qualifier=shares&status='+encodeURIComponent(location.href)+'%20('+encodeURIComponent(document.title)+')'));"><img src="images/IconPL.jpg" alt="plurk" border="0" /></a>
+<a href="javascript: void(window.open('http://twitter.com/home/?status='+encodeURIComponent(location.href)+'%20'+encodeURIComponent(document.title)));"><img src="images/IconTT.jpg" alt="twitter" border="0" /></a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="CalendarInnerContent">
+            <div id="CalendarInnerContentLeft_Map">
+                <div id="CalendarContentMapBox">
+                    <div id="CalendarContentMap">
+                        <iframe id="ctl00_ContentPlaceHolder1_frame_map" width="504" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps/ms?hl=zh-tw&amp;ie=UTF8&amp;msa=0&amp;brcurrent=3,0x34691605dc29179f:0xec9a9bf0eefd141e,0,0x346917dff97922ef:0x87523ee47ea6447f&amp;msid=209171503009697044945.00049e6928da9e7bbd1d3&amp;ll=24.185164,120.612749&amp;spn=0.003425,0.00456&amp;z=16&amp;iwloc=00049e692bdc7378a3bd1&amp;output=embed"></iframe>
+                    </div>
+                    <div id="CalendarContentMapInfo">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <li><span class="font009">地址：</span>臺中市西屯區台灣大道4段1176號</li>
+                                        <li><span class="font009">電話：</span>04-24612345</li>
+                                        <li><span class="font009">作業時間：</span>08:00~18:00(每日)</li>
+                                        <li><span class="font009">備註：</span>可做分離術捐血(中心後方有免費停車場),可搭乘優化公車300~308至澄清醫院站下車在步行前往</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <img id="ctl00_ContentPlaceHolder1_img_qrCode" src="https://chart.googleapis.com/chart?chs=112x92&amp;cht=qr&amp;chl=http%3a%2f%2fwww.tc.blood.org.tw%2fInternet%2fTaichung%2fLocationMap.aspx%3fspotID%3d3%26cityID%3d33&amp;choe=UTF-8&amp;chld=M|0" alt="行動條碼圖片" style="height:84px;width:97px;border-width:0px;" />
+                                </td>
+                                <td valign="top" align ="left" class="MAPicon">
+                                    <ul>
+                                        <li>
+                                            <img src="images/CalendarContentMapIcon01.jpg" alt="捐血中心" border="0" />
+                                            台中捐血中心捐血點(可做分離式捐血)
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="CalendarContentRight">
+                
+                <div id="SelectCity">
+                    <select name="ctl00$ContentPlaceHolder1$ddl_SelectCity" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$ddl_SelectCity\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_ddl_SelectCity" class="SelectCity">
+	<option value="19">臺中市</option>
+	<option value="21">彰化縣</option>
+	<option value="22">雲林縣</option>
+	<option selected="selected" value="33">南投縣</option>
+
+</select>
+				</div>
+
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader001.jpg" alt="固定捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=362&cityID=33' data-ajax='false'> 南投捐血室(可做分離式捐血)</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=25&cityID=33' data-ajax='false'> 埔里捐血站</a></td></tr></table>
+                </div>
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader002.jpg" alt="巡迴捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=349&cityID=33' data-ajax='false'> 水里民族橋</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=144&cityID=33' data-ajax='false'> 名間鄉松柏嶺受天宮</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=311&cityID=33' data-ajax='false'> 竹山克明宮</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=38&cityID=33' data-ajax='false'> 草屯太清宮</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=147&cityID=33' data-ajax='false'> 草屯惠德宮</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=381&cityID=33' data-ajax='false'> 國姓鄉公所</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=382&cityID=33' data-ajax='false'> 魚池鄉戶政事務所</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=379&cityID=33' data-ajax='false'> 鹿谷鄉民眾服務社</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=380&cityID=33' data-ajax='false'> 集集老站長</a></td></tr></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ShortCutBox">

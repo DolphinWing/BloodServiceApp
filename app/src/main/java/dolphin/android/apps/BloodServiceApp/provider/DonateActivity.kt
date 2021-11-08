@@ -26,11 +26,6 @@ class DonateActivity constructor(
     val location: String,
 ) {
     /**
-     * day of the activity
-     */
-    var day: DonateDay? = null
-
-    /**
      * activity start time
      */
     val startTime: Calendar = Calendar.getInstance(Locale.TAIWAN)
@@ -42,33 +37,14 @@ class DonateActivity constructor(
 
     /**
      * Set activity start time
-     *
-     * @param millis time in milliseconds
-     */
-    private fun setStartTime(millis: Long) {
-        startTime.timeInMillis = millis
-    }
-
-    /**
-     * Set activity start time
 
      * @param cal      reference Calendar
      * *
      * @param time_str time string
      */
-    private fun setStartTime(cal: Calendar, time_str: String) {
-        setStartTime(cal.timeInMillis)
-        parseTime(startTime, time_str)
-        // Log.d(TAG, "start: " + StartTime.getTime().toString());
-    }
-
-    /**
-     * Set activity end time
-     *
-     * @param millis time in milliseconds
-     */
-    private fun setEndTime(millis: Long) {
-        endTime.timeInMillis = millis
+    private fun setStartTime(cal: Calendar, time_str: String? = null) {
+        startTime.timeInMillis = cal.timeInMillis
+        time_str?.let { time -> parseTime(startTime, time) }
     }
 
     /**
@@ -77,10 +53,9 @@ class DonateActivity constructor(
      * @param cal      reference Calendar
      * @param time_str time string
      */
-    private fun setEndTime(cal: Calendar, time_str: String) {
-        setEndTime(cal.timeInMillis)
-        parseTime(endTime, time_str)
-        // Log.d(TAG, "end: " + EndTime.getTime().toString());
+    private fun setEndTime(cal: Calendar, time_str: String? = null) {
+        endTime.timeInMillis = cal.timeInMillis
+        time_str?.let { time -> parseTime(endTime, time) }
     }
 
     /**
@@ -92,13 +67,13 @@ class DonateActivity constructor(
     private fun parseTime(cal: Calendar, time_str: String) {
         // Log.d(TAG, time_str);
         try {
-            val ts = time_str.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val ts = time_str.split(":").dropLastWhile { it.isEmpty() }
             if (ts.size < 2) { // try Taipei pattern
                 if (time_str.matches("[0-9]+".toRegex()) && time_str.length > 3) {
-                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time_str.substring(0, 2)))
-                    cal.set(Calendar.MINUTE, Integer.parseInt(time_str.substring(2)))
+                    cal.set(Calendar.HOUR_OF_DAY, time_str.substring(0, 2).parseInt())
+                    cal.set(Calendar.MINUTE, time_str.substring(2).parseInt())
                 } else if (time_str.matches("[0-9]+".toRegex())) {
-                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time_str))
+                    cal.set(Calendar.HOUR_OF_DAY, time_str.parseInt())
                     cal.set(Calendar.MINUTE, 0)
                 } else {
                     // maybe we have leading numbers
@@ -109,13 +84,10 @@ class DonateActivity constructor(
                     // Log.d(TAG, "str: " + new_time_str);
                     if (newTimeStr.matches("[0-9]+".toRegex())) {
                         if (time_str.length > 3) {
-                            cal.set(
-                                Calendar.HOUR_OF_DAY,
-                                Integer.parseInt(newTimeStr.substring(0, 2))
-                            )
-                            cal.set(Calendar.MINUTE, Integer.parseInt(newTimeStr.substring(2)))
+                            cal.set(Calendar.HOUR_OF_DAY, newTimeStr.substring(0, 2).parseInt())
+                            cal.set(Calendar.MINUTE, newTimeStr.substring(2).parseInt())
                         } else {
-                            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(newTimeStr))
+                            cal.set(Calendar.HOUR_OF_DAY, newTimeStr.parseInt())
                             cal.set(Calendar.MINUTE, 0)
                         }
                         found = true
@@ -126,8 +98,8 @@ class DonateActivity constructor(
                     }
                 }
             } else {
-                cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(ts[0]))
-                cal.set(Calendar.MINUTE, Integer.parseInt(ts[1]))
+                cal.set(Calendar.HOUR_OF_DAY, ts[0].parseInt())
+                cal.set(Calendar.MINUTE, ts[1].parseInt())
             }
         } catch (e: NumberFormatException) {
             cal.set(Calendar.HOUR_OF_DAY, 0)
@@ -140,6 +112,12 @@ class DonateActivity constructor(
         // Log.d(TAG, cal.getTime().toString());
     }
 
+    private fun String.parseInt(): Int = try {
+        this.toInt()
+    } catch (e: NumberFormatException) {
+        0
+    }
+
     /**
      * Set activity duration
      *
@@ -148,14 +126,14 @@ class DonateActivity constructor(
      */
     fun setDuration(cal: Calendar, duration_str: String) {
         // Log.d(TAG, "duration_str: " + duration_str);
-        var ts = duration_str.split("~".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        var ts = duration_str.split("~").dropLastWhile { it.isEmpty() }
         if (ts.size < 2) { // try Hsinchu pattern
-            ts = duration_str.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            ts = duration_str.split("-").dropLastWhile { it.isEmpty() }
         }
         if (ts.size < 2) {
-            ts = if (duration_str.length >= 4)
-                arrayOf(duration_str.substring(0, 2), duration_str.substring(2, 4))
-            else arrayOf(duration_str, "1700")
+            ts = if (duration_str.length > 4)
+                listOf(duration_str.substring(0, 4), duration_str.substring(4))
+            else listOf(duration_str, "1700")
         }
         if (ts.size < 2) {
             return
@@ -166,42 +144,44 @@ class DonateActivity constructor(
     }
 
     /**
-     * Get activity duration
-     *
-     * @return duration string
+     * activity duration
      */
     @Suppress("MemberVisibilityCanBePrivate")
     val duration: String
-        get() {
-            val sdf = SimpleDateFormat("HH:mm", Locale.TAIWAN)
-            return String.format(
-                "%s ~ %s",
-                sdf.format(startTime.time),
-                sdf.format(endTime.time)
-            )
-        }
-
-    val startTimeString: String
-        get() = SimpleDateFormat("HH:mm", Locale.TAIWAN).format(startTime.time)
-
-    val endTimeString: String
-        get() = SimpleDateFormat("HH:mm", Locale.TAIWAN).format(endTime.time)
+        get() = String.format("%s ~ %s", startTimeString, endTimeString)
 
     /**
-     * Get simple date time string
+     * start time string
+     */
+    val startTimeString: String
+        get() = getSimpleTimeString(startTime)
+
+    /**
+     * end time string
+     */
+    val endTimeString: String
+        get() = getSimpleTimeString(endTime)
+
+    /**
+     * Get simple time string
      *
      * @param cal Calendar
      * @return time string
      */
-    private fun getSimpleDateTimeString(cal: Calendar): String {
-        return DonateDay.getSimpleDateTimeString(cal)
+    private fun getSimpleTimeString(cal: Calendar): String { // MM/dd HH:mm
+        return SimpleDateFormat("HH:mm", Locale.TAIWAN).format(cal.time)
     }
 
+    /**
+     * @suppress {@inheritDoc}
+     */
     override fun toString(): String {
-        return "DonateActivity{Name='$name', StartTime=${getSimpleDateTimeString(startTime)}, " +
-            "EndTime=${getSimpleDateTimeString(endTime)}, Location='$location'}"
+        return "{Name='$name', $startTimeString~$endTimeString, Location='$location'}"
     }
 
+    /**
+     * @suppress {@inheritDoc}
+     */
     override fun equals(other: Any?): Boolean {
         if (other is DonateActivity) {
             return other.location == location && other.duration == duration && other.name == name
@@ -209,6 +189,9 @@ class DonateActivity constructor(
         return false // super.equals(o);
     }
 
+    /**
+     * @suppress {@inheritDoc}
+     */
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + location.hashCode()
@@ -222,108 +205,93 @@ class DonateActivity constructor(
     }
 
     private fun splitName(src: String, splitter: String): Array<String> {
-        return src.split(splitter.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        return src.split(splitter).dropLastWhile { it.isEmpty() }.toTypedArray()
     }
 
+    /**
+     * Prepare location list for search on maps
+     *
+     * @param context Android Context
+     * @return location list
+     */
     fun prepareLocationList(context: Context): ArrayList<String> {
-        Log.d(TAG, "prepare location for $name $location")
+        // Log.d(TAG, "prepare location for $name $location")
 
         val list = ArrayList<String>()
         list.add(name) // add name first
         // check if we should split the name
-        if (name.contains("(")) {
-            val name1 = name.split("(")
+        arrayOf(
+            Pair("(", ")"),
+            Pair(
+                context.getString(R.string.search_on_map_split_lparen),
+                context.getString(R.string.search_on_map_split_rparen),
+            ),
+        ).filter { (lparen, rparen) ->
+            name.contains(lparen) && name.contains(rparen)
+        }.forEach { (lparen, rparen) ->
+            val name1 = name.split(lparen)
             list.add(name1[0])
             if (name1.size > 1 && name1[1].isNotEmpty()) {
-                if (name1[1].contains(")")) {
-                    list.add(splitName(name1[1], "\\)")[0])
-                } else {
-                    list.add(name1[1])
-                }
-            }
-        }
-        val lParen = context.getString(R.string.search_on_map_split_lparen)
-        val rParen = context.getString(R.string.search_on_map_split_rparen)
-        if (name.contains(lParen)) {
-            val name1 = name.split(lParen)
-            list.add(name1[0])
-            if (name1.size > 1 && name1[1].isNotEmpty()) {
-                if (name1[1].contains(rParen)) {
-                    list.add(splitName(name1[1], rParen)[0])
+                if (name1[1].contains(rparen)) {
+                    list.add(splitName(name1[1], rparen)[0])
                 } else {
                     list.add(name1[1])
                 }
             }
         }
 
-        // check the location
+        // check the location itself
         when {
             location.contains("　") ->
-                splitName(location, "　").forEach { l ->
-                    splitByParentheses1(l).forEach { l1 ->
+                splitName(location, "　").forEach { loc ->
+                    splitBy("(", ")", loc).forEach { l1 ->
                         list.add(removeNumberTrailing(context, l1))
                     }
                 }
             location.contains("(") ->
-                splitByParentheses1(location).forEach { l ->
+                splitBy("(", ")", location).forEach { l ->
                     list.add(removeNumberTrailing(context, l))
                 }
             else ->
-                splitByParentheses2(context, location).forEach { l ->
+                splitBy(
+                    context.getString(R.string.search_on_map_split_lparen),
+                    context.getString(R.string.search_on_map_split_rparen),
+                    location
+                ).forEach { l ->
                     list.add(removeNumberTrailing(context, l))
                 }
         }
-
-//        // http://stackoverflow.com/a/203992
-//        val s = LinkedHashSet(list)
-//        list.clear()
-//        list.addAll(s)
         return list
     }
 
-    private fun splitByParentheses1(location: String): Array<String> {
-        if (location.contains("(")) {
-            val loc = splitName(location, "\\(")
-            // location.split("\\(".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            for (i in loc.indices) {
-                loc[i] = if (loc[i].contains(")")) loc[i].substring(
-                    0,
-                    loc[i].indexOf(")")
-                ) else loc[i]
+    private fun splitBy(lparen: String, rparen: String, location: String): Array<String> {
+        if (location.contains(lparen) && location.contains(rparen)) {
+            val result = splitName(location, lparen)
+            result.forEachIndexed { index, loc ->
+                result[index] =
+                    if (loc.contains(rparen)) loc.substring(0, loc.indexOf(rparen)) else loc
             }
-            return loc
-        }
-        return arrayOf(location)
-    }
-
-    private fun splitByParentheses2(context: Context, location: String): Array<String> {
-        val lParen = context.getString(R.string.search_on_map_split_lparen)
-        val rParen = context.getString(R.string.search_on_map_split_rparen)
-        if (location.contains(lParen)) {
-            val loc = splitName(location, lParen)
-            // location.split(lParen.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            for (i in loc.indices) {
-                loc[i] = when {
-                    loc[i].contains(rParen) -> loc[i].substring(0, loc[i].indexOf(rParen))
-                    loc[i].contains(")") -> loc[i].substring(0, loc[i].indexOf(")"))
-                    else -> loc[i]
-                }
-            }
-            return loc
+            return result
         }
         return arrayOf(location)
     }
 
     private fun removeNumberTrailing(context: Context, location: String): String {
         val num = context.getString(R.string.search_on_map_split_number)
-        if (location.contains(num)) {
-            return location.substring(0, location.indexOf(num) + 1)
+        var result = if (location.contains(num)) {
+            location.substring(0, location.indexOf(num) + 1)
         } else {
-            // FIXME: maybe some other patterns?
+            location
         }
-        return location
+        // remove some other descriptors
+        arrayOf(
+            context.getString(R.string.search_on_map_split_in_front),
+            context.getString(R.string.search_on_map_split_across),
+            context.getString(R.string.search_on_map_split_aside),
+            context.getString(R.string.search_on_map_split_inside),
+        ).filter { text -> location.endsWith(text) }.forEach { text ->
+            result = result.dropLast(text.length)
+        }
+        return result
     }
-
-    val accessibilityString: String
-        get() = String.format("%s %s %s %s", day?.dateString ?: "", name, duration, location)
 }

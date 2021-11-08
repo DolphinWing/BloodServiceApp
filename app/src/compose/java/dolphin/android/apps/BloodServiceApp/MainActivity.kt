@@ -23,7 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
-import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
+import dolphin.android.apps.BloodServiceApp.provider.BloodDataParser
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
@@ -44,13 +44,16 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private val model: AppDataModel by viewModels()
     private lateinit var centerInstance: BloodCenter
     private lateinit var prefs: PrefsUtil
-    private lateinit var helper: BloodDataHelper
+
+    // private lateinit var helper: BloodDataHelper
+    private lateinit var parser: BloodDataParser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         centerInstance = BloodCenter(this)
         prefs = PrefsUtil(this)
-        helper = BloodDataHelper(this)
+        // helper = BloodDataHelper(this)
+        parser = BloodDataParser(this)
 
         // https://developer.android.com/about/versions/12/features/splash-screen#implement
         // Set up an OnPreDrawListener to the root view.
@@ -98,6 +101,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun setupFirebaseRemoteConfig() {
         // Handler(Looper.getMainLooper()).postDelayed({ checkPrivacyPolicyReview() }, 5)
+        Firebase.remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
         Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener {
             checkPrivacyPolicyReview()
             // executor.submit { helper.warmup() }
@@ -107,7 +111,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun setupViewModel() {
         lifecycleScope.launch {
-            model.init(helper).collect { ready ->
+            model.init(parser).collect { ready ->
                 // Log.d(TAG, "storage ready $ready")
                 if (ready) {
                     queryStorageData(model.center.value?.id ?: -1, forceRefresh = true)
@@ -202,7 +206,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private fun queryDonationData(id: Int) {
         queryDonationJob?.cancel()
         queryDonationJob = lifecycleScope.launch {
-            model.getDonationData(helper, id).collect { loading ->
+            model.getDonationData(parser, id).collect { loading ->
                 Log.d(TAG, "  queryDonationData loading = $loading")
             }
         }
@@ -211,7 +215,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {
         queryStorageJob?.cancel()
         queryStorageJob = lifecycleScope.launch {
-            model.getStorageData(helper, forceRefresh, centerId = id).collect { loading ->
+            model.getStorageData(parser, forceRefresh, centerId = id).collect { loading ->
                 Log.d(TAG, "  queryStorageData loading = $loading")
             }
         }
@@ -220,7 +224,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private fun querySpotList(id: Int) {
         querySpotListJob?.cancel()
         querySpotListJob = lifecycleScope.launch {
-            model.getSpotListData(helper, id).collect { loading ->
+            model.getSpotListData(parser, id).collect { loading ->
                 Log.d(TAG, "  querySpotList loading = $loading")
             }
         }

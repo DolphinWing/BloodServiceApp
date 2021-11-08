@@ -31,7 +31,7 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 214
+            versionCode = 215
             versionName = "3.1.0"
             dimension = "mode"
             minSdk = 21
@@ -63,6 +63,14 @@ android {
     composeOptions {
         // kotlinCompilerVersion = Versions.AndroidX.composeCompiler
         kotlinCompilerExtensionVersion = Versions.AndroidX.compose
+    }
+
+    testOptions {
+        // animationsDisabled = true
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
     }
 }
 
@@ -140,6 +148,19 @@ dependencies {
     implementation(Libs.AndroidX.Compose.material3)
     implementation(Libs.AndroidX.Compose.materialIcons)
     implementation(Libs.AndroidX.Compose.uiTooling)
+
+    // unit test
+    testImplementation(Libs.Test.junit)
+    testImplementation(Libs.Test.robolectric) {
+        exclude(group = "com.google.auto.service", module = "auto-service")
+    }
+    testImplementation(Libs.Test.mockito)
+    testImplementation(Libs.Test.mockitoInline)
+    testImplementation(Libs.AndroidXTest.core)
+    testImplementation(Libs.AndroidXTest.junit)
+    testImplementation(Libs.AndroidXTest.rules)
+    testImplementation(Libs.AndroidXTest.runner)
+    testImplementation(Libs.AndroidXTest.archCore)
 }
 
 // https://github.com/jlleitschuh/ktlint-gradle

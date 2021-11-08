@@ -33,8 +33,8 @@ public class BloodDataHelper {
     private final OkHttpClient mClient;
     private final Calendar mStartDate;
 
-    private final int[] mBloodCenterId;// = {0, 2, 3, 4, 5, 6, 7};
-    private final String[] mBloodType;// = {"A", "B", "O", "AB"};
+    private final int[] mBloodCenterId; // = {0, 2, 3, 4, 5, 6, 7};
+    private final String[] mBloodType; // = {"A", "B", "O", "AB"};
     private final String[] mBaseCityUrls;
     private final String[] mBaseCityIds;
     private SparseArray<String> mCityName;

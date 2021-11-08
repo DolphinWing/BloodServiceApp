@@ -1,0 +1,137 @@
+    <div id="PageLinkBox">
+        <div id="PageLink">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <a href="index.aspx" data-ajax="false">
+                            <img src="images/PageLinkHome.jpg" alt="首頁" border="0" /></a>
+                    </td>
+                    <td>
+                        <a class="font004" href="index.aspx" data-ajax="false">首頁</a>
+                    </td>
+                    <td>&gt;</td>
+                    <td>
+                        <a id="ctl00_ContentPlaceHolder1_lnk_webPath" class="Current" href="http://www.tp.blood.org.tw/Internet/taipei/LocationMap.aspx?spotID=68&amp;cityID=32">哪裡可以捐血</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="clear: both;">
+        </div>
+    </div>
+    <div id="ContentInnerPage">
+        <div id="InnerHeader">
+            <div id="InnerHeaderTitle">
+                哪裡可以捐血
+            </div>
+        </div>
+    </div>
+    <div id="CalendarInnerBox">
+        <div id="CalendarInnerHeader">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="2%" align="left">
+                            <img src="images/HeaderIcon003.jpg" alt="活動行事曆" border="0" />
+                        </td>
+                        <td width="17%" align="left" class="title">
+                            <span class="font005">活動行事曆</span>
+                        </td>
+                        <td width="9%" align="left" class="title">
+                            <a class='font002' href='LocationMap.aspx?spotID=68' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='地圖' border='0' />地圖</a>
+                        </td>
+                        <td width="12%" align="left" class="title">
+                            <a class='font002' href='LocationMonth.aspx?site_id=2' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='行事曆' border='0' />行事曆</a>
+                        </td>
+                        <td width="60%" align="right" class="share">
+                            
+                            
+
+<a href="javascript: void(window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href) +'&t='+encodeURIComponent(document.title)));"><img src="images/IconFB.jpg" alt="facebook" border="0" /></a>
+<a href="javascript: void(window.open('http://www.plurk.com/?qualifier=shares&status='+encodeURIComponent(location.href)+'%20('+encodeURIComponent(document.title)+')'));"><img src="images/IconPL.jpg"  alt="plurk" border="0" /></a>
+<a href="javascript: void(window.open('http://twitter.com/home/?status='+encodeURIComponent(location.href)+'%20'+encodeURIComponent(document.title)));"><img src="images/IconTT.jpg"  alt="twitter" border="0" /></a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="CalendarInnerContent">
+            <div id="CalendarInnerContentLeft_Map">
+                <div id="CalendarContentMapBox">
+                    <div id="CalendarContentMap">
+                        <iframe id="ctl00_ContentPlaceHolder1_frame_map" width="504" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&amp;hl=zh-TW&amp;geocode=&amp;q=%e8%87%ba%e5%8c%97%e5%b8%82%e5%8c%97%e6%8a%95%e5%8d%80%e7%ab%8b%e5%be%b7%e8%b7%af123%e8%99%9f(%e5%92%8c%e4%bf%a1%e9%86%ab%e9%99%a2%e6%97%81%ef%bc%8c%e6%8d%b7%e9%81%8b%e6%b7%a1%e6%b0%b4%e4%bf%a1%e7%be%a9%e7%b7%9aR%e5%bf%a0%e7%be%a9%e7%ab%99%ef%bc%8c%e6%ad%a5%e8%a1%8c%e7%b4%8410%e5%88%86%e9%90%98)&amp;z=16&amp;output=embed&amp;t="></iframe>
+                    </div>
+                    <div id="CalendarContentMapInfo">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <li><span class="font009">地址：</span>臺北市北投區立德路123號(和信醫院旁，捷運淡水信義線R忠義站，步行約10分鐘)</li>
+                                            <li><span class="font009">電話：</span>(02)2897-1600</li>
+                                            <li><span class="font009">作業時間：</span>8:00~17:00</li>
+                                            <li><span class="font009">備註：</span></li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <img id="ctl00_ContentPlaceHolder1_img_qrCode" src="https://chart.googleapis.com/chart?chs=112x92&amp;cht=qr&amp;chl=http%3a%2f%2fwww.tp.blood.org.tw%2fInternet%2ftaipei%2fLocationMap.aspx%3fspotID%3d68%26cityID%3d32&amp;choe=UTF-8&amp;chld=M|0" alt="行動條碼圖片" style="height:84px;width:97px;border-width:0px;" />
+                                    </td>
+                                    <td valign="top" align ="left" class="MAPicon">
+                                        <ul>
+                                            <li>
+                                                <img src="images/CalendarContentMapIcon01.jpg" alt="捐血中心" border="0" />
+                                                台北捐血中心捐血點
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="CalendarContentRight">
+                
+                <div id="SelectCity">
+                    <select name="ctl00$ContentPlaceHolder1$ddl_SelectCity" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$ddl_SelectCity\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_ddl_SelectCity" class="SelectCity">
+	<option value="13">臺北市</option>
+	<option value="14">新北市</option>
+	<option value="12">基隆市</option>
+	<option selected="selected" value="32">宜蘭縣</option>
+	<option value="31">花蓮縣</option>
+
+</select>
+				</div>
+
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader001.jpg" alt="固定捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=56&cityID=32' data-ajax='false'> 宜蘭捐血站</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=58&cityID=32' data-ajax='false'> 羅東萬連號捐血車</a></td></tr></table>
+                </div>
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader002.jpg" alt="巡迴捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=209&cityID=32' data-ajax='false'> 宜蘭三星鄉巡迴點</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=66&cityID=32' data-ajax='false'> 宜蘭冬山鄉巡迴點</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=206&cityID=32' data-ajax='false'> 宜蘭南方澳巡迴點</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=212&cityID=32' data-ajax='false'> 宜蘭頭城鎮巡迴點</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=356&cityID=32' data-ajax='false'> 宜蘭礁溪鄉巡迴點</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=322&cityID=32' data-ajax='false'> 宜蘭蘇澳巡迴點</a></td></tr></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ShortCutBox">
+        
+
+<div id="ShortCut">
+	<div>
+		<a href="#" onclick="$.mobile.silentScroll(0)" onkeypress="$.mobile.silentScroll(0)"  data-role="button"><img src="images/ShortCutTop.jpg" alt="回最上端" border="0" /></a>
+	</div>
+	<div>
+		<img src="images/ShortCutIcon.jpg" alt="Short Cut" border="0" />
+	</div>
+	<div>
+		<a href="javascript:history.go(-1);"><img src="images/ShortCutPrevious.jpg" alt="回上一頁" border="0" /></a>
+	</div>
+</div>
+
+    </div>

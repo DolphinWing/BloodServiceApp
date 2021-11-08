@@ -11,19 +11,21 @@ class SpotList(
      * city id of this region
      */
     val cityId: Int,
-    var cityName: String? = null
+
+    /**
+     * city name
+     */
+    var cityName: String? = null,
 ) {
     /**
      * full static spot location list
      */
-    var staticLocations: ArrayList<SpotInfo> = ArrayList()
-        private set
+    private val staticLocations: ArrayList<SpotInfo> = ArrayList()
 
     /**
      * full dynamic spot location list
      */
-    var dynamicLocations: ArrayList<SpotInfo> = ArrayList()
-        private set
+    private val dynamicLocations: ArrayList<SpotInfo> = ArrayList()
 
     constructor(cityId: String) : this(cityId.toInt())
 
@@ -49,10 +51,8 @@ class SpotList(
      * full spot location list including static and dynamic locations
      */
     val locations: ArrayList<SpotInfo>
-        get() {
-            val list = ArrayList<SpotInfo>()
-            list.addAll(staticLocations)
-            list.addAll(dynamicLocations)
-            return list
+        get() = ArrayList<SpotInfo>().apply {
+            addAll(staticLocations)
+            addAll(dynamicLocations)
         }
 }

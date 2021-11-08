@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="TypographyDashes">
+<resources>
     <bool name="eng_mode">true</bool>
     <bool name="feature_notification">false</bool>
 

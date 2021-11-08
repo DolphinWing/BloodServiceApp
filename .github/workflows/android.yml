@@ -26,3 +26,6 @@ jobs:
           ${{ runner.os }}-gradle-
     - name: Build with Gradle
       run: ./gradlew assembleComposeDebug
+    - name: Unit test with Gradle
+      run: ./gradlew testComposeDebugUnitTest
+

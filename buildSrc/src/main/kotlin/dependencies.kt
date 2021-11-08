@@ -81,6 +81,25 @@ object Versions {
      * ./gradlew runKtlintFormatOverFlexibleSourceSet
      */
     const val ktlintGradle = "10.2.0"
+
+    object Test {
+        const val junit = "4.13.2"
+        const val robolectric = "4.6.1"
+        const val mockito = "3.12.4"
+    }
+
+    /**
+     * https://developer.android.com/jetpack/androidx/releases/test
+     * https://maven.google.com/web/index.html
+     */
+    object AndroidXTest {
+        const val core = "1.4.0"
+        const val junit = "1.1.3"
+        const val espresso = "3.4.0"
+
+        // https://developer.android.com/jetpack/androidx/releases/arch-core
+        const val archCore = "2.1.0"
+    }
 }
 
 object Libs {
@@ -200,5 +219,25 @@ object Libs {
         private const val ownerProject = "eu.davidea:flexible-adapter"
         const val core: String = "$ownerProject:${Versions.FlexibleAdapter.core}"
         const val ui: String = "$ownerProject-ui:${Versions.FlexibleAdapter.ui}"
+    }
+
+    object Test {
+        const val junit = "junit:junit:${Versions.Test.junit}"
+
+        const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
+
+        const val mockito = "org.mockito:mockito-core:${Versions.Test.mockito}"
+        const val mockitoInline = "org.mockito:mockito-inline:${Versions.Test.mockito}"
+    }
+
+    object AndroidXTest {
+        const val core = "androidx.test:core-ktx:${Versions.AndroidXTest.core}"
+        const val rules = "androidx.test:rules:${Versions.AndroidXTest.core}"
+        const val runner = "androidx.test:runner:${Versions.AndroidXTest.core}"
+
+        const val junit = "androidx.test.ext:junit-ktx:${Versions.AndroidXTest.junit}"
+
+        // https://developer.android.com/jetpack/androidx/releases/arch-core
+        const val archCore = "androidx.arch.core:core-testing:${Versions.AndroidXTest.archCore}"
     }
 }
