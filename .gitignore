@@ -29,3 +29,5 @@ captures/
 
 app/releas
 *.png
+
+jacoco/

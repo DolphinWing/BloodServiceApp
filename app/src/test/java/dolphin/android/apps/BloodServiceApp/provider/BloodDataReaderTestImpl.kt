@@ -27,7 +27,7 @@ class BloodDataReaderTestImpl(private val context: Context) : BloodDataReader {
     }
 
     override fun readDonationSpotList(centerId: Int, cityId: Int, url: String): String {
-        return readFromAssets(contentAsset ?: "location_map_${centerId}_${cityId}.txt")
+        return readFromAssets(contentAsset ?: "location_map_${centerId}_$cityId.txt")
     }
 
     private fun readFromAssets(asset: String): String =

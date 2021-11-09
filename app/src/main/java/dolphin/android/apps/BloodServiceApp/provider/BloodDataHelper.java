@@ -16,15 +16,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dolphin.android.apps.BloodServiceApp.R;
+import dolphin.android.util.NoCoverageGenerated;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by dolphin on 2014/10/6.
- * <p/>
  * Data parsing helper
+ *
+ * @deprecated replaced by BloodDataParser.kt
  */
+@NoCoverageGenerated
 public class BloodDataHelper {
     private final static String TAG = "BloodDataHelper";
     private final static boolean DEBUG_LOG = false;

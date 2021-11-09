@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
+import dolphin.android.util.NoCoverageRequired
 import java.util.Locale
 
 /**
  * http://gunhansancar.com/change-language-programmatically-in-android/
  */
-class LocaleUtil {
+@NoCoverageRequired class LocaleUtil {
+    @NoCoverageRequired
     companion object Helper {
         fun onAttach(context: Context): Context {
             val locale = Locale("zh", "TW")

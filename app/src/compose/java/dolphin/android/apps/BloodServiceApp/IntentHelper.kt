@@ -13,10 +13,12 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.IntentBuilder
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
+import dolphin.android.util.NoCoverageRequired
 
 /**
  * Intent helper class to deal with Calendar and Maps
  */
+@NoCoverageRequired
 object IntentHelper {
     /**
      * https://developer.android.com/guide/topics/providers/calendar-provider#intents

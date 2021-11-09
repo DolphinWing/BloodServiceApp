@@ -7,7 +7,9 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 
+@NoCoverageRequired
 class PackageUtils {
+    @NoCoverageRequired
     companion object {
         /**
          * get package info

@@ -77,6 +77,7 @@
     <string name="summary_open_source_jetpack" translatable="false">Jetpack is a part of Android Open Source Project</string>
 
     <!-- splitter -->
+    <string name="search_on_map_split_full_space" translatable="false">　</string>
     <string name="search_on_map_split_number" translatable="false">號</string>
     <string name="search_on_map_split_in_front" translatable="false">前</string>
     <string name="search_on_map_split_across" translatable="false">對面</string>

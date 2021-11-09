@@ -10,6 +10,10 @@
 This is a gradle project. You should use Android Studio to modify codes.
 
 ----
+[216] @ 2021-11-09
+    add test coverage report
+    add more unit tests
+
 [215] @ 2021-11-08
     add unit tests
     refactor with kotlin

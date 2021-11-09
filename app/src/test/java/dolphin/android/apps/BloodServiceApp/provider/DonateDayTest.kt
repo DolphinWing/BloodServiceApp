@@ -36,6 +36,26 @@ class DonateDayTest {
     }
 
     @Test
+    fun setDateException() {
+        val day = DonateDay(emptyList())
+        try {
+            day.setDate(2020, 12, 0)
+            Assert.fail()
+        } catch (e: IllegalArgumentException) {
+        }
+        try {
+            day.setDate(2020, -1, 0)
+            Assert.fail()
+        } catch (e: IllegalArgumentException) {
+        }
+        try {
+            day.setDate(2020, Calendar.JULY, 0)
+            Assert.fail()
+        } catch (e: IllegalArgumentException) {
+        }
+    }
+
+    @Test
     fun isFuture() {
         val day = DonateDay(emptyList())
         day.setDate(2031, Calendar.DECEMBER, 31)
@@ -73,5 +93,11 @@ class DonateDayTest {
         Assert.assertNotEquals(day1, day2)
         Assert.assertNotEquals(day1.hashCode(), day2.hashCode())
         Assert.assertNotEquals(day1.toString(), day2.toString())
+    }
+
+    @Test
+    fun getActivities() {
+        val day = DonateDay(listOf(DonateActivity("hello", "world")))
+        Assert.assertEquals(1, day.activities.size)
     }
 }

@@ -9,11 +9,13 @@ import android.os.Build
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import dolphin.android.apps.BloodServiceApp.R
+import dolphin.android.util.NoCoverageRequired
 import dolphin.android.util.PackageUtils
 
 /**
  * Intent builder to make various Intent among the app.
  */
+@NoCoverageRequired
 object IntentBuilder {
     // https://developer.chrome.com/multidevice/android/customtabs
     // https://github.com/GoogleChrome/custom-tabs-client

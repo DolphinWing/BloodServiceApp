@@ -51,6 +51,23 @@ class BloodCenter(context: Context) {
 
         fun stationsUrl(cityId: Int): String =
             (stations + QS_LOCATION_MAP_CITY).replace("{city}", cityId.toString())
+
+        /**
+         * @suppress {@inheritDoc}
+         */
+        override fun equals(other: Any?): Boolean {
+            return (other as? Center)?.id == this.id
+        }
+
+        /**
+         * @suppress {@inheritDoc}
+         */
+        override fun hashCode(): Int = this.id.hashCode()
+
+        /**
+         * @suppress {@inheritDoc}
+         */
+        override fun toString(): String = this.name
     }
 
     fun main(): Center = Center(0, this)
