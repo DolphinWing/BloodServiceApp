@@ -1,3 +1,5 @@
+import java.net.URL
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -6,6 +8,7 @@ plugins {
     id("com.github.ben-manes.versions") version Versions.gradleVersionsPlugin
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
     id("jacoco")
+    id("org.jetbrains.dokka")
 }
 
 jacoco {
@@ -83,7 +86,6 @@ android {
 
     // Gradle automatically adds 'android.test.runner' as a dependency.
     useLibrary("android.test.runner")
-
     useLibrary("android.test.base")
     useLibrary("android.test.mock")
 }
@@ -112,10 +114,46 @@ tasks {
         outputDir = "build/dependencyUpdates"
         reportfileName = "report"
     }
+
+    // https://kotlin.github.io/dokka/1.4.0/user_guide/gradle/usage/
+    dokkaHtml {
+        outputDirectory.set(rootProject.projectDir.resolve("dokka"))
+
+        // Set module name displayed in the final output
+        moduleName.set("DolphinWing-BloodServiceApp")
+
+        dokkaSourceSets.configureEach {
+            // This name will be shown in the final output
+            if (name == "compose" || name == "main") { // show only production docs
+                suppress.set(false)
+                displayName.set(name)
+            } else { // ignore others
+                suppress.set(true)
+            }
+
+            // Platform used for code analysis. See the "Platforms" section of this readme
+            platform.set(org.jetbrains.dokka.Platform.jvm)
+
+            // Disable linking to online Android documentation (only applicable for Android projects)
+            noAndroidSdkLink.set(false)
+
+            // Disable linking to online JDK documentation
+            noJdkLink.set(true)
+
+            // Allows linking to documentation of the project"s dependencies (generated with Javadoc or Dokka)
+            // Repeat for multiple links
+            externalDocumentationLink {
+                // Root URL of the generated documentation to link with.
+                // The trailing slash is required!
+                url.set(URL("https://developer.android.com/reference/kotlin/"))
+                packageListUrl.set(URL("https://developer.android.com/reference/androidx/package-list"))
+            }
+        }
+    }
 }
 
 dependencies {
-    implementation(kotlin("stdlib", Versions.org_jetbrains_kotlin))
+    implementation(kotlin("stdlib", Versions.JetBrains.kotlinLib))
     implementation(Libs.okhttp)
     testImplementation(Libs.mockServer)
 

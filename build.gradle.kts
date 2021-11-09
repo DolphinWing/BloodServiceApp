@@ -7,9 +7,10 @@ buildscript {
     }
     dependencies {
         classpath (Libs.Google.gradleBuildTool)
-        classpath(kotlin("gradle-plugin", version = Versions.org_jetbrains_kotlin))
+        classpath(kotlin("gradle-plugin", version = Versions.JetBrains.kotlinLib))
         classpath (Libs.Google.services)
         classpath(Libs.jacoco)
+        classpath(Libs.dokka)
     }
 }
 

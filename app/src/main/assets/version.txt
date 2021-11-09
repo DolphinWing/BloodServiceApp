@@ -7,8 +7,11 @@
 * [Google Play Store](https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceApp)
 * [DolphinWing's App play yard](https://dolphinwing74.wordpress.com/?p=703)
 
-This is a gradle project. You should use Android Studio to modify codes.
+This is a gradle project. You should use Android Studio Arctic Fox or above.
+* [jacoco report](https://dolphinwing.github.io/BloodServiceApp/jacoco/index.html)
+* [dokka](https://dolphinwing.github.io/BloodServiceApp/dokka/index.html)
 
+This project is under MIT License. Copyright (c) 2021 DolphinWing.
 ----
 [216] @ 2021-11-09
     add test coverage report

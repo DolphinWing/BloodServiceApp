@@ -9,7 +9,7 @@ import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
  * Created by dolphin on 2014/10/21.
  * http://wangshifuola.blogspot.tw/2011/12/androidapplicationglobal-variable.html
  */
-class MyApplication : Application() {
+class BloodApplication : Application() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(LocaleUtil.onAttach(base))
     }
