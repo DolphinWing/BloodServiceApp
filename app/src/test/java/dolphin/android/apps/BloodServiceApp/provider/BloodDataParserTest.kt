@@ -21,7 +21,7 @@ class BloodDataParserTest {
     fun setup() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         reader = BloodDataReaderTestImpl(context)
-        parser = BloodDataParser(context, reader)
+        parser = BloodDataParser(context, reader).apply { warmUp() }
         center = BloodCenter(context)
     }
 
@@ -65,6 +65,12 @@ class BloodDataParserTest {
     }
 
     @Test
+    fun `read hsinchu this week failed`() {
+        val days = parser.getWeekCalendar(center.hsinchu().id)
+        Assert.assertEquals(0, days.size)
+    }
+
+    @Test
     fun `read tainan recent days`() {
         val days = parser.getLatestWeekCalendar(center.tainan().id)
         Assert.assertEquals(7, days.size)
@@ -98,5 +104,13 @@ class BloodDataParserTest {
         val (order, maps) = parser.getDonationSpotLocationMap(center.kaohsiung().id)
         Assert.assertEquals(4, order.size)
         Assert.assertEquals(4, maps.size())
+    }
+
+    @Test
+    fun `read Hsinchu spot list`() {
+        // reader.contentAsset = "location_map_2_13.txt" // test with the same file
+        val (order, maps) = parser.getDonationSpotLocationMap(center.hsinchu().id)
+        Assert.assertEquals(4, order.size)
+        Assert.assertEquals(0, maps.size())
     }
 }

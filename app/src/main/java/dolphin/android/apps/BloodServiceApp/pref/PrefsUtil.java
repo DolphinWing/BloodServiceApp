@@ -8,12 +8,14 @@ import androidx.preference.PreferenceManager;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import dolphin.android.util.NoCoverageGenerated;
 
 /**
- * Created by dolphin on 2014/10/26.
- * <p/>
  * Some utilities methods
+ *
+ * @deprecated replaced by data store
  */
+@NoCoverageGenerated
 public class PrefsUtil {
     private final Context mContext;
     private final static String KEY_ENABLE_ADVIEW = "enable_adview";

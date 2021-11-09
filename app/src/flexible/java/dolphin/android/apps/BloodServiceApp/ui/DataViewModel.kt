@@ -12,7 +12,6 @@ import dolphin.android.apps.BloodServiceApp.MyApplication
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataHelper
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
-import java.util.*
 import java.util.concurrent.ExecutorService
 import kotlin.collections.ArrayList
 

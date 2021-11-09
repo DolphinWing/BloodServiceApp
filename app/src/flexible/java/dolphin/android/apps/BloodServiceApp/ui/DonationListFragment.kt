@@ -187,7 +187,7 @@ class DonationListFragment :
                 location?.text = activity.location
                 startTime?.text = activity.startTimeString
                 endTime?.text = activity.endTimeString
-                this.itemView.contentDescription = activity.accessibilityString
+                // this.itemView.contentDescription = activity.accessibilityString
             }
             // fragment.registerForContextMenu(holder?.itemView)
         }

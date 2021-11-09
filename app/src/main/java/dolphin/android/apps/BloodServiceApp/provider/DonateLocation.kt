@@ -1,10 +1,12 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
 import androidx.annotation.Keep
+import dolphin.android.util.DeprecatedNoCoverage
 
 /**
  * Donation location
  */
+@DeprecatedNoCoverage
 @Deprecated("no longer needed", replaceWith = ReplaceWith("SpotInfo and SpotList"))
 @Keep
 data class DonateLocation(

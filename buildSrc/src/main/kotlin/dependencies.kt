@@ -3,6 +3,11 @@
  * ./gradlew dependencyUpdates
  */
 object Versions {
+    /**
+     * https://www.jacoco.org/jacoco/trunk/doc/changes.html
+     */
+    const val jacoco = "0.8.7"
+
     object Google {
         const val gradleBuildTool = "7.0.3"
         const val services: String = "4.3.10"
@@ -103,6 +108,7 @@ object Versions {
 }
 
 object Libs {
+    const val jacoco = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
 
     object Google {
         const val gradleBuildTool =
@@ -131,6 +137,7 @@ object Libs {
      * https://square.github.io/okhttp/
      */
     const val okhttp: String = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    const val mockServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
 
     /**
      * https://developer.android.com/jetpack/androidx

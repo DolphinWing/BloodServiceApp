@@ -48,15 +48,17 @@ interface BloodDataReader {
 
 /**
  * Default implementation of providing data for parser. It will read data from website.
+ *
+ * @param timeout timeout in seconds
  */
-class BloodDataReaderImpl : BloodDataReader {
+open class BloodDataReaderImpl(timeout: Long = 5) : BloodDataReader {
     companion object {
         private const val TAG = "BloodDataReader"
     }
 
     private val client: OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(5, TimeUnit.SECONDS)//connect timeout
-        .readTimeout(10, TimeUnit.SECONDS)//socket timeout
+        .connectTimeout(timeout, TimeUnit.SECONDS) // connect timeout
+        .readTimeout(timeout, TimeUnit.SECONDS) // socket timeout
         .build()
 
     override fun warmUp() {
@@ -71,7 +73,7 @@ class BloodDataReaderImpl : BloodDataReader {
         }
     }
 
-    private fun body(url: String): String {
+    protected open fun body(url: String): String {
         val request: Request = Request.Builder().url(url).build()
         val response: Response
         return try {

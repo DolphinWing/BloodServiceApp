@@ -5,7 +5,14 @@ plugins {
     id("com.google.gms.google-services") // Google Services Gradle plugin
     id("com.github.ben-manes.versions") version Versions.gradleVersionsPlugin
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
+    id("jacoco")
 }
+
+jacoco {
+    toolVersion = Versions.jacoco
+}
+
+apply(from = rootProject.file("jacoco.gradle.kts"))
 
 android {
     compileSdk = 31
@@ -22,6 +29,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            isTestCoverageEnabled = true
         }
         getByName("debug") {
             isMinifyEnabled = false
@@ -31,7 +39,7 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 215
+            versionCode = 216
             versionName = "3.1.0"
             dimension = "mode"
             minSdk = 21
@@ -72,6 +80,12 @@ android {
             isReturnDefaultValues = true
         }
     }
+
+    // Gradle automatically adds 'android.test.runner' as a dependency.
+    useLibrary("android.test.runner")
+
+    useLibrary("android.test.base")
+    useLibrary("android.test.mock")
 }
 
 fun isNonStable(version: String): Boolean {
@@ -103,6 +117,7 @@ tasks {
 dependencies {
     implementation(kotlin("stdlib", Versions.org_jetbrains_kotlin))
     implementation(Libs.okhttp)
+    testImplementation(Libs.mockServer)
 
     implementation(Libs.AndroidX.appcompat)
     implementation(Libs.AndroidX.swipeRefreshLayout)
@@ -151,9 +166,9 @@ dependencies {
 
     // unit test
     testImplementation(Libs.Test.junit)
-    testImplementation(Libs.Test.robolectric) {
-        exclude(group = "com.google.auto.service", module = "auto-service")
-    }
+    testImplementation(Libs.Test.robolectric)/* {
+        // exclude(group = "com.google.auto.service", module = "auto-service")
+    }*/
     testImplementation(Libs.Test.mockito)
     testImplementation(Libs.Test.mockitoInline)
     testImplementation(Libs.AndroidXTest.core)

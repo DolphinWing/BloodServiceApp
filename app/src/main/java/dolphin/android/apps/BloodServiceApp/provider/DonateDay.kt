@@ -23,6 +23,7 @@ class DonateDay(
         // day = Calendar.getInstance();
         if (monthOfJava >= 12 || monthOfJava < 0)
             throw IllegalArgumentException("month is between 0~11")
+        if (dayOfMonth <= 0) throw IllegalArgumentException("day should be positive")
         day.reset()
         day.set(year, monthOfJava, dayOfMonth)
     }

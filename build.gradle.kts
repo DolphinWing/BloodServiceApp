@@ -9,6 +9,7 @@ buildscript {
         classpath (Libs.Google.gradleBuildTool)
         classpath(kotlin("gradle-plugin", version = Versions.org_jetbrains_kotlin))
         classpath (Libs.Google.services)
+        classpath(Libs.jacoco)
     }
 }
 

@@ -155,7 +155,7 @@ class BloodDataParser(
 
                 val donateActivity = DonateActivity(name ?: "", location ?: "")
                 time?.let { str -> donateActivity.setDuration(cal, str) }
-                if (!list.contains(donateActivity)) { //[52]++
+                if (!list.contains(donateActivity)) { // [52]++
                     list.add(donateActivity)
                 }
             }

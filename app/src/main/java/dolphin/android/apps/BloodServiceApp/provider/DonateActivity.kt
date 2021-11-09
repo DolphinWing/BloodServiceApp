@@ -10,8 +10,6 @@ import java.util.Locale
 
 /**
  * Donation activity
- *
- * Created by dolphin on 2014/10/7.
  */
 @Keep
 class DonateActivity constructor(
@@ -35,11 +33,16 @@ class DonateActivity constructor(
      */
     val endTime: Calendar = Calendar.getInstance(Locale.TAIWAN)
 
+    init {
+        val now = Calendar.getInstance(Locale.TAIWAN)
+        setStartTime(now)
+        setEndTime(now)
+    }
+
     /**
      * Set activity start time
-
+     *
      * @param cal      reference Calendar
-     * *
      * @param time_str time string
      */
     private fun setStartTime(cal: Calendar, time_str: String? = null) {
@@ -232,22 +235,18 @@ class DonateActivity constructor(
             val name1 = name.split(lparen)
             list.add(name1[0])
             if (name1.size > 1 && name1[1].isNotEmpty()) {
-                if (name1[1].contains(rparen)) {
-                    list.add(splitName(name1[1], rparen)[0])
-                } else {
-                    list.add(name1[1])
-                }
+                list.add(splitName(name1[1], rparen)[0])
             }
         }
 
         // check the location itself
         when {
-            location.contains("　") ->
-                splitName(location, "　").forEach { loc ->
-                    splitBy("(", ")", loc).forEach { l1 ->
-                        list.add(removeNumberTrailing(context, l1))
-                    }
-                }
+//            location.contains("　") ->
+//                splitName(location, "　").forEach { loc ->
+//                    splitBy("(", ")", loc).forEach { l1 ->
+//                        list.add(removeNumberTrailing(context, l1))
+//                    }
+//                }
             location.contains("(") ->
                 splitBy("(", ")", location).forEach { l ->
                     list.add(removeNumberTrailing(context, l))
