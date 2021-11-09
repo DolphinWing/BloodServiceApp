@@ -71,7 +71,15 @@ object Versions {
         const val core: String = "5.1.0"
     }
 
-    const val org_jetbrains_kotlin: String = "1.5.31"
+    object JetBrains {
+        const val kotlinLib = "1.5.31"
+        const val coroutines = "1.5.1"
+
+        /**
+         * https://github.com/Kotlin/dokka
+         */
+        const val dokka = "1.5.31"
+    }
 
     /**
      * https://github.com/ben-manes/gradle-versions-plugin
@@ -109,6 +117,7 @@ object Versions {
 
 object Libs {
     const val jacoco = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
+    const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.JetBrains.dokka}"
 
     object Google {
         const val gradleBuildTool =
