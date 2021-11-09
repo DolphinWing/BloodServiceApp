@@ -126,12 +126,12 @@ interface MainUiCallback {
      */
     fun enableAddToCalendar(): Boolean
 
-    /**
-     * Enable or disable review policy in main ui.
-     *
-     * @return true if enable this feature
-     */
-    fun showReviewPolicy(): Boolean
+//    /**
+//     * Enable or disable review policy in main ui.
+//     *
+//     * @return true if enable this feature
+//     */
+//    fun showReviewPolicy(): Boolean
 }
 
 /**

@@ -6,11 +6,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath (Libs.Google.gradleBuildTool)
+        classpath(Libs.Google.gradleBuildTool)
         classpath(kotlin("gradle-plugin", version = Versions.JetBrains.kotlinLib))
-        classpath (Libs.Google.services)
+        classpath(Libs.Google.services)
         classpath(Libs.jacoco)
-        classpath(Libs.dokka)
+        classpath(Libs.JetBrains.dokka)
     }
 }
 
@@ -18,11 +18,13 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+
+        @Suppress("JcenterRepositoryObsolete")
         jcenter() {
             content {
                 // https://github.com/davideas/FlexibleAdapter/issues/768
-                includeModule("eu.davidea", "flexible-adapter")
-                includeModule("eu.davidea", "flexible-adapter-ui")
+                includeModule(Libs.FlexibleAdapter.group, Libs.FlexibleAdapter.moduleCore)
+                includeModule(Libs.FlexibleAdapter.group, Libs.FlexibleAdapter.moduleUi)
             }
         }
     }

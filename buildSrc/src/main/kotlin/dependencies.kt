@@ -55,6 +55,11 @@ object Versions {
          */
         const val compose = "1.0.4"
         const val composeMaterial3 = "1.0.0-alpha01"
+
+        /**
+         * https://developer.android.com/topic/libraries/architecture/datastore
+         */
+        const val datastore = "1.0.0"
     }
 
     object Firebase {
@@ -117,7 +122,23 @@ object Versions {
 
 object Libs {
     const val jacoco = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
-    const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.JetBrains.dokka}"
+
+    object JetBrains {
+        const val coroutinesCore =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.JetBrains.coroutines}"
+        const val coroutinesAndroid =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.JetBrains.coroutines}"
+
+        /**
+         * Dispatchers.Main can't run in unit test
+         * See https://is.gd/5b8vlR or
+         * https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
+         */
+        const val coroutinesTest =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.JetBrains.coroutines}"
+
+        const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.JetBrains.dokka}"
+    }
 
     object Google {
         const val gradleBuildTool =
@@ -214,6 +235,9 @@ object Libs {
 
             const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.AndroidX.compose}"
         }
+
+        const val datastore =
+            "androidx.datastore:datastore-preferences:${Versions.AndroidX.datastore}"
     }
 
     object Firebase {
@@ -232,9 +256,11 @@ object Libs {
      * https://github.com/davideas/FlexibleAdapter
      */
     object FlexibleAdapter {
-        private const val ownerProject = "eu.davidea:flexible-adapter"
-        const val core: String = "$ownerProject:${Versions.FlexibleAdapter.core}"
-        const val ui: String = "$ownerProject-ui:${Versions.FlexibleAdapter.ui}"
+        const val group = "eu.davidea"
+        const val moduleCore = "flexible-adapter"
+        const val moduleUi = "flexible-adapter-ui"
+        const val LibCore: String = "$group:$moduleCore:${Versions.FlexibleAdapter.core}"
+        const val LibUi: String = "$group:$moduleUi:${Versions.FlexibleAdapter.ui}"
     }
 
     object Test {

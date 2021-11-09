@@ -140,6 +140,7 @@ fun AppUiPane(
         val days = model.daysList.collectAsState()
         val cities = model.spotList.collectAsState()
         val city = model.city.collectAsState()
+        val review = model.showPrivacyReview.collectAsState()
 
         Crossfade(
             targetState = model.uiState.observeAsState().value,
@@ -175,7 +176,8 @@ fun AppUiPane(
                         onReviewIgnore = {
                             callback.reviewComplete(selected.value ?: center.main())
                         },
-                        onReviewPolicy = { callback.reviewPrivacy() }
+                        onReviewPolicy = { callback.reviewPrivacy() },
+                        showReviewPolicy = review.value,
                     )
 
                 UiState.Spots ->

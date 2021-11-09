@@ -3,7 +3,7 @@ package dolphin.android.apps.BloodServiceApp
 import android.app.Application
 import android.content.Context
 import com.google.android.material.color.DynamicColors
-import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
+import dolphin.android.util.LocaleUtils
 
 /**
  * Created by dolphin on 2014/10/21.
@@ -11,7 +11,7 @@ import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
  */
 class BloodApplication : Application() {
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleUtil.onAttach(base))
+        super.attachBaseContext(LocaleUtils.onAttach(base))
     }
 
     override fun onCreate() {

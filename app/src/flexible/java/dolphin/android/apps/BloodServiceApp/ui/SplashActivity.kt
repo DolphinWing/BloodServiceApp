@@ -1,5 +1,3 @@
-@file:Suppress("PackageName")
-
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.content.Context
@@ -16,7 +14,7 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.view.ViewStub
-import android.view.ViewTreeObserver.*
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -28,7 +26,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import dolphin.android.apps.BloodServiceApp.BuildConfig
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
-import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
+import dolphin.android.util.LocaleUtils
 import dolphin.android.util.PackageUtils
 import java.lang.ref.WeakReference
 
@@ -43,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
     private val ready = MutableLiveData(false)
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(LocaleUtil.onAttach(newBase!!))
+        super.attachBaseContext(LocaleUtils.onAttach(newBase!!))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -195,7 +193,7 @@ class SplashActivity : AppCompatActivity() {
         // https://developer.android.com/about/versions/12/features/splash-screen#implement
         // Set up an OnPreDrawListener to the root view.
         val content: View = findViewById(android.R.id.content)
-        content.viewTreeObserver.addOnPreDrawListener(object : OnPreDrawListener {
+        content.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
                 // Check if the initial data is ready.
                 return if (ready.value == true) {
