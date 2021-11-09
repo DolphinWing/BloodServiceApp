@@ -119,28 +119,34 @@ tasks {
     dokkaHtml {
         outputDirectory.set(rootProject.projectDir.resolve("dokka"))
 
-        dokkaSourceSets {
-            named("main") {
-                noAndroidSdkLink.set(false)
+        // Set module name displayed in the final output
+        moduleName.set("DolphinWing-BloodServiceApp")
+
+        dokkaSourceSets.configureEach {
+            // This name will be shown in the final output
+            if (name == "compose" || name == "main") { // show only production docs
+                suppress.set(false)
+                displayName.set(name)
+            } else { // ignore others
+                suppress.set(true)
             }
 
-            configureEach {
-                if (name == "compose") { // show only production docs
-                    suppress.set(false)
-                    displayName.set(name)
-                } else {
-                    suppress.set(true)
-                }
+            // Platform used for code analysis. See the "Platforms" section of this readme
+            platform.set(org.jetbrains.dokka.Platform.jvm)
 
-                // Specifies the location of the project source code on the Web.
-                // If provided, Dokka generates "source" links for each declaration.
-                // Repeat for multiple mappings
-                externalDocumentationLink {
-                    // Root URL of the generated documentation to link with.
-                    // The trailing slash is required!
-                    url.set(URL("https://developer.android.com/reference/kotlin/"))
-                    packageListUrl.set(URL("https://developer.android.com/reference/androidx/package-list"))
-                }
+            // Disable linking to online Android documentation (only applicable for Android projects)
+            noAndroidSdkLink.set(false)
+
+            // Disable linking to online JDK documentation
+            noJdkLink.set(true)
+
+            // Allows linking to documentation of the project"s dependencies (generated with Javadoc or Dokka)
+            // Repeat for multiple links
+            externalDocumentationLink {
+                // Root URL of the generated documentation to link with.
+                // The trailing slash is required!
+                url.set(URL("https://developer.android.com/reference/kotlin/"))
+                packageListUrl.set(URL("https://developer.android.com/reference/androidx/package-list"))
             }
         }
     }

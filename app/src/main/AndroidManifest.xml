@@ -18,7 +18,6 @@
 
     <!-- <uses-sdk tools:node="replace" /> -->
     <application
-        android:name="dolphin.android.apps.BloodServiceApp.MyApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
