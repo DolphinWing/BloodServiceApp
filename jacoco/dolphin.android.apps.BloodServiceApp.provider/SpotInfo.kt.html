@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpotInfo.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.provider</a> &gt; <span class="el_source">SpotInfo.kt</span></div><h1>SpotInfo.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp.provider
+
+import androidx.annotation.Keep
+
+/**
+ * Donation Spot information
+ */
+<span class="fc" id="L8">@Keep</span>
+<span class="fc" id="L9">data class SpotInfo(</span>
+    /**
+     * donation spot id
+     */
+<span class="pc" id="L13">    val spotId: Int,</span>
+
+    /**
+     * donation spot city id
+     */
+<span class="pc" id="L18">    val cityId: Int,</span>
+
+    /**
+     * donation spot name
+     */
+<span class="pc" id="L23">    val spotName: String,</span>
+
+    /**
+     * blood center site id of donation spot
+     */
+<span class="pc" id="L28">    var siteId: Int = 0</span>
+) {
+    constructor(spotId: String, cityId: String, name: String) :
+<span class="fc" id="L31">        this(</span>
+<span class="fc" id="L32">            try {</span>
+<span class="fc" id="L33">                Integer.parseInt(spotId)</span>
+<span class="nc" id="L34">            } catch (e: NumberFormatException) {</span>
+<span class="pc" id="L35">                0</span>
+            },
+<span class="fc" id="L37">            try {</span>
+<span class="fc" id="L38">                Integer.parseInt(cityId)</span>
+<span class="nc" id="L39">            } catch (e: NumberFormatException) {</span>
+<span class="pc" id="L40">                0</span>
+            },
+<span class="fc" id="L42">            name,</span>
+<span class="fc" id="L43">        )</span>
+<span class="fc" id="L44">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

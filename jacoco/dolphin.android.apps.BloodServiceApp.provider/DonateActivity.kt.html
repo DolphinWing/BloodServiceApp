@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DonateActivity.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.provider</a> &gt; <span class="el_source">DonateActivity.kt</span></div><h1>DonateActivity.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp.provider
+
+import android.content.Context
+import android.util.Log
+import androidx.annotation.Keep
+import dolphin.android.apps.BloodServiceApp.R
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+
+/**
+ * Donation activity
+ */
+<span class="fc" id="L14">@Keep</span>
+<span class="fc" id="L15">class DonateActivity constructor(</span>
+    /**
+     * activity title
+     */
+<span class="fc" id="L19">    val name: String,</span>
+
+    /**
+     * activity location
+     */
+<span class="pc" id="L24">    val location: String,</span>
+) {
+    /**
+     * activity start time
+     */
+<span class="fc" id="L29">    val startTime: Calendar = Calendar.getInstance(Locale.TAIWAN)</span>
+
+    /**
+     * activity end time
+     */
+<span class="fc" id="L34">    val endTime: Calendar = Calendar.getInstance(Locale.TAIWAN)</span>
+
+<span class="fc" id="L36">    init {</span>
+<span class="fc" id="L37">        val now = Calendar.getInstance(Locale.TAIWAN)</span>
+<span class="fc" id="L38">        setStartTime(now)</span>
+<span class="fc" id="L39">        setEndTime(now)</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+     * Set activity start time
+     *
+     * @param cal      reference Calendar
+     * @param time_str time string
+     */
+<span class="fc" id="L48">    private fun setStartTime(cal: Calendar, time_str: String? = null) {</span>
+<span class="fc" id="L49">        startTime.timeInMillis = cal.timeInMillis</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        time_str?.let { time -&gt; parseTime(startTime, time) }</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * Set activity end time
+     *
+     * @param cal      reference Calendar
+     * @param time_str time string
+     */
+<span class="fc" id="L59">    private fun setEndTime(cal: Calendar, time_str: String? = null) {</span>
+<span class="fc" id="L60">        endTime.timeInMillis = cal.timeInMillis</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        time_str?.let { time -&gt; parseTime(endTime, time) }</span>
+<span class="fc" id="L62">    }</span>
+
+    /**
+     * parse time string to Calendar
+     *
+     * @param cal      reference Calendar
+     * @param time_str time string
+     */
+    private fun parseTime(cal: Calendar, time_str: String) {
+        // Log.d(TAG, time_str);
+<span class="fc" id="L72">        try {</span>
+<span class="pc bpc" id="L73" title="2 of 4 branches missed.">            val ts = time_str.split(&quot;:&quot;).dropLastWhile { it.isEmpty() }</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            if (ts.size &lt; 2) { // try Taipei pattern</span>
+<span class="pc bpc" id="L75" title="1 of 4 branches missed.">                if (time_str.matches(&quot;[0-9]+&quot;.toRegex()) &amp;&amp; time_str.length &gt; 3) {</span>
+<span class="fc" id="L76">                    cal.set(Calendar.HOUR_OF_DAY, time_str.substring(0, 2).parseInt())</span>
+<span class="fc" id="L77">                    cal.set(Calendar.MINUTE, time_str.substring(2).parseInt())</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">                } else if (time_str.matches(&quot;[0-9]+&quot;.toRegex())) {</span>
+<span class="nc" id="L79">                    cal.set(Calendar.HOUR_OF_DAY, time_str.parseInt())</span>
+<span class="nc" id="L80">                    cal.set(Calendar.MINUTE, 0)</span>
+                } else {
+                    // maybe we have leading numbers
+                    // time_str=17點
+<span class="fc" id="L84">                    var found = false</span>
+
+<span class="fc" id="L86">                    val newTimeStr = time_str.replace(&quot;\\D+&quot;.toRegex(), &quot;&quot;)</span>
+                    // Log.d(TAG, &quot;str: &quot; + new_time_str);
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">                    if (newTimeStr.matches(&quot;[0-9]+&quot;.toRegex())) {</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">                        if (time_str.length &gt; 3) {</span>
+<span class="fc" id="L90">                            cal.set(Calendar.HOUR_OF_DAY, newTimeStr.substring(0, 2).parseInt())</span>
+<span class="fc" id="L91">                            cal.set(Calendar.MINUTE, newTimeStr.substring(2).parseInt())</span>
+                        } else {
+<span class="nc" id="L93">                            cal.set(Calendar.HOUR_OF_DAY, newTimeStr.parseInt())</span>
+<span class="nc" id="L94">                            cal.set(Calendar.MINUTE, 0)</span>
+                        }
+<span class="fc" id="L96">                        found = true</span>
+                    }
+
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">                    if (!found) {</span>
+<span class="nc" id="L100">                        throw NumberFormatException(&quot;no time&quot;)</span>
+                    }
+                }
+            } else {
+<span class="fc" id="L104">                cal.set(Calendar.HOUR_OF_DAY, ts[0].parseInt())</span>
+<span class="fc" id="L105">                cal.set(Calendar.MINUTE, ts[1].parseInt())</span>
+            }
+<span class="nc" id="L107">        } catch (e: NumberFormatException) {</span>
+<span class="nc" id="L108">            cal.set(Calendar.HOUR_OF_DAY, 0)</span>
+<span class="nc" id="L109">            cal.set(Calendar.MINUTE, 0)</span>
+<span class="nc" id="L110">            Log.e(TAG, String.format(&quot;message: %s\ntime_str: %s&quot;, e.message, time_str))</span>
+        }
+
+<span class="fc" id="L113">        cal.set(Calendar.SECOND, 0)</span>
+<span class="fc" id="L114">        cal.set(Calendar.MILLISECOND, 0)</span>
+        // Log.d(TAG, cal.getTime().toString());
+<span class="fc" id="L116">    }</span>
+
+<span class="fc" id="L118">    private fun String.parseInt(): Int = try {</span>
+<span class="fc" id="L119">        this.toInt()</span>
+<span class="nc" id="L120">    } catch (e: NumberFormatException) {</span>
+<span class="pc" id="L121">        0</span>
+<span class="fc" id="L122">    }</span>
+
+    /**
+     * Set activity duration
+     *
+     * @param cal          reference Calendar
+     * @param duration_str duration string
+     */
+    fun setDuration(cal: Calendar, duration_str: String) {
+        // Log.d(TAG, &quot;duration_str: &quot; + duration_str);
+<span class="pc bpc" id="L132" title="2 of 4 branches missed.">        var ts = duration_str.split(&quot;~&quot;).dropLastWhile { it.isEmpty() }</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (ts.size &lt; 2) { // try Hsinchu pattern</span>
+<span class="pc bpc" id="L134" title="2 of 4 branches missed.">            ts = duration_str.split(&quot;-&quot;).dropLastWhile { it.isEmpty() }</span>
+        }
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (ts.size &lt; 2) {</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            ts = if (duration_str.length &gt; 4)</span>
+<span class="fc" id="L138">                listOf(duration_str.substring(0, 4), duration_str.substring(4))</span>
+<span class="fc" id="L139">            else listOf(duration_str, &quot;1700&quot;)</span>
+        }
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if (ts.size &lt; 2) {</span>
+<span class="nc" id="L142">            return</span>
+        }
+        // Log.d(TAG, String.format(&quot;ts[0]=%s, ts[1]=%s&quot;, ts[0], ts[1]));
+<span class="fc" id="L145">        setStartTime(cal, ts[0])</span>
+<span class="fc" id="L146">        setEndTime(cal, ts[1])</span>
+<span class="fc" id="L147">    }</span>
+
+    /**
+     * activity duration
+     */
+    @Suppress(&quot;MemberVisibilityCanBePrivate&quot;)
+    val duration: String
+<span class="fc" id="L154">        get() = String.format(&quot;%s ~ %s&quot;, startTimeString, endTimeString)</span>
+
+    /**
+     * start time string
+     */
+    val startTimeString: String
+<span class="fc" id="L160">        get() = getSimpleTimeString(startTime)</span>
+
+    /**
+     * end time string
+     */
+    val endTimeString: String
+<span class="fc" id="L166">        get() = getSimpleTimeString(endTime)</span>
+
+    /**
+     * Get simple time string
+     *
+     * @param cal Calendar
+     * @return time string
+     */
+    private fun getSimpleTimeString(cal: Calendar): String { // MM/dd HH:mm
+<span class="fc" id="L175">        return SimpleDateFormat(&quot;HH:mm&quot;, Locale.TAIWAN).format(cal.time)</span>
+    }
+
+    /**
+     * @suppress {@inheritDoc}
+     */
+    override fun toString(): String {
+<span class="fc" id="L182">        return &quot;{Name='$name', $startTimeString~$endTimeString, Location='$location'}&quot;</span>
+    }
+
+    /**
+     * @suppress {@inheritDoc}
+     */
+    override fun equals(other: Any?): Boolean {
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if (other is DonateActivity) {</span>
+<span class="pc bpc" id="L190" title="1 of 6 branches missed.">            return other.location == location &amp;&amp; other.duration == duration &amp;&amp; other.name == name</span>
+        }
+<span class="nc" id="L192">        return false // super.equals(o);</span>
+    }
+
+    /**
+     * @suppress {@inheritDoc}
+     */
+    override fun hashCode(): Int {
+<span class="fc" id="L199">        var result = name.hashCode()</span>
+<span class="fc" id="L200">        result = 31 * result + location.hashCode()</span>
+<span class="fc" id="L201">        result = 31 * result + startTime.hashCode()</span>
+<span class="fc" id="L202">        result = 31 * result + endTime.hashCode()</span>
+<span class="fc" id="L203">        return result</span>
+    }
+
+    companion object {
+        private const val TAG = &quot;DonateActivity&quot;
+    }
+
+    private fun splitName(src: String, splitter: String): Array&lt;String&gt; {
+<span class="fc bfc" id="L211" title="All 4 branches covered.">        return src.split(splitter).dropLastWhile { it.isEmpty() }.toTypedArray()</span>
+    }
+
+    /**
+     * Prepare location list for search on maps
+     *
+     * @param context Android Context
+     * @return location list
+     */
+    fun prepareLocationList(context: Context): ArrayList&lt;String&gt; {
+        // Log.d(TAG, &quot;prepare location for $name $location&quot;)
+
+<span class="fc" id="L223">        val list = ArrayList&lt;String&gt;()</span>
+<span class="fc" id="L224">        list.add(name) // add name first</span>
+        // check if we should split the name
+        arrayOf(
+<span class="fc" id="L227">            Pair(&quot;(&quot;, &quot;)&quot;),</span>
+<span class="fc" id="L228">            Pair(</span>
+<span class="fc" id="L229">                context.getString(R.string.search_on_map_split_lparen),</span>
+<span class="fc" id="L230">                context.getString(R.string.search_on_map_split_rparen),</span>
+            ),
+<span class="fc" id="L232">        ).filter { (lparen, rparen) -&gt;</span>
+<span class="pc bpc" id="L233" title="1 of 6 branches missed.">            name.contains(lparen) &amp;&amp; name.contains(rparen)</span>
+<span class="fc" id="L234">        }.forEach { (lparen, rparen) -&gt;</span>
+<span class="fc" id="L235">            val name1 = name.split(lparen)</span>
+<span class="fc" id="L236">            list.add(name1[0])</span>
+<span class="pc bpc" id="L237" title="3 of 6 branches missed.">            if (name1.size &gt; 1 &amp;&amp; name1[1].isNotEmpty()) {</span>
+<span class="fc" id="L238">                list.add(splitName(name1[1], rparen)[0])</span>
+            }
+<span class="fc" id="L240">        }</span>
+
+        // check the location itself
+<span class="fc" id="L243">        when {</span>
+//            location.contains(&quot;　&quot;) -&gt;
+//                splitName(location, &quot;　&quot;).forEach { loc -&gt;
+//                    splitBy(&quot;(&quot;, &quot;)&quot;, loc).forEach { l1 -&gt;
+//                        list.add(removeNumberTrailing(context, l1))
+//                    }
+//                }
+<span class="fc bfc" id="L250" title="All 2 branches covered.">            location.contains(&quot;(&quot;) -&gt;</span>
+<span class="fc" id="L251">                splitBy(&quot;(&quot;, &quot;)&quot;, location).forEach { l -&gt;</span>
+<span class="fc" id="L252">                    list.add(removeNumberTrailing(context, l))</span>
+<span class="fc" id="L253">                }</span>
+            else -&gt;
+<span class="fc" id="L255">                splitBy(</span>
+<span class="fc" id="L256">                    context.getString(R.string.search_on_map_split_lparen),</span>
+<span class="fc" id="L257">                    context.getString(R.string.search_on_map_split_rparen),</span>
+<span class="fc" id="L258">                    location</span>
+<span class="fc" id="L259">                ).forEach { l -&gt;</span>
+<span class="fc" id="L260">                    list.add(removeNumberTrailing(context, l))</span>
+<span class="fc" id="L261">                }</span>
+        }
+<span class="fc" id="L263">        return list</span>
+    }
+
+    private fun splitBy(lparen: String, rparen: String, location: String): Array&lt;String&gt; {
+<span class="pc bpc" id="L267" title="1 of 4 branches missed.">        if (location.contains(lparen) &amp;&amp; location.contains(rparen)) {</span>
+<span class="fc" id="L268">            val result = splitName(location, lparen)</span>
+<span class="fc" id="L269">            result.forEachIndexed { index, loc -&gt;</span>
+<span class="fc" id="L270">                result[index] =</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">                    if (loc.contains(rparen)) loc.substring(0, loc.indexOf(rparen)) else loc</span>
+<span class="fc" id="L272">            }</span>
+<span class="fc" id="L273">            return result</span>
+        }
+<span class="fc" id="L275">        return arrayOf(location)</span>
+    }
+
+    private fun removeNumberTrailing(context: Context, location: String): String {
+<span class="fc" id="L279">        val num = context.getString(R.string.search_on_map_split_number)</span>
+<span class="fc bfc" id="L280" title="All 2 branches covered.">        var result = if (location.contains(num)) {</span>
+<span class="fc" id="L281">            location.substring(0, location.indexOf(num) + 1)</span>
+        } else {
+<span class="fc" id="L283">            location</span>
+        }
+        // remove some other descriptors
+        arrayOf(
+<span class="fc" id="L287">            context.getString(R.string.search_on_map_split_in_front),</span>
+<span class="fc" id="L288">            context.getString(R.string.search_on_map_split_across),</span>
+<span class="fc" id="L289">            context.getString(R.string.search_on_map_split_aside),</span>
+<span class="fc" id="L290">            context.getString(R.string.search_on_map_split_inside),</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">        ).filter { text -&gt; location.endsWith(text) }.forEach { text -&gt;</span>
+<span class="fc" id="L292">            result = result.dropLast(text.length)</span>
+<span class="fc" id="L293">        }</span>
+<span class="fc" id="L294">        return result</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

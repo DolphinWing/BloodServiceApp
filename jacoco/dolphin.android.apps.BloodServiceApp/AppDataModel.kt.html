@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppDataModel.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp</a> &gt; <span class="el_source">AppDataModel.kt</span></div><h1>AppDataModel.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp
+
+import android.util.SparseArray
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
+import dolphin.android.apps.BloodServiceApp.provider.BloodDataParser
+import dolphin.android.apps.BloodServiceApp.provider.DonateDay
+import dolphin.android.apps.BloodServiceApp.provider.SpotList
+import dolphin.android.apps.BloodServiceApp.ui.UiState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
+
+/**
+ * App data [ViewModel] in [SavedStateHandle].
+ *
+ * @param savedState saved app state
+ */
+<span class="nc" id="L27">class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {</span>
+    companion object {
+        private const val KEY_UI_STATE = &quot;ui_state&quot;
+    }
+
+    /**
+     * A flag of app about Firebase RemoteConfig load up.
+     */
+<span class="nc" id="L35">    val ready = MutableLiveData(false)</span>
+
+    /**
+     * A flag of app about system dark mode is enabled or not
+     */
+<span class="nc" id="L40">    val darkMode = MutableStateFlow(false)</span>
+
+    /**
+     * App UI state.
+     */
+<span class="nc" id="L45">    val uiState: LiveData&lt;UiState&gt; = savedState.getLiveData(KEY_UI_STATE)</span>
+
+    /**
+     * Internal app ui state
+     */
+    var state: UiState
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        get() = uiState.value ?: UiState.Main</span>
+        private set(value) {
+<span class="nc" id="L53">            savedState.set(KEY_UI_STATE, value)</span>
+<span class="nc" id="L54">        }</span>
+
+    /**
+     * Change app ui state
+     *
+     * @param state target app ui state
+     */
+    fun changeUiState(state: UiState) {
+<span class="nc" id="L62">        this.state = state</span>
+<span class="nc" id="L63">    }</span>
+
+    /**
+     * Selected blood center
+     */
+<span class="nc" id="L68">    val center = MutableLiveData&lt;BloodCenter.Center&gt;()</span>
+
+    /**
+     * Initialize the helper and other data instance.
+     *
+     * @param helper a helper instance to read data from internet
+     * @return true if helper is ready
+     */
+<span class="nc" id="L76">    fun init(helper: BloodDataParser): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="nc" id="L77">        helper.warmUp()</span>
+<span class="nc" id="L78">        emit(true)</span>
+<span class="nc" id="L79">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="nc" id="L80">        scope = viewModelScope,</span>
+<span class="nc" id="L81">        started = SharingStarted.Eagerly,</span>
+<span class="nc" id="L82">        initialValue = false,</span>
+<span class="nc" id="L83">    )</span>
+
+    private var storageCache: SparseArray&lt;HashMap&lt;String, Int&gt;&gt;? = null
+
+    /**
+     * Get storage data from internet
+     *
+     * @param parser a helper instance to read data from internet
+     * @param forceRefresh true if we want to download latest data from internet
+     * @return true if update is in progressing
+     */
+<span class="nc" id="L94">    fun getStorageData(</span>
+        parser: BloodDataParser,
+<span class="nc" id="L96">        forceRefresh: Boolean = false,</span>
+<span class="nc" id="L97">        centerId: Int? = -1,</span>
+<span class="nc" id="L98">    ): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">        if (storageCache == null || forceRefresh) {</span>
+<span class="nc" id="L100">            emitStorageMap(HashMap()) // clear the list</span>
+<span class="nc" id="L101">            storageCache = parser.getBloodStorage(forceRefresh)</span>
+        }
+<span class="nc bnc" id="L103" title="All 4 branches missed.">        storageCache?.let { cache -&gt;</span>
+<span class="nc bnc" id="L104" title="All 4 branches missed.">            centerId?.let { id -&gt; emitStorageMap(cache[id] ?: HashMap()) }</span>
+<span class="nc" id="L105">        } ?: kotlin.run {</span>
+<span class="nc" id="L106">            emitStorageMap(HashMap())</span>
+<span class="nc" id="L107">        }</span>
+<span class="nc" id="L108">        emit(false)</span>
+<span class="nc" id="L109">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="nc" id="L110">        scope = viewModelScope,</span>
+<span class="nc" id="L111">        started = SharingStarted.Eagerly,</span>
+<span class="nc" id="L112">        initialValue = true,</span>
+<span class="nc" id="L113">    )</span>
+
+<span class="nc" id="L115">    private val storages = MutableStateFlow&lt;HashMap&lt;String, Int&gt;&gt;(HashMap())</span>
+
+    /**
+     * A storage cache live data to update compose ui.
+     */
+<span class="nc" id="L120">    val storageMap: StateFlow&lt;HashMap&lt;String, Int&gt;&gt; = storages</span>
+
+    /**
+     * Update storage data to compose ui.
+     *
+     * @param maps target blood center storage
+     */
+    private suspend fun emitStorageMap(maps: HashMap&lt;String, Int&gt;) {
+<span class="nc" id="L128">        storages.emit(maps)</span>
+<span class="nc" id="L129">    }</span>
+
+<span class="nc" id="L131">    private var donationCache = SparseArray&lt;List&lt;DonateDay&gt;&gt;()</span>
+
+    /**
+     * Get donation list from internet.
+     *
+     * @param parser a helper instance to read data from internet
+     * @param id target blood center id
+     * @return true if update is in progressing
+     */
+<span class="nc" id="L140">    fun getDonationData(</span>
+        parser: BloodDataParser,
+<span class="nc bnc" id="L142" title="All 4 branches missed.">        id: Int = center.value?.id ?: -1</span>
+<span class="nc" id="L143">    ): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (donationCache[id] == null) {</span>
+<span class="nc" id="L145">            _daysList.emit(ArrayList()) // clear the list</span>
+<span class="nc" id="L146">            donationCache.put(id, parser.getLatestWeekCalendar(id))</span>
+        }
+<span class="nc" id="L148">        _daysList.emit(donationCache[id])</span>
+<span class="nc" id="L149">        emit(false)</span>
+<span class="nc" id="L150">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="nc" id="L151">        scope = viewModelScope,</span>
+<span class="nc" id="L152">        started = SharingStarted.Eagerly,</span>
+<span class="nc" id="L153">        initialValue = true,</span>
+<span class="nc" id="L154">    )</span>
+
+<span class="nc" id="L156">    private val _daysList = MutableStateFlow&lt;List&lt;DonateDay&gt;&gt;(ArrayList())</span>
+
+    /**
+     * A donation list live data to update compose ui.
+     */
+<span class="nc" id="L161">    val daysList: StateFlow&lt;List&lt;DonateDay&gt;&gt; = _daysList</span>
+
+<span class="nc" id="L163">    private val spotCityCache = SparseArray&lt;ArrayList&lt;SpotList&gt;&gt;()</span>
+
+    /**
+     * Get donation spot list from internet.
+     *
+     * @param parser a helper instance to read data from internet
+     * @param id target blood center id
+     * @return true if update is in progressing
+     */
+<span class="nc" id="L172">    fun getSpotListData(</span>
+        parser: BloodDataParser,
+<span class="nc bnc" id="L174" title="All 4 branches missed.">        id: Int = center.value?.id ?: -1</span>
+<span class="nc" id="L175">    ): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (spotCityCache[id] == null) {</span>
+<span class="nc" id="L177">            val list = ArrayList&lt;SpotList&gt;()</span>
+<span class="nc" id="L178">            emitSpotList(list) // clear the list</span>
+
+<span class="nc" id="L180">            val (order, data) = parser.getDonationSpotLocationMap(id)</span>
+<span class="nc" id="L181">            order.forEach { id -&gt; list.add(data.get(id)) }</span>
+<span class="nc" id="L182">            spotCityCache.put(id, list)</span>
+        }
+<span class="nc" id="L184">        emitSpotList(list = spotCityCache[id])</span>
+<span class="nc" id="L185">        emit(false)</span>
+<span class="nc" id="L186">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="nc" id="L187">        scope = viewModelScope,</span>
+<span class="nc" id="L188">        started = SharingStarted.Eagerly,</span>
+<span class="nc" id="L189">        initialValue = true,</span>
+<span class="nc" id="L190">    )</span>
+
+<span class="nc" id="L192">    private val _spotList = MutableStateFlow&lt;List&lt;SpotList&gt;&gt;(ArrayList())</span>
+
+    /**
+     * A spot list live data to update compose ui.
+     */
+<span class="nc" id="L197">    val spotList: StateFlow&lt;List&lt;SpotList&gt;&gt; = _spotList</span>
+
+    /**
+     * Update spot list to compose ui.
+     *
+     * @param list spot list of target blood center
+     */
+    private suspend fun emitSpotList(list: List&lt;SpotList&gt;) {
+<span class="nc" id="L205">        _spotList.emit(list)</span>
+<span class="nc bnc" id="L206" title="All 4 branches missed.">        currentCity.emit(if (list.isNotEmpty()) list.first().cityId else 0)</span>
+<span class="nc" id="L207">    }</span>
+
+<span class="nc" id="L209">    private val currentCity = MutableStateFlow(0)</span>
+
+    /**
+     * Current selected city. Only useful in SpotListUi.
+     */
+<span class="nc" id="L214">    val city: StateFlow&lt;Int&gt; = currentCity</span>
+
+    /**
+     * Change a new city
+     *
+     * @param cityId new city
+     */
+    fun changeCity(cityId: Int) {
+<span class="nc" id="L222">        currentCity.value = cityId</span>
+<span class="nc" id="L223">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

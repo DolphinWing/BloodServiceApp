@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DonateDay.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.provider</a> &gt; <span class="el_source">DonateDay.kt</span></div><h1>DonateDay.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp.provider
+
+import android.text.format.DateUtils
+import androidx.annotation.Keep
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+
+/**
+ * Donation activities in a day.
+ */
+<span class="fc" id="L12">@Keep</span>
+<span class="fc" id="L13">class DonateDay(</span>
+    /**
+     * activity list of today
+     */
+<span class="fc" id="L17">    val activities: List&lt;DonateActivity&gt;,</span>
+) {
+<span class="fc" id="L19">    private val day: Calendar = Calendar.getInstance(Locale.TAIWAN)</span>
+
+    @Suppress(&quot;unused&quot;)
+    fun setDate(year: Int, monthOfJava: Int, dayOfMonth: Int) {
+        // day = Calendar.getInstance();
+<span class="fc bfc" id="L24" title="All 4 branches covered.">        if (monthOfJava &gt;= 12 || monthOfJava &lt; 0)</span>
+<span class="fc" id="L25">            throw IllegalArgumentException(&quot;month is between 0~11&quot;)</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (dayOfMonth &lt;= 0) throw IllegalArgumentException(&quot;day should be positive&quot;)</span>
+<span class="fc" id="L27">        day.reset()</span>
+<span class="fc" id="L28">        day.set(year, monthOfJava, dayOfMonth)</span>
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Set date
+     *
+     * @param calendar Calendar
+     */
+    fun setDate(calendar: Calendar) {
+<span class="fc" id="L37">        day.timeInMillis = calendar.timeInMillis</span>
+<span class="fc" id="L38">        day.reset()</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * date time in milliseconds
+     */
+    val timeInMillis: Long
+<span class="fc" id="L45">        get() = day.timeInMillis</span>
+
+    /**
+     * Indicate if the time is in the future.
+     *
+     * @return true if the time is in the future
+     */
+    val isFuture: Boolean
+<span class="fc" id="L53">        get() = when {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            day.after(Calendar.getInstance(Locale.TAIWAN)) -&gt; true</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            DateUtils.isToday(timeInMillis) -&gt; true</span>
+<span class="fc" id="L56">            else -&gt; false</span>
+<span class="fc" id="L57">        }</span>
+
+    /**
+     * date string
+     */
+    val dateString: String
+<span class="fc" id="L63">        get() = SimpleDateFormat(&quot;yyyy/MM/dd (E)&quot;, Locale.TAIWAN).format(day.time)</span>
+
+    /**
+     * activity count
+     */
+    val activityCount: Int
+<span class="fc" id="L69">        get() = activities.size</span>
+
+    /**
+     * @suppress {@inheritDoc}
+     */
+    override fun toString(): String {
+<span class="fc" id="L75">        var str = StringBuilder()</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (activity in activities) {</span>
+<span class="fc" id="L77">            str.append(activity.toString()).append(&quot;,&quot;)</span>
+        }
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        str = StringBuilder(if (activityCount &gt; 0) str.substring(0, str.length - 2) else &quot;(null)&quot;)</span>
+<span class="fc" id="L80">        return &quot;DonateDay{day=$dateString,list={$str}}&quot;</span>
+    }
+}
+
+/**
+ * Set date time to midnight of the day
+ *
+ * @return formatted time
+ */
+fun Calendar.reset(): Calendar {
+<span class="fc" id="L90">    set(Calendar.HOUR_OF_DAY, 0)</span>
+<span class="fc" id="L91">    set(Calendar.MINUTE, 0)</span>
+<span class="fc" id="L92">    set(Calendar.SECOND, 0)</span>
+<span class="fc" id="L93">    set(Calendar.MILLISECOND, 0)</span>
+<span class="fc" id="L94">    return this</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

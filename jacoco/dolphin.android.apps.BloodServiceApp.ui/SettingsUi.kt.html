@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SettingsUi.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.ui</a> &gt; <span class="el_source">SettingsUi.kt</span></div><h1>SettingsUi.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp.ui
+
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import dolphin.android.apps.BloodServiceApp.R
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
+
+/**
+ * Settings UI callbacks
+ */
+interface SettingsUiCallback {
+    /**
+     * Show asset file content in a dialog.
+     *
+     * @param title title id
+     * @param asset asset file name
+     */
+    fun showAssetInDialog(@StringRes title: Int, asset: String)
+
+    /**
+     * App version info.
+     *
+     * @return app version info
+     */
+    fun versionInfo(): String
+
+    /**
+     * Enable or disable if we can read change logs.
+     *
+     * @return true if change logs can be shown in a dialog
+     */
+    fun enableVersionSummary(): Boolean
+}
+
+/**
+ * Settings UI in Compose way.
+ */
+@ExperimentalMaterial3Api
+@Composable
+fun SettingsUi(
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    onBackPress: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    version: String = &quot;v0.0.0&quot;,</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">    onReview: ((Int, String) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">    showChangeLog: Boolean = false,</span>
+<span class="nc bnc" id="L77" title="All 40 branches missed.">) {</span>
+<span class="nc" id="L78">    var dialog by remember { mutableStateOf(false) }</span>
+<span class="nc" id="L79">    var assets by remember { mutableStateOf(&quot;&quot;) }</span>
+
+    fun showDialog(@StringRes title: Int, asset: String) {
+<span class="nc bnc" id="L82" title="All 4 branches missed.">        onReview?.invoke(title, asset) ?: run {</span>
+<span class="nc" id="L83">            assets = asset</span>
+<span class="nc" id="L84">            dialog = true</span>
+<span class="nc" id="L85">        }</span>
+<span class="nc" id="L86">    }</span>
+
+<span class="nc" id="L88">    ShowAssetContentDialog(asset = assets, visible = dialog, onDismiss = { dialog = false })</span>
+
+<span class="nc" id="L90">    Scaffold(</span>
+<span class="nc" id="L91">        modifier = modifier,</span>
+<span class="nc" id="L92">        topBar = {</span>
+<span class="nc bnc" id="L93" title="All 4 branches missed.">            MediumTopAppBar(</span>
+<span class="nc bnc" id="L94" title="All 4 branches missed.">                title = { Text(stringResource(id = R.string.title_activity_settings)) },</span>
+<span class="nc" id="L95">                navigationIcon = {</span>
+<span class="nc bnc" id="L96" title="All 6 branches missed.">                    IconButton(onClick = { onBackPress?.invoke() }) {</span>
+<span class="nc bnc" id="L97" title="All 4 branches missed.">                        Icon(</span>
+<span class="nc" id="L98">                            Icons.Rounded.ArrowBack,</span>
+<span class="nc" id="L99">                            contentDescription = null,</span>
+<span class="nc" id="L100">                        )</span>
+<span class="nc" id="L101">                    }</span>
+<span class="nc" id="L102">                }</span>
+<span class="nc" id="L103">            )</span>
+<span class="nc" id="L104">        },</span>
+<span class="nc" id="L105">    ) { padding -&gt;</span>
+<span class="nc bnc" id="L106" title="All 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
+<span class="nc bnc" id="L107" title="All 4 branches missed.">            SettingsSectionTitle(stringResource(id = R.string.app_build_info))</span>
+<span class="nc" id="L108">            SettingsTwoLinedText(</span>
+<span class="nc" id="L109">                title = stringResource(id = R.string.app_version),</span>
+<span class="nc" id="L110">                modifier = Modifier</span>
+<span class="nc" id="L111">                    .clickable(enabled = showChangeLog) {</span>
+<span class="nc" id="L112">                        showDialog(R.string.app_change_log, &quot;version.txt&quot;)</span>
+<span class="nc" id="L113">                    }</span>
+<span class="nc" id="L114">                    .fillMaxWidth(),</span>
+<span class="nc" id="L115">                summary = version,</span>
+            )
+<span class="nc" id="L117">            SettingsTwoLinedText(</span>
+<span class="nc" id="L118">                stringResource(id = R.string.app_privacy_policy),</span>
+<span class="nc" id="L119">                modifier = Modifier</span>
+<span class="nc" id="L120">                    .clickable { showDialog(R.string.app_privacy_policy, &quot;privacy_policy.txt&quot;) }</span>
+<span class="nc" id="L121">                    .fillMaxWidth(),</span>
+            )
+            // Separator()
+<span class="nc" id="L124">            SettingsSectionTitle(stringResource(id = R.string.title_open_source))</span>
+<span class="nc" id="L125">            SettingsTwoLinedText(</span>
+<span class="nc" id="L126">                title = stringResource(id = R.string.title_open_source_jetpack),</span>
+<span class="nc" id="L127">                summary = stringResource(id = R.string.summary_open_source_jetpack),</span>
+            )
+<span class="nc" id="L129">            SettingsTwoLinedText(</span>
+<span class="nc" id="L130">                title = stringResource(id = R.string.title_open_source_okhttp),</span>
+<span class="nc" id="L131">                summary = stringResource(id = R.string.summary_open_source_okhttp),</span>
+            )
+<span class="nc" id="L133">            // Separator()</span>
+<span class="nc" id="L134">        }</span>
+<span class="nc" id="L135">    }</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">}</span>
+
+@ExperimentalMaterial3Api
+@Preview(&quot;Settings&quot;, showSystemUi = true)
+@Preview(&quot;Settings Night&quot;, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+<span class="nc bnc" id="L142" title="All 4 branches missed.">private fun PreviewSettingsUi() {</span>
+<span class="nc" id="L143">    AppTheme {</span>
+<span class="nc bnc" id="L144" title="All 4 branches missed.">        SettingsUi(modifier = Modifier.fillMaxSize())</span>
+<span class="nc" id="L145">    }</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L149" title="All 18 branches missed.">private fun SettingsSectionTitle(title: String, modifier: Modifier = Modifier) {</span>
+<span class="nc" id="L150">    Text(</span>
+<span class="nc" id="L151">        text = title,</span>
+<span class="nc" id="L152">        modifier = modifier.padding(start = 24.dp, top = 16.dp, bottom = 4.dp, end = 24.dp),</span>
+<span class="nc" id="L153">        style = MaterialTheme.typography.labelMedium,</span>
+<span class="nc" id="L154">        color = MaterialTheme.colorScheme.tertiary,</span>
+        // fontWeight = FontWeight.Bold,
+    )
+<span class="nc bnc" id="L157" title="All 2 branches missed.">}</span>
+
+@Composable
+private fun SettingsTwoLinedText(
+    title: String,
+<span class="nc bnc" id="L162" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc" id="L163">    summary: String? = null,</span>
+<span class="nc bnc" id="L164" title="All 24 branches missed.">) {</span>
+<span class="nc" id="L165">    Column(</span>
+<span class="nc" id="L166">        modifier = modifier</span>
+<span class="nc" id="L167">            .padding(horizontal = 24.dp, vertical = 4.dp)</span>
+<span class="nc" id="L168">            .defaultMinSize(minHeight = 48.dp),</span>
+<span class="nc" id="L169">        verticalArrangement = Arrangement.Center,</span>
+    ) {
+<span class="nc bnc" id="L171" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L172">            title,</span>
+<span class="nc" id="L173">            style = MaterialTheme.typography.titleMedium,</span>
+<span class="nc" id="L174">            modifier = Modifier.fillMaxWidth(),</span>
+        )
+<span class="nc bnc" id="L176" title="All 8 branches missed.">        if (summary?.isNotEmpty() == true) {</span>
+<span class="nc" id="L177">            Spacer(modifier = Modifier.requiredHeight(2.dp))</span>
+<span class="nc" id="L178">            Text(</span>
+<span class="nc" id="L179">                summary,</span>
+<span class="nc" id="L180">                style = MaterialTheme.typography.bodyMedium,</span>
+<span class="nc" id="L181">                modifier = Modifier.fillMaxWidth()</span>
+            )
+<span class="nc" id="L183">        }</span>
+<span class="nc" id="L184">    }</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">}</span>
+
+/**
+ * Show a alert dialog with assent content.
+ *
+ * @param asset asset file name
+ * @param visible true if alert dialog is visible
+ * @param onDismiss dismiss callback of the alert dialog
+ */
+@Composable
+<span class="nc bnc" id="L195" title="All 16 branches missed.">fun ShowAssetContentDialog(asset: String, visible: Boolean, onDismiss: () -&gt; Unit) {</span>
+<span class="nc" id="L196">    val context = LocalContext.current</span>
+
+<span class="nc bnc" id="L198" title="All 2 branches missed.">    if (visible) {</span>
+<span class="nc" id="L199">        val content = PrefsUtil.read_asset_text(context, asset, &quot;UTF-8&quot;)</span>
+
+<span class="nc" id="L201">        AlertDialog(</span>
+<span class="nc" id="L202">            onDismissRequest = onDismiss,</span>
+<span class="nc" id="L203">            modifier = Modifier.fillMaxHeight(.95f),</span>
+<span class="nc" id="L204">            confirmButton = {</span>
+<span class="nc bnc" id="L205" title="All 4 branches missed.">                TextButton(onClick = onDismiss) {</span>
+<span class="nc bnc" id="L206" title="All 4 branches missed.">                    Text(stringResource(id = android.R.string.ok))</span>
+<span class="nc" id="L207">                }</span>
+<span class="nc" id="L208">            },</span>
+<span class="nc" id="L209">            text = {</span>
+<span class="nc bnc" id="L210" title="All 6 branches missed.">                Text(content ?: &quot;TODO&quot;)</span>
+<span class="nc" id="L211">            }</span>
+        )
+<span class="nc" id="L213">    }</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

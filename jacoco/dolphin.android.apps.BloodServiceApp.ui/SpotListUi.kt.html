@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpotListUi.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.ui</a> &gt; <span class="el_source">SpotListUi.kt</span></div><h1>SpotListUi.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp.ui
+
+import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.OpenInBrowser
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import dolphin.android.apps.BloodServiceApp.R
+import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
+import dolphin.android.apps.BloodServiceApp.provider.SpotList
+
+/**
+ * Spot list UI callbacks
+ */
+interface SpotListUiCallback {
+    /**
+     * Show spot info in browser.
+     *
+     * @param info spot info
+     */
+    fun showSpotInfo(info: SpotInfo)
+}
+
+/**
+ * Spot list UI in Compose way.
+ */
+@ExperimentalMaterial3Api
+@Composable
+fun SpotListUi(
+    list: List&lt;SpotList&gt;,
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L61" title="All 6 branches missed.">    selectedCity: Int = if (list.isNotEmpty()) list.first().cityId else 0,</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    onBackPress: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">    onCityClick: ((SpotList) -&gt; Unit)? = null,</span>
+<span class="nc" id="L64">    onSpotClick: ((SpotInfo) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    Scaffold(</span>
+<span class="nc" id="L67">        modifier = modifier,</span>
+<span class="nc" id="L68">        topBar = {</span>
+<span class="nc bnc" id="L69" title="All 4 branches missed.">            MediumTopAppBar(</span>
+<span class="nc bnc" id="L70" title="All 4 branches missed.">                title = { Text(stringResource(id = R.string.title_section3)) },</span>
+<span class="nc" id="L71">                navigationIcon = {</span>
+<span class="nc bnc" id="L72" title="All 6 branches missed.">                    IconButton(onClick = { onBackPress?.invoke() }) {</span>
+<span class="nc bnc" id="L73" title="All 4 branches missed.">                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)</span>
+<span class="nc" id="L74">                    }</span>
+<span class="nc" id="L75">                },</span>
+<span class="nc" id="L76">            )</span>
+<span class="nc" id="L77">        },</span>
+<span class="nc" id="L78">    ) { padding -&gt;</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
+<span class="nc bnc" id="L80" title="All 6 branches missed.">            if (list.isEmpty()) {</span>
+<span class="nc" id="L81">                Box(</span>
+<span class="nc" id="L82">                    modifier = Modifier</span>
+<span class="nc" id="L83">                        .fillMaxWidth()</span>
+<span class="nc" id="L84">                        .padding(32.dp),</span>
+<span class="nc" id="L85">                    contentAlignment = Alignment.Center,</span>
+                ) {
+<span class="nc bnc" id="L87" title="All 4 branches missed.">                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
+<span class="nc" id="L88">                }</span>
+<span class="nc" id="L89">            } else {</span>
+<span class="nc" id="L90">                CityPane(</span>
+<span class="nc" id="L91">                    list = list,</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                    onCityClick = { c -&gt; onCityClick?.invoke(c) },</span>
+<span class="nc" id="L93">                    modifier = Modifier.fillMaxWidth(),</span>
+<span class="nc" id="L94">                    selected = selectedCity,</span>
+                )
+<span class="nc" id="L96">                Spacer(modifier = Modifier.requiredHeight(8.dp))</span>
+<span class="nc" id="L97">                Separator()</span>
+<span class="nc" id="L98">                SpotPane(</span>
+<span class="nc bnc" id="L99" title="All 8 branches missed.">                    list = list.find { c -&gt; c.cityId == selectedCity } ?: SpotList(0),</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                    onSpotClick = { spot -&gt; onSpotClick?.invoke(spot) },</span>
+<span class="nc" id="L101">                    modifier = Modifier.weight(1f),</span>
+                )
+<span class="nc" id="L103">            }</span>
+<span class="nc" id="L104">        }</span>
+<span class="nc" id="L105">    }</span>
+<span class="nc" id="L106">}</span>
+
+@ExperimentalMaterial3Api
+@Preview(&quot;list&quot;, showSystemUi = true)
+@Preview(&quot;list night&quot;, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+<span class="nc bnc" id="L112" title="All 4 branches missed.">private fun PreviewDonationPlacePane() {</span>
+<span class="nc" id="L113">    AppTheme {</span>
+<span class="nc bnc" id="L114" title="All 4 branches missed.">        SpotListUi(list = PreviewSample.spots)</span>
+<span class="nc" id="L115">    }</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">}</span>
+
+@Composable
+private fun CityPane(
+    list: List&lt;SpotList&gt;,
+    onCityClick: (SpotList) -&gt; Unit,
+    modifier: Modifier,
+<span class="nc" id="L123">    selected: Int = 0,</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">    LazyRow(modifier = modifier.padding(horizontal = 16.dp)) {</span>
+<span class="nc" id="L126">        items(list) { city -&gt;</span>
+            FilterChipImpl(
+                content = city.cityName ?: city.cityId.toString(),
+                onCheckedChanged = { checked -&gt;
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                    if (checked) onCityClick.invoke(city)</span>
+<span class="nc" id="L131">                },</span>
+                checked = selected == city.cityId,
+                modifier = Modifier.padding(end = 8.dp),
+            )
+        }
+<span class="nc" id="L136">    }</span>
+<span class="nc" id="L137">}</span>
+
+@Composable
+private fun FilterChipImpl(
+    content: String,
+    onCheckedChanged: (Boolean) -&gt; Unit,
+<span class="nc bnc" id="L143" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">    checked: Boolean = false,</span>
+<span class="nc bnc" id="L145" title="All 34 branches missed.">) {</span>
+<span class="nc" id="L146">    Button(</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        onClick = { onCheckedChanged.invoke(!checked) },</span>
+<span class="nc" id="L148">        border = BorderStroke(</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">            if (checked) 0.dp else 1.dp,</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            if (checked) Color.Transparent else MaterialTheme.colorScheme.outline,</span>
+        ),
+<span class="nc" id="L152">        shape = RoundedCornerShape(8.dp),</span>
+<span class="nc" id="L153">        colors = ButtonDefaults.outlinedButtonColors(</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            containerColor = if (checked) {</span>
+<span class="nc" id="L155">                MaterialTheme.colorScheme.secondaryContainer</span>
+<span class="nc" id="L156">            } else {</span>
+<span class="nc" id="L157">                MaterialTheme.colorScheme.surface</span>
+            },
+<span class="nc bnc" id="L159" title="All 2 branches missed.">            contentColor = if (checked) {</span>
+<span class="nc" id="L160">                MaterialTheme.colorScheme.onSecondaryContainer</span>
+<span class="nc" id="L161">            } else {</span>
+<span class="nc" id="L162">                MaterialTheme.colorScheme.onSurfaceVariant</span>
+            },
+        ),
+<span class="nc" id="L165">        modifier = modifier,</span>
+<span class="nc" id="L166">    ) {</span>
+<span class="nc bnc" id="L167" title="All 4 branches missed.">        Text(content, style = MaterialTheme.typography.labelLarge)</span>
+<span class="nc" id="L168">    }</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc" id="L172">private fun SpotPane(list: SpotList, onSpotClick: (SpotInfo) -&gt; Unit, modifier: Modifier) {</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">    LazyColumn(modifier = modifier) {</span>
+<span class="nc" id="L174">        items(list.locations) { spot -&gt;</span>
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Spacer(modifier = Modifier.requiredWidth(16.dp))
+                Text(
+                    spot.spotName,
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+<span class="nc" id="L185">                IconButton(onClick = { onSpotClick.invoke(spot) }) {</span>
+<span class="nc bnc" id="L186" title="All 4 branches missed.">                    Icon(</span>
+<span class="nc" id="L187">                        Icons.Rounded.OpenInBrowser,</span>
+<span class="nc" id="L188">                        contentDescription = stringResource(id = R.string.action_go_to_website),</span>
+<span class="nc" id="L189">                        tint = MaterialTheme.colorScheme.secondary.copy(alpha = .5f),</span>
+<span class="nc" id="L190">                    )</span>
+<span class="nc" id="L191">                }</span>
+            }
+        }
+<span class="nc" id="L194">    }</span>
+<span class="nc" id="L195">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

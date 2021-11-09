@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainActivity.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp</a> &gt; <span class="el_source">MainActivity.kt</span></div><h1>MainActivity.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp
+
+import android.content.res.Configuration
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.ViewTreeObserver
+import android.widget.TextView
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
+import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
+import dolphin.android.apps.BloodServiceApp.provider.BloodDataParser
+import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
+import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
+import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
+import dolphin.android.apps.BloodServiceApp.ui.AppUiPane
+import dolphin.android.apps.BloodServiceApp.ui.UiState
+import dolphin.android.util.PackageUtils
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+
+@ExperimentalMaterial3Api
+@ExperimentalFoundationApi
+<span class="nc" id="L39">class MainActivity : AppCompatActivity(), AppUiCallback {</span>
+    companion object {
+        private const val TAG = &quot;MainUi&quot;
+    }
+
+<span class="nc" id="L44">    private val model: AppDataModel by viewModels()</span>
+    private lateinit var centerInstance: BloodCenter
+    private lateinit var prefs: PrefsUtil
+
+    // private lateinit var helper: BloodDataHelper
+    private lateinit var parser: BloodDataParser
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+<span class="nc" id="L52">        super.onCreate(savedInstanceState)</span>
+<span class="nc" id="L53">        centerInstance = BloodCenter(this)</span>
+<span class="nc" id="L54">        prefs = PrefsUtil(this)</span>
+        // helper = BloodDataHelper(this)
+<span class="nc" id="L56">        parser = BloodDataParser(this)</span>
+
+        // https://developer.android.com/about/versions/12/features/splash-screen#implement
+        // Set up an OnPreDrawListener to the root view.
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S) {</span>
+<span class="nc" id="L61">            setupPreDrawListener()</span>
+        }
+
+<span class="nc" id="L64">        setupViewModel()</span>
+
+<span class="nc" id="L66">        setContent {</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">            val dark = isSystemInDarkTheme() // try to detect system theme</span>
+<span class="nc" id="L68">            LaunchedEffect(Unit) {</span>
+<span class="nc" id="L69">                changeToDarkMode(dark)</span>
+<span class="nc" id="L70">            }</span>
+
+<span class="nc" id="L72">            AppUiPane(</span>
+<span class="nc" id="L73">                model = model,</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                center = centerInstance,</span>
+<span class="nc" id="L75">                callback = this,</span>
+<span class="nc" id="L76">                modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L77">            )</span>
+<span class="nc" id="L78">        }</span>
+
+<span class="nc" id="L80">        setupFirebaseRemoteConfig()</span>
+<span class="nc" id="L81">    }</span>
+
+    private fun setupPreDrawListener() {
+        // https://developer.android.com/about/versions/12/features/splash-screen#implement
+        // Set up an OnPreDrawListener to the root view.
+<span class="nc" id="L86">        val content: View = findViewById(android.R.id.content)</span>
+<span class="nc" id="L87">        content.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {</span>
+            override fun onPreDraw(): Boolean {
+                // Check if the initial data is ready.
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                return if (model.ready.value == true) {</span>
+                    // The content is ready; start drawing.
+<span class="nc" id="L92">                    content.viewTreeObserver.removeOnPreDrawListener(this)</span>
+<span class="nc" id="L93">                    true</span>
+                } else {
+                    // The content is not ready; suspend.
+<span class="nc" id="L96">                    false</span>
+                }
+            }
+        })
+<span class="nc" id="L100">    }</span>
+
+    private fun setupFirebaseRemoteConfig() {
+        // Handler(Looper.getMainLooper()).postDelayed({ checkPrivacyPolicyReview() }, 5)
+<span class="nc" id="L104">        Firebase.remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)</span>
+<span class="nc" id="L105">        Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener {</span>
+<span class="nc" id="L106">            checkPrivacyPolicyReview()</span>
+            // executor.submit { helper.warmup() }
+<span class="nc" id="L108">            model.ready.postValue(true)</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">    }</span>
+
+    private fun setupViewModel() {
+<span class="nc" id="L113">        lifecycleScope.launch {</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            model.init(parser).collect { ready -&gt;</span>
+                // Log.d(TAG, &quot;storage ready $ready&quot;)
+                if (ready) {
+                    queryStorageData(model.center.value?.id ?: -1, forceRefresh = true)
+                }
+            }
+<span class="nc" id="L120">        }</span>
+<span class="nc" id="L121">        model.center.observe(this) { bloodCenter -&gt;</span>
+<span class="nc" id="L122">            Log.v(TAG, &quot;change to ${bloodCenter.name}&quot;)</span>
+<span class="nc" id="L123">            setUserProperty(&quot;center&quot;, bloodCenter.name)</span>
+<span class="nc" id="L124">            queryDonationData(bloodCenter.id)</span>
+<span class="nc" id="L125">            queryStorageData(bloodCenter.id)</span>
+<span class="nc" id="L126">        }</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">        model.center.postValue(centerInstance.find(prefs.centerId))</span>
+<span class="nc" id="L128">        model.uiState.observe(this) { state -&gt;</span>
+<span class="nc" id="L129">            setScreenName(state.name)</span>
+<span class="nc" id="L130">        }</span>
+<span class="nc" id="L131">    }</span>
+
+    private fun checkPrivacyPolicyReview() {
+<span class="nc" id="L134">        val prefs = PrefsUtil(this)</span>
+<span class="nc" id="L135">        val firebaseCode = Firebase.remoteConfig.getLong(&quot;privacy_policy_update_code&quot;)</span>
+<span class="nc" id="L136">        Log.v(TAG, &quot;firebase code = $firebaseCode&quot;)</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (prefs.centerId &gt; 0) {</span>
+<span class="nc" id="L138">            model.changeUiState(UiState.Main)</span>
+        } else {
+<span class="nc" id="L140">            model.changeUiState(UiState.Welcome)</span>
+        }
+<span class="nc" id="L142">    }</span>
+
+    override fun onBackPressed() {
+<span class="nc" id="L145">        when (model.state) {</span>
+<span class="nc bnc" id="L146" title="All 6 branches missed.">            UiState.Spots, UiState.Settings -&gt; model.changeUiState(UiState.Main)</span>
+<span class="nc" id="L147">            else -&gt; super.onBackPressed()</span>
+        }
+<span class="nc" id="L149">    }</span>
+
+    override fun pressBack() {
+<span class="nc" id="L152">        onBackPressed()</span>
+<span class="nc" id="L153">    }</span>
+
+    override fun reviewSource(center: BloodCenter.Center) {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (center.id == 0) {</span>
+<span class="nc" id="L157">            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L158">                putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                putString(FirebaseAnalytics.Param.ITEM_ID, centerInstance.main().name)</span>
+<span class="nc" id="L160">            }</span>
+<span class="nc" id="L161">            IntentHelper.showMainSource(this)</span>
+        } else {
+<span class="nc" id="L163">            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L164">                putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)</span>
+<span class="nc" id="L165">                putString(FirebaseAnalytics.Param.ITEM_ID, center.name)</span>
+<span class="nc" id="L166">            }</span>
+<span class="nc" id="L167">            IntentHelper.showBloodCenterSource(this, center.id)</span>
+        }
+<span class="nc" id="L169">    }</span>
+
+    override fun reviewPrivacy() {
+<span class="nc" id="L172">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L173">            putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)</span>
+<span class="nc" id="L174">            putString(FirebaseAnalytics.Param.ITEM_ID, &quot;review-privacy&quot;)</span>
+<span class="nc" id="L175">        }</span>
+<span class="nc" id="L176">        showAssetInDialog(</span>
+<span class="nc" id="L177">            title = R.string.app_privacy_policy,</span>
+<span class="nc" id="L178">            asset = &quot;privacy_policy.txt&quot;,</span>
+        )
+<span class="nc" id="L180">    }</span>
+
+    override fun reviewComplete(center: BloodCenter.Center) {
+        // Toast.makeText(this, &quot;accept&quot;, Toast.LENGTH_SHORT).show()
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        prefs.policyCode = Firebase.remoteConfig.getLong(&quot;privacy_policy_update_code&quot;)</span>
+<span class="nc" id="L185">        changeBloodCenter(center)</span>
+<span class="nc" id="L186">        model.changeUiState(UiState.Main)</span>
+<span class="nc" id="L187">    }</span>
+
+    override fun changeBloodCenter(center: BloodCenter.Center) {
+<span class="nc bnc" id="L190" title="All 2 branches missed.">        prefs.centerId = center.id</span>
+<span class="nc" id="L191">        model.center.postValue(center)</span>
+<span class="nc" id="L192">    }</span>
+
+    override fun showFacebookPages(center: BloodCenter.Center) {
+<span class="nc" id="L195">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L196">            putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)</span>
+<span class="nc" id="L197">            putString(FirebaseAnalytics.Param.ITEM_ID, &quot;show-facebook&quot;)</span>
+<span class="nc" id="L198">        }</span>
+<span class="nc" id="L199">        IntentHelper.showBloodCenterFacebookPages(this, center.id)</span>
+<span class="nc" id="L200">    }</span>
+
+    private var queryDonationJob: Job? = null
+    private var queryStorageJob: Job? = null
+    private var querySpotListJob: Job? = null
+
+    private fun queryDonationData(id: Int) {
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        queryDonationJob?.cancel()</span>
+<span class="nc" id="L208">        queryDonationJob = lifecycleScope.launch {</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">            model.getDonationData(parser, id).collect { loading -&gt;</span>
+                Log.d(TAG, &quot;  queryDonationData loading = $loading&quot;)
+            }
+<span class="nc" id="L212">        }</span>
+<span class="nc" id="L213">    }</span>
+
+<span class="nc" id="L215">    private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        queryStorageJob?.cancel()</span>
+<span class="nc" id="L217">        queryStorageJob = lifecycleScope.launch {</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">            model.getStorageData(parser, forceRefresh, centerId = id).collect { loading -&gt;</span>
+                Log.d(TAG, &quot;  queryStorageData loading = $loading&quot;)
+            }
+<span class="nc" id="L221">        }</span>
+<span class="nc" id="L222">    }</span>
+
+    private fun querySpotList(id: Int) {
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        querySpotListJob?.cancel()</span>
+<span class="nc" id="L226">        querySpotListJob = lifecycleScope.launch {</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">            model.getSpotListData(parser, id).collect { loading -&gt;</span>
+                Log.d(TAG, &quot;  querySpotList loading = $loading&quot;)
+            }
+<span class="nc" id="L230">        }</span>
+<span class="nc" id="L231">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L232">            putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)</span>
+<span class="nc" id="L233">            putString(FirebaseAnalytics.Param.ITEM_ID, &quot;donation-spot-list&quot;)</span>
+<span class="nc" id="L234">        }</span>
+<span class="nc" id="L235">    }</span>
+
+    override fun showSpotList(center: BloodCenter.Center) {
+<span class="nc" id="L238">        querySpotList(center.id)</span>
+<span class="nc" id="L239">        model.changeUiState(UiState.Spots)</span>
+<span class="nc" id="L240">    }</span>
+
+    override fun showSpotInfo(info: SpotInfo) {
+<span class="nc" id="L243">        IntentHelper.showSpotInfo(this, info)</span>
+<span class="nc" id="L244">    }</span>
+
+    override fun addToCalendar(event: DonateActivity) {
+<span class="nc" id="L247">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L248">            putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)</span>
+<span class="nc" id="L249">            putString(FirebaseAnalytics.Param.ITEM_ID, &quot;add-to-calendar&quot;)</span>
+<span class="nc" id="L250">        }</span>
+<span class="nc" id="L251">        IntentHelper.addToCalendar(this, event)</span>
+<span class="nc" id="L252">    }</span>
+
+<span class="nc" id="L254">    override fun enableAddToCalendar(): Boolean = true</span>
+
+    override fun searchOnMaps(event: DonateActivity) {
+<span class="nc" id="L257">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L258">            putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)</span>
+<span class="nc" id="L259">            putString(FirebaseAnalytics.Param.ITEM_ID, &quot;search-on-map&quot;)</span>
+<span class="nc" id="L260">        }</span>
+<span class="nc" id="L261">        IntentHelper.searchOnMap(this, event)</span>
+<span class="nc" id="L262">    }</span>
+
+    override fun enableSearchOnMap(): Boolean {
+<span class="nc" id="L265">        return Firebase.remoteConfig.getBoolean(&quot;enable_search_on_map&quot;)</span>
+    }
+
+    override fun showDonorInfo() {
+<span class="nc" id="L269">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {</span>
+<span class="nc" id="L270">            putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)</span>
+<span class="nc" id="L271">            putString(FirebaseAnalytics.Param.ITEM_ID, &quot;show-donor-info&quot;)</span>
+<span class="nc" id="L272">        }</span>
+<span class="nc" id="L273">        IntentHelper.showDonorInfo(this)</span>
+<span class="nc" id="L274">    }</span>
+
+    override fun showReviewPolicy(): Boolean {
+<span class="nc bnc" id="L277" title="All 4 branches missed.">        return prefs.policyCode &lt; Firebase.remoteConfig.getLong(&quot;privacy_policy_update_code&quot;)</span>
+    }
+
+    override fun showAssetInDialog(title: Int, asset: String) {
+<span class="nc" id="L281">        MaterialAlertDialogBuilder(this)</span>
+<span class="nc" id="L282">            .setTitle(title)</span>
+<span class="nc" id="L283">            .setMessage(PrefsUtil.read_asset_text(this, asset, &quot;UTF-8&quot;))</span>
+<span class="nc" id="L284">            .setPositiveButton(android.R.string.ok, null)</span>
+<span class="nc" id="L285">            .setCancelable(true)</span>
+<span class="nc" id="L286">            .show().apply {</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">                findViewById&lt;TextView&gt;(android.R.id.message)?.textSize = 12f</span>
+<span class="nc" id="L288">            }</span>
+<span class="nc" id="L289">    }</span>
+
+    override fun versionInfo(): String {
+<span class="nc bnc" id="L292" title="All 4 branches missed.">        return PackageUtils.getPackageInfo(this, this::class.java)?.let { info -&gt;</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">            val code = if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {</span>
+<span class="nc" id="L294">                info.longVersionCode</span>
+            } else {
+<span class="nc" id="L296">                @Suppress(&quot;deprecation&quot;) info.versionCode</span>
+            }
+<span class="nc" id="L298">            &quot;v${info.versionName} (r$code)&quot;</span>
+<span class="nc" id="L299">        } ?: kotlin.run { &quot;&quot; }</span>
+    }
+
+    override fun enableVersionSummary(): Boolean {
+<span class="nc bnc" id="L303" title="All 4 branches missed.">        return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean(&quot;enable_change_log_summary&quot;)</span>
+    }
+
+<span class="nc" id="L306">    private fun logEvent(name: String, block: (Bundle.() -&gt; Unit)? = null) {</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">        val data = if (block != null) Bundle().apply(block) else null</span>
+<span class="nc" id="L308">        FirebaseAnalytics.getInstance(this).logEvent(name, data)</span>
+<span class="nc" id="L309">    }</span>
+
+<span class="nc" id="L311">    private fun setScreenName(screenName: String?, screenClassOverride: String? = null) {</span>
+        // See https://firebase.googleblog.com/2020/08/google-analytics-manual-screen-view.html
+        // firebaseAnalytics.setCurrentScreen(activity, screenName, screenClassOverride)
+<span class="nc" id="L314">        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {</span>
+<span class="nc" id="L315">            putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">            screenClassOverride?.let { s -&gt; putString(FirebaseAnalytics.Param.SCREEN_CLASS, s) }</span>
+<span class="nc" id="L317">        }</span>
+<span class="nc" id="L318">    }</span>
+
+    @Suppress(&quot;SameParameterValue&quot;)
+    private fun setUserProperty(key: String, value: String?) {
+<span class="nc" id="L322">        FirebaseAnalytics.getInstance(this).setUserProperty(key, value)</span>
+<span class="nc" id="L323">    }</span>
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+<span class="nc" id="L326">        super.onConfigurationChanged(newConfig)</span>
+        // dynamic changed with the system
+<span class="nc bnc" id="L328" title="All 3 branches missed.">        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {</span>
+            Configuration.UI_MODE_NIGHT_NO -&gt; {
+<span class="nc" id="L330">                changeToDarkMode(false)</span>
+<span class="nc" id="L331">                Log.d(TAG, &quot;Night mode is not active, we're using the light theme&quot;)</span>
+            }
+            Configuration.UI_MODE_NIGHT_YES -&gt; {
+<span class="nc" id="L334">                changeToDarkMode(true)</span>
+<span class="nc" id="L335">                Log.d(TAG, &quot;Night mode is active, we're using dark theme&quot;)</span>
+            }
+        }
+<span class="nc" id="L338">    }</span>
+
+<span class="nc" id="L340">    private fun changeToDarkMode(dark: Boolean = true) {</span>
+<span class="nc" id="L341">        lifecycleScope.launch { model.darkMode.emit(dark) }</span>
+<span class="nc" id="L342">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

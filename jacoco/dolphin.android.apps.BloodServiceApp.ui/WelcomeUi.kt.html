@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WelcomeUi.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.ui</a> &gt; <span class="el_source">WelcomeUi.kt</span></div><h1>WelcomeUi.kt</h1><pre class="source lang-java linenums">package dolphin.android.apps.BloodServiceApp.ui
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import dolphin.android.apps.BloodServiceApp.R
+import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
+
+/**
+ * Welcome UI callbacks
+ */
+interface WelcomeUiCallback {
+    /**
+     * Review privacy policy.
+     */
+    fun reviewPrivacy()
+
+    /**
+     * Review and accept privacy policy.
+     *
+     * @param center selected blood center
+     */
+    fun reviewComplete(center: BloodCenter.Center)
+}
+
+/**
+ * Welcome UI in Compose way.
+ */
+@ExperimentalMaterial3Api
+@Composable
+fun WelcomeUi(
+    list: List&lt;BloodCenter.Center&gt;,
+    onComplete: (Int) -&gt; Unit,
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    onSource: (() -&gt; Unit)? = null,</span>
+<span class="nc" id="L72">    onReview: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L74">    var selected by remember { mutableStateOf(3) }</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    Scaffold(</span>
+<span class="nc" id="L77">        modifier = modifier,</span>
+<span class="nc" id="L78">        topBar = {</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">            SmallTopAppBar(</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">                title = { Text(stringResource(id = R.string.app_name)) },</span>
+<span class="nc" id="L81">                navigationIcon = {</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">                    Image(</span>
+<span class="nc" id="L83">                        painterResource(id = R.mipmap.ic_adaptive_launcher_fg),</span>
+<span class="nc" id="L84">                        contentDescription = null,</span>
+<span class="nc" id="L85">                        modifier = Modifier.size(48.dp),</span>
+<span class="nc" id="L86">                    )</span>
+<span class="nc" id="L87">                },</span>
+<span class="nc" id="L88">            )</span>
+<span class="nc" id="L89">        },</span>
+<span class="nc" id="L90">    ) { padding -&gt;</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">            WelcomeText(onClick = onSource)</span>
+<span class="nc" id="L93">            WelcomeCenterSelectionUi(</span>
+<span class="nc" id="L94">                list = list,</span>
+<span class="nc" id="L95">                selected = selected,</span>
+<span class="nc" id="L96">                onSelectedChange = { selected = it },</span>
+<span class="nc" id="L97">                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),</span>
+            )
+<span class="nc" id="L99">            Spacer(modifier = Modifier.weight(1f))</span>
+<span class="nc" id="L100">            PrivacyPolicyPane(</span>
+<span class="nc" id="L101">                onAccept = { onComplete.invoke(selected) },</span>
+<span class="nc" id="L102">                onReview = onReview,</span>
+            )
+<span class="nc" id="L104">            Spacer(modifier = Modifier.requiredHeight(32.dp))</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">    }</span>
+<span class="nc" id="L107">}</span>
+
+@Composable
+<span class="nc bnc" id="L110" title="All 20 branches missed.">private fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -&gt; Unit)? = null) {</span>
+<span class="nc" id="L111">    val layoutResult = remember {</span>
+<span class="nc" id="L112">        mutableStateOf&lt;TextLayoutResult?&gt;(null)</span>
+    }
+
+<span class="nc" id="L115">    val annotatedString = buildAnnotatedString {</span>
+<span class="nc" id="L116">        val text = stringResource(id = R.string.app_intro)</span>
+<span class="nc" id="L117">        val startIndex = text.indexOf(&quot;[&quot;)</span>
+<span class="nc" id="L118">        val endIndex = text.indexOf(&quot;]&quot;)</span>
+<span class="nc" id="L119">        append(text.substring(0, startIndex))</span>
+<span class="nc" id="L120">        pushStyle(</span>
+<span class="nc" id="L121">            style = SpanStyle(</span>
+<span class="nc" id="L122">                color = MaterialTheme.colorScheme.secondary,</span>
+<span class="nc" id="L123">                textDecoration = TextDecoration.Underline,</span>
+<span class="nc" id="L124">                fontWeight = FontWeight.Bold,</span>
+            )
+        )
+<span class="nc" id="L127">        append(text.substring(startIndex + 1, endIndex))</span>
+<span class="nc" id="L128">        pop()</span>
+<span class="nc" id="L129">        append(text.substring(endIndex + 1))</span>
+<span class="nc" id="L130">        addStringAnnotation(</span>
+<span class="nc" id="L131">            tag = &quot;URL&quot;,</span>
+<span class="nc" id="L132">            annotation = &quot;review&quot;,</span>
+<span class="nc" id="L133">            start = startIndex,</span>
+<span class="nc" id="L134">            end = endIndex,</span>
+        )
+<span class="nc" id="L136">    }</span>
+
+<span class="nc" id="L138">    Text(</span>
+<span class="nc" id="L139">        annotatedString,</span>
+<span class="nc" id="L140">        modifier = modifier</span>
+<span class="nc" id="L141">            .padding(vertical = 8.dp, horizontal = 16.dp)</span>
+<span class="nc" id="L142">            .pointerInput(Unit) {</span>
+<span class="nc" id="L143">                detectTapGestures { offsetPosition -&gt;</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                    layoutResult.value?.let { textLayoutResult -&gt;</span>
+<span class="nc" id="L145">                        val position = textLayoutResult.getOffsetForPosition(offsetPosition)</span>
+<span class="nc" id="L146">                        annotatedString</span>
+<span class="nc" id="L147">                            .getStringAnnotations(position, position)</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                            .firstOrNull()</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">                            ?.let { onClick?.invoke() }</span>
+<span class="nc" id="L150">                    }</span>
+<span class="nc" id="L151">                }</span>
+<span class="nc" id="L152">            },</span>
+<span class="nc" id="L153">        onTextLayout = { l -&gt; layoutResult.value = l },</span>
+<span class="nc" id="L154">        style = MaterialTheme.typography.titleMedium,</span>
+    )
+<span class="nc bnc" id="L156" title="All 2 branches missed.">}</span>
+
+@Composable
+private fun WelcomeCenterSelectionUi(
+    list: List&lt;BloodCenter.Center&gt;,
+    selected: Int,
+    onSelectedChange: (Int) -&gt; Unit,
+<span class="nc" id="L163">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L165">    Column(</span>
+<span class="nc" id="L166">        modifier = modifier</span>
+<span class="nc" id="L167">            .background(MaterialTheme.colorScheme.tertiaryContainer)</span>
+<span class="nc" id="L168">            .padding(4.dp),</span>
+    ) {
+<span class="nc bnc" id="L170" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L171">            stringResource(id = R.string.choose_near_by_blood_center),</span>
+<span class="nc" id="L172">            style = MaterialTheme.typography.bodyMedium,</span>
+            // fontWeight = FontWeight.Bold,
+        )
+<span class="nc" id="L175">        Spacer(modifier = Modifier.requiredHeight(8.dp))</span>
+<span class="nc" id="L176">        list.forEachIndexed { index, center -&gt;</span>
+<span class="nc" id="L177">            Row(</span>
+<span class="nc" id="L178">                modifier = Modifier</span>
+<span class="nc" id="L179">                    .clickable { onSelectedChange.invoke(index) }</span>
+<span class="nc" id="L180">                    .fillMaxWidth(),</span>
+<span class="nc" id="L181">                verticalAlignment = Alignment.CenterVertically,</span>
+            ) {
+<span class="nc bnc" id="L183" title="All 6 branches missed.">                if (index == selected) {</span>
+<span class="nc" id="L184">                    Icon(</span>
+<span class="nc" id="L185">                        Icons.Rounded.Check,</span>
+<span class="nc" id="L186">                        contentDescription = stringResource(id = R.string.title_display),</span>
+<span class="nc" id="L187">                        tint = MaterialTheme.colorScheme.tertiary,</span>
+                    )
+<span class="nc" id="L189">                } else {</span>
+<span class="nc" id="L190">                    Spacer(modifier = Modifier.requiredSize(24.dp))</span>
+                }
+<span class="nc" id="L192">                Spacer(modifier = Modifier.requiredWidth(8.dp))</span>
+<span class="nc" id="L193">                Column {</span>
+<span class="nc bnc" id="L194" title="All 4 branches missed.">                    Text(</span>
+<span class="nc" id="L195">                        center.name,</span>
+<span class="nc" id="L196">                        style = MaterialTheme.typography.titleMedium,</span>
+                    )
+
+<span class="nc" id="L199">                    Text(</span>
+<span class="nc" id="L200">                        center.cities,</span>
+<span class="nc" id="L201">                        style = MaterialTheme.typography.bodySmall,</span>
+<span class="nc" id="L202">                    )</span>
+<span class="nc" id="L203">                }</span>
+<span class="nc" id="L204">            }</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            if (index != list.lastIndex) Separator(horizontalPadding = 0.dp)</span>
+<span class="nc" id="L206">        }</span>
+<span class="nc" id="L207">    }</span>
+<span class="nc" id="L208">}</span>
+
+@Composable
+private fun PrivacyPolicyPane(
+    onAccept: () -&gt; Unit,
+<span class="nc bnc" id="L213" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc" id="L214">    onReview: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L215" title="All 24 branches missed.">) {</span>
+<span class="nc" id="L216">    var dialog by remember { mutableStateOf(false) }</span>
+<span class="nc" id="L217">    val layoutResult = remember {</span>
+<span class="nc" id="L218">        mutableStateOf&lt;TextLayoutResult?&gt;(null)</span>
+    }
+<span class="nc" id="L220">    val annotatedString = buildAnnotatedString {</span>
+<span class="nc" id="L221">        val text = stringResource(R.string.splash_privacy_policy_review)</span>
+<span class="nc" id="L222">        val target = stringResource(R.string.app_privacy_policy)</span>
+<span class="nc" id="L223">        val startIndex = text.indexOf(target)</span>
+<span class="nc" id="L224">        append(text.substring(0, startIndex))</span>
+<span class="nc" id="L225">        pushStyle(</span>
+<span class="nc" id="L226">            style = SpanStyle(</span>
+<span class="nc" id="L227">                textDecoration = TextDecoration.Underline,</span>
+<span class="nc" id="L228">                color = MaterialTheme.colorScheme.secondary,</span>
+            )
+        )
+<span class="nc" id="L231">        append(target)</span>
+<span class="nc" id="L232">        pop()</span>
+<span class="nc" id="L233">        append(text.substring(startIndex + target.length))</span>
+<span class="nc" id="L234">        addStringAnnotation(</span>
+<span class="nc" id="L235">            tag = &quot;URL&quot;,</span>
+<span class="nc" id="L236">            annotation = &quot;review&quot;,</span>
+<span class="nc" id="L237">            start = startIndex,</span>
+<span class="nc" id="L238">            end = startIndex + target.length,</span>
+        )
+<span class="nc" id="L240">    }</span>
+
+<span class="nc" id="L242">    ShowAssetContentDialog(asset = &quot;privacy_policy.txt&quot;, visible = dialog) {</span>
+<span class="nc" id="L243">        dialog = false</span>
+<span class="nc" id="L244">    }</span>
+
+<span class="nc" id="L246">    Column(</span>
+<span class="nc" id="L247">        modifier = modifier.padding(horizontal = 32.dp),</span>
+<span class="nc" id="L248">        horizontalAlignment = Alignment.CenterHorizontally,</span>
+    ) {
+<span class="nc bnc" id="L250" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L251">            annotatedString,</span>
+<span class="nc" id="L252">            modifier = Modifier.pointerInput(Unit) {</span>
+<span class="nc" id="L253">                detectTapGestures { offsetPosition -&gt;</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">                    layoutResult.value?.let { textLayoutResult -&gt;</span>
+<span class="nc" id="L255">                        val position = textLayoutResult.getOffsetForPosition(offsetPosition)</span>
+<span class="nc" id="L256">                        annotatedString</span>
+<span class="nc" id="L257">                            .getStringAnnotations(position, position)</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                            .firstOrNull()</span>
+<span class="nc" id="L259">                            ?.let {</span>
+<span class="nc bnc" id="L260" title="All 4 branches missed.">                                onReview?.invoke() ?: kotlin.run { dialog = true }</span>
+<span class="nc" id="L261">                            }</span>
+<span class="nc" id="L262">                    }</span>
+<span class="nc" id="L263">                }</span>
+<span class="nc" id="L264">            },</span>
+<span class="nc" id="L265">            onTextLayout = { l -&gt; layoutResult.value = l },</span>
+<span class="nc" id="L266">            style = MaterialTheme.typography.bodyMedium,</span>
+        )
+<span class="nc" id="L268">        Spacer(modifier = Modifier.requiredHeight(16.dp))</span>
+<span class="nc" id="L269">        Button(onClick = onAccept, modifier = Modifier.requiredWidth(120.dp)) {</span>
+<span class="nc bnc" id="L270" title="All 4 branches missed.">            Text(stringResource(id = R.string.splash_continue))</span>
+<span class="nc" id="L271">        }</span>
+<span class="nc" id="L272">    }</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">}</span>
+
+@ExperimentalMaterial3Api
+@Preview(&quot;Welcome&quot;, showSystemUi = true)
+@Composable
+<span class="nc bnc" id="L278" title="All 4 branches missed.">private fun PreviewWelcomeUi() {</span>
+<span class="nc" id="L279">    AppTheme {</span>
+<span class="nc bnc" id="L280" title="All 4 branches missed.">        WelcomeUi(</span>
+<span class="nc" id="L281">            list = PreviewSample.centers,</span>
+<span class="nc" id="L282">            onComplete = {},</span>
+<span class="nc" id="L283">        )</span>
+<span class="nc" id="L284">    }</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
