@@ -126,7 +126,7 @@ fun setupReports(task: JacocoReport, flavor: String) {
     task.reports {
         xml.required.set(false)
         csv.required.set(false)
-        html.destination = file("${rootProject.buildDir}/jacoco")
+        html.destination = file("${rootProject.projectDir}/jacoco")
     }
 
     task.doLast {
