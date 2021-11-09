@@ -21,15 +21,16 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.BloodDataParser
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
+import dolphin.android.apps.BloodServiceApp.provider.PrefsDataStore
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
 import dolphin.android.apps.BloodServiceApp.ui.AppUiPane
 import dolphin.android.apps.BloodServiceApp.ui.UiState
 import dolphin.android.util.PackageUtils
+import dolphin.android.util.readFromAssets
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -43,16 +44,13 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private val model: AppDataModel by viewModels()
     private lateinit var centerInstance: BloodCenter
-    private lateinit var prefs: PrefsUtil
-
-    // private lateinit var helper: BloodDataHelper
+    private lateinit var dataStore: PrefsDataStore
     private lateinit var parser: BloodDataParser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         centerInstance = BloodCenter(this)
-        prefs = PrefsUtil(this)
-        // helper = BloodDataHelper(this)
+        dataStore = PrefsDataStore(this)
         parser = BloodDataParser(this)
 
         // https://developer.android.com/about/versions/12/features/splash-screen#implement
@@ -111,6 +109,11 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun setupViewModel() {
         lifecycleScope.launch {
+            dataStore.centerId.collect { centerId ->
+                model.center.postValue(centerInstance.find(centerId))
+            }
+        }
+        lifecycleScope.launch {
             model.init(parser).collect { ready ->
                 // Log.d(TAG, "storage ready $ready")
                 if (ready) {
@@ -124,20 +127,28 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
             queryDonationData(bloodCenter.id)
             queryStorageData(bloodCenter.id)
         }
-        model.center.postValue(centerInstance.find(prefs.centerId))
         model.uiState.observe(this) { state ->
             setScreenName(state.name)
         }
     }
 
     private fun checkPrivacyPolicyReview() {
-        val prefs = PrefsUtil(this)
         val firebaseCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
         Log.v(TAG, "firebase code = $firebaseCode")
-        if (prefs.centerId > 0) {
-            model.changeUiState(UiState.Main)
-        } else {
-            model.changeUiState(UiState.Welcome)
+        lifecycleScope.launch {
+            dataStore.policyCode.collect { appCode ->
+                Log.v(TAG, "app code = $appCode")
+                model.showPrivacyReview.emit(appCode < firebaseCode)
+            }
+        }
+        lifecycleScope.launch {
+            dataStore.centerId.collect { centerId ->
+                if (centerId > 0) {
+                    model.changeUiState(UiState.Main)
+                } else {
+                    model.changeUiState(UiState.Welcome)
+                }
+            }
         }
     }
 
@@ -180,15 +191,19 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun reviewComplete(center: BloodCenter.Center) {
+        val code = Firebase.remoteConfig.getLong("privacy_policy_update_code")
         // Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show()
-        prefs.policyCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
+        // prefs.policyCode = code
+        lifecycleScope.launch { dataStore.updatePolicyCode(code) }
         changeBloodCenter(center)
         model.changeUiState(UiState.Main)
     }
 
     override fun changeBloodCenter(center: BloodCenter.Center) {
-        prefs.centerId = center.id
-        model.center.postValue(center)
+        lifecycleScope.launch {
+            dataStore.changeCenter(center.id)
+            model.center.postValue(center)
+        }
     }
 
     override fun showFacebookPages(center: BloodCenter.Center) {
@@ -273,14 +288,14 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         IntentHelper.showDonorInfo(this)
     }
 
-    override fun showReviewPolicy(): Boolean {
-        return prefs.policyCode < Firebase.remoteConfig.getLong("privacy_policy_update_code")
-    }
+//    override fun showReviewPolicy(): Boolean {
+//        return prefs.policyCode < Firebase.remoteConfig.getLong("privacy_policy_update_code")
+//    }
 
     override fun showAssetInDialog(title: Int, asset: String) {
         MaterialAlertDialogBuilder(this)
             .setTitle(title)
-            .setMessage(PrefsUtil.read_asset_text(this, asset, "UTF-8"))
+            .setMessage(readFromAssets(asset, "UTF-8"))
             .setPositiveButton(android.R.string.ok, null)
             .setCancelable(true)
             .show().apply {

@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
-import dolphin.android.apps.BloodServiceApp.pref.PrefsUtil
+import dolphin.android.util.readFromAssets
 
 /**
  * Settings UI callbacks
@@ -196,7 +196,7 @@ fun ShowAssetContentDialog(asset: String, visible: Boolean, onDismiss: () -> Uni
     val context = LocalContext.current
 
     if (visible) {
-        val content = PrefsUtil.read_asset_text(context, asset, "UTF-8")
+        val content = context.readFromAssets(asset, "UTF-8")
 
         AlertDialog(
             onDismissRequest = onDismiss,

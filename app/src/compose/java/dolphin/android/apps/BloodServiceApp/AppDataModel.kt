@@ -40,6 +40,11 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     val darkMode = MutableStateFlow(false)
 
     /**
+     * A flag to show privacy review
+     */
+    val showPrivacyReview = MutableStateFlow(false)
+
+    /**
      * App UI state.
      */
     val uiState: LiveData<UiState> = savedState.getLiveData(KEY_UI_STATE)

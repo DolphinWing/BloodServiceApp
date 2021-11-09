@@ -32,10 +32,11 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            isTestCoverageEnabled = true
+            isTestCoverageEnabled = false
         }
         getByName("debug") {
             isMinifyEnabled = false
+            isTestCoverageEnabled = true
         }
     }
 
@@ -47,12 +48,12 @@ android {
             dimension = "mode"
             minSdk = 21
         }
-        create("flexible") {
-            versionCode = 112
-            versionName = "2.5.3"
-            dimension = "mode"
-            minSdk = 21
-        }
+//        create("flexible") {
+//            versionCode = 112
+//            versionName = "2.5.3"
+//            dimension = "mode"
+//            minSdk = 21
+//        }
     }
 
     lint {
@@ -131,8 +132,15 @@ tasks {
                 suppress.set(true)
             }
 
+            // Do not output deprecated members. Applies globally, can be overridden by packageOptions
+            skipDeprecated.set(false)
+
             // Platform used for code analysis. See the "Platforms" section of this readme
             platform.set(org.jetbrains.dokka.Platform.jvm)
+
+            // List of files with module and package documentation
+            // https://kotlinlang.org/docs/reference/kotlin-doc.html#module-and-package-documentation
+            includes.from("packages.md")
 
             // Disable linking to online Android documentation (only applicable for Android projects)
             noAndroidSdkLink.set(false)
@@ -145,9 +153,14 @@ tasks {
             externalDocumentationLink {
                 // Root URL of the generated documentation to link with.
                 // The trailing slash is required!
-                url.set(URL("https://developer.android.com/reference/kotlin/"))
-                packageListUrl.set(URL("https://developer.android.com/reference/androidx/package-list"))
+                val refsFromAndroid = "https://developer.android.com/reference"
+                url.set(URL("$refsFromAndroid/kotlin/"))
+                packageListUrl.set(URL("$refsFromAndroid/androidx/package-list"))
             }
+
+            // Include generated files in documentation
+            // By default Dokka will omit all files in folder named generated that is a child of buildDir
+            suppressGeneratedFiles.set(true)
         }
     }
 }
@@ -166,6 +179,7 @@ dependencies {
     implementation(Libs.AndroidX.activity)
     implementation(Libs.Google.material)
     // implementation(Libs.Google.mdcAdapter)
+    implementation(Libs.AndroidX.datastore)
 
     // play services
     implementation(Libs.Google.PlayServices.core)
@@ -177,16 +191,19 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-config-ktx")
 
-    // flexible
-    // https://github.com/davideas/FlexibleAdapter
-    "flexibleImplementation"(Libs.FlexibleAdapter.core)
-    "flexibleImplementation"(Libs.FlexibleAdapter.ui)
-    "flexibleImplementation"(Libs.AndroidX.fragment)
+//    // flexible
+//    // https://github.com/davideas/FlexibleAdapter
+//    "flexibleImplementation"(Libs.FlexibleAdapter.LibCore)
+//    "flexibleImplementation"(Libs.FlexibleAdapter.LibUi)
+//    "flexibleImplementation"(Libs.AndroidX.fragment)
 
     implementation(Libs.AndroidX.coreKtx)
     implementation(Libs.AndroidX.lifecycleViewModel)
     implementation(Libs.AndroidX.liveData)
     // implementation(Libs.AndroidX.lifecycleExtensions)
+    implementation(Libs.JetBrains.coroutinesCore)
+    implementation(Libs.JetBrains.coroutinesAndroid)
+    testImplementation(Libs.JetBrains.coroutinesTest)
 
     /* Jetpack Compose */
     implementation(Libs.AndroidX.Compose.compiler)
@@ -204,9 +221,7 @@ dependencies {
 
     // unit test
     testImplementation(Libs.Test.junit)
-    testImplementation(Libs.Test.robolectric)/* {
-        // exclude(group = "com.google.auto.service", module = "auto-service")
-    }*/
+    testImplementation(Libs.Test.robolectric)
     testImplementation(Libs.Test.mockito)
     testImplementation(Libs.Test.mockitoInline)
     testImplementation(Libs.AndroidXTest.core)

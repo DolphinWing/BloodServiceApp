@@ -13,6 +13,7 @@ import dolphin.android.util.NoCoverageGenerated;
 /**
  * Some utilities methods
  *
+ * @hide
  * @deprecated replaced by data store
  */
 @NoCoverageGenerated

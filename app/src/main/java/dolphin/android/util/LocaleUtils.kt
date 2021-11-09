@@ -1,16 +1,15 @@
-package dolphin.android.apps.BloodServiceApp.provider
+package dolphin.android.util
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
-import dolphin.android.util.NoCoverageRequired
 import java.util.Locale
 
 /**
  * http://gunhansancar.com/change-language-programmatically-in-android/
  */
-@NoCoverageRequired class LocaleUtil {
+@NoCoverageRequired class LocaleUtils {
     @NoCoverageRequired
     companion object Helper {
         fun onAttach(context: Context): Context {

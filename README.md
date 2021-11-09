@@ -9,6 +9,8 @@
 * [Google Play Store](https://play.google.com/store/apps/details?id=dolphin.android.apps.BloodServiceApp)
 * [DolphinWing's App play yard](http://dolphinwing74.wordpress.com/2014/11/06/android-blood-service-app/)
 
-This is a gradle project. You should use Android Studio to modify codes.
+This is a gradle project. You should use Android Studio Arctic Fox or above.
+* [jacoco report](https://dolphinwing.github.io/BloodServiceApp/jacoco/index.html)
+* [dokka](https://dolphinwing.github.io/BloodServiceApp/dokka/index.html)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) Copyright (c) 2021 DolphinWing
+[![License: MIT](https://img.shields.io/github/license/DolphinWing/BloodServiceApp)](https://opensource.org/licenses/MIT) Copyright (c) 2021 DolphinWing

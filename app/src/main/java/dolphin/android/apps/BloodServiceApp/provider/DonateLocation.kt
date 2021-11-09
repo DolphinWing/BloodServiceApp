@@ -5,6 +5,7 @@ import dolphin.android.util.DeprecatedNoCoverage
 
 /**
  * Donation location
+ * @suppress
  */
 @DeprecatedNoCoverage
 @Deprecated("no longer needed", replaceWith = ReplaceWith("SpotInfo and SpotList"))

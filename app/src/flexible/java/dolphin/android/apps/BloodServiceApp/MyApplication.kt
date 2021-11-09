@@ -5,8 +5,8 @@ package dolphin.android.apps.BloodServiceApp
 import android.app.Application
 import android.content.Context
 import android.util.SparseArray
-import dolphin.android.apps.BloodServiceApp.provider.LocaleUtil
 import dolphin.android.apps.BloodServiceApp.ui.DataViewModel
+import dolphin.android.util.LocaleUtils
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -44,7 +44,7 @@ class MyApplication : Application() {
 //        get() = !mHasGooglePlayService
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleUtil.onAttach(base))
+        super.attachBaseContext(LocaleUtils.onAttach(base))
     }
 
     internal val executor: ExecutorService = Executors.newFixedThreadPool(3)
