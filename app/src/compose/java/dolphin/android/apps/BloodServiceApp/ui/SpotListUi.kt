@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
+import dolphin.android.util.DebugOnlyNoCoverage
 
 /**
  * Spot list UI callbacks
@@ -105,6 +106,7 @@ fun SpotListUi(
     }
 }
 
+@DebugOnlyNoCoverage
 @ExperimentalMaterial3Api
 @Preview("list", showSystemUi = true)
 @Preview("list night", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)

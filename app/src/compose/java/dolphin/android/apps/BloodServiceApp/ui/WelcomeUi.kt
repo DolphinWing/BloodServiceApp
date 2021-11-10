@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
+import dolphin.android.util.DebugOnlyNoCoverage
 
 /**
  * Welcome UI callbacks
@@ -272,6 +273,7 @@ private fun PrivacyPolicyPane(
     }
 }
 
+@DebugOnlyNoCoverage
 @ExperimentalMaterial3Api
 @Preview("Welcome", showSystemUi = true)
 @Composable
