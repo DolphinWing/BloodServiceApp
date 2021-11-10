@@ -73,13 +73,13 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     val center = MutableLiveData<BloodCenter.Center>()
 
     /**
-     * Initialize the helper and other data instance.
+     * Initialize the parser and other data instance.
      *
-     * @param helper a helper instance to read data from internet
+     * @param parser a helper instance to read data from internet
      * @return true if helper is ready
      */
-    fun init(helper: BloodDataParser): StateFlow<Boolean> = flow {
-        helper.warmUp()
+    fun init(parser: BloodDataParser): StateFlow<Boolean> = flow {
+        parser.warmUp()
         emit(true)
     }.flowOn(Dispatchers.IO).stateIn(
         scope = viewModelScope,

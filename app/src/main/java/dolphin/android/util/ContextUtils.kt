@@ -1,6 +1,7 @@
 package dolphin.android.util
 
 import android.content.Context
+import android.content.res.Resources
 import java.io.IOException
 import java.io.InputStreamReader
 
@@ -40,9 +41,13 @@ fun Context.readFromAssets(asset: String, encoding: String = "UTF8"): String? {
  * @return string content
  */
 fun Context.readFromRaw(id: Int): String? {
-    val inputStream = resources.openRawResource(id)
+    val inputStream = try {
+        resources.openRawResource(id)
+    } catch (e: Resources.NotFoundException) {
+        null
+    }
     val size = try {
-        inputStream.available()
+        inputStream?.available() ?: 0
     } catch (e: IOException) {
         -1
     }

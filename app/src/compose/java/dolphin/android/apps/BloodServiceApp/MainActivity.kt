@@ -29,8 +29,10 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.ui.AppUiCallback
 import dolphin.android.apps.BloodServiceApp.ui.AppUiPane
 import dolphin.android.apps.BloodServiceApp.ui.UiState
+import dolphin.android.util.NoCoverageRequired
 import dolphin.android.util.PackageUtils
 import dolphin.android.util.readFromAssets
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -82,19 +84,20 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         // https://developer.android.com/about/versions/12/features/splash-screen#implement
         // Set up an OnPreDrawListener to the root view.
         val content: View = findViewById(android.R.id.content)
-        content.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw(): Boolean {
-                // Check if the initial data is ready.
-                return if (model.ready.value == true) {
-                    // The content is ready; start drawing.
-                    content.viewTreeObserver.removeOnPreDrawListener(this)
-                    true
-                } else {
-                    // The content is not ready; suspend.
-                    false
+        content.viewTreeObserver.addOnPreDrawListener(
+            @NoCoverageRequired object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    // Check if the initial data is ready.
+                    return if (model.ready.value == true) {
+                        // The content is ready; start drawing.
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        // The content is not ready; suspend.
+                        false
+                    }
                 }
-            }
-        })
+            })
     }
 
     private fun setupFirebaseRemoteConfig() {
@@ -108,12 +111,12 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     private fun setupViewModel() {
-        lifecycleScope.launch {
+        background {
             dataStore.centerId.collect { centerId ->
                 model.center.postValue(centerInstance.find(centerId))
             }
         }
-        lifecycleScope.launch {
+        background {
             model.init(parser).collect { ready ->
                 // Log.d(TAG, "storage ready $ready")
                 if (ready) {
@@ -135,13 +138,13 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private fun checkPrivacyPolicyReview() {
         val firebaseCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
         Log.v(TAG, "firebase code = $firebaseCode")
-        lifecycleScope.launch {
+        background {
             dataStore.policyCode.collect { appCode ->
                 Log.v(TAG, "app code = $appCode")
                 model.showPrivacyReview.emit(appCode < firebaseCode)
             }
         }
-        lifecycleScope.launch {
+        background {
             dataStore.centerId.collect { centerId ->
                 if (centerId > 0) {
                     model.changeUiState(UiState.Main)
@@ -165,13 +168,13 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     override fun reviewSource(center: BloodCenter.Center) {
         if (center.id == 0) {
-            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
                 putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
                 putString(FirebaseAnalytics.Param.ITEM_ID, centerInstance.main().name)
             }
             IntentHelper.showMainSource(this)
         } else {
-            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
                 putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
                 putString(FirebaseAnalytics.Param.ITEM_ID, center.name)
             }
@@ -180,7 +183,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun reviewPrivacy() {
-        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
             putString(FirebaseAnalytics.Param.ITEM_ID, "review-privacy")
         }
@@ -194,20 +197,20 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         val code = Firebase.remoteConfig.getLong("privacy_policy_update_code")
         // Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show()
         // prefs.policyCode = code
-        lifecycleScope.launch { dataStore.updatePolicyCode(code) }
+        background { dataStore.updatePolicyCode(code) }
         changeBloodCenter(center)
         model.changeUiState(UiState.Main)
     }
 
     override fun changeBloodCenter(center: BloodCenter.Center) {
-        lifecycleScope.launch {
+        background {
             dataStore.changeCenter(center.id)
             model.center.postValue(center)
         }
     }
 
     override fun showFacebookPages(center: BloodCenter.Center) {
-        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
             putString(FirebaseAnalytics.Param.ITEM_ID, "show-facebook")
         }
@@ -220,7 +223,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun queryDonationData(id: Int) {
         queryDonationJob?.cancel()
-        queryDonationJob = lifecycleScope.launch {
+        queryDonationJob = background {
             model.getDonationData(parser, id).collect { loading ->
                 Log.d(TAG, "  queryDonationData loading = $loading")
             }
@@ -229,7 +232,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {
         queryStorageJob?.cancel()
-        queryStorageJob = lifecycleScope.launch {
+        queryStorageJob = background {
             model.getStorageData(parser, forceRefresh, centerId = id).collect { loading ->
                 Log.d(TAG, "  queryStorageData loading = $loading")
             }
@@ -238,12 +241,12 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     private fun querySpotList(id: Int) {
         querySpotListJob?.cancel()
-        querySpotListJob = lifecycleScope.launch {
+        querySpotListJob = background {
             model.getSpotListData(parser, id).collect { loading ->
                 Log.d(TAG, "  querySpotList loading = $loading")
             }
         }
-        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
             putString(FirebaseAnalytics.Param.ITEM_ID, "donation-spot-list")
         }
@@ -259,7 +262,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun addToCalendar(event: DonateActivity) {
-        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
             putString(FirebaseAnalytics.Param.ITEM_ID, "add-to-calendar")
         }
@@ -269,7 +272,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     override fun enableAddToCalendar(): Boolean = true
 
     override fun searchOnMaps(event: DonateActivity) {
-        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
             putString(FirebaseAnalytics.Param.ITEM_ID, "search-on-map")
         }
@@ -281,16 +284,12 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun showDonorInfo() {
-        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, "browser")
             putString(FirebaseAnalytics.Param.ITEM_ID, "show-donor-info")
         }
         IntentHelper.showDonorInfo(this)
     }
-
-//    override fun showReviewPolicy(): Boolean {
-//        return prefs.policyCode < Firebase.remoteConfig.getLong("privacy_policy_update_code")
-//    }
 
     override fun showAssetInDialog(title: Int, asset: String) {
         MaterialAlertDialogBuilder(this)
@@ -326,7 +325,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     private fun setScreenName(screenName: String?, screenClassOverride: String? = null) {
         // See https://firebase.googleblog.com/2020/08/google-analytics-manual-screen-view.html
         // firebaseAnalytics.setCurrentScreen(activity, screenName, screenClassOverride)
-        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) @NoCoverageRequired {
             putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
             screenClassOverride?.let { s -> putString(FirebaseAnalytics.Param.SCREEN_CLASS, s) }
         }
@@ -352,7 +351,10 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         }
     }
 
+    private fun background(block: suspend CoroutineScope.() -> Unit) =
+        lifecycleScope.launch(block = block)
+
     private fun changeToDarkMode(dark: Boolean = true) {
-        lifecycleScope.launch { model.darkMode.emit(dark) }
+        background { model.darkMode.emit(dark) }
     }
 }

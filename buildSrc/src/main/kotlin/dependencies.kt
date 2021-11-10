@@ -53,7 +53,7 @@ object Versions {
         /**
          * https://developer.android.com/jetpack/androidx/releases/compose
          */
-        const val compose = "1.0.4"
+        const val compose = "1.0.5"
         const val composeMaterial3 = "1.0.0-alpha01"
 
         /**
@@ -72,13 +72,12 @@ object Versions {
 
     object FlexibleAdapter {
         const val ui: String = "1.0.0"
-
         const val core: String = "5.1.0"
     }
 
     object JetBrains {
         const val kotlinLib = "1.5.31"
-        const val coroutines = "1.5.1"
+        const val coroutines = "1.5.2"
 
         /**
          * https://github.com/Kotlin/dokka
@@ -281,5 +280,9 @@ object Libs {
 
         // https://developer.android.com/jetpack/androidx/releases/arch-core
         const val archCore = "androidx.arch.core:core-testing:${Versions.AndroidXTest.archCore}"
+
+        // compose
+        const val uiTest = "androidx.compose.ui:ui-test:${Versions.AndroidX.compose}"
+        const val uiJunitTest = "androidx.compose.ui:ui-test-junit4:${Versions.AndroidX.compose}"
     }
 }

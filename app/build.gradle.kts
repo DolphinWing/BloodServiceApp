@@ -25,6 +25,7 @@ android {
         applicationId = "dolphin.android.apps.BloodServiceApp"
         targetSdk = 31
         resourceConfigurations.addAll(arrayOf("zh_TW"))
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -89,6 +90,13 @@ android {
     useLibrary("android.test.runner")
     useLibrary("android.test.base")
     useLibrary("android.test.mock")
+
+    // https://stackoverflow.com/a/47509465
+    packagingOptions {
+        resources.excludes.add("/META-INF/AL2.0")
+        resources.excludes.add("/META-INF/LGPL2.1")
+        resources.excludes.add("/LICENSE.txt")
+    }
 }
 
 fun isNonStable(version: String): Boolean {
@@ -218,6 +226,10 @@ dependencies {
     implementation(Libs.AndroidX.Compose.material3)
     implementation(Libs.AndroidX.Compose.materialIcons)
     implementation(Libs.AndroidX.Compose.uiTooling)
+    androidTestImplementation(Libs.AndroidXTest.uiTest)
+    androidTestImplementation(Libs.AndroidXTest.uiJunitTest)
+    androidTestImplementation(Libs.AndroidXTest.core)
+    androidTestImplementation(Libs.AndroidXTest.junit)
 
     // unit test
     testImplementation(Libs.Test.junit)

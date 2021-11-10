@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import dolphin.android.util.readFromRaw
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -112,5 +113,11 @@ class BloodDataParserTest {
         val (order, maps) = parser.getDonationSpotLocationMap(center.hsinchu().id)
         Assert.assertEquals(4, order.size)
         Assert.assertEquals(0, maps.size())
+    }
+
+    @Test
+    fun `read raw failed`() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        Assert.assertNull(context.readFromRaw(0))
     }
 }

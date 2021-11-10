@@ -48,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -67,6 +68,7 @@ import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
 import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
+import dolphin.android.util.DebugOnlyNoCoverage
 
 /**
  * Main UI callbacks
@@ -125,13 +127,6 @@ interface MainUiCallback {
      * @return true if enable this feature
      */
     fun enableAddToCalendar(): Boolean
-
-//    /**
-//     * Enable or disable review policy in main ui.
-//     *
-//     * @return true if enable this feature
-//     */
-//    fun showReviewPolicy(): Boolean
 }
 
 /**
@@ -233,6 +228,7 @@ fun MainUi(
     }
 }
 
+@DebugOnlyNoCoverage
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Preview("Main Ui", showSystemUi = true)
@@ -249,6 +245,7 @@ private fun PreviewMainUi() {
     }
 }
 
+@DebugOnlyNoCoverage
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Preview("Main Ui: hide", showSystemUi = true)
@@ -612,6 +609,7 @@ private fun EventPane(
                     Icons.Rounded.Schedule,
                     contentDescription = addLabel,
                     tint = buttonColor,
+                    modifier = Modifier.testTag("calendar"),
                 )
             }
         } else {
@@ -658,6 +656,7 @@ private fun EventPane(
                     Icons.Rounded.Map,
                     contentDescription = searchLabel,
                     tint = buttonColor,
+                    modifier = Modifier.testTag("map"),
                 )
             }
         } else {

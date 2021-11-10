@@ -33,6 +33,7 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
+import dolphin.android.util.DebugOnlyNoCoverage
 
 /**
  * Main theme of the app.
@@ -211,6 +212,7 @@ fun AppUiPane(
 /**
  * A data collection for compose preview and debug.
  */
+@DebugOnlyNoCoverage
 object PreviewSample {
     val selectedCenter = BloodCenter.Center(
         name = "Tainan Center",
