@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrefsDataStore.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.provider</a> &gt; <span class="el_source">PrefsDataStore.kt</span></div><h1>PrefsDataStore.kt</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package dolphin.android.apps.BloodServiceApp.provider</span>
+
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+// At the top level of your kotlin file:
+<span class="fc" id="L14">val Context.dataStore: DataStore&lt;Preferences&gt; by preferencesDataStore(name = &quot;settings&quot;)</span>
+
+/**
+ * Use DataStore Preferences.
+ * See [https://developer.android.com/topic/libraries/architecture/datastore]
+ */
+<span class="fc" id="L20">class PrefsDataStore</span>
+/**
+ * Create [DataStore].
+ *
+ * @param dataStore Android Context
+ */
+<span class="fc" id="L26">constructor(private val dataStore: DataStore&lt;Preferences&gt;) {</span>
+    /**
+     * Use [Context] to create [DataStore].
+     *
+     * @param context Android Context
+     */
+<span class="fc" id="L32">    constructor(context: Context) : this(context.dataStore)</span>
+
+<span class="fc" id="L34">    private val keyCenterId = intPreferencesKey(&quot;near_by_center&quot;)</span>
+<span class="fc" id="L35">    val centerId: Flow&lt;Int&gt; = dataStore.data.map { preferences -&gt;</span>
+        // No type safety.
+        preferences[keyCenterId] ?: 0
+    }
+
+    suspend fun changeCenter(id: Int) {
+<span class="fc" id="L41">        dataStore.edit { settings -&gt;</span>
+<span class="fc" id="L42">            settings[keyCenterId] = id</span>
+<span class="fc" id="L43">        }</span>
+<span class="fc" id="L44">    }</span>
+
+<span class="fc" id="L46">    private val keyPolicyCode = longPreferencesKey(&quot;private_policy&quot;)</span>
+<span class="fc" id="L47">    val policyCode: Flow&lt;Long&gt; = dataStore.data.map { preferences -&gt;</span>
+        preferences[keyPolicyCode] ?: 0
+    }
+
+    suspend fun updatePolicyCode(code: Long) {
+<span class="fc" id="L52">        dataStore.edit { settings -&gt;</span>
+<span class="fc" id="L53">            settings[keyPolicyCode] = code</span>
+<span class="fc" id="L54">        }</span>
+<span class="fc" id="L55">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

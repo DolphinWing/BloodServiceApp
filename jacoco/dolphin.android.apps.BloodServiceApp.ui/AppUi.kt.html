@@ -33,6 +33,7 @@ import dolphin.android.apps.BloodServiceApp.provider.DonateActivity
 import dolphin.android.apps.BloodServiceApp.provider.DonateDay
 import dolphin.android.apps.BloodServiceApp.provider.SpotInfo
 import dolphin.android.apps.BloodServiceApp.provider.SpotList
+import dolphin.android.util.DebugOnlyNoCoverage
 
 /**
  * Main theme of the app.
@@ -42,28 +43,28 @@ import dolphin.android.apps.BloodServiceApp.provider.SpotList
 @SuppressLint(&quot;NewApi&quot;)
 @Composable
 fun AppTheme(
-<span class="nc bnc" id="L45" title="All 2 branches missed.">    dark: Boolean = isSystemInDarkTheme(),</span>
-<span class="nc bnc" id="L46" title="All 4 branches missed.">    dynamic: Boolean = BuildCompat.isAtLeastS(),</span>
+<span class="pc bfc" id="L46" title="All 2 branches covered.">    dark: Boolean = isSystemInDarkTheme(),</span>
+<span class="pc bnc" id="L47" title="All 4 branches missed.">    dynamic: Boolean = BuildCompat.isAtLeastS(),</span>
     content: @Composable BoxScope.() -&gt; Unit
-<span class="nc bnc" id="L48" title="All 28 branches missed.">) {</span>
-<span class="nc" id="L49">    val colorScheme = when {</span>
-<span class="nc bnc" id="L50" title="All 4 branches missed.">        dynamic &amp;&amp; dark -&gt; dynamicDarkColorScheme(LocalContext.current)</span>
-<span class="nc bnc" id="L51" title="All 4 branches missed.">        dynamic &amp;&amp; !dark -&gt; dynamicLightColorScheme(LocalContext.current)</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        dark -&gt; AppDarkThemeColors</span>
-<span class="nc" id="L53">        else -&gt; AppLightThemeColors</span>
+<span class="pc bpc" id="L49" title="14 of 28 branches missed.">) {</span>
+<span class="fc" id="L50">    val colorScheme = when {</span>
+<span class="fc bfc" id="L51" title="All 4 branches covered.">        dynamic &amp;&amp; dark -&gt; dynamicDarkColorScheme(LocalContext.current)</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">        dynamic &amp;&amp; !dark -&gt; dynamicLightColorScheme(LocalContext.current)</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        dark -&gt; AppDarkThemeColors</span>
+<span class="fc" id="L54">        else -&gt; AppLightThemeColors</span>
     }
 
-<span class="nc" id="L56">    MaterialTheme(</span>
-<span class="nc" id="L57">        colorScheme = colorScheme,</span>
-<span class="nc" id="L58">        typography = AppTypography,</span>
-<span class="nc" id="L59">    ) {</span>
-<span class="nc bnc" id="L60" title="All 4 branches missed.">        Box(</span>
-<span class="nc" id="L61">            modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L62">            content = content,</span>
-<span class="nc" id="L63">            contentAlignment = Alignment.Center, // default alignment</span>
-<span class="nc" id="L64">        )</span>
-<span class="nc" id="L65">    }</span>
-<span class="nc bnc" id="L66" title="All 2 branches missed.">}</span>
+<span class="fc" id="L57">    MaterialTheme(</span>
+<span class="fc" id="L58">        colorScheme = colorScheme,</span>
+<span class="fc" id="L59">        typography = AppTypography,</span>
+<span class="fc" id="L60">    ) {</span>
+<span class="pc bpc" id="L61" title="2 of 4 branches missed.">        Box(</span>
+<span class="fc" id="L62">            modifier = Modifier.fillMaxSize(),</span>
+<span class="fc" id="L63">            content = content,</span>
+<span class="fc" id="L64">            contentAlignment = Alignment.Center, // default alignment</span>
+<span class="nc" id="L65">        )</span>
+<span class="fc" id="L66">    }</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">}</span>
 
 /**
  * Common separator.
@@ -75,20 +76,20 @@ fun AppTheme(
  */
 @Composable
 fun Separator(
-<span class="nc bnc" id="L78" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="nc" id="L79">    horizontalPadding: Dp = 8.dp,</span>
-<span class="nc" id="L80">    verticalPadding: Dp = 4.dp,</span>
-<span class="nc bnc" id="L81" title="All 6 branches missed.">    color: Color = MaterialTheme.colorScheme.outline.copy(alpha = .25f),</span>
-<span class="nc bnc" id="L82" title="All 34 branches missed.">) {</span>
-<span class="nc" id="L83">    Spacer(</span>
-<span class="nc" id="L84">        modifier = modifier</span>
-<span class="nc" id="L85">            .fillMaxWidth()</span>
-<span class="nc" id="L86">            .padding(horizontal = horizontalPadding)</span>
-<span class="nc" id="L87">            .background(color)</span>
-<span class="nc" id="L88">            .requiredHeight(1.dp)</span>
-<span class="nc" id="L89">            .padding(vertical = verticalPadding)</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">    modifier: Modifier = Modifier,</span>
+<span class="fc" id="L80">    horizontalPadding: Dp = 8.dp,</span>
+<span class="fc" id="L81">    verticalPadding: Dp = 4.dp,</span>
+<span class="pc bnc" id="L82" title="All 6 branches missed.">    color: Color = MaterialTheme.colorScheme.outline.copy(alpha = .25f),</span>
+<span class="pc bpc" id="L83" title="18 of 34 branches missed.">) {</span>
+<span class="fc" id="L84">    Spacer(</span>
+<span class="fc" id="L85">        modifier = modifier</span>
+<span class="fc" id="L86">            .fillMaxWidth()</span>
+<span class="fc" id="L87">            .padding(horizontal = horizontalPadding)</span>
+<span class="fc" id="L88">            .background(color)</span>
+<span class="fc" id="L89">            .requiredHeight(1.dp)</span>
+<span class="fc" id="L90">            .padding(vertical = verticalPadding)</span>
     )
-<span class="nc bnc" id="L91" title="All 2 branches missed.">}</span>
+<span class="pc bfc" id="L92" title="All 2 branches covered.">}</span>
 
 /**
  * App UI callbacks
@@ -113,7 +114,7 @@ interface AppUiCallback :
 }
 
 enum class UiState {
-<span class="nc" id="L116">    Welcome, Main, Settings, Spots</span>
+<span class="fc" id="L117">    Welcome, Main, Settings, Spots</span>
 }
 
 /**
@@ -132,174 +133,177 @@ fun AppUiPane(
     model: AppDataModel,
     center: BloodCenter,
     callback: AppUiCallback,
-<span class="nc" id="L135">    modifier: Modifier = Modifier,</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">) {</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">    AppTheme(dark = model.darkMode.collectAsState().value) {</span>
-<span class="nc bnc" id="L138" title="All 4 branches missed.">        val selected = model.center.observeAsState()</span>
-<span class="nc" id="L139">        val maps = model.storageMap.collectAsState()</span>
-<span class="nc" id="L140">        val days = model.daysList.collectAsState()</span>
-<span class="nc" id="L141">        val cities = model.spotList.collectAsState()</span>
-<span class="nc" id="L142">        val city = model.city.collectAsState()</span>
+<span class="nc" id="L136">    modifier: Modifier = Modifier,</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">) {</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">    AppTheme(dark = model.darkMode.collectAsState().value) {</span>
+<span class="pc bpc" id="L139" title="1 of 4 branches missed.">        val selected = model.center.observeAsState()</span>
+<span class="fc" id="L140">        val maps = model.storageMap.collectAsState()</span>
+<span class="fc" id="L141">        val days = model.daysList.collectAsState()</span>
+<span class="fc" id="L142">        val cities = model.spotList.collectAsState()</span>
+<span class="fc" id="L143">        val city = model.city.collectAsState()</span>
+<span class="fc" id="L144">        val review = model.showPrivacyReview.collectAsState()</span>
 
-<span class="nc" id="L144">        Crossfade(</span>
-<span class="nc" id="L145">            targetState = model.uiState.observeAsState().value,</span>
-<span class="nc" id="L146">            modifier = modifier</span>
-<span class="nc" id="L147">        ) { state -&gt;</span>
-<span class="nc bnc" id="L148" title="All 11 branches missed.">            when (state) {</span>
+<span class="fc" id="L146">        Crossfade(</span>
+<span class="fc" id="L147">            targetState = model.uiState.observeAsState().value,</span>
+<span class="fc" id="L148">            modifier = modifier</span>
+<span class="fc" id="L149">        ) { state -&gt;</span>
+<span class="pc bpc" id="L150" title="3 of 11 branches missed.">            when (state) {</span>
                 UiState.Welcome -&gt;
-<span class="nc" id="L150">                    WelcomeUi(</span>
-<span class="nc" id="L151">                        list = center.values(),</span>
-<span class="nc" id="L152">                        onComplete = { index -&gt; callback.reviewComplete(center.values()[index]) },</span>
-<span class="nc" id="L153">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L154">                        onReview = { callback.reviewPrivacy() },</span>
-<span class="nc" id="L155">                        onSource = { callback.reviewSource(center.main()) },</span>
+<span class="fc" id="L152">                    WelcomeUi(</span>
+<span class="fc" id="L153">                        list = center.values(),</span>
+<span class="nc" id="L154">                        onComplete = { index -&gt; callback.reviewComplete(center.values()[index]) },</span>
+<span class="fc" id="L155">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L156">                        onReview = { callback.reviewPrivacy() },</span>
+<span class="nc" id="L157">                        onSource = { callback.reviewSource(center.main()) },</span>
                     )
 
                 UiState.Main -&gt;
-<span class="nc" id="L159">                    MainUi(</span>
-<span class="nc" id="L160">                        centers = center.values(),</span>
-<span class="nc bnc" id="L161" title="All 2 branches missed.">                        selected = selected.value ?: center.main(),</span>
-<span class="nc" id="L162">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L163">                        daysList = days.value,</span>
-<span class="nc" id="L164">                        storageMap = maps.value,</span>
-<span class="nc" id="L165">                        onCenterChange = { c -&gt; callback.changeBloodCenter(c) },</span>
-<span class="nc" id="L166">                        onAddCalendar = { event -&gt; callback.addToCalendar(event) },</span>
-<span class="nc" id="L167">                        enableAddCalendar = callback.enableAddToCalendar(),</span>
-<span class="nc" id="L168">                        onSearchOnMap = { event -&gt; callback.searchOnMaps(event) },</span>
-<span class="nc" id="L169">                        enableSearchOnMap = callback.enableSearchOnMap(),</span>
-<span class="nc" id="L170">                        onSpotListClick = { c -&gt; callback.showSpotList(c) },</span>
-<span class="nc" id="L171">                        onDonorClick = { callback.showDonorInfo() },</span>
-<span class="nc" id="L172">                        onSettingsClick = { model.changeUiState(UiState.Settings) },</span>
-<span class="nc" id="L173">                        onReviewSource = { c -&gt; callback.reviewSource(c) },</span>
-<span class="nc" id="L174">                        onFacebookClick = { c -&gt; callback.showFacebookPages(c) },</span>
+<span class="nc" id="L161">                    MainUi(</span>
+<span class="nc" id="L162">                        centers = center.values(),</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">                        selected = selected.value ?: center.main(),</span>
+<span class="nc" id="L164">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L165">                        daysList = days.value,</span>
+<span class="nc" id="L166">                        storageMap = maps.value,</span>
+<span class="nc" id="L167">                        onCenterChange = { c -&gt; callback.changeBloodCenter(c) },</span>
+<span class="nc" id="L168">                        onAddCalendar = { event -&gt; callback.addToCalendar(event) },</span>
+<span class="nc" id="L169">                        enableAddCalendar = callback.enableAddToCalendar(),</span>
+<span class="nc" id="L170">                        onSearchOnMap = { event -&gt; callback.searchOnMaps(event) },</span>
+<span class="nc" id="L171">                        enableSearchOnMap = callback.enableSearchOnMap(),</span>
+<span class="nc" id="L172">                        onSpotListClick = { c -&gt; callback.showSpotList(c) },</span>
+<span class="nc" id="L173">                        onDonorClick = { callback.showDonorInfo() },</span>
+<span class="nc" id="L174">                        onSettingsClick = { model.changeUiState(UiState.Settings) },</span>
+<span class="nc" id="L175">                        onReviewSource = { c -&gt; callback.reviewSource(c) },</span>
+<span class="nc" id="L176">                        onFacebookClick = { c -&gt; callback.showFacebookPages(c) },</span>
                         onReviewIgnore = {
-<span class="nc bnc" id="L176" title="All 2 branches missed.">                            callback.reviewComplete(selected.value ?: center.main())</span>
-<span class="nc" id="L177">                        },</span>
-<span class="nc" id="L178">                        onReviewPolicy = { callback.reviewPrivacy() }</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                            callback.reviewComplete(selected.value ?: center.main())</span>
+<span class="nc" id="L179">                        },</span>
+<span class="nc" id="L180">                        onReviewPolicy = { callback.reviewPrivacy() },</span>
+<span class="nc" id="L181">                        showReviewPolicy = review.value,</span>
                     )
 
                 UiState.Spots -&gt;
-<span class="nc" id="L182">                    SpotListUi(</span>
-<span class="nc" id="L183">                        list = cities.value,</span>
-<span class="nc" id="L184">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L185">                        onBackPress = { callback.pressBack() },</span>
-<span class="nc" id="L186">                        onSpotClick = { info -&gt; callback.showSpotInfo(info) },</span>
-<span class="nc" id="L187">                        onCityClick = { c -&gt; model.changeCity(c.cityId) },</span>
-<span class="nc" id="L188">                        selectedCity = city.value,</span>
+<span class="nc" id="L185">                    SpotListUi(</span>
+<span class="nc" id="L186">                        list = cities.value,</span>
+<span class="nc" id="L187">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L188">                        onBackPress = { callback.pressBack() },</span>
+<span class="nc" id="L189">                        onSpotClick = { info -&gt; callback.showSpotInfo(info) },</span>
+<span class="nc" id="L190">                        onCityClick = { c -&gt; model.changeCity(c.cityId) },</span>
+<span class="nc" id="L191">                        selectedCity = city.value,</span>
                     )
 
                 UiState.Settings -&gt;
-<span class="nc" id="L192">                    SettingsUi(</span>
-<span class="nc" id="L193">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L194">                        onBackPress = { callback.pressBack() },</span>
-<span class="nc" id="L195">                        version = callback.versionInfo(),</span>
-<span class="nc" id="L196">                        onReview = { title, asset -&gt; callback.showAssetInDialog(title, asset) },</span>
-<span class="nc" id="L197">                        showChangeLog = callback.enableVersionSummary(),</span>
+<span class="nc" id="L195">                    SettingsUi(</span>
+<span class="nc" id="L196">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L197">                        onBackPress = { callback.pressBack() },</span>
+<span class="nc" id="L198">                        version = callback.versionInfo(),</span>
+<span class="nc" id="L199">                        onReview = { title, asset -&gt; callback.showAssetInDialog(title, asset) },</span>
+<span class="nc" id="L200">                        showChangeLog = callback.enableVersionSummary(),</span>
                     )
 
                 else -&gt;
-<span class="nc" id="L201">                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {</span>
-<span class="nc bnc" id="L202" title="All 4 branches missed.">                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
-<span class="nc" id="L203">                    }</span>
-<span class="nc" id="L204">            }</span>
-<span class="nc" id="L205">        }</span>
-<span class="nc" id="L206">    }</span>
-<span class="nc" id="L207">}</span>
+<span class="fc" id="L204">                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {</span>
+<span class="pc bpc" id="L205" title="3 of 4 branches missed.">                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
+<span class="pc" id="L206">                    }</span>
+<span class="fc" id="L207">            }</span>
+<span class="pc" id="L208">        }</span>
+<span class="fc" id="L209">    }</span>
+<span class="fc" id="L210">}</span>
 
 /**
  * A data collection for compose preview and debug.
  */
+@DebugOnlyNoCoverage
 object PreviewSample {
-<span class="nc" id="L213">    val selectedCenter = BloodCenter.Center(</span>
-<span class="nc" id="L214">        name = &quot;Tainan Center&quot;,</span>
-<span class="nc" id="L215">        id = 5,</span>
-<span class="nc" id="L216">        cityIds = &quot;26,23,24&quot;,</span>
-<span class="nc" id="L217">        cities = &quot;Tainan and Chiayi&quot;,</span>
+    val selectedCenter = BloodCenter.Center(
+        name = &quot;Tainan Center&quot;,
+        id = 5,
+        cityIds = &quot;26,23,24&quot;,
+        cities = &quot;Tainan and Chiayi&quot;,
     )
 
-<span class="nc" id="L220">    val centers = listOf(</span>
-<span class="nc" id="L221">        BloodCenter.Center(</span>
-<span class="nc" id="L222">            name = &quot;Taipei Center&quot;,</span>
-<span class="nc" id="L223">            id = 2,</span>
-<span class="nc" id="L224">            cityIds = &quot;13,14,12,32,31&quot;,</span>
-<span class="nc" id="L225">            cities = &quot;Northern Taiwan&quot;,</span>
+    val centers = listOf(
+        BloodCenter.Center(
+            name = &quot;Taipei Center&quot;,
+            id = 2,
+            cityIds = &quot;13,14,12,32,31&quot;,
+            cities = &quot;Northern Taiwan&quot;,
         ),
-<span class="nc" id="L227">        BloodCenter.Center(</span>
-<span class="nc" id="L228">            name = &quot;Hsinchu Center&quot;,</span>
-<span class="nc" id="L229">            id = 2,</span>
-<span class="nc" id="L230">            cityIds = &quot;16,17,15,18&quot;,</span>
-<span class="nc" id="L231">            cities = &quot;Northern Taiwan other areas&quot;,</span>
+        BloodCenter.Center(
+            name = &quot;Hsinchu Center&quot;,
+            id = 2,
+            cityIds = &quot;16,17,15,18&quot;,
+            cities = &quot;Northern Taiwan other areas&quot;,
         ),
-<span class="nc" id="L233">        BloodCenter.Center(</span>
-<span class="nc" id="L234">            name = &quot;Taichung Center&quot;,</span>
-<span class="nc" id="L235">            id = 2,</span>
-<span class="nc" id="L236">            cityIds = &quot;19,21,22,33&quot;,</span>
-<span class="nc" id="L237">            cities = &quot;Central Taiwan&quot;,</span>
+        BloodCenter.Center(
+            name = &quot;Taichung Center&quot;,
+            id = 2,
+            cityIds = &quot;19,21,22,33&quot;,
+            cities = &quot;Central Taiwan&quot;,
         ),
-<span class="nc" id="L239">        selectedCenter,</span>
-<span class="nc" id="L240">        BloodCenter.Center(</span>
-<span class="nc" id="L241">            name = &quot;Kao Center&quot;,</span>
-<span class="nc" id="L242">            id = 6,</span>
-<span class="nc" id="L243">            cityIds = &quot;27,29,34,30&quot;,</span>
-<span class="nc" id="L244">            cities = &quot;Southern Taiwan&quot;,</span>
+        selectedCenter,
+        BloodCenter.Center(
+            name = &quot;Kao Center&quot;,
+            id = 6,
+            cityIds = &quot;27,29,34,30&quot;,
+            cities = &quot;Southern Taiwan&quot;,
         )
     )
 
-<span class="nc" id="L248">    fun storage(a: Int = 3, b: Int = 3, o: Int = 3, ab: Int = 3): HashMap&lt;String, Int&gt; =</span>
-<span class="nc" id="L249">        HashMap&lt;String, Int&gt;().apply {</span>
-<span class="nc" id="L250">            put(&quot;A&quot;, a)</span>
-<span class="nc" id="L251">            put(&quot;B&quot;, b)</span>
-<span class="nc" id="L252">            put(&quot;O&quot;, o)</span>
-<span class="nc" id="L253">            put(&quot;AB&quot;, ab)</span>
-<span class="nc" id="L254">        }</span>
+    fun storage(a: Int = 3, b: Int = 3, o: Int = 3, ab: Int = 3): HashMap&lt;String, Int&gt; =
+        HashMap&lt;String, Int&gt;().apply {
+            put(&quot;A&quot;, a)
+            put(&quot;B&quot;, b)
+            put(&quot;O&quot;, o)
+            put(&quot;AB&quot;, ab)
+        }
 
-<span class="nc" id="L256">    val donations = listOf(</span>
-<span class="nc" id="L257">        DonateDay(</span>
-<span class="nc" id="L258">            activities = listOf(</span>
-<span class="nc" id="L259">                DonateActivity(&quot;Protective Service Occupations&quot;, &quot;3535 Clousson Road&quot;),</span>
-<span class="nc" id="L260">                DonateActivity(&quot;Foreman &amp; Clark&quot;, &quot;Sacramento, California&quot;),</span>
-<span class="nc" id="L261">                DonateActivity(&quot;Climer&quot;, &quot;Lake Worth, FL&quot;),</span>
-<span class="nc" id="L262">                DonateActivity(&quot;Higginbotham Rd&quot;, &quot;Georgetown, South Carolina&quot;),</span>
+    val donations = listOf(
+        DonateDay(
+            activities = listOf(
+                DonateActivity(&quot;Protective Service Occupations&quot;, &quot;3535 Clousson Road&quot;),
+                DonateActivity(&quot;Foreman &amp; Clark&quot;, &quot;Sacramento, California&quot;),
+                DonateActivity(&quot;Climer&quot;, &quot;Lake Worth, FL&quot;),
+                DonateActivity(&quot;Higginbotham Rd&quot;, &quot;Georgetown, South Carolina&quot;),
             )
         ),
-<span class="nc" id="L265">        DonateDay(activities = listOf()), // put an empty list for test</span>
-<span class="nc" id="L266">        DonateDay(</span>
-<span class="nc" id="L267">            activities = listOf(</span>
-<span class="nc" id="L268">                DonateActivity(&quot;De-Jaiz Mens Clothing&quot;, &quot;439 Wines Lane, Houston&quot;),</span>
-<span class="nc" id="L269">                DonateActivity(&quot;High school&quot;, &quot;377 Saint James Drive, Harrisburg, Pennsylvania&quot;),</span>
+        DonateDay(activities = listOf()), // put an empty list for test
+        DonateDay(
+            activities = listOf(
+                DonateActivity(&quot;De-Jaiz Mens Clothing&quot;, &quot;439 Wines Lane, Houston&quot;),
+                DonateActivity(&quot;High school&quot;, &quot;377 Saint James Drive, Harrisburg, Pennsylvania&quot;),
             )
         ),
-<span class="nc" id="L272">        DonateDay(</span>
-<span class="nc" id="L273">            activities = listOf(</span>
-<span class="nc" id="L274">                DonateActivity(&quot;Cleveland&quot;, &quot;715 Lakeland Park Drive&quot;),</span>
-<span class="nc" id="L275">                DonateActivity(&quot;La Luz, New Mexico&quot;, &quot;745 Reynolds StGreen River, Wyoming&quot;),</span>
+        DonateDay(
+            activities = listOf(
+                DonateActivity(&quot;Cleveland&quot;, &quot;715 Lakeland Park Drive&quot;),
+                DonateActivity(&quot;La Luz, New Mexico&quot;, &quot;745 Reynolds StGreen River, Wyoming&quot;),
             )
         ),
-<span class="nc" id="L278">        DonateDay(</span>
-<span class="nc" id="L279">            activities = listOf(</span>
-<span class="nc" id="L280">                DonateActivity(&quot;Middle Ground Church&quot;, &quot;SW Garden LnTopeka, Kansas&quot;),</span>
-<span class="nc" id="L281">                DonateActivity(&quot;Johnson Lake&quot;, &quot;San Gabriel, California&quot;),</span>
-<span class="nc" id="L282">                DonateActivity(&quot;Lynn School&quot;, &quot;Bluejacket, Oklahoma&quot;),</span>
-<span class="nc" id="L283">                DonateActivity(&quot;Patriots&quot;, &quot;404 Quartz Rd, Superior, Montana&quot;),</span>
+        DonateDay(
+            activities = listOf(
+                DonateActivity(&quot;Middle Ground Church&quot;, &quot;SW Garden LnTopeka, Kansas&quot;),
+                DonateActivity(&quot;Johnson Lake&quot;, &quot;San Gabriel, California&quot;),
+                DonateActivity(&quot;Lynn School&quot;, &quot;Bluejacket, Oklahoma&quot;),
+                DonateActivity(&quot;Patriots&quot;, &quot;404 Quartz Rd, Superior, Montana&quot;),
             )
         )
     )
 
-<span class="nc" id="L288">    val spots = listOf(</span>
-<span class="nc" id="L289">        SpotList(10).apply {</span>
-<span class="nc" id="L290">            cityName = &quot;Sweetie&quot;</span>
-<span class="nc" id="L291">            addStaticLocation(SpotInfo(1, 10, &quot;Here some place&quot;))</span>
-<span class="nc" id="L292">            addStaticLocation(SpotInfo(2, 10, &quot;One more place&quot;))</span>
-<span class="nc" id="L293">            addStaticLocation(SpotInfo(3, 10, &quot;Last place&quot;))</span>
-<span class="nc" id="L294">            addDynamicLocation(SpotInfo(11, 10, &quot;Somewhere&quot;))</span>
-<span class="nc" id="L295">            addDynamicLocation(SpotInfo(12, 10, &quot;Nowhere&quot;))</span>
-<span class="nc" id="L296">        },</span>
-<span class="nc" id="L297">        SpotList(20).apply {</span>
-<span class="nc" id="L298">            cityName = &quot;Moon&quot;</span>
-<span class="nc" id="L299">            addStaticLocation(SpotInfo(1, 10, &quot;Here and there&quot;))</span>
-<span class="nc" id="L300">            addDynamicLocation(SpotInfo(2, 10, &quot;Far far away&quot;))</span>
-<span class="nc" id="L301">            addDynamicLocation(SpotInfo(3, 10, &quot;Far far far away&quot;))</span>
-<span class="nc" id="L302">        },</span>
+    val spots = listOf(
+        SpotList(10).apply {
+            cityName = &quot;Sweetie&quot;
+            addStaticLocation(SpotInfo(1, 10, &quot;Here some place&quot;))
+            addStaticLocation(SpotInfo(2, 10, &quot;One more place&quot;))
+            addStaticLocation(SpotInfo(3, 10, &quot;Last place&quot;))
+            addDynamicLocation(SpotInfo(11, 10, &quot;Somewhere&quot;))
+            addDynamicLocation(SpotInfo(12, 10, &quot;Nowhere&quot;))
+        },
+        SpotList(20).apply {
+            cityName = &quot;Moon&quot;
+            addStaticLocation(SpotInfo(1, 10, &quot;Here and there&quot;))
+            addDynamicLocation(SpotInfo(2, 10, &quot;Far far away&quot;))
+            addDynamicLocation(SpotInfo(3, 10, &quot;Far far far away&quot;))
+        },
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

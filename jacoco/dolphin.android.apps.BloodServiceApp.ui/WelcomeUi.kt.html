@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.apps.BloodServiceApp.provider.BloodCenter
+import dolphin.android.util.DebugOnlyNoCoverage
 
 /**
  * Welcome UI callbacks
@@ -67,220 +68,221 @@ interface WelcomeUiCallback {
 fun WelcomeUi(
     list: List&lt;BloodCenter.Center&gt;,
     onComplete: (Int) -&gt; Unit,
-<span class="nc bnc" id="L70" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">    onSource: (() -&gt; Unit)? = null,</span>
-<span class="nc" id="L72">    onReview: (() -&gt; Unit)? = null,</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">) {</span>
-<span class="nc" id="L74">    var selected by remember { mutableStateOf(3) }</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">    modifier: Modifier = Modifier,</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    onSource: (() -&gt; Unit)? = null,</span>
+<span class="fc" id="L73">    onReview: (() -&gt; Unit)? = null,</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">) {</span>
+<span class="pc" id="L75">    var selected by remember { mutableStateOf(3) }</span>
 
-<span class="nc bnc" id="L76" title="All 2 branches missed.">    Scaffold(</span>
-<span class="nc" id="L77">        modifier = modifier,</span>
-<span class="nc" id="L78">        topBar = {</span>
-<span class="nc bnc" id="L79" title="All 4 branches missed.">            SmallTopAppBar(</span>
-<span class="nc bnc" id="L80" title="All 4 branches missed.">                title = { Text(stringResource(id = R.string.app_name)) },</span>
-<span class="nc" id="L81">                navigationIcon = {</span>
-<span class="nc bnc" id="L82" title="All 4 branches missed.">                    Image(</span>
-<span class="nc" id="L83">                        painterResource(id = R.mipmap.ic_adaptive_launcher_fg),</span>
-<span class="nc" id="L84">                        contentDescription = null,</span>
-<span class="nc" id="L85">                        modifier = Modifier.size(48.dp),</span>
-<span class="nc" id="L86">                    )</span>
-<span class="nc" id="L87">                },</span>
-<span class="nc" id="L88">            )</span>
-<span class="nc" id="L89">        },</span>
-<span class="nc" id="L90">    ) { padding -&gt;</span>
-<span class="nc bnc" id="L91" title="All 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
-<span class="nc bnc" id="L92" title="All 4 branches missed.">            WelcomeText(onClick = onSource)</span>
-<span class="nc" id="L93">            WelcomeCenterSelectionUi(</span>
-<span class="nc" id="L94">                list = list,</span>
-<span class="nc" id="L95">                selected = selected,</span>
-<span class="nc" id="L96">                onSelectedChange = { selected = it },</span>
-<span class="nc" id="L97">                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">    Scaffold(</span>
+<span class="fc" id="L78">        modifier = modifier,</span>
+<span class="fc" id="L79">        topBar = {</span>
+<span class="pc bpc" id="L80" title="3 of 4 branches missed.">            SmallTopAppBar(</span>
+<span class="pc bpc" id="L81" title="3 of 4 branches missed.">                title = { Text(stringResource(id = R.string.app_name)) },</span>
+<span class="fc" id="L82">                navigationIcon = {</span>
+<span class="pc bpc" id="L83" title="3 of 4 branches missed.">                    Image(</span>
+<span class="fc" id="L84">                        painterResource(id = R.mipmap.ic_adaptive_launcher_fg),</span>
+<span class="fc" id="L85">                        contentDescription = null,</span>
+<span class="fc" id="L86">                        modifier = Modifier.size(48.dp),</span>
+<span class="nc" id="L87">                    )</span>
+<span class="fc" id="L88">                },</span>
+<span class="nc" id="L89">            )</span>
+<span class="fc" id="L90">        },</span>
+<span class="fc" id="L91">    ) { padding -&gt;</span>
+<span class="pc bpc" id="L92" title="3 of 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
+<span class="pc bpc" id="L93" title="3 of 4 branches missed.">            WelcomeText(onClick = onSource)</span>
+<span class="fc" id="L94">            WelcomeCenterSelectionUi(</span>
+<span class="fc" id="L95">                list = list,</span>
+<span class="fc" id="L96">                selected = selected,</span>
+<span class="pc" id="L97">                onSelectedChange = { selected = it },</span>
+<span class="fc" id="L98">                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),</span>
             )
-<span class="nc" id="L99">            Spacer(modifier = Modifier.weight(1f))</span>
-<span class="nc" id="L100">            PrivacyPolicyPane(</span>
-<span class="nc" id="L101">                onAccept = { onComplete.invoke(selected) },</span>
-<span class="nc" id="L102">                onReview = onReview,</span>
+<span class="fc" id="L100">            Spacer(modifier = Modifier.weight(1f))</span>
+<span class="fc" id="L101">            PrivacyPolicyPane(</span>
+<span class="pc" id="L102">                onAccept = { onComplete.invoke(selected) },</span>
+<span class="fc" id="L103">                onReview = onReview,</span>
             )
-<span class="nc" id="L104">            Spacer(modifier = Modifier.requiredHeight(32.dp))</span>
-<span class="nc" id="L105">        }</span>
-<span class="nc" id="L106">    }</span>
-<span class="nc" id="L107">}</span>
+<span class="pc" id="L105">            Spacer(modifier = Modifier.requiredHeight(32.dp))</span>
+<span class="pc" id="L106">        }</span>
+<span class="fc" id="L107">    }</span>
+<span class="fc" id="L108">}</span>
 
 @Composable
-<span class="nc bnc" id="L110" title="All 20 branches missed.">private fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -&gt; Unit)? = null) {</span>
-<span class="nc" id="L111">    val layoutResult = remember {</span>
-<span class="nc" id="L112">        mutableStateOf&lt;TextLayoutResult?&gt;(null)</span>
+<span class="pc bpc" id="L111" title="13 of 20 branches missed.">private fun WelcomeText(modifier: Modifier = Modifier, onClick: (() -&gt; Unit)? = null) {</span>
+<span class="fc" id="L112">    val layoutResult = remember {</span>
+<span class="fc" id="L113">        mutableStateOf&lt;TextLayoutResult?&gt;(null)</span>
     }
 
-<span class="nc" id="L115">    val annotatedString = buildAnnotatedString {</span>
-<span class="nc" id="L116">        val text = stringResource(id = R.string.app_intro)</span>
-<span class="nc" id="L117">        val startIndex = text.indexOf(&quot;[&quot;)</span>
-<span class="nc" id="L118">        val endIndex = text.indexOf(&quot;]&quot;)</span>
-<span class="nc" id="L119">        append(text.substring(0, startIndex))</span>
-<span class="nc" id="L120">        pushStyle(</span>
-<span class="nc" id="L121">            style = SpanStyle(</span>
-<span class="nc" id="L122">                color = MaterialTheme.colorScheme.secondary,</span>
-<span class="nc" id="L123">                textDecoration = TextDecoration.Underline,</span>
-<span class="nc" id="L124">                fontWeight = FontWeight.Bold,</span>
+<span class="fc" id="L116">    val annotatedString = buildAnnotatedString {</span>
+<span class="fc" id="L117">        val text = stringResource(id = R.string.app_intro)</span>
+<span class="fc" id="L118">        val startIndex = text.indexOf(&quot;[&quot;)</span>
+<span class="fc" id="L119">        val endIndex = text.indexOf(&quot;]&quot;)</span>
+<span class="fc" id="L120">        append(text.substring(0, startIndex))</span>
+<span class="fc" id="L121">        pushStyle(</span>
+<span class="fc" id="L122">            style = SpanStyle(</span>
+<span class="fc" id="L123">                color = MaterialTheme.colorScheme.secondary,</span>
+<span class="fc" id="L124">                textDecoration = TextDecoration.Underline,</span>
+<span class="fc" id="L125">                fontWeight = FontWeight.Bold,</span>
             )
         )
-<span class="nc" id="L127">        append(text.substring(startIndex + 1, endIndex))</span>
-<span class="nc" id="L128">        pop()</span>
-<span class="nc" id="L129">        append(text.substring(endIndex + 1))</span>
-<span class="nc" id="L130">        addStringAnnotation(</span>
-<span class="nc" id="L131">            tag = &quot;URL&quot;,</span>
-<span class="nc" id="L132">            annotation = &quot;review&quot;,</span>
-<span class="nc" id="L133">            start = startIndex,</span>
-<span class="nc" id="L134">            end = endIndex,</span>
+<span class="fc" id="L128">        append(text.substring(startIndex + 1, endIndex))</span>
+<span class="fc" id="L129">        pop()</span>
+<span class="fc" id="L130">        append(text.substring(endIndex + 1))</span>
+<span class="fc" id="L131">        addStringAnnotation(</span>
+<span class="fc" id="L132">            tag = &quot;URL&quot;,</span>
+<span class="fc" id="L133">            annotation = &quot;review&quot;,</span>
+<span class="fc" id="L134">            start = startIndex,</span>
+<span class="fc" id="L135">            end = endIndex,</span>
         )
-<span class="nc" id="L136">    }</span>
+<span class="fc" id="L137">    }</span>
 
-<span class="nc" id="L138">    Text(</span>
-<span class="nc" id="L139">        annotatedString,</span>
-<span class="nc" id="L140">        modifier = modifier</span>
-<span class="nc" id="L141">            .padding(vertical = 8.dp, horizontal = 16.dp)</span>
-<span class="nc" id="L142">            .pointerInput(Unit) {</span>
-<span class="nc" id="L143">                detectTapGestures { offsetPosition -&gt;</span>
-<span class="nc bnc" id="L144" title="All 2 branches missed.">                    layoutResult.value?.let { textLayoutResult -&gt;</span>
-<span class="nc" id="L145">                        val position = textLayoutResult.getOffsetForPosition(offsetPosition)</span>
-<span class="nc" id="L146">                        annotatedString</span>
-<span class="nc" id="L147">                            .getStringAnnotations(position, position)</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">                            .firstOrNull()</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">                            ?.let { onClick?.invoke() }</span>
-<span class="nc" id="L150">                    }</span>
-<span class="nc" id="L151">                }</span>
-<span class="nc" id="L152">            },</span>
-<span class="nc" id="L153">        onTextLayout = { l -&gt; layoutResult.value = l },</span>
-<span class="nc" id="L154">        style = MaterialTheme.typography.titleMedium,</span>
+<span class="fc" id="L139">    Text(</span>
+<span class="fc" id="L140">        annotatedString,</span>
+<span class="fc" id="L141">        modifier = modifier</span>
+<span class="fc" id="L142">            .padding(vertical = 8.dp, horizontal = 16.dp)</span>
+<span class="fc" id="L143">            .pointerInput(Unit) {</span>
+<span class="fc" id="L144">                detectTapGestures { offsetPosition -&gt;</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                    layoutResult.value?.let { textLayoutResult -&gt;</span>
+<span class="nc" id="L146">                        val position = textLayoutResult.getOffsetForPosition(offsetPosition)</span>
+<span class="nc" id="L147">                        annotatedString</span>
+<span class="nc" id="L148">                            .getStringAnnotations(position, position)</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">                            .firstOrNull()</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                            ?.let { onClick?.invoke() }</span>
+<span class="nc" id="L151">                    }</span>
+<span class="nc" id="L152">                }</span>
+<span class="nc" id="L153">            },</span>
+<span class="fc" id="L154">        onTextLayout = { l -&gt; layoutResult.value = l },</span>
+<span class="fc" id="L155">        style = MaterialTheme.typography.titleMedium,</span>
     )
-<span class="nc bnc" id="L156" title="All 2 branches missed.">}</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">}</span>
 
 @Composable
 private fun WelcomeCenterSelectionUi(
     list: List&lt;BloodCenter.Center&gt;,
     selected: Int,
     onSelectedChange: (Int) -&gt; Unit,
-<span class="nc" id="L163">    modifier: Modifier = Modifier,</span>
-<span class="nc bnc" id="L164" title="All 2 branches missed.">) {</span>
-<span class="nc" id="L165">    Column(</span>
-<span class="nc" id="L166">        modifier = modifier</span>
-<span class="nc" id="L167">            .background(MaterialTheme.colorScheme.tertiaryContainer)</span>
-<span class="nc" id="L168">            .padding(4.dp),</span>
+<span class="nc" id="L164">    modifier: Modifier = Modifier,</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">) {</span>
+<span class="fc" id="L166">    Column(</span>
+<span class="fc" id="L167">        modifier = modifier</span>
+<span class="fc" id="L168">            .background(MaterialTheme.colorScheme.tertiaryContainer)</span>
+<span class="fc" id="L169">            .padding(4.dp),</span>
     ) {
-<span class="nc bnc" id="L170" title="All 4 branches missed.">        Text(</span>
-<span class="nc" id="L171">            stringResource(id = R.string.choose_near_by_blood_center),</span>
-<span class="nc" id="L172">            style = MaterialTheme.typography.bodyMedium,</span>
+<span class="pc bpc" id="L171" title="3 of 4 branches missed.">        Text(</span>
+<span class="fc" id="L172">            stringResource(id = R.string.choose_near_by_blood_center),</span>
+<span class="fc" id="L173">            style = MaterialTheme.typography.bodyMedium,</span>
             // fontWeight = FontWeight.Bold,
         )
-<span class="nc" id="L175">        Spacer(modifier = Modifier.requiredHeight(8.dp))</span>
-<span class="nc" id="L176">        list.forEachIndexed { index, center -&gt;</span>
-<span class="nc" id="L177">            Row(</span>
-<span class="nc" id="L178">                modifier = Modifier</span>
-<span class="nc" id="L179">                    .clickable { onSelectedChange.invoke(index) }</span>
-<span class="nc" id="L180">                    .fillMaxWidth(),</span>
-<span class="nc" id="L181">                verticalAlignment = Alignment.CenterVertically,</span>
+<span class="fc" id="L176">        Spacer(modifier = Modifier.requiredHeight(8.dp))</span>
+<span class="fc" id="L177">        list.forEachIndexed { index, center -&gt;</span>
+<span class="fc" id="L178">            Row(</span>
+<span class="fc" id="L179">                modifier = Modifier</span>
+<span class="pc" id="L180">                    .clickable { onSelectedChange.invoke(index) }</span>
+<span class="fc" id="L181">                    .fillMaxWidth(),</span>
+<span class="fc" id="L182">                verticalAlignment = Alignment.CenterVertically,</span>
             ) {
-<span class="nc bnc" id="L183" title="All 6 branches missed.">                if (index == selected) {</span>
-<span class="nc" id="L184">                    Icon(</span>
-<span class="nc" id="L185">                        Icons.Rounded.Check,</span>
-<span class="nc" id="L186">                        contentDescription = stringResource(id = R.string.title_display),</span>
-<span class="nc" id="L187">                        tint = MaterialTheme.colorScheme.tertiary,</span>
+<span class="pc bpc" id="L184" title="3 of 6 branches missed.">                if (index == selected) {</span>
+<span class="fc" id="L185">                    Icon(</span>
+<span class="fc" id="L186">                        Icons.Rounded.Check,</span>
+<span class="fc" id="L187">                        contentDescription = stringResource(id = R.string.title_display),</span>
+<span class="fc" id="L188">                        tint = MaterialTheme.colorScheme.tertiary,</span>
                     )
-<span class="nc" id="L189">                } else {</span>
-<span class="nc" id="L190">                    Spacer(modifier = Modifier.requiredSize(24.dp))</span>
+<span class="fc" id="L190">                } else {</span>
+<span class="fc" id="L191">                    Spacer(modifier = Modifier.requiredSize(24.dp))</span>
                 }
-<span class="nc" id="L192">                Spacer(modifier = Modifier.requiredWidth(8.dp))</span>
-<span class="nc" id="L193">                Column {</span>
-<span class="nc bnc" id="L194" title="All 4 branches missed.">                    Text(</span>
-<span class="nc" id="L195">                        center.name,</span>
-<span class="nc" id="L196">                        style = MaterialTheme.typography.titleMedium,</span>
+<span class="fc" id="L193">                Spacer(modifier = Modifier.requiredWidth(8.dp))</span>
+<span class="fc" id="L194">                Column {</span>
+<span class="pc bpc" id="L195" title="3 of 4 branches missed.">                    Text(</span>
+<span class="fc" id="L196">                        center.name,</span>
+<span class="fc" id="L197">                        style = MaterialTheme.typography.titleMedium,</span>
                     )
 
-<span class="nc" id="L199">                    Text(</span>
-<span class="nc" id="L200">                        center.cities,</span>
-<span class="nc" id="L201">                        style = MaterialTheme.typography.bodySmall,</span>
-<span class="nc" id="L202">                    )</span>
-<span class="nc" id="L203">                }</span>
-<span class="nc" id="L204">            }</span>
-<span class="nc bnc" id="L205" title="All 2 branches missed.">            if (index != list.lastIndex) Separator(horizontalPadding = 0.dp)</span>
-<span class="nc" id="L206">        }</span>
-<span class="nc" id="L207">    }</span>
-<span class="nc" id="L208">}</span>
+<span class="fc" id="L200">                    Text(</span>
+<span class="fc" id="L201">                        center.cities,</span>
+<span class="fc" id="L202">                        style = MaterialTheme.typography.bodySmall,</span>
+<span class="pc" id="L203">                    )</span>
+<span class="pc" id="L204">                }</span>
+<span class="pc" id="L205">            }</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (index != list.lastIndex) Separator(horizontalPadding = 0.dp)</span>
+<span class="pc" id="L207">        }</span>
+<span class="pc" id="L208">    }</span>
+<span class="fc" id="L209">}</span>
 
 @Composable
 private fun PrivacyPolicyPane(
     onAccept: () -&gt; Unit,
-<span class="nc bnc" id="L213" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="nc" id="L214">    onReview: (() -&gt; Unit)? = null,</span>
-<span class="nc bnc" id="L215" title="All 24 branches missed.">) {</span>
-<span class="nc" id="L216">    var dialog by remember { mutableStateOf(false) }</span>
-<span class="nc" id="L217">    val layoutResult = remember {</span>
-<span class="nc" id="L218">        mutableStateOf&lt;TextLayoutResult?&gt;(null)</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="pc" id="L215">    onReview: (() -&gt; Unit)? = null,</span>
+<span class="pc bpc" id="L216" title="15 of 24 branches missed.">) {</span>
+<span class="pc" id="L217">    var dialog by remember { mutableStateOf(false) }</span>
+<span class="fc" id="L218">    val layoutResult = remember {</span>
+<span class="fc" id="L219">        mutableStateOf&lt;TextLayoutResult?&gt;(null)</span>
     }
-<span class="nc" id="L220">    val annotatedString = buildAnnotatedString {</span>
-<span class="nc" id="L221">        val text = stringResource(R.string.splash_privacy_policy_review)</span>
-<span class="nc" id="L222">        val target = stringResource(R.string.app_privacy_policy)</span>
-<span class="nc" id="L223">        val startIndex = text.indexOf(target)</span>
-<span class="nc" id="L224">        append(text.substring(0, startIndex))</span>
-<span class="nc" id="L225">        pushStyle(</span>
-<span class="nc" id="L226">            style = SpanStyle(</span>
-<span class="nc" id="L227">                textDecoration = TextDecoration.Underline,</span>
-<span class="nc" id="L228">                color = MaterialTheme.colorScheme.secondary,</span>
+<span class="fc" id="L221">    val annotatedString = buildAnnotatedString {</span>
+<span class="fc" id="L222">        val text = stringResource(R.string.splash_privacy_policy_review)</span>
+<span class="fc" id="L223">        val target = stringResource(R.string.app_privacy_policy)</span>
+<span class="fc" id="L224">        val startIndex = text.indexOf(target)</span>
+<span class="fc" id="L225">        append(text.substring(0, startIndex))</span>
+<span class="fc" id="L226">        pushStyle(</span>
+<span class="fc" id="L227">            style = SpanStyle(</span>
+<span class="fc" id="L228">                textDecoration = TextDecoration.Underline,</span>
+<span class="fc" id="L229">                color = MaterialTheme.colorScheme.secondary,</span>
             )
         )
-<span class="nc" id="L231">        append(target)</span>
-<span class="nc" id="L232">        pop()</span>
-<span class="nc" id="L233">        append(text.substring(startIndex + target.length))</span>
-<span class="nc" id="L234">        addStringAnnotation(</span>
-<span class="nc" id="L235">            tag = &quot;URL&quot;,</span>
-<span class="nc" id="L236">            annotation = &quot;review&quot;,</span>
-<span class="nc" id="L237">            start = startIndex,</span>
-<span class="nc" id="L238">            end = startIndex + target.length,</span>
+<span class="fc" id="L232">        append(target)</span>
+<span class="fc" id="L233">        pop()</span>
+<span class="fc" id="L234">        append(text.substring(startIndex + target.length))</span>
+<span class="fc" id="L235">        addStringAnnotation(</span>
+<span class="fc" id="L236">            tag = &quot;URL&quot;,</span>
+<span class="fc" id="L237">            annotation = &quot;review&quot;,</span>
+<span class="fc" id="L238">            start = startIndex,</span>
+<span class="fc" id="L239">            end = startIndex + target.length,</span>
         )
-<span class="nc" id="L240">    }</span>
+<span class="fc" id="L241">    }</span>
 
-<span class="nc" id="L242">    ShowAssetContentDialog(asset = &quot;privacy_policy.txt&quot;, visible = dialog) {</span>
-<span class="nc" id="L243">        dialog = false</span>
-<span class="nc" id="L244">    }</span>
+<span class="fc" id="L243">    ShowAssetContentDialog(asset = &quot;privacy_policy.txt&quot;, visible = dialog) {</span>
+<span class="nc" id="L244">        dialog = false</span>
+<span class="nc" id="L245">    }</span>
 
-<span class="nc" id="L246">    Column(</span>
-<span class="nc" id="L247">        modifier = modifier.padding(horizontal = 32.dp),</span>
-<span class="nc" id="L248">        horizontalAlignment = Alignment.CenterHorizontally,</span>
+<span class="fc" id="L247">    Column(</span>
+<span class="fc" id="L248">        modifier = modifier.padding(horizontal = 32.dp),</span>
+<span class="fc" id="L249">        horizontalAlignment = Alignment.CenterHorizontally,</span>
     ) {
-<span class="nc bnc" id="L250" title="All 4 branches missed.">        Text(</span>
-<span class="nc" id="L251">            annotatedString,</span>
-<span class="nc" id="L252">            modifier = Modifier.pointerInput(Unit) {</span>
-<span class="nc" id="L253">                detectTapGestures { offsetPosition -&gt;</span>
-<span class="nc bnc" id="L254" title="All 2 branches missed.">                    layoutResult.value?.let { textLayoutResult -&gt;</span>
-<span class="nc" id="L255">                        val position = textLayoutResult.getOffsetForPosition(offsetPosition)</span>
-<span class="nc" id="L256">                        annotatedString</span>
-<span class="nc" id="L257">                            .getStringAnnotations(position, position)</span>
-<span class="nc bnc" id="L258" title="All 2 branches missed.">                            .firstOrNull()</span>
-<span class="nc" id="L259">                            ?.let {</span>
-<span class="nc bnc" id="L260" title="All 4 branches missed.">                                onReview?.invoke() ?: kotlin.run { dialog = true }</span>
-<span class="nc" id="L261">                            }</span>
-<span class="nc" id="L262">                    }</span>
-<span class="nc" id="L263">                }</span>
-<span class="nc" id="L264">            },</span>
-<span class="nc" id="L265">            onTextLayout = { l -&gt; layoutResult.value = l },</span>
-<span class="nc" id="L266">            style = MaterialTheme.typography.bodyMedium,</span>
+<span class="pc bpc" id="L251" title="3 of 4 branches missed.">        Text(</span>
+<span class="fc" id="L252">            annotatedString,</span>
+<span class="fc" id="L253">            modifier = Modifier.pointerInput(Unit) {</span>
+<span class="fc" id="L254">                detectTapGestures { offsetPosition -&gt;</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">                    layoutResult.value?.let { textLayoutResult -&gt;</span>
+<span class="nc" id="L256">                        val position = textLayoutResult.getOffsetForPosition(offsetPosition)</span>
+<span class="nc" id="L257">                        annotatedString</span>
+<span class="nc" id="L258">                            .getStringAnnotations(position, position)</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">                            .firstOrNull()</span>
+<span class="nc" id="L260">                            ?.let {</span>
+<span class="nc bnc" id="L261" title="All 4 branches missed.">                                onReview?.invoke() ?: kotlin.run { dialog = true }</span>
+<span class="nc" id="L262">                            }</span>
+<span class="nc" id="L263">                    }</span>
+<span class="nc" id="L264">                }</span>
+<span class="nc" id="L265">            },</span>
+<span class="fc" id="L266">            onTextLayout = { l -&gt; layoutResult.value = l },</span>
+<span class="fc" id="L267">            style = MaterialTheme.typography.bodyMedium,</span>
         )
-<span class="nc" id="L268">        Spacer(modifier = Modifier.requiredHeight(16.dp))</span>
-<span class="nc" id="L269">        Button(onClick = onAccept, modifier = Modifier.requiredWidth(120.dp)) {</span>
-<span class="nc bnc" id="L270" title="All 4 branches missed.">            Text(stringResource(id = R.string.splash_continue))</span>
-<span class="nc" id="L271">        }</span>
-<span class="nc" id="L272">    }</span>
-<span class="nc bnc" id="L273" title="All 2 branches missed.">}</span>
+<span class="fc" id="L269">        Spacer(modifier = Modifier.requiredHeight(16.dp))</span>
+<span class="fc" id="L270">        Button(onClick = onAccept, modifier = Modifier.requiredWidth(120.dp)) {</span>
+<span class="pc bpc" id="L271" title="3 of 4 branches missed.">            Text(stringResource(id = R.string.splash_continue))</span>
+<span class="pc" id="L272">        }</span>
+<span class="pc" id="L273">    }</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">}</span>
 
+@DebugOnlyNoCoverage
 @ExperimentalMaterial3Api
 @Preview(&quot;Welcome&quot;, showSystemUi = true)
 @Composable
-<span class="nc bnc" id="L278" title="All 4 branches missed.">private fun PreviewWelcomeUi() {</span>
-<span class="nc" id="L279">    AppTheme {</span>
-<span class="nc bnc" id="L280" title="All 4 branches missed.">        WelcomeUi(</span>
-<span class="nc" id="L281">            list = PreviewSample.centers,</span>
-<span class="nc" id="L282">            onComplete = {},</span>
-<span class="nc" id="L283">        )</span>
-<span class="nc" id="L284">    }</span>
-<span class="nc bnc" id="L285" title="All 2 branches missed.">}</span>
+private fun PreviewWelcomeUi() {
+<span class="fc" id="L281">    AppTheme {</span>
+<span class="nc bnc" id="L282" title="All 4 branches missed.">        WelcomeUi(</span>
+<span class="nc" id="L283">            list = PreviewSample.centers,</span>
+<span class="nc" id="L284">            onComplete = {},</span>
+<span class="nc" id="L285">        )</span>
+<span class="nc" id="L286">    }</span>
+}
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

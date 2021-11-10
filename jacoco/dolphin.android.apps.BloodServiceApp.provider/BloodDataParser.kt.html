@@ -11,9 +11,9 @@ import java.util.HashMap
 import java.util.Locale
 import java.util.regex.Pattern
 
-<span class="pc" id="L14">class BloodDataParser(</span>
+<span class="fc" id="L14">class BloodDataParser(</span>
     context: Context,
-<span class="pc" id="L16">    private val reader: BloodDataReader = BloodDataReaderImpl(), // default implementation</span>
+<span class="fc" id="L16">    private val reader: BloodDataReader = BloodDataReaderImpl(), // default implementation</span>
 ) {
     companion object {
         private const val TAG = &quot;BloodDataParser&quot;
@@ -104,8 +104,8 @@ import java.util.regex.Pattern
 <span class="fc" id="L104">        cal.add(Calendar.DAY_OF_WEEK, 7) // check next week</span>
 <span class="fc" id="L105">        val nextWeek = getWeekCalendar(id, cal).dropLast(thisWeek.size)</span>
 <span class="fc" id="L106">        return ArrayList&lt;DonateDay&gt;().apply {</span>
-<span class="pc bpc" id="L107" title="2 of 4 branches missed.">            if (thisWeek.isNotEmpty()) addAll(thisWeek)</span>
-<span class="pc bpc" id="L108" title="2 of 4 branches missed.">            if (nextWeek.isNotEmpty()) addAll(nextWeek)</span>
+<span class="fc bfc" id="L107" title="All 4 branches covered.">            if (thisWeek.isNotEmpty()) addAll(thisWeek)</span>
+<span class="fc bfc" id="L108" title="All 4 branches covered.">            if (nextWeek.isNotEmpty()) addAll(nextWeek)</span>
 <span class="fc" id="L109">        }</span>
     }
 
@@ -177,7 +177,7 @@ import java.util.regex.Pattern
 <span class="fc" id="L177">        val order = ArrayList&lt;Int&gt;()</span>
 <span class="fc" id="L178">        val start = System.currentTimeMillis()</span>
 
-<span class="pc bpc" id="L180" title="2 of 8 branches missed.">        center.values().find { c -&gt; c.id == id }?.let { bloodCenter -&gt;</span>
+<span class="fc bfc" id="L180" title="All 8 branches covered.">        center.values().find { c -&gt; c.id == id }?.let { bloodCenter -&gt;</span>
 <span class="fc" id="L181">            bloodCenter.city().forEach { cityId -&gt;</span>
 <span class="fc" id="L182">                order.add(cityId)</span>
 
@@ -248,5 +248,5 @@ import java.util.regex.Pattern
             }
         }
 <span class="fc" id="L250">    }</span>
-<span class="nc" id="L251">}</span>
+<span class="fc" id="L251">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

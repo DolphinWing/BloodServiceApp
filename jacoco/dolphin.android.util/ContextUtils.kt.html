@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContextUtils.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.util</a> &gt; <span class="el_source">ContextUtils.kt</span></div><h1>ContextUtils.kt</h1><pre class="source lang-java linenums">package dolphin.android.util
+
+import android.content.Context
+import android.content.res.Resources
+import java.io.IOException
+import java.io.InputStreamReader
+
+/**
+ * Read content from assets
+ *
+ * @param asset asset name
+ * @param encoding charset name
+ * @return string content
+ */
+<span class="fc" id="L15">fun Context.readFromAssets(asset: String, encoding: String = &quot;UTF8&quot;): String? {</span>
+<span class="fc" id="L16">    try {</span>
+<span class="fc" id="L17">        val sr = InputStreamReader(assets.open(asset), encoding)</span>
+        var len: Int
+<span class="fc" id="L19">        val sb = StringBuilder()</span>
+<span class="fc" id="L20">        while (true) {</span>
+<span class="fc" id="L21">            val buffer = CharArray(1024)</span>
+<span class="fc" id="L22">            len = sr.read(buffer)</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            if (len &gt; 0) {</span>
+<span class="fc" id="L24">                sb.append(buffer)</span>
+            } else {
+<span class="fc" id="L26">                break</span>
+            }
+        }
+<span class="fc" id="L29">        sr.close()</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        return sb.toString().trim { it &lt;= ' ' }</span>
+<span class="fc" id="L31">    } catch (e: IOException) {</span>
+<span class="fc" id="L32">        e.printStackTrace()</span>
+    }
+<span class="fc" id="L34">    return null</span>
+}
+
+/**
+ * Read content from res/raw
+ *
+ * @param id resource id
+ * @return string content
+ */
+fun Context.readFromRaw(id: Int): String? {
+<span class="fc" id="L44">    val inputStream = try {</span>
+<span class="fc" id="L45">        resources.openRawResource(id)</span>
+<span class="fc" id="L46">    } catch (e: Resources.NotFoundException) {</span>
+<span class="fc" id="L47">        null</span>
+    }
+<span class="fc" id="L49">    val size = try {</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">        inputStream?.available() ?: 0</span>
+<span class="nc" id="L51">    } catch (e: IOException) {</span>
+<span class="nc" id="L52">        -1</span>
+    }
+<span class="fc bfc" id="L54" title="All 2 branches covered.">    return if (size &gt; 0) {</span>
+<span class="fc" id="L55">        val sr = InputStreamReader(inputStream)</span>
+        var len: Int
+<span class="fc" id="L57">        val sb = StringBuilder()</span>
+<span class="fc" id="L58">        while (true) {</span>
+<span class="fc" id="L59">            val buffer = CharArray(1024)</span>
+<span class="fc" id="L60">            len = sr.read(buffer)</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            if (len &gt; 0) {</span>
+<span class="fc" id="L62">                sb.append(buffer)</span>
+            } else {
+<span class="fc" id="L64">                break</span>
+            }
+        }
+<span class="fc" id="L67">        sr.close()</span>
+<span class="fc" id="L68">        sb.toString()</span>
+    } else {
+<span class="fc" id="L70">        null</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
