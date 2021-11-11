@@ -13,9 +13,14 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2021 DolphinWing.
 ----
+[217] @ 2021-11-10
+    add android tests
+    add long press blood storage status
+
 [216] @ 2021-11-09
     add test coverage report
     add more unit tests
+    add dokka and jacoco to gh-pages
 
 [215] @ 2021-11-08
     add unit tests

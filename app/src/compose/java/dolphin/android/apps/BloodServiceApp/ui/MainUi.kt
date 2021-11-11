@@ -1,11 +1,13 @@
 package dolphin.android.apps.BloodServiceApp.ui
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -373,6 +376,7 @@ private fun SuggestionChipImpl(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 private fun StoragePane(
     map: HashMap<String, Int>,
@@ -415,17 +419,25 @@ private fun StoragePane(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 private fun TypeStorageStatusIcon(
     type: String,
     color: Color,
     contentDescription: String,
 ) {
+    val context = LocalContext.current
+    fun showToast() {
+        Toast.makeText(context, contentDescription, Toast.LENGTH_SHORT).show()
+    }
+
     Box(
         modifier = Modifier
+            .testTag("bloodType$type")
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .background(color = color, shape = CircleShape)
             .requiredSize(32.dp)
+            .combinedClickable(enabled = true, onLongClick = { showToast() }, onClick = {})
             .semantics(mergeDescendants = true) { stateDescription = contentDescription },
         contentAlignment = Alignment.Center,
     ) {
