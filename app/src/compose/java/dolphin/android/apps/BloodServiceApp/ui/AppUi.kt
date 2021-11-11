@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -142,6 +141,7 @@ fun AppUiPane(
         val cities = model.spotList.collectAsState()
         val city = model.city.collectAsState()
         val review = model.showPrivacyReview.collectAsState()
+        val ads = model.showAds.collectAsState()
 
         Crossfade(
             targetState = model.uiState.observeAsState().value,
@@ -189,6 +189,7 @@ fun AppUiPane(
                         onSpotClick = { info -> callback.showSpotInfo(info) },
                         onCityClick = { c -> model.changeCity(c.cityId) },
                         selectedCity = city.value,
+                        showAds = ads.value,
                     )
 
                 UiState.Settings ->
@@ -198,12 +199,12 @@ fun AppUiPane(
                         version = callback.versionInfo(),
                         onReview = { title, asset -> callback.showAssetInDialog(title, asset) },
                         showChangeLog = callback.enableVersionSummary(),
+                        showAds = ads.value,
+                        onToggleAds = { checked -> callback.toggleAds(checked) }
                     )
 
                 else ->
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-                    }
+                    LoadingAppUi(Modifier.fillMaxSize())
             }
         }
     }

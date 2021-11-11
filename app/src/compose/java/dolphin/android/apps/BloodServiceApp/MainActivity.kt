@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
@@ -35,6 +36,8 @@ import dolphin.android.util.readFromAssets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -78,6 +81,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         }
 
         setupFirebaseRemoteConfig()
+        setupMobileAds()
     }
 
     private fun setupPreDrawListener() {
@@ -97,7 +101,8 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
                         false
                     }
                 }
-            })
+            }
+        )
     }
 
     private fun setupFirebaseRemoteConfig() {
@@ -110,10 +115,22 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         }
     }
 
+    private fun setupMobileAds() {
+        MobileAds.initialize(this) {
+        }
+    }
+
     private fun setupViewModel() {
         background {
-            dataStore.centerId.collect { centerId ->
-                model.center.postValue(centerInstance.find(centerId))
+            dataStore.centerId.map { centerId ->
+                centerInstance.find(centerId)
+            }.collect { bloodCenter ->
+                whenBloodCenterChanged(bloodCenter)
+            }
+        }
+        background {
+            dataStore.mobileAds.collect { enabled ->
+                model.showAds.emit(enabled)
             }
         }
         background {
@@ -124,12 +141,6 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
                 }
             }
         }
-        model.center.observe(this) { bloodCenter ->
-            Log.v(TAG, "change to ${bloodCenter.name}")
-            setUserProperty("center", bloodCenter.name)
-            queryDonationData(bloodCenter.id)
-            queryStorageData(bloodCenter.id)
-        }
         model.uiState.observe(this) { state ->
             setScreenName(state.name)
         }
@@ -139,19 +150,9 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         val firebaseCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
         Log.v(TAG, "firebase code = $firebaseCode")
         background {
-            dataStore.policyCode.collect { appCode ->
-                Log.v(TAG, "app code = $appCode")
-                model.showPrivacyReview.emit(appCode < firebaseCode)
-            }
-        }
-        background {
-            dataStore.centerId.collect { centerId ->
-                if (centerId > 0) {
-                    model.changeUiState(UiState.Main)
-                } else {
-                    model.changeUiState(UiState.Welcome)
-                }
-            }
+            val appCode = dataStore.policyCode.first()
+            Log.v(TAG, "app code = $appCode")
+            model.showPrivacyReview.emit(appCode < firebaseCode)
         }
     }
 
@@ -195,17 +196,27 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     override fun reviewComplete(center: BloodCenter.Center) {
         val code = Firebase.remoteConfig.getLong("privacy_policy_update_code")
-        // Toast.makeText(this, "accept", Toast.LENGTH_SHORT).show()
-        // prefs.policyCode = code
+        Log.v(TAG, "review complete ($code)")
         background { dataStore.updatePolicyCode(code) }
         changeBloodCenter(center)
         model.changeUiState(UiState.Main)
     }
 
     override fun changeBloodCenter(center: BloodCenter.Center) {
-        background {
-            dataStore.changeCenter(center.id)
+        background { dataStore.changeCenter(center.id) }
+    }
+
+    private fun whenBloodCenterChanged(center: BloodCenter.Center) {
+        if (model.state == UiState.Settings) return // not gonna change here
+        Log.v(TAG, "change to ${center.name}")
+        if (center.id > 0) {
             model.center.postValue(center)
+            setUserProperty("center", center.name)
+            queryDonationData(center.id)
+            queryStorageData(center.id)
+            model.changeUiState(UiState.Main)
+        } else {
+            model.changeUiState(UiState.Welcome)
         }
     }
 
@@ -225,7 +236,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         queryDonationJob?.cancel()
         queryDonationJob = background {
             model.getDonationData(parser, id).collect { loading ->
-                Log.d(TAG, "  queryDonationData loading = $loading")
+                Log.d(TAG, "  queryDonationData $id loading = $loading")
             }
         }
     }
@@ -234,7 +245,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         queryStorageJob?.cancel()
         queryStorageJob = background {
             model.getStorageData(parser, forceRefresh, centerId = id).collect { loading ->
-                Log.d(TAG, "  queryStorageData loading = $loading")
+                Log.d(TAG, "  queryStorageData $id loading = $loading")
             }
         }
     }
@@ -243,7 +254,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         querySpotListJob?.cancel()
         querySpotListJob = background {
             model.getSpotListData(parser, id).collect { loading ->
-                Log.d(TAG, "  querySpotList loading = $loading")
+                Log.d(TAG, "  querySpotList $id loading = $loading")
             }
         }
         logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {
@@ -315,6 +326,11 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
     override fun enableVersionSummary(): Boolean {
         return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean("enable_change_log_summary")
+    }
+
+    override fun toggleAds(checked: Boolean) {
+        Log.d(TAG, "toggle ads to $checked")
+        background { dataStore.toggleAds(checked) }
     }
 
     private fun logEvent(name: String, block: (Bundle.() -> Unit)? = null) {

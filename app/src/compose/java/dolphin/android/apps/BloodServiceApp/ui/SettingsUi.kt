@@ -2,9 +2,11 @@ package dolphin.android.apps.BloodServiceApp.ui
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.material.Switch
+import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.AlertDialog
@@ -28,14 +32,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.util.DebugOnlyNoCoverage
+import dolphin.android.util.NoCoverageRequired
 import dolphin.android.util.readFromAssets
 
 /**
@@ -63,6 +76,13 @@ interface SettingsUiCallback {
      * @return true if change logs can be shown in a dialog
      */
     fun enableVersionSummary(): Boolean
+
+    /**
+     * Enable or disable mobile ads
+     *
+     * @param checked true if user allows mobile ads in app
+     */
+    fun toggleAds(checked: Boolean)
 }
 
 /**
@@ -76,6 +96,8 @@ fun SettingsUi(
     version: String = "v0.0.0",
     onReview: ((Int, String) -> Unit)? = null,
     showChangeLog: Boolean = false,
+    showAds: Boolean = false,
+    onToggleAds: ((Boolean) -> Unit)? = null,
 ) {
     var dialog by remember { mutableStateOf(false) }
     var assets by remember { mutableStateOf("") }
@@ -124,6 +146,25 @@ fun SettingsUi(
                     .clickable { showDialog(R.string.app_privacy_policy, "privacy_policy.txt") }
                     .fillMaxWidth(),
             )
+            SettingsSectionTitle(stringResource(id = R.string.title_display))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SettingsTwoLinedText(
+                    title = stringResource(id = R.string.title_enable_adview),
+                    summary = stringResource(id = R.string.title_enable_adview_in_storage_list),
+                    modifier = Modifier.weight(1f),
+                )
+                Switch(
+                    checked = showAds,
+                    onCheckedChange = { checked -> onToggleAds?.invoke(checked) },
+                    modifier = Modifier.padding(end = 24.dp),
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = MaterialTheme.colorScheme.tertiary,
+                        checkedTrackColor = MaterialTheme.colorScheme.tertiary,
+                        uncheckedThumbColor = MaterialTheme.colorScheme.surface,
+                        uncheckedTrackColor = MaterialTheme.colorScheme.onSurface,
+                    ),
+                )
+            }
             // Separator()
             SettingsSectionTitle(stringResource(id = R.string.title_open_source))
             SettingsTwoLinedText(
@@ -135,6 +176,10 @@ fun SettingsUi(
                 summary = stringResource(id = R.string.summary_open_source_okhttp),
             )
             // Separator()
+            if (showAds) {
+                Spacer(modifier = Modifier.weight(1f))
+                BannerAds(modifier = Modifier.fillMaxWidth())
+            }
         }
     }
 }
@@ -147,6 +192,16 @@ fun SettingsUi(
 private fun PreviewSettingsUi() {
     AppTheme {
         SettingsUi(modifier = Modifier.fillMaxSize())
+    }
+}
+
+@ExperimentalMaterial3Api
+@Preview("Settings with ads", showSystemUi = true)
+@Preview("Settings Night with ads", showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun PreviewSettingsUiWithAds() {
+    AppTheme {
+        SettingsUi(modifier = Modifier.fillMaxSize(), showAds = true)
     }
 }
 
@@ -213,6 +268,41 @@ fun ShowAssetContentDialog(asset: String, visible: Boolean, onDismiss: () -> Uni
             },
             text = {
                 Text(content ?: "TODO")
+            }
+        )
+    }
+}
+
+/**
+ * Google AdMobs
+ */
+@NoCoverageRequired
+@Composable
+fun BannerAds(modifier: Modifier = Modifier) {
+    val admobAppId = stringResource(id = R.string.banner_ad_unit_id)
+    // https://stackoverflow.com/a/68953869
+    if (LocalInspectionMode.current) {
+        Text(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(Color.Red)
+                .padding(horizontal = 2.dp, vertical = 6.dp),
+            textAlign = TextAlign.Center,
+            color = Color.White,
+            text = "Advert Here",
+        )
+    } else {
+        AndroidView(
+            factory = { context ->
+                AdView(context).apply {
+                    adSize = AdSize.BANNER
+                    adUnitId = admobAppId
+                    loadAd(AdRequest.Builder().build())
+                }
+            },
+            modifier = modifier.testTag("ads"),
+            update = {
+                // https://foso.github.io/Jetpack-Compose-Playground/viewinterop/androidview/
             }
         )
     }

@@ -16,6 +16,8 @@ This project is under MIT License. Copyright (c) 2021 DolphinWing.
 [217] @ 2021-11-10
     add android tests
     add long press blood storage status
+    restore mobile ads
+    fix some Kotlin Flow misuses
 
 [216] @ 2021-11-09
     add test coverage report
