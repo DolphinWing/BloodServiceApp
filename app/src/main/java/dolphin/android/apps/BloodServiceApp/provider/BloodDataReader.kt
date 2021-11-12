@@ -1,6 +1,7 @@
 package dolphin.android.apps.BloodServiceApp.provider
 
 import android.util.Log
+import com.google.firebase.perf.metrics.AddTrace
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -89,10 +90,12 @@ open class BloodDataReaderImpl(timeout: Long = 5) : BloodDataReader {
         }
     }
 
+    @AddTrace(name = "storage")
     override fun readBloodStorage(): String {
         return body(BloodCenter.URL_BLOOD_STORAGE)
     }
 
+    @AddTrace(name = "week_calendar")
     override fun readWeekCalendar(id: Int, weekDay: Calendar): String {
         // make sure it is Sunday
         while (weekDay[Calendar.DAY_OF_WEEK] != Calendar.SUNDAY) {
@@ -105,6 +108,7 @@ open class BloodDataReaderImpl(timeout: Long = 5) : BloodDataReader {
         return body(url)
     }
 
+    @AddTrace(name = "spot_list")
     override fun readDonationSpotList(centerId: Int, cityId: Int, url: String): String {
         // val url = (endpoint + BloodCenter.QS_LOCATION_MAP_CITY).replace("{city}", cityId)
         return body(url)

@@ -13,6 +13,10 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2021 DolphinWing.
 ----
+[219] @ 2021-11-12
+    add Firebase Performance
+    fix review webpage button
+
 [218] @ 2021-11-12
     fix review privacy and add auto dismiss dialog
     new privacy policy and terms of service
