@@ -143,7 +143,7 @@ fun SettingsUi(
                 stringResource(id = R.string.app_privacy_policy),
                 modifier = Modifier
                     .testTag("privacy")
-                    .clickable { showDialog(R.string.app_privacy_policy, "privacy_policy.txt") }
+                    .clickable { showDialog(R.string.app_privacy_policy, "privacy_tw.md") }
                     .fillMaxWidth(),
             )
             SettingsSectionTitle(stringResource(id = R.string.title_display))

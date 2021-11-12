@@ -244,7 +244,7 @@ private fun PrivacyPolicyPane(
         )
     }
 
-    ShowAssetContentDialog(asset = "privacy_policy.txt", visible = dialog) {
+    ShowAssetContentDialog(asset = "privacy_en.md", visible = dialog) {
         dialog = false
     }
 

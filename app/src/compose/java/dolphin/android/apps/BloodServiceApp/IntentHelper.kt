@@ -152,4 +152,13 @@ object IntentHelper {
     fun showDonorInfo(context: Context) {
         startBrowserActivity(context, Firebase.remoteConfig.getString("url_blood_donor_info"))
     }
+
+    /**
+     * Show my GitHub project main pages.
+     *
+     * @param context Android Context
+     */
+    fun showGithubPages(context: Context) {
+        startBrowserActivity(context, "https://dolphinwing.github.io/BloodServiceApp/index.html")
+    }
 }

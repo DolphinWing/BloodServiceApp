@@ -36,7 +36,6 @@ import dolphin.android.util.readFromAssets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -150,9 +149,10 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         val firebaseCode = Firebase.remoteConfig.getLong("privacy_policy_update_code")
         Log.v(TAG, "firebase code = $firebaseCode")
         background {
-            val appCode = dataStore.policyCode.first()
-            Log.v(TAG, "app code = $appCode")
-            model.showPrivacyReview.emit(appCode < firebaseCode)
+            dataStore.policyCode.collect { appCode ->
+                Log.v(TAG, "app code = $appCode")
+                model.showPrivacyReview.emit(appCode < firebaseCode)
+            }
         }
     }
 
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         }
         showAssetInDialog(
             title = R.string.app_privacy_policy,
-            asset = "privacy_policy.txt",
+            asset = "privacy_tw.md",
         )
     }
 
@@ -199,7 +199,9 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         Log.v(TAG, "review complete ($code)")
         background { dataStore.updatePolicyCode(code) }
         changeBloodCenter(center)
-        model.changeUiState(UiState.Main)
+        if (model.state == UiState.Welcome) {
+            model.changeUiState(UiState.Main)
+        }
     }
 
     override fun changeBloodCenter(center: BloodCenter.Center) {
@@ -306,7 +308,13 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         MaterialAlertDialogBuilder(this)
             .setTitle(title)
             .setMessage(readFromAssets(asset, "UTF-8"))
-            .setPositiveButton(android.R.string.ok, null)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                reviewComplete(model.center.value ?: centerInstance.main())
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.action_more_info) { _, _ ->
+                IntentHelper.showGithubPages(this)
+            }
             .setCancelable(true)
             .show().apply {
                 findViewById<TextView>(android.R.id.message)?.textSize = 12f

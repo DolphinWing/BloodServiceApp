@@ -13,6 +13,10 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2021 DolphinWing.
 ----
+[218] @ 2021-11-12
+    fix review privacy and add auto dismiss dialog
+    new privacy policy and terms of service
+
 [217] @ 2021-11-10
     add android tests
     add long press blood storage status
