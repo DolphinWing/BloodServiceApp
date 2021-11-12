@@ -212,13 +212,13 @@ import kotlinx.coroutines.launch
 <span class="pc bpc" id="L212" title="1 of 2 branches missed.">        if (model.state == UiState.Settings) return // not gonna change here</span>
 <span class="fc" id="L213">        Log.v(TAG, &quot;change to ${center.name}&quot;)</span>
 <span class="pc bpc" id="L214" title="1 of 2 branches missed.">        if (center.id &gt; 0) {</span>
-<span class="fc" id="L215">            model.center.postValue(center)</span>
-<span class="fc" id="L216">            setUserProperty(&quot;center&quot;, center.name)</span>
-<span class="fc" id="L217">            queryDonationData(center.id)</span>
-<span class="fc" id="L218">            queryStorageData(center.id)</span>
-<span class="fc" id="L219">            model.changeUiState(UiState.Main)</span>
+<span class="nc" id="L215">            model.center.postValue(center)</span>
+<span class="nc" id="L216">            setUserProperty(&quot;center&quot;, center.name)</span>
+<span class="nc" id="L217">            queryDonationData(center.id)</span>
+<span class="nc" id="L218">            queryStorageData(center.id)</span>
+<span class="nc" id="L219">            model.changeUiState(UiState.Main)</span>
         } else {
-<span class="nc" id="L221">            model.changeUiState(UiState.Welcome)</span>
+<span class="fc" id="L221">            model.changeUiState(UiState.Welcome)</span>
         }
 <span class="fc" id="L223">    }</span>
 
@@ -235,16 +235,16 @@ import kotlinx.coroutines.launch
     private var querySpotListJob: Job? = null
 
     private fun queryDonationData(id: Int) {
-<span class="pc bpc" id="L238" title="1 of 2 branches missed.">        queryDonationJob?.cancel()</span>
-<span class="fc" id="L239">        queryDonationJob = background {</span>
-<span class="pc bpc" id="L240" title="1 of 2 branches missed.">            model.getDonationData(parser, id).collect { loading -&gt;</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">        queryDonationJob?.cancel()</span>
+<span class="nc" id="L239">        queryDonationJob = background {</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            model.getDonationData(parser, id).collect { loading -&gt;</span>
                 Log.d(TAG, &quot;  queryDonationData $id loading = $loading&quot;)
             }
 <span class="nc" id="L243">        }</span>
-<span class="fc" id="L244">    }</span>
+<span class="nc" id="L244">    }</span>
 
-<span class="fc" id="L246">    private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {</span>
-<span class="fc bfc" id="L247" title="All 2 branches covered.">        queryStorageJob?.cancel()</span>
+<span class="nc" id="L246">    private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {</span>
+<span class="pc bpc" id="L247" title="1 of 2 branches missed.">        queryStorageJob?.cancel()</span>
 <span class="fc" id="L248">        queryStorageJob = background {</span>
 <span class="pc bpc" id="L249" title="1 of 2 branches missed.">            model.getStorageData(parser, forceRefresh, centerId = id).collect { loading -&gt;</span>
                 Log.d(TAG, &quot;  queryStorageData $id loading = $loading&quot;)
@@ -293,7 +293,7 @@ import kotlinx.coroutines.launch
 <span class="nc" id="L293">    }</span>
 
     override fun enableSearchOnMap(): Boolean {
-<span class="fc" id="L296">        return Firebase.remoteConfig.getBoolean(&quot;enable_search_on_map&quot;)</span>
+<span class="nc" id="L296">        return Firebase.remoteConfig.getBoolean(&quot;enable_search_on_map&quot;)</span>
     }
 
     override fun showDonorInfo() {
@@ -312,74 +312,75 @@ import kotlinx.coroutines.launch
 <span class="nc bnc" id="L312" title="All 4 branches missed.">                reviewComplete(model.center.value ?: centerInstance.main())</span>
 <span class="nc" id="L313">                dialog.dismiss()</span>
 <span class="nc" id="L314">            }</span>
-<span class="nc" id="L315">            .setNegativeButton(R.string.action_more_info) { _, _ -&gt;</span>
+<span class="nc" id="L315">            .setNeutralButton(R.string.action_more_info) { _, _ -&gt;</span>
 <span class="nc" id="L316">                IntentHelper.showGithubPages(this)</span>
-<span class="nc" id="L317">            }</span>
-<span class="nc" id="L318">            .setCancelable(true)</span>
-<span class="nc" id="L319">            .show().apply {</span>
-<span class="nc bnc" id="L320" title="All 2 branches missed.">                findViewById&lt;TextView&gt;(android.R.id.message)?.textSize = 12f</span>
-<span class="nc" id="L321">            }</span>
-<span class="nc" id="L322">    }</span>
+<span class="nc bnc" id="L317" title="All 4 branches missed.">                reviewComplete(model.center.value ?: centerInstance.main()) // mark complete</span>
+<span class="nc" id="L318">            }</span>
+<span class="nc" id="L319">            .setCancelable(true)</span>
+<span class="nc" id="L320">            .show().apply {</span>
+<span class="nc bnc" id="L321" title="All 2 branches missed.">                findViewById&lt;TextView&gt;(android.R.id.message)?.textSize = 12f</span>
+<span class="nc" id="L322">            }</span>
+<span class="nc" id="L323">    }</span>
 
     override fun versionInfo(): String {
-<span class="nc bnc" id="L325" title="All 4 branches missed.">        return PackageUtils.getPackageInfo(this, this::class.java)?.let { info -&gt;</span>
-<span class="nc bnc" id="L326" title="All 2 branches missed.">            val code = if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {</span>
-<span class="nc" id="L327">                info.longVersionCode</span>
+<span class="nc bnc" id="L326" title="All 4 branches missed.">        return PackageUtils.getPackageInfo(this, this::class.java)?.let { info -&gt;</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">            val code = if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {</span>
+<span class="nc" id="L328">                info.longVersionCode</span>
             } else {
-<span class="nc" id="L329">                @Suppress(&quot;deprecation&quot;) info.versionCode</span>
+<span class="nc" id="L330">                @Suppress(&quot;deprecation&quot;) info.versionCode</span>
             }
-<span class="nc" id="L331">            &quot;v${info.versionName} (r$code)&quot;</span>
-<span class="nc" id="L332">        } ?: kotlin.run { &quot;&quot; }</span>
+<span class="nc" id="L332">            &quot;v${info.versionName} (r$code)&quot;</span>
+<span class="nc" id="L333">        } ?: kotlin.run { &quot;&quot; }</span>
     }
 
     override fun enableVersionSummary(): Boolean {
-<span class="nc bnc" id="L336" title="All 4 branches missed.">        return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean(&quot;enable_change_log_summary&quot;)</span>
+<span class="nc bnc" id="L337" title="All 4 branches missed.">        return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean(&quot;enable_change_log_summary&quot;)</span>
     }
 
     override fun toggleAds(checked: Boolean) {
-<span class="nc" id="L340">        Log.d(TAG, &quot;toggle ads to $checked&quot;)</span>
-<span class="nc bnc" id="L341" title="All 2 branches missed.">        background { dataStore.toggleAds(checked) }</span>
-<span class="nc" id="L342">    }</span>
+<span class="nc" id="L341">        Log.d(TAG, &quot;toggle ads to $checked&quot;)</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">        background { dataStore.toggleAds(checked) }</span>
+<span class="nc" id="L343">    }</span>
 
-<span class="nc" id="L344">    private fun logEvent(name: String, block: (Bundle.() -&gt; Unit)? = null) {</span>
-<span class="pc bpc" id="L345" title="1 of 2 branches missed.">        val data = if (block != null) Bundle().apply(block) else null</span>
-<span class="fc" id="L346">        FirebaseAnalytics.getInstance(this).logEvent(name, data)</span>
-<span class="fc" id="L347">    }</span>
+<span class="nc" id="L345">    private fun logEvent(name: String, block: (Bundle.() -&gt; Unit)? = null) {</span>
+<span class="pc bpc" id="L346" title="1 of 2 branches missed.">        val data = if (block != null) Bundle().apply(block) else null</span>
+<span class="fc" id="L347">        FirebaseAnalytics.getInstance(this).logEvent(name, data)</span>
+<span class="fc" id="L348">    }</span>
 
-<span class="fc" id="L349">    private fun setScreenName(screenName: String?, screenClassOverride: String? = null) {</span>
+<span class="fc" id="L350">    private fun setScreenName(screenName: String?, screenClassOverride: String? = null) {</span>
         // See https://firebase.googleblog.com/2020/08/google-analytics-manual-screen-view.html
         // firebaseAnalytics.setCurrentScreen(activity, screenName, screenClassOverride)
-<span class="fc" id="L352">        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) @NoCoverageRequired {</span>
+<span class="fc" id="L353">        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
             screenClassOverride?.let { s -&gt; putString(FirebaseAnalytics.Param.SCREEN_CLASS, s) }
         }
-<span class="fc" id="L356">    }</span>
+<span class="fc" id="L357">    }</span>
 
     @Suppress(&quot;SameParameterValue&quot;)
     private fun setUserProperty(key: String, value: String?) {
-<span class="fc" id="L360">        FirebaseAnalytics.getInstance(this).setUserProperty(key, value)</span>
-<span class="fc" id="L361">    }</span>
+<span class="nc" id="L361">        FirebaseAnalytics.getInstance(this).setUserProperty(key, value)</span>
+<span class="nc" id="L362">    }</span>
 
     override fun onConfigurationChanged(newConfig: Configuration) {
-<span class="nc" id="L364">        super.onConfigurationChanged(newConfig)</span>
+<span class="nc" id="L365">        super.onConfigurationChanged(newConfig)</span>
         // dynamic changed with the system
-<span class="nc bnc" id="L366" title="All 3 branches missed.">        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {</span>
+<span class="nc bnc" id="L367" title="All 3 branches missed.">        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {</span>
             Configuration.UI_MODE_NIGHT_NO -&gt; {
-<span class="nc" id="L368">                changeToDarkMode(false)</span>
-<span class="nc" id="L369">                Log.d(TAG, &quot;Night mode is not active, we're using the light theme&quot;)</span>
+<span class="nc" id="L369">                changeToDarkMode(false)</span>
+<span class="nc" id="L370">                Log.d(TAG, &quot;Night mode is not active, we're using the light theme&quot;)</span>
             }
             Configuration.UI_MODE_NIGHT_YES -&gt; {
-<span class="nc" id="L372">                changeToDarkMode(true)</span>
-<span class="nc" id="L373">                Log.d(TAG, &quot;Night mode is active, we're using dark theme&quot;)</span>
+<span class="nc" id="L373">                changeToDarkMode(true)</span>
+<span class="nc" id="L374">                Log.d(TAG, &quot;Night mode is active, we're using dark theme&quot;)</span>
             }
         }
-<span class="nc" id="L376">    }</span>
+<span class="nc" id="L377">    }</span>
 
     private fun background(block: suspend CoroutineScope.() -&gt; Unit) =
-<span class="fc" id="L379">        lifecycleScope.launch(block = block)</span>
+<span class="fc" id="L380">        lifecycleScope.launch(block = block)</span>
 
-<span class="nc" id="L381">    private fun changeToDarkMode(dark: Boolean = true) {</span>
-<span class="fc" id="L382">        background { model.darkMode.emit(dark) }</span>
-<span class="fc" id="L383">    }</span>
+<span class="nc" id="L382">    private fun changeToDarkMode(dark: Boolean = true) {</span>
+<span class="fc" id="L383">        background { model.darkMode.emit(dark) }</span>
+<span class="fc" id="L384">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

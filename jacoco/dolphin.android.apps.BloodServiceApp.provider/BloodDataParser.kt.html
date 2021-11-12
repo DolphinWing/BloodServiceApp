@@ -84,9 +84,10 @@ import java.util.regex.Pattern
 <span class="fc" id="L84">            }</span>
         }
 
-<span class="fc" id="L87">        Log.v(TAG, String.format(&quot;END storage wasted %d ms&quot;, System.currentTimeMillis() - start))</span>
-<span class="fc" id="L88">        storageCache = cache</span>
-<span class="fc" id="L89">        return cache</span>
+<span class="fc" id="L87">        val cost = System.currentTimeMillis() - start</span>
+<span class="fc" id="L88">        Log.v(TAG, String.format(&quot;END storage wasted %d ms&quot;, cost))</span>
+<span class="fc" id="L89">        storageCache = cache</span>
+<span class="fc" id="L90">        return cache</span>
     }
 
     /**
@@ -96,17 +97,17 @@ import java.util.regex.Pattern
      * @return event list of the coming week
      */
     fun getLatestWeekCalendar(id: Int): List&lt;DonateDay&gt; {
-<span class="fc" id="L99">        val cal = Calendar.getInstance(Locale.TAIWAN)</span>
-<span class="fc bfc" id="L100" title="All 2 branches covered.">        while (cal[Calendar.DAY_OF_WEEK] != Calendar.SUNDAY) {</span>
-<span class="fc" id="L101">            cal.add(Calendar.DAY_OF_WEEK, -1)</span>
+<span class="fc" id="L100">        val cal = Calendar.getInstance(Locale.TAIWAN)</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        while (cal[Calendar.DAY_OF_WEEK] != Calendar.SUNDAY) {</span>
+<span class="fc" id="L102">            cal.add(Calendar.DAY_OF_WEEK, -1)</span>
         }
-<span class="fc bfc" id="L103" title="All 2 branches covered.">        val thisWeek = getWeekCalendar(id, cal).filter { day -&gt; day.isFuture }</span>
-<span class="fc" id="L104">        cal.add(Calendar.DAY_OF_WEEK, 7) // check next week</span>
-<span class="fc" id="L105">        val nextWeek = getWeekCalendar(id, cal).dropLast(thisWeek.size)</span>
-<span class="fc" id="L106">        return ArrayList&lt;DonateDay&gt;().apply {</span>
-<span class="fc bfc" id="L107" title="All 4 branches covered.">            if (thisWeek.isNotEmpty()) addAll(thisWeek)</span>
-<span class="fc bfc" id="L108" title="All 4 branches covered.">            if (nextWeek.isNotEmpty()) addAll(nextWeek)</span>
-<span class="fc" id="L109">        }</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        val thisWeek = getWeekCalendar(id, cal).filter { day -&gt; day.isFuture }</span>
+<span class="fc" id="L105">        cal.add(Calendar.DAY_OF_WEEK, 7) // check next week</span>
+<span class="fc" id="L106">        val nextWeek = getWeekCalendar(id, cal).dropLast(thisWeek.size)</span>
+<span class="fc" id="L107">        return ArrayList&lt;DonateDay&gt;().apply {</span>
+<span class="fc bfc" id="L108" title="All 4 branches covered.">            if (thisWeek.isNotEmpty()) addAll(thisWeek)</span>
+<span class="fc bfc" id="L109" title="All 4 branches covered.">            if (nextWeek.isNotEmpty()) addAll(nextWeek)</span>
+<span class="fc" id="L110">        }</span>
     }
 
     /**
@@ -116,54 +117,55 @@ import java.util.regex.Pattern
      * @param refCal reference time
      * @return event list of the specific week
      */
-<span class="fc" id="L119">    fun getWeekCalendar(</span>
+<span class="fc" id="L120">    fun getWeekCalendar(</span>
         id: Int,
-<span class="fc" id="L121">        refCal: Calendar = Calendar.getInstance(Locale.TAIWAN),</span>
+<span class="fc" id="L122">        refCal: Calendar = Calendar.getInstance(Locale.TAIWAN),</span>
     ): List&lt;DonateDay&gt; {
-<span class="fc" id="L123">        var html = reader.readWeekCalendar(id, refCal)</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (html.contains(&quot;&lt;div id=\&quot;calendar\&quot;&gt;&quot;)) {</span>
-<span class="fc" id="L125">            html = html.substring(</span>
-<span class="fc" id="L126">                html.indexOf(&quot;&lt;div id=\&quot;calendar\&quot;&gt;&quot;),</span>
-<span class="fc" id="L127">                html.lastIndexOf(&quot;&lt;div class=\&quot;BackToTop\&quot; id=\&quot;toTop\&quot;&gt;&quot;)</span>
+<span class="fc" id="L124">        var html = reader.readWeekCalendar(id, refCal)</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (html.contains(&quot;&lt;div id=\&quot;calendar\&quot;&gt;&quot;)) {</span>
+<span class="fc" id="L126">            html = html.substring(</span>
+<span class="fc" id="L127">                html.indexOf(&quot;&lt;div id=\&quot;calendar\&quot;&gt;&quot;),</span>
+<span class="fc" id="L128">                html.lastIndexOf(&quot;&lt;div class=\&quot;BackToTop\&quot; id=\&quot;toTop\&quot;&gt;&quot;)</span>
             )
         }
-<span class="fc" id="L130">        val cal = Calendar.getInstance(Locale.TAIWAN).apply {</span>
-<span class="fc" id="L131">            timeInMillis = refCal.timeInMillis</span>
-<span class="fc" id="L132">        }</span>
-<span class="fc" id="L133">        val donateDays = ArrayList&lt;DonateDay&gt;()</span>
-<span class="fc" id="L134">        val start = System.currentTimeMillis()</span>
-<span class="fc" id="L135">        html.split(&quot;data-role=\&quot;list-divider\&quot;&quot;).drop(1).forEach { day_html -&gt;</span>
-<span class="fc" id="L136">            val list = ArrayList&lt;DonateActivity&gt;()</span>
+<span class="fc" id="L131">        val cal = Calendar.getInstance(Locale.TAIWAN).apply {</span>
+<span class="fc" id="L132">            timeInMillis = refCal.timeInMillis</span>
+<span class="fc" id="L133">        }</span>
+<span class="fc" id="L134">        val donateDays = ArrayList&lt;DonateDay&gt;()</span>
+<span class="fc" id="L135">        val start = System.currentTimeMillis()</span>
+<span class="fc" id="L136">        html.split(&quot;data-role=\&quot;list-divider\&quot;&quot;).drop(1).forEach { day_html -&gt;</span>
+<span class="fc" id="L137">            val list = ArrayList&lt;DonateActivity&gt;()</span>
             // &lt;h3&gt;place&lt;/h3&gt;
             // &lt;p&gt;&lt;strong&gt;time: 9:00~14:00&lt;/strong&gt;&lt;/p&gt;
             // &lt;p&gt;&lt;strong&gt;holder&lt;/strong&gt;&lt;/p&gt;
-<span class="fc" id="L140">            val matcher = Pattern.compile(PATTERN_ACTIVITY).matcher(day_html)</span>
-<span class="fc bfc" id="L141" title="All 2 branches covered.">            while (matcher.find()) {</span>
-<span class="pc bpc" id="L142" title="1 of 4 branches missed.">                var name = matcher.group(3)?.trim { it &lt;= ' ' }</span>
-<span class="pc bpc" id="L143" title="3 of 6 branches missed.">                if (name?.contains(separator) == true) {</span>
-<span class="fc" id="L144">                    name = name.substring(name.indexOf(separator) + 1)</span>
+<span class="fc" id="L141">            val matcher = Pattern.compile(PATTERN_ACTIVITY).matcher(day_html)</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="pc bpc" id="L143" title="1 of 4 branches missed.">                var name = matcher.group(3)?.trim { it &lt;= ' ' }</span>
+<span class="pc bpc" id="L144" title="3 of 6 branches missed.">                if (name?.contains(separator) == true) {</span>
+<span class="fc" id="L145">                    name = name.substring(name.indexOf(separator) + 1)</span>
                 }
-<span class="pc bpc" id="L146" title="2 of 4 branches missed.">                var time = matcher.group(2)?.trim { it &lt;= ' ' }</span>
-<span class="pc bpc" id="L147" title="3 of 6 branches missed.">                if (time?.contains(separator) == true) {</span>
-<span class="fc" id="L148">                    time = time.substring(time.indexOf(separator) + 1)</span>
-                }
-
-<span class="pc bpc" id="L151" title="2 of 4 branches missed.">                var location = matcher.group(1)?.trim { it &lt;= ' ' }</span>
-<span class="pc bpc" id="L152" title="3 of 6 branches missed.">                if (location?.contains(separator) == true) {</span>
-<span class="nc" id="L153">                    location = location.substring(location.indexOf(separator) + 1)</span>
+<span class="pc bpc" id="L147" title="2 of 4 branches missed.">                var time = matcher.group(2)?.trim { it &lt;= ' ' }</span>
+<span class="pc bpc" id="L148" title="3 of 6 branches missed.">                if (time?.contains(separator) == true) {</span>
+<span class="fc" id="L149">                    time = time.substring(time.indexOf(separator) + 1)</span>
                 }
 
-<span class="pc bpc" id="L156" title="2 of 4 branches missed.">                val donateActivity = DonateActivity(name ?: &quot;&quot;, location ?: &quot;&quot;)</span>
-<span class="pc bpc" id="L157" title="1 of 2 branches missed.">                time?.let { str -&gt; donateActivity.setDuration(cal, str) }</span>
-<span class="pc bpc" id="L158" title="1 of 2 branches missed.">                if (!list.contains(donateActivity)) { // [52]++</span>
-<span class="fc" id="L159">                    list.add(donateActivity)</span>
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">                var location = matcher.group(1)?.trim { it &lt;= ' ' }</span>
+<span class="pc bpc" id="L153" title="3 of 6 branches missed.">                if (location?.contains(separator) == true) {</span>
+<span class="nc" id="L154">                    location = location.substring(location.indexOf(separator) + 1)</span>
+                }
+
+<span class="pc bpc" id="L157" title="2 of 4 branches missed.">                val donateActivity = DonateActivity(name ?: &quot;&quot;, location ?: &quot;&quot;)</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">                time?.let { str -&gt; donateActivity.setDuration(cal, str) }</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">                if (!list.contains(donateActivity)) { // [52]++</span>
+<span class="fc" id="L160">                    list.add(donateActivity)</span>
                 }
             }
-<span class="fc" id="L162">            donateDays.add(DonateDay(list).apply { setDate(cal) })</span>
-<span class="fc" id="L163">            cal.add(Calendar.DAY_OF_MONTH, 1) // advance to next day</span>
-<span class="fc" id="L164">        }</span>
-<span class="fc" id="L165">        Log.v(TAG, String.format(&quot;END calendar cost %d ms&quot;, System.currentTimeMillis() - start))</span>
-<span class="fc" id="L166">        return donateDays</span>
+<span class="fc" id="L163">            donateDays.add(DonateDay(list).apply { setDate(cal) })</span>
+<span class="fc" id="L164">            cal.add(Calendar.DAY_OF_MONTH, 1) // advance to next day</span>
+<span class="fc" id="L165">        }</span>
+<span class="fc" id="L166">        val cost = System.currentTimeMillis() - start</span>
+<span class="fc" id="L167">        Log.v(TAG, String.format(&quot;END $id calendar cost %d ms&quot;, cost))</span>
+<span class="fc" id="L168">        return donateDays</span>
     }
 
     /**
@@ -173,80 +175,80 @@ import java.util.regex.Pattern
      * @return location list in each city of the blood center region
      */
     fun getDonationSpotLocationMap(id: Int): Pair&lt;ArrayList&lt;Int&gt;, SparseArray&lt;SpotList&gt;&gt; {
-<span class="fc" id="L176">        val maps = SparseArray&lt;SpotList&gt;()</span>
-<span class="fc" id="L177">        val order = ArrayList&lt;Int&gt;()</span>
-<span class="fc" id="L178">        val start = System.currentTimeMillis()</span>
+<span class="fc" id="L178">        val maps = SparseArray&lt;SpotList&gt;()</span>
+<span class="fc" id="L179">        val order = ArrayList&lt;Int&gt;()</span>
+<span class="fc" id="L180">        val start = System.currentTimeMillis()</span>
 
-<span class="fc bfc" id="L180" title="All 8 branches covered.">        center.values().find { c -&gt; c.id == id }?.let { bloodCenter -&gt;</span>
-<span class="fc" id="L181">            bloodCenter.city().forEach { cityId -&gt;</span>
-<span class="fc" id="L182">                order.add(cityId)</span>
+<span class="fc bfc" id="L182" title="All 8 branches covered.">        center.values().find { c -&gt; c.id == id }?.let { bloodCenter -&gt;</span>
+<span class="fc" id="L183">            bloodCenter.city().forEach { cityId -&gt;</span>
+<span class="fc" id="L184">                order.add(cityId)</span>
 
-<span class="fc" id="L184">                var html = reader.readDonationSpotList(id, cityId, bloodCenter.stationsUrl(cityId))</span>
-<span class="fc bfc" id="L185" title="All 2 branches covered.">                if (html.contains(&quot;CalendarContentRight&quot;)) {</span>
-<span class="fc" id="L186">                    html = html.substring(</span>
-<span class="fc" id="L187">                        html.indexOf(&quot;CalendarContentRight&quot;),</span>
-<span class="fc" id="L188">                        html.indexOf(&quot;ShortCutBox&quot;)</span>
+<span class="fc" id="L186">                var html = reader.readDonationSpotList(id, cityId, bloodCenter.stationsUrl(cityId))</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">                if (html.contains(&quot;CalendarContentRight&quot;)) {</span>
+<span class="fc" id="L188">                    html = html.substring(</span>
+<span class="fc" id="L189">                        html.indexOf(&quot;CalendarContentRight&quot;),</span>
+<span class="fc" id="L190">                        html.indexOf(&quot;ShortCutBox&quot;)</span>
                     )
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">                    if (html.contains(&quot;SelectCity&quot;)) { // cache the city name</span>
-<span class="fc" id="L191">                        parseSelectCity(html, cityId)</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">                    if (html.contains(&quot;SelectCity&quot;)) { // cache the city name</span>
+<span class="fc" id="L193">                        parseSelectCity(html, cityId)</span>
                     }
                     // Log.d(TAG, String.format(&quot;html: %d&quot;, html.length()));
-<span class="pc bpc" id="L194" title="1 of 2 branches missed.">                    if (html.contains(&quot;InnerLocation001&quot;)) {</span>
-<span class="fc" id="L195">                        val list = parseInnerLocation(html, bloodCenter.id, cityId)</span>
-<span class="fc" id="L196">                        maps.put(cityId, list)</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">                    if (html.contains(&quot;InnerLocation001&quot;)) {</span>
+<span class="fc" id="L197">                        val list = parseInnerLocation(html, bloodCenter.id, cityId)</span>
+<span class="fc" id="L198">                        maps.put(cityId, list)</span>
                     }
                 }
-<span class="fc" id="L199">            }</span>
-<span class="fc" id="L200">        }</span>
-
-<span class="fc" id="L202">        Log.v(TAG, String.format(&quot;END spot list cost %d ms&quot;, System.currentTimeMillis() - start))</span>
-<span class="fc" id="L203">        return Pair(order, maps)</span>
+<span class="fc" id="L201">            }</span>
+<span class="fc" id="L202">        }</span>
+<span class="fc" id="L203">        val cost = System.currentTimeMillis() - start</span>
+<span class="fc" id="L204">        Log.v(TAG, String.format(&quot;END $id spot list cost %d ms&quot;, cost))</span>
+<span class="fc" id="L205">        return Pair(order, maps)</span>
     }
 
     private fun parseSelectCity(html: String, cityId: Int) {
-<span class="fc" id="L207">        val matcher = Pattern.compile(PATTERN_CITY_ID).matcher(html)</span>
-<span class="fc bfc" id="L208" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="pc bpc" id="L209" title="2 of 4 branches missed.">            val cid = matcher.group(2)?.trim { it &lt;= ' ' }</span>
-<span class="pc bpc" id="L210" title="3 of 6 branches missed.">            val name = matcher.group(3)?.trim { it &lt;= ' ' } ?: cityId.toString()</span>
+<span class="fc" id="L209">        val matcher = Pattern.compile(PATTERN_CITY_ID).matcher(html)</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L211" title="2 of 4 branches missed.">            val cid = matcher.group(2)?.trim { it &lt;= ' ' }</span>
+<span class="pc bpc" id="L212" title="3 of 6 branches missed.">            val name = matcher.group(3)?.trim { it &lt;= ' ' } ?: cityId.toString()</span>
             // Log.d(TAG, &quot;id=&quot; + id + &quot;, &quot; + name);
-<span class="pc bpc" id="L212" title="1 of 2 branches missed.">            cid?.let { c -&gt; cityNames.put(c.toInt(), name) }</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">            cid?.let { c -&gt; cityNames.put(c.toInt(), name) }</span>
         }
-<span class="fc" id="L214">    }</span>
+<span class="fc" id="L216">    }</span>
 
     private fun parseInnerLocation(html: String, centerId: Int, cityId: Int): SpotList {
-<span class="fc" id="L217">        val list = SpotList(cityId.toString())</span>
-<span class="fc" id="L218">        val locations = html.split(&quot;InnerLocation001&quot;).toTypedArray()</span>
-<span class="pc bpc" id="L219" title="3 of 6 branches missed.">        if (locations.isNotEmpty()) { // static locations</span>
-<span class="fc" id="L220">            parseDonationSpotHtml(centerId, list, locations[1], true)</span>
+<span class="fc" id="L219">        val list = SpotList(cityId.toString())</span>
+<span class="fc" id="L220">        val locations = html.split(&quot;InnerLocation001&quot;).toTypedArray()</span>
+<span class="pc bpc" id="L221" title="3 of 6 branches missed.">        if (locations.isNotEmpty()) { // static locations</span>
+<span class="fc" id="L222">            parseDonationSpotHtml(centerId, list, locations[1], true)</span>
         }
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        if (locations.size &gt; 1) { // dynamic locations</span>
-<span class="fc" id="L223">            parseDonationSpotHtml(centerId, list, locations[2], false)</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">        if (locations.size &gt; 1) { // dynamic locations</span>
+<span class="fc" id="L225">            parseDonationSpotHtml(centerId, list, locations[2], false)</span>
         }
-<span class="fc" id="L225">        list.cityName = cityNames.get(cityId)</span>
-<span class="fc" id="L226">        return list</span>
+<span class="fc" id="L227">        list.cityName = cityNames.get(cityId)</span>
+<span class="fc" id="L228">        return list</span>
     }
 
-<span class="nc" id="L229">    private fun parseDonationSpotHtml(</span>
+<span class="nc" id="L231">    private fun parseDonationSpotHtml(</span>
         centerId: Int,
         list: SpotList,
         html: String,
-<span class="nc" id="L233">        isStatic: Boolean = false,</span>
+<span class="nc" id="L235">        isStatic: Boolean = false,</span>
     ) {
-<span class="fc" id="L235">        val matcher = Pattern.compile(PATTERN_SPOT_INFO).matcher(html)</span>
-<span class="fc bfc" id="L236" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="pc bpc" id="L237" title="3 of 6 branches missed.">            val spotId = matcher.group(1)?.trim { it &lt;= ' ' } ?: &quot;&quot;</span>
-<span class="pc bpc" id="L238" title="3 of 6 branches missed.">            val cityId = matcher.group(2)?.trim { it &lt;= ' ' } ?: &quot;&quot;</span>
-<span class="pc bpc" id="L239" title="2 of 6 branches missed.">            val name = matcher.group(3)?.trim { it &lt;= ' ' } ?: cityId</span>
+<span class="fc" id="L237">        val matcher = Pattern.compile(PATTERN_SPOT_INFO).matcher(html)</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L239" title="3 of 6 branches missed.">            val spotId = matcher.group(1)?.trim { it &lt;= ' ' } ?: &quot;&quot;</span>
+<span class="pc bpc" id="L240" title="3 of 6 branches missed.">            val cityId = matcher.group(2)?.trim { it &lt;= ' ' } ?: &quot;&quot;</span>
+<span class="pc bpc" id="L241" title="2 of 6 branches missed.">            val name = matcher.group(3)?.trim { it &lt;= ' ' } ?: cityId</span>
             // Log.d(TAG, &quot;  spotId = &quot; + spotId + &quot;, &quot; + name);
-<span class="fc" id="L241">            val info = SpotInfo(spotId, cityId, name).apply {</span>
-<span class="fc" id="L242">                siteId = centerId</span>
-<span class="fc" id="L243">            }</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">            if (isStatic) {</span>
-<span class="fc" id="L245">                list.addStaticLocation(info)</span>
+<span class="fc" id="L243">            val info = SpotInfo(spotId, cityId, name).apply {</span>
+<span class="fc" id="L244">                siteId = centerId</span>
+<span class="fc" id="L245">            }</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">            if (isStatic) {</span>
+<span class="fc" id="L247">                list.addStaticLocation(info)</span>
             } else {
-<span class="fc" id="L247">                list.addDynamicLocation(info)</span>
+<span class="fc" id="L249">                list.addDynamicLocation(info)</span>
             }
         }
-<span class="fc" id="L250">    }</span>
-<span class="fc" id="L251">}</span>
+<span class="fc" id="L252">    }</span>
+<span class="fc" id="L253">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

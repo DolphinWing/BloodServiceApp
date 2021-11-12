@@ -146,42 +146,42 @@ typealias BloodCenterCallback = (BloodCenter.Center) -&gt; Unit
 fun MainUi(
     centers: List&lt;BloodCenter.Center&gt;,
     selected: BloodCenter.Center,
-<span class="fc bfc" id="L149" title="All 2 branches covered.">    modifier: Modifier = Modifier,</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">    onCenterChange: BloodCenterCallback? = null,</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">    onFacebookClick: BloodCenterCallback? = null,</span>
-<span class="fc bfc" id="L152" title="All 2 branches covered.">    onReviewSource: BloodCenterCallback? = null,</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">    onCenterChange: BloodCenterCallback? = null,</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">    onFacebookClick: BloodCenterCallback? = null,</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">    onReviewSource: BloodCenterCallback? = null,</span>
 <span class="pc bpc" id="L153" title="1 of 2 branches missed.">    onSpotListClick: BloodCenterCallback? = null,</span>
 <span class="pc bfc" id="L154" title="All 2 branches covered.">    daysList: List&lt;DonateDay&gt; = ArrayList(),</span>
 <span class="fc bfc" id="L155" title="All 2 branches covered.">    storageMap: HashMap&lt;String, Int&gt; = HashMap(),</span>
-<span class="fc bfc" id="L156" title="All 2 branches covered.">    enableAddCalendar: Boolean = true,</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">    enableAddCalendar: Boolean = true,</span>
 <span class="fc bfc" id="L157" title="All 2 branches covered.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="fc bfc" id="L158" title="All 2 branches covered.">    enableSearchOnMap: Boolean = true,</span>
-<span class="fc bfc" id="L159" title="All 2 branches covered.">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">    onDonorClick: (() -&gt; Unit)? = null,</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">    enableSearchOnMap: Boolean = true,</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">    onDonorClick: (() -&gt; Unit)? = null,</span>
 <span class="fc bfc" id="L161" title="All 2 branches covered.">    onSettingsClick: (() -&gt; Unit)? = null,</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">    showReviewPolicy: Boolean = false,</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">    onReviewPolicy: (() -&gt; Unit)? = null,</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">    showReviewPolicy: Boolean = false,</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">    onReviewPolicy: (() -&gt; Unit)? = null,</span>
 <span class="fc" id="L164">    onReviewIgnore: (() -&gt; Unit)? = null,</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">) {</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">) {</span>
 <span class="pc bpc" id="L166" title="1 of 2 branches missed.">    Scaffold(</span>
 <span class="fc" id="L167">        modifier = modifier,</span>
 <span class="fc" id="L168">        topBar = {</span>
 <span class="pc bpc" id="L169" title="3 of 4 branches missed.">            MediumTopAppBar(</span>
 <span class="fc" id="L170">                title = {</span>
-<span class="pc bpc" id="L171" title="1 of 4 branches missed.">                    Text(selected.name)</span>
+<span class="pc bpc" id="L171" title="2 of 4 branches missed.">                    Text(selected.name)</span>
 <span class="fc" id="L172">                },</span>
 <span class="fc" id="L173">                actions = {</span>
-<span class="pc bpc" id="L174" title="3 of 6 branches missed.">                    IconButton(onClick = { onFacebookClick?.invoke(selected) }) {</span>
-<span class="pc bpc" id="L175" title="1 of 4 branches missed.">                        Image(</span>
+<span class="pc bpc" id="L174" title="4 of 6 branches missed.">                    IconButton(onClick = { onFacebookClick?.invoke(selected) }) {</span>
+<span class="pc bpc" id="L175" title="3 of 4 branches missed.">                        Image(</span>
 <span class="fc" id="L176">                            painterResource(id = R.drawable.ic_action_facebook),</span>
 <span class="fc" id="L177">                            contentDescription = stringResource(R.string.action_go_to_facebook),</span>
-<span class="fc" id="L178">                        )</span>
+<span class="nc" id="L178">                        )</span>
 <span class="pc" id="L179">                    }</span>
 <span class="fc" id="L180">                }</span>
 <span class="nc" id="L181">            )</span>
 <span class="fc" id="L182">        },</span>
 <span class="fc" id="L183">        bottomBar = {</span>
-<span class="pc bpc" id="L184" title="1 of 4 branches missed.">            BottomMainUiBar(</span>
+<span class="pc bpc" id="L184" title="2 of 4 branches missed.">            BottomMainUiBar(</span>
 <span class="pc bnc" id="L185" title="All 2 branches missed.">                onDonorClick = { onDonorClick?.invoke() },</span>
 <span class="pc bnc" id="L186" title="All 2 branches missed.">                onSettingsClick = { onSettingsClick?.invoke() },</span>
 <span class="fc" id="L187">                modifier = Modifier.fillMaxWidth(),</span>
@@ -309,14 +309,14 @@ private fun BottomMainUiBar(
 <span class="fc" id="L309">            .padding(vertical = 4.dp),</span>
     ) {
 <span class="pc bpc" id="L311" title="3 of 4 branches missed.">        TextButton(onClick = onDonorClick) {</span>
-<span class="pc bpc" id="L312" title="1 of 4 branches missed.">            Text(stringResource(id = R.string.action_go_to_personal))</span>
+<span class="pc bpc" id="L312" title="3 of 4 branches missed.">            Text(stringResource(id = R.string.action_go_to_personal))</span>
 <span class="fc" id="L313">        }</span>
 <span class="fc" id="L314">        Spacer(modifier = Modifier.weight(1f))</span>
 <span class="fc" id="L315">        IconButton(onClick = onSettingsClick) {</span>
-<span class="pc bpc" id="L316" title="1 of 4 branches missed.">            Icon(</span>
+<span class="pc bpc" id="L316" title="3 of 4 branches missed.">            Icon(</span>
 <span class="fc" id="L317">                Icons.Rounded.Settings,</span>
 <span class="fc" id="L318">                contentDescription = stringResource(id = R.string.title_activity_settings),</span>
-<span class="fc" id="L319">            )</span>
+<span class="nc" id="L319">            )</span>
 <span class="pc" id="L320">        }</span>
 <span class="pc" id="L321">    }</span>
 <span class="pc bpc" id="L322" title="1 of 2 branches missed.">}</span>
@@ -363,7 +363,7 @@ private fun SuggestionChipImpl(
     content: String,
     onClick: () -&gt; Unit,
 <span class="nc" id="L365">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L366" title="11 of 24 branches missed.">) {</span>
+<span class="pc bpc" id="L366" title="13 of 24 branches missed.">) {</span>
 <span class="fc" id="L367">    Box(</span>
 <span class="fc" id="L368">        modifier = modifier</span>
 <span class="fc" id="L369">            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))</span>
@@ -425,7 +425,7 @@ private fun TypeStorageStatusIcon(
     type: String,
     color: Color,
     contentDescription: String,
-<span class="pc bpc" id="L428" title="4 of 16 branches missed.">) {</span>
+<span class="pc bpc" id="L428" title="9 of 16 branches missed.">) {</span>
 <span class="fc" id="L429">    val context = LocalContext.current</span>
     fun showToast() {
 <span class="nc" id="L431">        Toast.makeText(context, contentDescription, Toast.LENGTH_SHORT).show()</span>
@@ -501,15 +501,15 @@ private fun DayListPane(
 <span class="pc" id="L501">            }</span>
 <span class="pc" id="L502">        }</span>
 
-<span class="fc bfc" id="L504" title="All 2 branches covered.">        if (daysList.isEmpty()) {</span>
-<span class="fc" id="L505">            Box(</span>
-<span class="fc" id="L506">                modifier = Modifier</span>
-<span class="fc" id="L507">                    .fillMaxWidth()</span>
-<span class="fc" id="L508">                    .weight(1f),</span>
-<span class="fc" id="L509">                contentAlignment = Alignment.Center,</span>
+<span class="pc bpc" id="L504" title="1 of 2 branches missed.">        if (daysList.isEmpty()) {</span>
+<span class="nc" id="L505">            Box(</span>
+<span class="nc" id="L506">                modifier = Modifier</span>
+<span class="nc" id="L507">                    .fillMaxWidth()</span>
+<span class="nc" id="L508">                    .weight(1f),</span>
+<span class="nc" id="L509">                contentAlignment = Alignment.Center,</span>
             ) {
-<span class="pc bpc" id="L511" title="3 of 4 branches missed.">                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
-<span class="pc" id="L512">            }</span>
+<span class="nc bnc" id="L511" title="All 4 branches missed.">                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
+<span class="nc" id="L512">            }</span>
 <span class="fc" id="L513">        } else {</span>
 <span class="fc" id="L514">            DonationPane(</span>
 <span class="fc" id="L515">                donations = daysList,</span>

@@ -84,7 +84,8 @@ class BloodDataParser(
             }
         }
 
-        Log.v(TAG, String.format("END storage wasted %d ms", System.currentTimeMillis() - start))
+        val cost = System.currentTimeMillis() - start
+        Log.v(TAG, String.format("END storage wasted %d ms", cost))
         storageCache = cache
         return cache
     }
@@ -162,7 +163,8 @@ class BloodDataParser(
             donateDays.add(DonateDay(list).apply { setDate(cal) })
             cal.add(Calendar.DAY_OF_MONTH, 1) // advance to next day
         }
-        Log.v(TAG, String.format("END calendar cost %d ms", System.currentTimeMillis() - start))
+        val cost = System.currentTimeMillis() - start
+        Log.v(TAG, String.format("END $id calendar cost %d ms", cost))
         return donateDays
     }
 
@@ -198,8 +200,8 @@ class BloodDataParser(
                 }
             }
         }
-
-        Log.v(TAG, String.format("END spot list cost %d ms", System.currentTimeMillis() - start))
+        val cost = System.currentTimeMillis() - start
+        Log.v(TAG, String.format("END $id spot list cost %d ms", cost))
         return Pair(order, maps)
     }
 

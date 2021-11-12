@@ -1,3 +1,4 @@
+import com.google.firebase.perf.plugin.FirebasePerfExtension
 import java.net.URL
 
 plugins {
@@ -7,15 +8,11 @@ plugins {
     id("com.google.gms.google-services") // Google Services Gradle plugin
     id("com.github.ben-manes.versions") version Versions.gradleVersionsPlugin
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
-    id("jacoco")
     id("org.jetbrains.dokka")
+    id("com.google.firebase.firebase-perf")
 }
 
-jacoco {
-    toolVersion = Versions.jacoco
-}
-
-apply(from = rootProject.file("jacoco.gradle.kts"))
+apply<CustomJacocoReport>()
 
 android {
     compileSdk = 31
@@ -38,13 +35,20 @@ android {
         getByName("debug") {
             isMinifyEnabled = false
             isTestCoverageEnabled = true
+
+            // Set this flag to 'false' to disable @AddTrace annotation processing and automatic
+            // HTTP/S network request monitoring for a specific build variant at compile time
+            // See https://stackoverflow.com/a/57451108
+            (this as ExtensionAware).configure<FirebasePerfExtension> {
+                setInstrumentationEnabled(false)
+            }
         }
     }
 
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 218
+            versionCode = 219
             versionName = "3.1.0"
             dimension = "mode"
             minSdk = 21
@@ -209,6 +213,7 @@ dependencies {
     implementation(platform(Libs.Firebase.bom))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-config-ktx")
+    implementation("com.google.firebase:firebase-perf-ktx")
 
 //    // flexible
 //    // https://github.com/davideas/FlexibleAdapter

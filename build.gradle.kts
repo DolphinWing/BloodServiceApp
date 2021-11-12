@@ -8,9 +8,10 @@ buildscript {
     dependencies {
         classpath(Libs.Google.gradleBuildTool)
         classpath(kotlin("gradle-plugin", version = Versions.JetBrains.kotlinLib))
-        classpath(Libs.Google.services)
+        classpath(Libs.Google.services) // Google Services plugin
         classpath(Libs.jacoco)
         classpath(Libs.JetBrains.dokka)
+        classpath(Libs.Firebase.performance) // Performance Monitoring plugin
     }
 }
 
@@ -32,4 +33,6 @@ allprojects {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+    delete(file("${rootProject.projectDir}/jacoco"))
+    delete(file("${rootProject.projectDir}/dokka"))
 }

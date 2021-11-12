@@ -68,6 +68,8 @@ object Versions {
         const val core: String = "19.0.0"
         const val analytics: String = "19.0.0"
         const val config: String = "21.0.0"
+
+        const val performance: String = "1.4.0"
     }
 
     object FlexibleAdapter {
@@ -249,6 +251,9 @@ object Libs {
         const val analytics: String = "$firebase:firebase-analytics:${Versions.Firebase.analytics}"
 
         const val remoteConfig: String = "$firebase:firebase-config:${Versions.Firebase.config}"
+
+        // Performance Monitoring plugin
+        const val performance: String = "$firebase:perf-plugin:${Versions.Firebase.performance}"
     }
 
     /**

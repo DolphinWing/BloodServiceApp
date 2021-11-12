@@ -312,8 +312,9 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
                 reviewComplete(model.center.value ?: centerInstance.main())
                 dialog.dismiss()
             }
-            .setNegativeButton(R.string.action_more_info) { _, _ ->
+            .setNeutralButton(R.string.action_more_info) { _, _ ->
                 IntentHelper.showGithubPages(this)
+                reviewComplete(model.center.value ?: centerInstance.main()) // mark complete
             }
             .setCancelable(true)
             .show().apply {
