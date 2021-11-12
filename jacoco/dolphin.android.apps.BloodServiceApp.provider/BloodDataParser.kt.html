@@ -67,7 +67,7 @@ import java.util.regex.Pattern
 <span class="pc bpc" id="L67" title="1 of 4 branches missed.">        if (html.contains(&quot;tool_blood_cube&quot;) &amp;&amp; html.contains(&quot;tool_danger&quot;)) {</span>
 <span class="fc" id="L68">            html = html.substring(html.indexOf(&quot;tool_blood_cube&quot;), html.indexOf(&quot;tool_danger&quot;))</span>
 <span class="fc" id="L69">            html.split(&quot;StorageHeader&quot;).drop(1).forEachIndexed { i, storage -&gt;</span>
-                // Log.d(TAG, String.format(&quot;site=%d&quot;, mBloodCenterId[i]));
+                // Log.d(TAG, String.format(&quot;site=%d&quot;, centerIds[i + 1]));
 <span class="fc" id="L71">                var j = 0</span>
 <span class="fc" id="L72">                val storageMap = HashMap&lt;String, Int&gt;()</span>
 <span class="fc" id="L73">                val matcher = Pattern.compile(PATTERN_STORAGE).matcher(storage)</span>
@@ -80,7 +80,7 @@ import java.util.regex.Pattern
                     }
 <span class="fc" id="L81">                    storageMap[bloodType[j++]] = type</span>
                 }
-<span class="fc" id="L83">                cache.put(centerIds[i], storageMap)</span>
+<span class="fc" id="L83">                cache.put(centerIds[i + 1], storageMap)</span>
 <span class="fc" id="L84">            }</span>
         }
 

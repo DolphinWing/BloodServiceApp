@@ -67,7 +67,7 @@ class BloodDataParser(
         if (html.contains("tool_blood_cube") && html.contains("tool_danger")) {
             html = html.substring(html.indexOf("tool_blood_cube"), html.indexOf("tool_danger"))
             html.split("StorageHeader").drop(1).forEachIndexed { i, storage ->
-                // Log.d(TAG, String.format("site=%d", mBloodCenterId[i]));
+                // Log.d(TAG, String.format("site=%d", centerIds[i + 1]));
                 var j = 0
                 val storageMap = HashMap<String, Int>()
                 val matcher = Pattern.compile(PATTERN_STORAGE).matcher(storage)
@@ -80,7 +80,7 @@ class BloodDataParser(
                     }
                     storageMap[bloodType[j++]] = type
                 }
-                cache.put(centerIds[i], storageMap)
+                cache.put(centerIds[i + 1], storageMap)
             }
         }
 

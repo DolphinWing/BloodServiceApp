@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
@@ -35,57 +36,59 @@ import dolphin.android.util.readFromAssets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
-<span class="fc" id="L42">class MainActivity : AppCompatActivity(), AppUiCallback {</span>
+<span class="fc" id="L44">class MainActivity : AppCompatActivity(), AppUiCallback {</span>
     companion object {
         private const val TAG = &quot;MainUi&quot;
     }
 
-<span class="fc" id="L47">    private val model: AppDataModel by viewModels()</span>
+<span class="fc" id="L49">    private val model: AppDataModel by viewModels()</span>
     private lateinit var centerInstance: BloodCenter
     private lateinit var dataStore: PrefsDataStore
     private lateinit var parser: BloodDataParser
 
     override fun onCreate(savedInstanceState: Bundle?) {
-<span class="fc" id="L53">        super.onCreate(savedInstanceState)</span>
-<span class="fc" id="L54">        centerInstance = BloodCenter(this)</span>
-<span class="fc" id="L55">        dataStore = PrefsDataStore(this)</span>
-<span class="fc" id="L56">        parser = BloodDataParser(this)</span>
+<span class="fc" id="L55">        super.onCreate(savedInstanceState)</span>
+<span class="fc" id="L56">        centerInstance = BloodCenter(this)</span>
+<span class="fc" id="L57">        dataStore = PrefsDataStore(this)</span>
+<span class="fc" id="L58">        parser = BloodDataParser(this)</span>
 
         // https://developer.android.com/about/versions/12/features/splash-screen#implement
         // Set up an OnPreDrawListener to the root view.
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S) {</span>
-<span class="fc" id="L61">            setupPreDrawListener()</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S) {</span>
+<span class="fc" id="L63">            setupPreDrawListener()</span>
         }
 
-<span class="fc" id="L64">        setupViewModel()</span>
+<span class="fc" id="L66">        setupViewModel()</span>
 
-<span class="fc" id="L66">        setContent {</span>
-<span class="pc bpc" id="L67" title="3 of 4 branches missed.">            val dark = isSystemInDarkTheme() // try to detect system theme</span>
-<span class="fc" id="L68">            LaunchedEffect(Unit) {</span>
-<span class="fc" id="L69">                changeToDarkMode(dark)</span>
-<span class="fc" id="L70">            }</span>
+<span class="fc" id="L68">        setContent {</span>
+<span class="pc bpc" id="L69" title="3 of 4 branches missed.">            val dark = isSystemInDarkTheme() // try to detect system theme</span>
+<span class="fc" id="L70">            LaunchedEffect(Unit) {</span>
+<span class="fc" id="L71">                changeToDarkMode(dark)</span>
+<span class="fc" id="L72">            }</span>
 
-<span class="fc" id="L72">            AppUiPane(</span>
-<span class="fc" id="L73">                model = model,</span>
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">                center = centerInstance,</span>
-<span class="fc" id="L75">                callback = this,</span>
-<span class="fc" id="L76">                modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L77">            )</span>
-<span class="fc" id="L78">        }</span>
+<span class="fc" id="L74">            AppUiPane(</span>
+<span class="fc" id="L75">                model = model,</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">                center = centerInstance,</span>
+<span class="fc" id="L77">                callback = this,</span>
+<span class="fc" id="L78">                modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L79">            )</span>
+<span class="fc" id="L80">        }</span>
 
-<span class="fc" id="L80">        setupFirebaseRemoteConfig()</span>
-<span class="fc" id="L81">    }</span>
+<span class="fc" id="L82">        setupFirebaseRemoteConfig()</span>
+<span class="fc" id="L83">        setupMobileAds()</span>
+<span class="fc" id="L84">    }</span>
 
     private fun setupPreDrawListener() {
         // https://developer.android.com/about/versions/12/features/splash-screen#implement
         // Set up an OnPreDrawListener to the root view.
-<span class="fc" id="L86">        val content: View = findViewById(android.R.id.content)</span>
-<span class="fc" id="L87">        content.viewTreeObserver.addOnPreDrawListener(</span>
-<span class="fc" id="L88">            @NoCoverageRequired object : ViewTreeObserver.OnPreDrawListener {</span>
+<span class="fc" id="L89">        val content: View = findViewById(android.R.id.content)</span>
+<span class="fc" id="L90">        content.viewTreeObserver.addOnPreDrawListener(</span>
+<span class="fc" id="L91">            @NoCoverageRequired object : ViewTreeObserver.OnPreDrawListener {</span>
                 override fun onPreDraw(): Boolean {
                     // Check if the initial data is ready.
                     return if (model.ready.value == true) {
@@ -97,265 +100,286 @@ import kotlinx.coroutines.launch
                         false
                     }
                 }
-            })
-<span class="fc" id="L101">    }</span>
+            }
+        )
+<span class="fc" id="L105">    }</span>
 
     private fun setupFirebaseRemoteConfig() {
         // Handler(Looper.getMainLooper()).postDelayed({ checkPrivacyPolicyReview() }, 5)
-<span class="fc" id="L105">        Firebase.remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)</span>
-<span class="fc" id="L106">        Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener {</span>
-<span class="fc" id="L107">            checkPrivacyPolicyReview()</span>
+<span class="fc" id="L109">        Firebase.remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)</span>
+<span class="fc" id="L110">        Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener {</span>
+<span class="fc" id="L111">            checkPrivacyPolicyReview()</span>
             // executor.submit { helper.warmup() }
-<span class="fc" id="L109">            model.ready.postValue(true)</span>
-<span class="fc" id="L110">        }</span>
-<span class="fc" id="L111">    }</span>
+<span class="fc" id="L113">            model.ready.postValue(true)</span>
+<span class="fc" id="L114">        }</span>
+<span class="fc" id="L115">    }</span>
+
+    private fun setupMobileAds() {
+<span class="fc" id="L118">        MobileAds.initialize(this) {</span>
+<span class="fc" id="L119">        }</span>
+<span class="fc" id="L120">    }</span>
 
     private fun setupViewModel() {
-<span class="fc" id="L114">        background {</span>
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">            dataStore.centerId.collect { centerId -&gt;</span>
-                model.center.postValue(centerInstance.find(centerId))
+<span class="fc" id="L123">        background {</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">            dataStore.centerId.map { centerId -&gt;</span>
+                centerInstance.find(centerId)
+<span class="fc" id="L126">            }.collect { bloodCenter -&gt;</span>
+                whenBloodCenterChanged(bloodCenter)
             }
-<span class="nc" id="L118">        }</span>
-<span class="fc" id="L119">        background {</span>
-<span class="pc bpc" id="L120" title="1 of 2 branches missed.">            model.init(parser).collect { ready -&gt;</span>
+<span class="nc" id="L129">        }</span>
+<span class="fc" id="L130">        background {</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">            dataStore.mobileAds.collect { enabled -&gt;</span>
+                model.showAds.emit(enabled)
+            }
+<span class="nc" id="L134">        }</span>
+<span class="fc" id="L135">        background {</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">            model.init(parser).collect { ready -&gt;</span>
                 // Log.d(TAG, &quot;storage ready $ready&quot;)
                 if (ready) {
                     queryStorageData(model.center.value?.id ?: -1, forceRefresh = true)
                 }
             }
-<span class="nc" id="L126">        }</span>
-<span class="fc" id="L127">        model.center.observe(this) { bloodCenter -&gt;</span>
-<span class="fc" id="L128">            Log.v(TAG, &quot;change to ${bloodCenter.name}&quot;)</span>
-<span class="fc" id="L129">            setUserProperty(&quot;center&quot;, bloodCenter.name)</span>
-<span class="fc" id="L130">            queryDonationData(bloodCenter.id)</span>
-<span class="fc" id="L131">            queryStorageData(bloodCenter.id)</span>
-<span class="fc" id="L132">        }</span>
-<span class="fc" id="L133">        model.uiState.observe(this) { state -&gt;</span>
-<span class="fc" id="L134">            setScreenName(state.name)</span>
-<span class="fc" id="L135">        }</span>
-<span class="fc" id="L136">    }</span>
+<span class="nc" id="L142">        }</span>
+<span class="fc" id="L143">        model.uiState.observe(this) { state -&gt;</span>
+<span class="fc" id="L144">            setScreenName(state.name)</span>
+<span class="fc" id="L145">        }</span>
+<span class="fc" id="L146">    }</span>
 
     private fun checkPrivacyPolicyReview() {
-<span class="fc" id="L139">        val firebaseCode = Firebase.remoteConfig.getLong(&quot;privacy_policy_update_code&quot;)</span>
-<span class="fc" id="L140">        Log.v(TAG, &quot;firebase code = $firebaseCode&quot;)</span>
-<span class="fc" id="L141">        background {</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">            dataStore.policyCode.collect { appCode -&gt;</span>
+<span class="fc" id="L149">        val firebaseCode = Firebase.remoteConfig.getLong(&quot;privacy_policy_update_code&quot;)</span>
+<span class="fc" id="L150">        Log.v(TAG, &quot;firebase code = $firebaseCode&quot;)</span>
+<span class="fc" id="L151">        background {</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">            dataStore.policyCode.collect { appCode -&gt;</span>
                 Log.v(TAG, &quot;app code = $appCode&quot;)
                 model.showPrivacyReview.emit(appCode &lt; firebaseCode)
             }
-<span class="nc" id="L146">        }</span>
-<span class="fc" id="L147">        background {</span>
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">            dataStore.centerId.collect { centerId -&gt;</span>
-                if (centerId &gt; 0) {
-                    model.changeUiState(UiState.Main)
-                } else {
-                    model.changeUiState(UiState.Welcome)
-                }
-            }
-<span class="nc" id="L155">        }</span>
-<span class="fc" id="L156">    }</span>
+<span class="nc" id="L156">        }</span>
+<span class="fc" id="L157">    }</span>
 
     override fun onBackPressed() {
-<span class="nc" id="L159">        when (model.state) {</span>
-<span class="nc bnc" id="L160" title="All 6 branches missed.">            UiState.Spots, UiState.Settings -&gt; model.changeUiState(UiState.Main)</span>
-<span class="nc" id="L161">            else -&gt; super.onBackPressed()</span>
+<span class="nc" id="L160">        when (model.state) {</span>
+<span class="nc bnc" id="L161" title="All 6 branches missed.">            UiState.Spots, UiState.Settings -&gt; model.changeUiState(UiState.Main)</span>
+<span class="nc" id="L162">            else -&gt; super.onBackPressed()</span>
         }
-<span class="nc" id="L163">    }</span>
+<span class="nc" id="L164">    }</span>
 
     override fun pressBack() {
-<span class="nc" id="L166">        onBackPressed()</span>
-<span class="nc" id="L167">    }</span>
+<span class="nc" id="L167">        onBackPressed()</span>
+<span class="nc" id="L168">    }</span>
 
     override fun reviewSource(center: BloodCenter.Center) {
-<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (center.id == 0) {</span>
-<span class="nc" id="L171">            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (center.id == 0) {</span>
+<span class="nc" id="L172">            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
                 putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)
                 putString(FirebaseAnalytics.Param.ITEM_ID, centerInstance.main().name)
             }
-<span class="nc" id="L175">            IntentHelper.showMainSource(this)</span>
+<span class="nc" id="L176">            IntentHelper.showMainSource(this)</span>
         } else {
-<span class="nc" id="L177">            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc" id="L178">            logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
                 putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)
                 putString(FirebaseAnalytics.Param.ITEM_ID, center.name)
             }
-<span class="nc" id="L181">            IntentHelper.showBloodCenterSource(this, center.id)</span>
+<span class="nc" id="L182">            IntentHelper.showBloodCenterSource(this, center.id)</span>
         }
-<span class="nc" id="L183">    }</span>
+<span class="nc" id="L184">    }</span>
 
     override fun reviewPrivacy() {
-<span class="nc" id="L186">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc" id="L187">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)
             putString(FirebaseAnalytics.Param.ITEM_ID, &quot;review-privacy&quot;)
         }
-<span class="nc" id="L190">        showAssetInDialog(</span>
-<span class="nc" id="L191">            title = R.string.app_privacy_policy,</span>
-<span class="nc" id="L192">            asset = &quot;privacy_policy.txt&quot;,</span>
+<span class="nc" id="L191">        showAssetInDialog(</span>
+<span class="nc" id="L192">            title = R.string.app_privacy_policy,</span>
+<span class="nc" id="L193">            asset = &quot;privacy_tw.md&quot;,</span>
         )
-<span class="nc" id="L194">    }</span>
+<span class="nc" id="L195">    }</span>
 
     override fun reviewComplete(center: BloodCenter.Center) {
-<span class="nc" id="L197">        val code = Firebase.remoteConfig.getLong(&quot;privacy_policy_update_code&quot;)</span>
-        // Toast.makeText(this, &quot;accept&quot;, Toast.LENGTH_SHORT).show()
-        // prefs.policyCode = code
+<span class="nc" id="L198">        val code = Firebase.remoteConfig.getLong(&quot;privacy_policy_update_code&quot;)</span>
+<span class="nc" id="L199">        Log.v(TAG, &quot;review complete ($code)&quot;)</span>
 <span class="nc bnc" id="L200" title="All 2 branches missed.">        background { dataStore.updatePolicyCode(code) }</span>
 <span class="nc" id="L201">        changeBloodCenter(center)</span>
-<span class="nc" id="L202">        model.changeUiState(UiState.Main)</span>
-<span class="nc" id="L203">    }</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        if (model.state == UiState.Welcome) {</span>
+<span class="nc" id="L203">            model.changeUiState(UiState.Main)</span>
+        }
+<span class="nc" id="L205">    }</span>
 
     override fun changeBloodCenter(center: BloodCenter.Center) {
-<span class="nc" id="L206">        background {</span>
-<span class="nc bnc" id="L207" title="All 2 branches missed.">            dataStore.changeCenter(center.id)</span>
-<span class="nc" id="L208">            model.center.postValue(center)</span>
-<span class="nc" id="L209">        }</span>
-<span class="nc" id="L210">    }</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        background { dataStore.changeCenter(center.id) }</span>
+<span class="nc" id="L209">    }</span>
+
+    private fun whenBloodCenterChanged(center: BloodCenter.Center) {
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">        if (model.state == UiState.Settings) return // not gonna change here</span>
+<span class="fc" id="L213">        Log.v(TAG, &quot;change to ${center.name}&quot;)</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">        if (center.id &gt; 0) {</span>
+<span class="fc" id="L215">            model.center.postValue(center)</span>
+<span class="fc" id="L216">            setUserProperty(&quot;center&quot;, center.name)</span>
+<span class="fc" id="L217">            queryDonationData(center.id)</span>
+<span class="fc" id="L218">            queryStorageData(center.id)</span>
+<span class="fc" id="L219">            model.changeUiState(UiState.Main)</span>
+        } else {
+<span class="nc" id="L221">            model.changeUiState(UiState.Welcome)</span>
+        }
+<span class="fc" id="L223">    }</span>
 
     override fun showFacebookPages(center: BloodCenter.Center) {
-<span class="nc" id="L213">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc" id="L226">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)
             putString(FirebaseAnalytics.Param.ITEM_ID, &quot;show-facebook&quot;)
         }
-<span class="nc" id="L217">        IntentHelper.showBloodCenterFacebookPages(this, center.id)</span>
-<span class="nc" id="L218">    }</span>
+<span class="nc" id="L230">        IntentHelper.showBloodCenterFacebookPages(this, center.id)</span>
+<span class="nc" id="L231">    }</span>
 
     private var queryDonationJob: Job? = null
     private var queryStorageJob: Job? = null
     private var querySpotListJob: Job? = null
 
     private fun queryDonationData(id: Int) {
-<span class="pc bpc" id="L225" title="1 of 2 branches missed.">        queryDonationJob?.cancel()</span>
-<span class="fc" id="L226">        queryDonationJob = background {</span>
-<span class="pc bpc" id="L227" title="1 of 2 branches missed.">            model.getDonationData(parser, id).collect { loading -&gt;</span>
-                Log.d(TAG, &quot;  queryDonationData loading = $loading&quot;)
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">        queryDonationJob?.cancel()</span>
+<span class="fc" id="L239">        queryDonationJob = background {</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">            model.getDonationData(parser, id).collect { loading -&gt;</span>
+                Log.d(TAG, &quot;  queryDonationData $id loading = $loading&quot;)
             }
-<span class="nc" id="L230">        }</span>
-<span class="fc" id="L231">    }</span>
+<span class="nc" id="L243">        }</span>
+<span class="fc" id="L244">    }</span>
 
-<span class="fc" id="L233">    private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {</span>
-<span class="fc bfc" id="L234" title="All 2 branches covered.">        queryStorageJob?.cancel()</span>
-<span class="fc" id="L235">        queryStorageJob = background {</span>
-<span class="pc bpc" id="L236" title="1 of 2 branches missed.">            model.getStorageData(parser, forceRefresh, centerId = id).collect { loading -&gt;</span>
-                Log.d(TAG, &quot;  queryStorageData loading = $loading&quot;)
+<span class="fc" id="L246">    private fun queryStorageData(id: Int, forceRefresh: Boolean = false) {</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        queryStorageJob?.cancel()</span>
+<span class="fc" id="L248">        queryStorageJob = background {</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">            model.getStorageData(parser, forceRefresh, centerId = id).collect { loading -&gt;</span>
+                Log.d(TAG, &quot;  queryStorageData $id loading = $loading&quot;)
             }
-<span class="nc" id="L239">        }</span>
-<span class="fc" id="L240">    }</span>
+<span class="nc" id="L252">        }</span>
+<span class="fc" id="L253">    }</span>
 
     private fun querySpotList(id: Int) {
-<span class="nc bnc" id="L243" title="All 2 branches missed.">        querySpotListJob?.cancel()</span>
-<span class="nc" id="L244">        querySpotListJob = background {</span>
-<span class="nc bnc" id="L245" title="All 2 branches missed.">            model.getSpotListData(parser, id).collect { loading -&gt;</span>
-                Log.d(TAG, &quot;  querySpotList loading = $loading&quot;)
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        querySpotListJob?.cancel()</span>
+<span class="nc" id="L257">        querySpotListJob = background {</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">            model.getSpotListData(parser, id).collect { loading -&gt;</span>
+                Log.d(TAG, &quot;  querySpotList $id loading = $loading&quot;)
             }
-<span class="nc" id="L248">        }</span>
-<span class="nc" id="L249">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc" id="L261">        }</span>
+<span class="nc" id="L262">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)
             putString(FirebaseAnalytics.Param.ITEM_ID, &quot;donation-spot-list&quot;)
         }
-<span class="nc" id="L253">    }</span>
+<span class="nc" id="L266">    }</span>
 
     override fun showSpotList(center: BloodCenter.Center) {
-<span class="nc" id="L256">        querySpotList(center.id)</span>
-<span class="nc" id="L257">        model.changeUiState(UiState.Spots)</span>
-<span class="nc" id="L258">    }</span>
+<span class="nc" id="L269">        querySpotList(center.id)</span>
+<span class="nc" id="L270">        model.changeUiState(UiState.Spots)</span>
+<span class="nc" id="L271">    }</span>
 
     override fun showSpotInfo(info: SpotInfo) {
-<span class="nc" id="L261">        IntentHelper.showSpotInfo(this, info)</span>
-<span class="nc" id="L262">    }</span>
+<span class="nc" id="L274">        IntentHelper.showSpotInfo(this, info)</span>
+<span class="nc" id="L275">    }</span>
 
     override fun addToCalendar(event: DonateActivity) {
-<span class="nc" id="L265">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc" id="L278">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)
             putString(FirebaseAnalytics.Param.ITEM_ID, &quot;add-to-calendar&quot;)
         }
-<span class="nc" id="L269">        IntentHelper.addToCalendar(this, event)</span>
-<span class="nc" id="L270">    }</span>
+<span class="nc" id="L282">        IntentHelper.addToCalendar(this, event)</span>
+<span class="nc" id="L283">    }</span>
 
-<span class="fc" id="L272">    override fun enableAddToCalendar(): Boolean = true</span>
+<span class="fc" id="L285">    override fun enableAddToCalendar(): Boolean = true</span>
 
     override fun searchOnMaps(event: DonateActivity) {
-<span class="nc" id="L275">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc" id="L288">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;action&quot;)
             putString(FirebaseAnalytics.Param.ITEM_ID, &quot;search-on-map&quot;)
         }
-<span class="nc" id="L279">        IntentHelper.searchOnMap(this, event)</span>
-<span class="nc" id="L280">    }</span>
+<span class="nc" id="L292">        IntentHelper.searchOnMap(this, event)</span>
+<span class="nc" id="L293">    }</span>
 
     override fun enableSearchOnMap(): Boolean {
-<span class="nc" id="L283">        return Firebase.remoteConfig.getBoolean(&quot;enable_search_on_map&quot;)</span>
+<span class="fc" id="L296">        return Firebase.remoteConfig.getBoolean(&quot;enable_search_on_map&quot;)</span>
     }
 
     override fun showDonorInfo() {
-<span class="nc" id="L287">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
+<span class="nc" id="L300">        logEvent(FirebaseAnalytics.Event.SELECT_ITEM) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.CONTENT_TYPE, &quot;browser&quot;)
             putString(FirebaseAnalytics.Param.ITEM_ID, &quot;show-donor-info&quot;)
         }
-<span class="nc" id="L291">        IntentHelper.showDonorInfo(this)</span>
-<span class="nc" id="L292">    }</span>
+<span class="nc" id="L304">        IntentHelper.showDonorInfo(this)</span>
+<span class="nc" id="L305">    }</span>
 
     override fun showAssetInDialog(title: Int, asset: String) {
-<span class="nc" id="L295">        MaterialAlertDialogBuilder(this)</span>
-<span class="nc" id="L296">            .setTitle(title)</span>
-<span class="nc" id="L297">            .setMessage(readFromAssets(asset, &quot;UTF-8&quot;))</span>
-<span class="nc" id="L298">            .setPositiveButton(android.R.string.ok, null)</span>
-<span class="nc" id="L299">            .setCancelable(true)</span>
-<span class="nc" id="L300">            .show().apply {</span>
-<span class="nc bnc" id="L301" title="All 2 branches missed.">                findViewById&lt;TextView&gt;(android.R.id.message)?.textSize = 12f</span>
-<span class="nc" id="L302">            }</span>
-<span class="nc" id="L303">    }</span>
+<span class="nc" id="L308">        MaterialAlertDialogBuilder(this)</span>
+<span class="nc" id="L309">            .setTitle(title)</span>
+<span class="nc" id="L310">            .setMessage(readFromAssets(asset, &quot;UTF-8&quot;))</span>
+<span class="nc" id="L311">            .setPositiveButton(android.R.string.ok) { dialog, _ -&gt;</span>
+<span class="nc bnc" id="L312" title="All 4 branches missed.">                reviewComplete(model.center.value ?: centerInstance.main())</span>
+<span class="nc" id="L313">                dialog.dismiss()</span>
+<span class="nc" id="L314">            }</span>
+<span class="nc" id="L315">            .setNegativeButton(R.string.action_more_info) { _, _ -&gt;</span>
+<span class="nc" id="L316">                IntentHelper.showGithubPages(this)</span>
+<span class="nc" id="L317">            }</span>
+<span class="nc" id="L318">            .setCancelable(true)</span>
+<span class="nc" id="L319">            .show().apply {</span>
+<span class="nc bnc" id="L320" title="All 2 branches missed.">                findViewById&lt;TextView&gt;(android.R.id.message)?.textSize = 12f</span>
+<span class="nc" id="L321">            }</span>
+<span class="nc" id="L322">    }</span>
 
     override fun versionInfo(): String {
-<span class="nc bnc" id="L306" title="All 4 branches missed.">        return PackageUtils.getPackageInfo(this, this::class.java)?.let { info -&gt;</span>
-<span class="nc bnc" id="L307" title="All 2 branches missed.">            val code = if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {</span>
-<span class="nc" id="L308">                info.longVersionCode</span>
+<span class="nc bnc" id="L325" title="All 4 branches missed.">        return PackageUtils.getPackageInfo(this, this::class.java)?.let { info -&gt;</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">            val code = if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {</span>
+<span class="nc" id="L327">                info.longVersionCode</span>
             } else {
-<span class="nc" id="L310">                @Suppress(&quot;deprecation&quot;) info.versionCode</span>
+<span class="nc" id="L329">                @Suppress(&quot;deprecation&quot;) info.versionCode</span>
             }
-<span class="nc" id="L312">            &quot;v${info.versionName} (r$code)&quot;</span>
-<span class="nc" id="L313">        } ?: kotlin.run { &quot;&quot; }</span>
+<span class="nc" id="L331">            &quot;v${info.versionName} (r$code)&quot;</span>
+<span class="nc" id="L332">        } ?: kotlin.run { &quot;&quot; }</span>
     }
 
     override fun enableVersionSummary(): Boolean {
-<span class="nc bnc" id="L317" title="All 4 branches missed.">        return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean(&quot;enable_change_log_summary&quot;)</span>
+<span class="nc bnc" id="L336" title="All 4 branches missed.">        return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean(&quot;enable_change_log_summary&quot;)</span>
     }
 
-<span class="nc" id="L320">    private fun logEvent(name: String, block: (Bundle.() -&gt; Unit)? = null) {</span>
-<span class="pc bpc" id="L321" title="1 of 2 branches missed.">        val data = if (block != null) Bundle().apply(block) else null</span>
-<span class="fc" id="L322">        FirebaseAnalytics.getInstance(this).logEvent(name, data)</span>
-<span class="fc" id="L323">    }</span>
+    override fun toggleAds(checked: Boolean) {
+<span class="nc" id="L340">        Log.d(TAG, &quot;toggle ads to $checked&quot;)</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">        background { dataStore.toggleAds(checked) }</span>
+<span class="nc" id="L342">    }</span>
 
-<span class="fc" id="L325">    private fun setScreenName(screenName: String?, screenClassOverride: String? = null) {</span>
+<span class="nc" id="L344">    private fun logEvent(name: String, block: (Bundle.() -&gt; Unit)? = null) {</span>
+<span class="pc bpc" id="L345" title="1 of 2 branches missed.">        val data = if (block != null) Bundle().apply(block) else null</span>
+<span class="fc" id="L346">        FirebaseAnalytics.getInstance(this).logEvent(name, data)</span>
+<span class="fc" id="L347">    }</span>
+
+<span class="fc" id="L349">    private fun setScreenName(screenName: String?, screenClassOverride: String? = null) {</span>
         // See https://firebase.googleblog.com/2020/08/google-analytics-manual-screen-view.html
         // firebaseAnalytics.setCurrentScreen(activity, screenName, screenClassOverride)
-<span class="fc" id="L328">        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) @NoCoverageRequired {</span>
+<span class="fc" id="L352">        logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) @NoCoverageRequired {</span>
             putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
             screenClassOverride?.let { s -&gt; putString(FirebaseAnalytics.Param.SCREEN_CLASS, s) }
         }
-<span class="fc" id="L332">    }</span>
+<span class="fc" id="L356">    }</span>
 
     @Suppress(&quot;SameParameterValue&quot;)
     private fun setUserProperty(key: String, value: String?) {
-<span class="fc" id="L336">        FirebaseAnalytics.getInstance(this).setUserProperty(key, value)</span>
-<span class="fc" id="L337">    }</span>
+<span class="fc" id="L360">        FirebaseAnalytics.getInstance(this).setUserProperty(key, value)</span>
+<span class="fc" id="L361">    }</span>
 
     override fun onConfigurationChanged(newConfig: Configuration) {
-<span class="nc" id="L340">        super.onConfigurationChanged(newConfig)</span>
+<span class="nc" id="L364">        super.onConfigurationChanged(newConfig)</span>
         // dynamic changed with the system
-<span class="nc bnc" id="L342" title="All 3 branches missed.">        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {</span>
+<span class="nc bnc" id="L366" title="All 3 branches missed.">        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {</span>
             Configuration.UI_MODE_NIGHT_NO -&gt; {
-<span class="nc" id="L344">                changeToDarkMode(false)</span>
-<span class="nc" id="L345">                Log.d(TAG, &quot;Night mode is not active, we're using the light theme&quot;)</span>
+<span class="nc" id="L368">                changeToDarkMode(false)</span>
+<span class="nc" id="L369">                Log.d(TAG, &quot;Night mode is not active, we're using the light theme&quot;)</span>
             }
             Configuration.UI_MODE_NIGHT_YES -&gt; {
-<span class="nc" id="L348">                changeToDarkMode(true)</span>
-<span class="nc" id="L349">                Log.d(TAG, &quot;Night mode is active, we're using dark theme&quot;)</span>
+<span class="nc" id="L372">                changeToDarkMode(true)</span>
+<span class="nc" id="L373">                Log.d(TAG, &quot;Night mode is active, we're using dark theme&quot;)</span>
             }
         }
-<span class="nc" id="L352">    }</span>
+<span class="nc" id="L376">    }</span>
 
     private fun background(block: suspend CoroutineScope.() -&gt; Unit) =
-<span class="fc" id="L355">        lifecycleScope.launch(block = block)</span>
+<span class="fc" id="L379">        lifecycleScope.launch(block = block)</span>
 
-<span class="nc" id="L357">    private fun changeToDarkMode(dark: Boolean = true) {</span>
-<span class="fc" id="L358">        background { model.darkMode.emit(dark) }</span>
-<span class="fc" id="L359">    }</span>
+<span class="nc" id="L381">    private fun changeToDarkMode(dark: Boolean = true) {</span>
+<span class="fc" id="L382">        background { model.darkMode.emit(dark) }</span>
+<span class="fc" id="L383">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

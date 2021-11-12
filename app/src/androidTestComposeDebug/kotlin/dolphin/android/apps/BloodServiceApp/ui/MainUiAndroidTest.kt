@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.core.app.ApplicationProvider
 import dolphin.android.apps.BloodServiceApp.R
 import dolphin.android.tests.assertTextDisplayed
 import dolphin.android.tests.findAll
+import dolphin.android.tests.tag
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -42,6 +44,10 @@ class MainUiAndroidTest {
         composeTestRule.waitForIdle()
         // composeTestRule.assertTextDisplayed(PreviewSample.selectedCenter.name)
         composeTestRule.assertTextDisplayed(getString(R.string.action_go_to_personal))
+        composeTestRule.tag("bloodTypeA").assertIsDisplayed()
+        composeTestRule.tag("bloodTypeB").assertIsDisplayed()
+        composeTestRule.tag("bloodTypeO").assertIsDisplayed()
+        composeTestRule.tag("bloodTypeAB").assertIsDisplayed()
     }
 
     @Test

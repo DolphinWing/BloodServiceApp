@@ -40,9 +40,14 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     val darkMode = MutableStateFlow(false)
 
     /**
-     * A flag to show privacy review
+     * A flag to show/hide privacy review pane
      */
     val showPrivacyReview = MutableStateFlow(false)
+
+    /**
+     * A flag to show/hide mobile ads
+     */
+    val showAds = MutableStateFlow(true)
 
     /**
      * App UI state.
@@ -99,14 +104,14 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     fun getStorageData(
         parser: BloodDataParser,
         forceRefresh: Boolean = false,
-        centerId: Int? = -1,
+        centerId: Int = -1,
     ): StateFlow<Boolean> = flow {
         if (storageCache == null || forceRefresh) {
             emitStorageMap(HashMap()) // clear the list
             storageCache = parser.getBloodStorage(forceRefresh)
         }
         storageCache?.let { cache ->
-            centerId?.let { id -> emitStorageMap(cache[id] ?: HashMap()) }
+            if (centerId > 0) emitStorageMap(cache[centerId] ?: HashMap())
         } ?: kotlin.run {
             emitStorageMap(HashMap())
         }

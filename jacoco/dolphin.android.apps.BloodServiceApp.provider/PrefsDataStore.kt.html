@@ -3,6 +3,7 @@
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
@@ -11,47 +12,85 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 // At the top level of your kotlin file:
-<span class="fc" id="L14">val Context.dataStore: DataStore&lt;Preferences&gt; by preferencesDataStore(name = &quot;settings&quot;)</span>
+<span class="fc" id="L15">val Context.dataStore: DataStore&lt;Preferences&gt; by preferencesDataStore(name = &quot;settings&quot;)</span>
 
 /**
  * Use DataStore Preferences.
  * See [https://developer.android.com/topic/libraries/architecture/datastore]
  */
-<span class="fc" id="L20">class PrefsDataStore</span>
+<span class="fc" id="L21">class PrefsDataStore</span>
 /**
  * Create [DataStore].
  *
  * @param dataStore Android Context
  */
-<span class="fc" id="L26">constructor(private val dataStore: DataStore&lt;Preferences&gt;) {</span>
+<span class="fc" id="L27">constructor(private val dataStore: DataStore&lt;Preferences&gt;) {</span>
     /**
      * Use [Context] to create [DataStore].
      *
      * @param context Android Context
      */
-<span class="fc" id="L32">    constructor(context: Context) : this(context.dataStore)</span>
+<span class="fc" id="L33">    constructor(context: Context) : this(context.dataStore)</span>
 
-<span class="fc" id="L34">    private val keyCenterId = intPreferencesKey(&quot;near_by_center&quot;)</span>
-<span class="fc" id="L35">    val centerId: Flow&lt;Int&gt; = dataStore.data.map { preferences -&gt;</span>
+<span class="fc" id="L35">    private val keyCenterId = intPreferencesKey(&quot;near_by_center&quot;)</span>
+
+    /**
+     * Nearby blood center id
+     */
+<span class="fc" id="L40">    val centerId: Flow&lt;Int&gt; = dataStore.data.map { preferences -&gt;</span>
         // No type safety.
         preferences[keyCenterId] ?: 0
     }
 
+    /**
+     * Change to a new nearby blood center
+     *
+     * @param id blood center id
+     */
     suspend fun changeCenter(id: Int) {
-<span class="fc" id="L41">        dataStore.edit { settings -&gt;</span>
-<span class="fc" id="L42">            settings[keyCenterId] = id</span>
-<span class="fc" id="L43">        }</span>
-<span class="fc" id="L44">    }</span>
+<span class="fc" id="L51">        dataStore.edit { settings -&gt;</span>
+<span class="fc" id="L52">            settings[keyCenterId] = id</span>
+<span class="fc" id="L53">        }</span>
+<span class="fc" id="L54">    }</span>
 
-<span class="fc" id="L46">    private val keyPolicyCode = longPreferencesKey(&quot;private_policy&quot;)</span>
-<span class="fc" id="L47">    val policyCode: Flow&lt;Long&gt; = dataStore.data.map { preferences -&gt;</span>
+<span class="fc" id="L56">    private val keyPolicyCode = longPreferencesKey(&quot;private_policy&quot;)</span>
+
+    /**
+     * App privacy policy code. We use this to check if we have updated a new policy.
+     */
+<span class="fc" id="L61">    val policyCode: Flow&lt;Long&gt; = dataStore.data.map { preferences -&gt;</span>
         preferences[keyPolicyCode] ?: 0
     }
 
+    /**
+     * Update new privacy policy code.
+     *
+     * @param code new policy code
+     */
     suspend fun updatePolicyCode(code: Long) {
-<span class="fc" id="L52">        dataStore.edit { settings -&gt;</span>
-<span class="fc" id="L53">            settings[keyPolicyCode] = code</span>
-<span class="fc" id="L54">        }</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L71">        dataStore.edit { settings -&gt;</span>
+<span class="fc" id="L72">            settings[keyPolicyCode] = code</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">    }</span>
+
+<span class="fc" id="L76">    private val keyMobileAds = booleanPreferencesKey(&quot;enable_adview&quot;)</span>
+
+    /**
+     * A flag to show/hide mobile ads in app.
+     */
+<span class="fc" id="L81">    val mobileAds: Flow&lt;Boolean&gt; = dataStore.data.map { preferences -&gt;</span>
+        preferences[keyMobileAds] ?: true
+    }
+
+    /**
+     * Enable or disable mobile ads in app.
+     *
+     * @param enabled true if user allows mobile ads in app
+     */
+    suspend fun toggleAds(enabled: Boolean) {
+<span class="nc" id="L91">        dataStore.edit { settings -&gt;</span>
+<span class="nc" id="L92">            settings[keyMobileAds] = enabled</span>
+<span class="nc" id="L93">        }</span>
+<span class="nc" id="L94">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

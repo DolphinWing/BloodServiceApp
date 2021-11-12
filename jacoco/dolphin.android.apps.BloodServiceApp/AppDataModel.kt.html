@@ -40,23 +40,28 @@ import kotlinx.coroutines.flow.stateIn
 <span class="fc" id="L40">    val darkMode = MutableStateFlow(false)</span>
 
     /**
-     * A flag to show privacy review
+     * A flag to show/hide privacy review pane
      */
 <span class="fc" id="L45">    val showPrivacyReview = MutableStateFlow(false)</span>
 
     /**
+     * A flag to show/hide mobile ads
+     */
+<span class="fc" id="L50">    val showAds = MutableStateFlow(true)</span>
+
+    /**
      * App UI state.
      */
-<span class="fc" id="L50">    val uiState: LiveData&lt;UiState&gt; = savedState.getLiveData(KEY_UI_STATE)</span>
+<span class="fc" id="L55">    val uiState: LiveData&lt;UiState&gt; = savedState.getLiveData(KEY_UI_STATE)</span>
 
     /**
      * Internal app ui state
      */
     var state: UiState
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        get() = uiState.value ?: UiState.Main</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        get() = uiState.value ?: UiState.Main</span>
         private set(value) {
-<span class="fc" id="L58">            savedState.set(KEY_UI_STATE, value)</span>
-<span class="fc" id="L59">        }</span>
+<span class="fc" id="L63">            savedState.set(KEY_UI_STATE, value)</span>
+<span class="fc" id="L64">        }</span>
 
     /**
      * Change app ui state
@@ -64,13 +69,13 @@ import kotlinx.coroutines.flow.stateIn
      * @param state target app ui state
      */
     fun changeUiState(state: UiState) {
-<span class="fc" id="L67">        this.state = state</span>
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L72">        this.state = state</span>
+<span class="fc" id="L73">    }</span>
 
     /**
      * Selected blood center
      */
-<span class="fc" id="L73">    val center = MutableLiveData&lt;BloodCenter.Center&gt;()</span>
+<span class="fc" id="L78">    val center = MutableLiveData&lt;BloodCenter.Center&gt;()</span>
 
     /**
      * Initialize the parser and other data instance.
@@ -78,14 +83,14 @@ import kotlinx.coroutines.flow.stateIn
      * @param parser a helper instance to read data from internet
      * @return true if helper is ready
      */
-<span class="fc" id="L81">    fun init(parser: BloodDataParser): StateFlow&lt;Boolean&gt; = flow {</span>
-<span class="fc" id="L82">        parser.warmUp()</span>
-<span class="fc" id="L83">        emit(true)</span>
-<span class="fc" id="L84">    }.flowOn(Dispatchers.IO).stateIn(</span>
-<span class="fc" id="L85">        scope = viewModelScope,</span>
-<span class="fc" id="L86">        started = SharingStarted.Eagerly,</span>
-<span class="fc" id="L87">        initialValue = false,</span>
-<span class="fc" id="L88">    )</span>
+<span class="fc" id="L86">    fun init(parser: BloodDataParser): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="fc" id="L87">        parser.warmUp()</span>
+<span class="fc" id="L88">        emit(true)</span>
+<span class="fc" id="L89">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="fc" id="L90">        scope = viewModelScope,</span>
+<span class="fc" id="L91">        started = SharingStarted.Eagerly,</span>
+<span class="fc" id="L92">        initialValue = false,</span>
+<span class="fc" id="L93">    )</span>
 
     private var storageCache: SparseArray&lt;HashMap&lt;String, Int&gt;&gt;? = null
 
@@ -96,33 +101,33 @@ import kotlinx.coroutines.flow.stateIn
      * @param forceRefresh true if we want to download latest data from internet
      * @return true if update is in progressing
      */
-<span class="fc" id="L99">    fun getStorageData(</span>
+<span class="fc" id="L104">    fun getStorageData(</span>
         parser: BloodDataParser,
-<span class="fc" id="L101">        forceRefresh: Boolean = false,</span>
-<span class="fc" id="L102">        centerId: Int? = -1,</span>
-<span class="fc" id="L103">    ): StateFlow&lt;Boolean&gt; = flow {</span>
-<span class="fc bfc" id="L104" title="All 4 branches covered.">        if (storageCache == null || forceRefresh) {</span>
-<span class="fc" id="L105">            emitStorageMap(HashMap()) // clear the list</span>
-<span class="fc" id="L106">            storageCache = parser.getBloodStorage(forceRefresh)</span>
+<span class="fc" id="L106">        forceRefresh: Boolean = false,</span>
+<span class="fc" id="L107">        centerId: Int = -1,</span>
+<span class="fc" id="L108">    ): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="fc bfc" id="L109" title="All 4 branches covered.">        if (storageCache == null || forceRefresh) {</span>
+<span class="fc" id="L110">            emitStorageMap(HashMap()) // clear the list</span>
+<span class="fc" id="L111">            storageCache = parser.getBloodStorage(forceRefresh)</span>
         }
-<span class="pc bpc" id="L108" title="2 of 4 branches missed.">        storageCache?.let { cache -&gt;</span>
-<span class="pc bpc" id="L109" title="1 of 4 branches missed.">            centerId?.let { id -&gt; emitStorageMap(cache[id] ?: HashMap()) }</span>
-<span class="nc" id="L110">        } ?: kotlin.run {</span>
-<span class="nc" id="L111">            emitStorageMap(HashMap())</span>
-<span class="nc" id="L112">        }</span>
-<span class="fc" id="L113">        emit(false)</span>
-<span class="fc" id="L114">    }.flowOn(Dispatchers.IO).stateIn(</span>
-<span class="fc" id="L115">        scope = viewModelScope,</span>
-<span class="fc" id="L116">        started = SharingStarted.Eagerly,</span>
-<span class="fc" id="L117">        initialValue = true,</span>
-<span class="fc" id="L118">    )</span>
+<span class="pc bpc" id="L113" title="2 of 4 branches missed.">        storageCache?.let { cache -&gt;</span>
+<span class="pc bpc" id="L114" title="1 of 4 branches missed.">            if (centerId &gt; 0) emitStorageMap(cache[centerId] ?: HashMap())</span>
+<span class="pc" id="L115">        } ?: kotlin.run {</span>
+<span class="nc" id="L116">            emitStorageMap(HashMap())</span>
+<span class="nc" id="L117">        }</span>
+<span class="fc" id="L118">        emit(false)</span>
+<span class="fc" id="L119">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="fc" id="L120">        scope = viewModelScope,</span>
+<span class="fc" id="L121">        started = SharingStarted.Eagerly,</span>
+<span class="fc" id="L122">        initialValue = true,</span>
+<span class="fc" id="L123">    )</span>
 
-<span class="fc" id="L120">    private val storages = MutableStateFlow&lt;HashMap&lt;String, Int&gt;&gt;(HashMap())</span>
+<span class="fc" id="L125">    private val storages = MutableStateFlow&lt;HashMap&lt;String, Int&gt;&gt;(HashMap())</span>
 
     /**
      * A storage cache live data to update compose ui.
      */
-<span class="fc" id="L125">    val storageMap: StateFlow&lt;HashMap&lt;String, Int&gt;&gt; = storages</span>
+<span class="fc" id="L130">    val storageMap: StateFlow&lt;HashMap&lt;String, Int&gt;&gt; = storages</span>
 
     /**
      * Update storage data to compose ui.
@@ -130,10 +135,10 @@ import kotlinx.coroutines.flow.stateIn
      * @param maps target blood center storage
      */
     private suspend fun emitStorageMap(maps: HashMap&lt;String, Int&gt;) {
-<span class="fc" id="L133">        storages.emit(maps)</span>
-<span class="fc" id="L134">    }</span>
+<span class="fc" id="L138">        storages.emit(maps)</span>
+<span class="fc" id="L139">    }</span>
 
-<span class="fc" id="L136">    private var donationCache = SparseArray&lt;List&lt;DonateDay&gt;&gt;()</span>
+<span class="fc" id="L141">    private var donationCache = SparseArray&lt;List&lt;DonateDay&gt;&gt;()</span>
 
     /**
      * Get donation list from internet.
@@ -142,30 +147,30 @@ import kotlinx.coroutines.flow.stateIn
      * @param id target blood center id
      * @return true if update is in progressing
      */
-<span class="fc" id="L145">    fun getDonationData(</span>
+<span class="fc" id="L150">    fun getDonationData(</span>
         parser: BloodDataParser,
-<span class="pc bpc" id="L147" title="2 of 4 branches missed.">        id: Int = center.value?.id ?: -1</span>
-<span class="fc" id="L148">    ): StateFlow&lt;Boolean&gt; = flow {</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (donationCache[id] == null) {</span>
-<span class="fc" id="L150">            _daysList.emit(ArrayList()) // clear the list</span>
-<span class="fc" id="L151">            donationCache.put(id, parser.getLatestWeekCalendar(id))</span>
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">        id: Int = center.value?.id ?: -1</span>
+<span class="fc" id="L153">    ): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (donationCache[id] == null) {</span>
+<span class="fc" id="L155">            _daysList.emit(ArrayList()) // clear the list</span>
+<span class="fc" id="L156">            donationCache.put(id, parser.getLatestWeekCalendar(id))</span>
         }
-<span class="fc" id="L153">        _daysList.emit(donationCache[id])</span>
-<span class="fc" id="L154">        emit(false)</span>
-<span class="fc" id="L155">    }.flowOn(Dispatchers.IO).stateIn(</span>
-<span class="fc" id="L156">        scope = viewModelScope,</span>
-<span class="fc" id="L157">        started = SharingStarted.Eagerly,</span>
-<span class="fc" id="L158">        initialValue = true,</span>
-<span class="fc" id="L159">    )</span>
+<span class="fc" id="L158">        _daysList.emit(donationCache[id])</span>
+<span class="fc" id="L159">        emit(false)</span>
+<span class="fc" id="L160">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="fc" id="L161">        scope = viewModelScope,</span>
+<span class="fc" id="L162">        started = SharingStarted.Eagerly,</span>
+<span class="fc" id="L163">        initialValue = true,</span>
+<span class="fc" id="L164">    )</span>
 
-<span class="fc" id="L161">    private val _daysList = MutableStateFlow&lt;List&lt;DonateDay&gt;&gt;(ArrayList())</span>
+<span class="fc" id="L166">    private val _daysList = MutableStateFlow&lt;List&lt;DonateDay&gt;&gt;(ArrayList())</span>
 
     /**
      * A donation list live data to update compose ui.
      */
-<span class="fc" id="L166">    val daysList: StateFlow&lt;List&lt;DonateDay&gt;&gt; = _daysList</span>
+<span class="fc" id="L171">    val daysList: StateFlow&lt;List&lt;DonateDay&gt;&gt; = _daysList</span>
 
-<span class="fc" id="L168">    private val spotCityCache = SparseArray&lt;ArrayList&lt;SpotList&gt;&gt;()</span>
+<span class="fc" id="L173">    private val spotCityCache = SparseArray&lt;ArrayList&lt;SpotList&gt;&gt;()</span>
 
     /**
      * Get donation spot list from internet.
@@ -174,32 +179,32 @@ import kotlinx.coroutines.flow.stateIn
      * @param id target blood center id
      * @return true if update is in progressing
      */
-<span class="fc" id="L177">    fun getSpotListData(</span>
+<span class="fc" id="L182">    fun getSpotListData(</span>
         parser: BloodDataParser,
-<span class="pc bpc" id="L179" title="2 of 4 branches missed.">        id: Int = center.value?.id ?: -1</span>
-<span class="fc" id="L180">    ): StateFlow&lt;Boolean&gt; = flow {</span>
-<span class="fc bfc" id="L181" title="All 2 branches covered.">        if (spotCityCache[id] == null) {</span>
-<span class="fc" id="L182">            val list = ArrayList&lt;SpotList&gt;()</span>
-<span class="fc" id="L183">            emitSpotList(list) // clear the list</span>
+<span class="pc bpc" id="L184" title="2 of 4 branches missed.">        id: Int = center.value?.id ?: -1</span>
+<span class="fc" id="L185">    ): StateFlow&lt;Boolean&gt; = flow {</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (spotCityCache[id] == null) {</span>
+<span class="fc" id="L187">            val list = ArrayList&lt;SpotList&gt;()</span>
+<span class="fc" id="L188">            emitSpotList(list) // clear the list</span>
 
-<span class="fc" id="L185">            val (order, data) = parser.getDonationSpotLocationMap(id)</span>
-<span class="fc" id="L186">            order.forEach { id -&gt; list.add(data.get(id)) }</span>
-<span class="fc" id="L187">            spotCityCache.put(id, list)</span>
+<span class="fc" id="L190">            val (order, data) = parser.getDonationSpotLocationMap(id)</span>
+<span class="fc" id="L191">            order.forEach { id -&gt; list.add(data.get(id)) }</span>
+<span class="fc" id="L192">            spotCityCache.put(id, list)</span>
         }
-<span class="fc" id="L189">        emitSpotList(list = spotCityCache[id])</span>
-<span class="fc" id="L190">        emit(false)</span>
-<span class="fc" id="L191">    }.flowOn(Dispatchers.IO).stateIn(</span>
-<span class="fc" id="L192">        scope = viewModelScope,</span>
-<span class="fc" id="L193">        started = SharingStarted.Eagerly,</span>
-<span class="fc" id="L194">        initialValue = true,</span>
-<span class="fc" id="L195">    )</span>
+<span class="fc" id="L194">        emitSpotList(list = spotCityCache[id])</span>
+<span class="fc" id="L195">        emit(false)</span>
+<span class="fc" id="L196">    }.flowOn(Dispatchers.IO).stateIn(</span>
+<span class="fc" id="L197">        scope = viewModelScope,</span>
+<span class="fc" id="L198">        started = SharingStarted.Eagerly,</span>
+<span class="fc" id="L199">        initialValue = true,</span>
+<span class="fc" id="L200">    )</span>
 
-<span class="fc" id="L197">    private val _spotList = MutableStateFlow&lt;List&lt;SpotList&gt;&gt;(ArrayList())</span>
+<span class="fc" id="L202">    private val _spotList = MutableStateFlow&lt;List&lt;SpotList&gt;&gt;(ArrayList())</span>
 
     /**
      * A spot list live data to update compose ui.
      */
-<span class="fc" id="L202">    val spotList: StateFlow&lt;List&lt;SpotList&gt;&gt; = _spotList</span>
+<span class="fc" id="L207">    val spotList: StateFlow&lt;List&lt;SpotList&gt;&gt; = _spotList</span>
 
     /**
      * Update spot list to compose ui.
@@ -207,16 +212,16 @@ import kotlinx.coroutines.flow.stateIn
      * @param list spot list of target blood center
      */
     private suspend fun emitSpotList(list: List&lt;SpotList&gt;) {
-<span class="fc" id="L210">        _spotList.emit(list)</span>
-<span class="fc bfc" id="L211" title="All 4 branches covered.">        currentCity.emit(if (list.isNotEmpty()) list.first().cityId else 0)</span>
-<span class="fc" id="L212">    }</span>
+<span class="fc" id="L215">        _spotList.emit(list)</span>
+<span class="fc bfc" id="L216" title="All 4 branches covered.">        currentCity.emit(if (list.isNotEmpty()) list.first().cityId else 0)</span>
+<span class="fc" id="L217">    }</span>
 
-<span class="fc" id="L214">    private val currentCity = MutableStateFlow(0)</span>
+<span class="fc" id="L219">    private val currentCity = MutableStateFlow(0)</span>
 
     /**
      * Current selected city. Only useful in SpotListUi.
      */
-<span class="fc" id="L219">    val city: StateFlow&lt;Int&gt; = currentCity</span>
+<span class="fc" id="L224">    val city: StateFlow&lt;Int&gt; = currentCity</span>
 
     /**
      * Change a new city
@@ -224,7 +229,7 @@ import kotlinx.coroutines.flow.stateIn
      * @param cityId new city
      */
     fun changeCity(cityId: Int) {
-<span class="fc" id="L227">        currentCity.value = cityId</span>
-<span class="fc" id="L228">    }</span>
+<span class="fc" id="L232">        currentCity.value = cityId</span>
+<span class="fc" id="L233">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

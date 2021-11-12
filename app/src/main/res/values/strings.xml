@@ -64,6 +64,7 @@
     <string name="action_search_location">在地圖上尋找</string>
     <string name="action_add_to_calendar">加入行事曆</string>
     <string name="action_add_to_calendar_description">由捐血活動快查新增</string>
+    <string name="action_more_info">更多資訊</string>
 
     <!-- Strings related to Settings -->
 
@@ -80,7 +81,7 @@
     <string name="title_sticky_header">固定顯示標頭</string>
     <string name="title_sticky_header_in_gridview">固定顯示標頭於列表上方</string>
     <string name="title_enable_adview">顯示廣告</string>
-    <string name="title_enable_adview_in_storage_list">在主頁顯示廣告</string>
+    <string name="title_enable_adview_in_storage_list">在頁面顯示廣告救救開發者</string>
     <string name="title_new_activity2">使用新版分頁顯示</string>
     <string name="summary_use_activity1">使用舊的滑動分頁顯示</string>
     <string name="summary_use_activity2">使用新的底部分頁顯示</string>

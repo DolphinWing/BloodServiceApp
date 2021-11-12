@@ -62,49 +62,53 @@ fun SpotListUi(
 <span class="pc bpc" id="L62" title="3 of 6 branches missed.">    selectedCity: Int = if (list.isNotEmpty()) list.first().cityId else 0,</span>
 <span class="pc bpc" id="L63" title="1 of 2 branches missed.">    onBackPress: (() -&gt; Unit)? = null,</span>
 <span class="pc bpc" id="L64" title="1 of 2 branches missed.">    onCityClick: ((SpotList) -&gt; Unit)? = null,</span>
-<span class="fc" id="L65">    onSpotClick: ((SpotInfo) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">) {</span>
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">    Scaffold(</span>
-<span class="fc" id="L68">        modifier = modifier,</span>
-<span class="fc" id="L69">        topBar = {</span>
-<span class="pc bpc" id="L70" title="3 of 4 branches missed.">            MediumTopAppBar(</span>
-<span class="pc bpc" id="L71" title="3 of 4 branches missed.">                title = { Text(stringResource(id = R.string.title_section3)) },</span>
-<span class="fc" id="L72">                navigationIcon = {</span>
-<span class="pc bpc" id="L73" title="4 of 6 branches missed.">                    IconButton(onClick = { onBackPress?.invoke() }) {</span>
-<span class="pc bpc" id="L74" title="3 of 4 branches missed.">                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)</span>
-<span class="pc" id="L75">                    }</span>
-<span class="fc" id="L76">                },</span>
-<span class="nc" id="L77">            )</span>
-<span class="fc" id="L78">        },</span>
-<span class="fc" id="L79">    ) { padding -&gt;</span>
-<span class="pc bpc" id="L80" title="3 of 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
-<span class="pc bpc" id="L81" title="4 of 6 branches missed.">            if (list.isEmpty()) {</span>
-<span class="nc" id="L82">                Box(</span>
-<span class="nc" id="L83">                    modifier = Modifier</span>
-<span class="nc" id="L84">                        .fillMaxWidth()</span>
-<span class="nc" id="L85">                        .padding(32.dp),</span>
-<span class="nc" id="L86">                    contentAlignment = Alignment.Center,</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">    onSpotClick: ((SpotInfo) -&gt; Unit)? = null,</span>
+<span class="fc" id="L66">    showAds: Boolean = false,</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">) {</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">    Scaffold(</span>
+<span class="fc" id="L69">        modifier = modifier,</span>
+<span class="fc" id="L70">        topBar = {</span>
+<span class="pc bpc" id="L71" title="3 of 4 branches missed.">            MediumTopAppBar(</span>
+<span class="pc bpc" id="L72" title="3 of 4 branches missed.">                title = { Text(stringResource(id = R.string.title_section3)) },</span>
+<span class="fc" id="L73">                navigationIcon = {</span>
+<span class="pc bpc" id="L74" title="4 of 6 branches missed.">                    IconButton(onClick = { onBackPress?.invoke() }) {</span>
+<span class="pc bpc" id="L75" title="3 of 4 branches missed.">                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)</span>
+<span class="pc" id="L76">                    }</span>
+<span class="fc" id="L77">                },</span>
+<span class="nc" id="L78">            )</span>
+<span class="fc" id="L79">        },</span>
+<span class="fc" id="L80">    ) { padding -&gt;</span>
+<span class="pc bpc" id="L81" title="3 of 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
+<span class="pc bpc" id="L82" title="4 of 6 branches missed.">            if (list.isEmpty()) {</span>
+<span class="nc" id="L83">                Box(</span>
+<span class="nc" id="L84">                    modifier = Modifier</span>
+<span class="nc" id="L85">                        .fillMaxWidth()</span>
+<span class="nc" id="L86">                        .weight(1f),</span>
+<span class="nc" id="L87">                    contentAlignment = Alignment.Center,</span>
                 ) {
-<span class="nc bnc" id="L88" title="All 4 branches missed.">                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
-<span class="nc" id="L89">                }</span>
-<span class="fc" id="L90">            } else {</span>
-<span class="fc" id="L91">                CityPane(</span>
-<span class="fc" id="L92">                    list = list,</span>
-<span class="pc bnc" id="L93" title="All 2 branches missed.">                    onCityClick = { c -&gt; onCityClick?.invoke(c) },</span>
-<span class="fc" id="L94">                    modifier = Modifier.fillMaxWidth(),</span>
-<span class="fc" id="L95">                    selected = selectedCity,</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
+<span class="nc" id="L90">                }</span>
+<span class="fc" id="L91">            } else {</span>
+<span class="fc" id="L92">                CityPane(</span>
+<span class="fc" id="L93">                    list = list,</span>
+<span class="pc bnc" id="L94" title="All 2 branches missed.">                    onCityClick = { c -&gt; onCityClick?.invoke(c) },</span>
+<span class="fc" id="L95">                    modifier = Modifier.fillMaxWidth(),</span>
+<span class="fc" id="L96">                    selected = selectedCity,</span>
                 )
-<span class="fc" id="L97">                Spacer(modifier = Modifier.requiredHeight(8.dp))</span>
-<span class="fc" id="L98">                Separator()</span>
-<span class="fc" id="L99">                SpotPane(</span>
-<span class="pc bpc" id="L100" title="4 of 8 branches missed.">                    list = list.find { c -&gt; c.cityId == selectedCity } ?: SpotList(0),</span>
-<span class="pc bnc" id="L101" title="All 2 branches missed.">                    onSpotClick = { spot -&gt; onSpotClick?.invoke(spot) },</span>
-<span class="fc" id="L102">                    modifier = Modifier.weight(1f),</span>
+<span class="fc" id="L98">                Spacer(modifier = Modifier.requiredHeight(8.dp))</span>
+<span class="fc" id="L99">                Separator()</span>
+<span class="fc" id="L100">                SpotPane(</span>
+<span class="pc bpc" id="L101" title="4 of 8 branches missed.">                    list = list.find { c -&gt; c.cityId == selectedCity } ?: SpotList(0),</span>
+<span class="pc bnc" id="L102" title="All 2 branches missed.">                    onSpotClick = { spot -&gt; onSpotClick?.invoke(spot) },</span>
+<span class="fc" id="L103">                    modifier = Modifier.weight(1f),</span>
                 )
-<span class="pc" id="L104">            }</span>
-<span class="pc" id="L105">        }</span>
-<span class="fc" id="L106">    }</span>
-<span class="fc" id="L107">}</span>
+            }
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">            if (showAds) {</span>
+<span class="nc" id="L107">                BannerAds(modifier = Modifier.fillMaxWidth())</span>
+<span class="pc" id="L108">            }</span>
+<span class="pc" id="L109">        }</span>
+<span class="fc" id="L110">    }</span>
+<span class="fc" id="L111">}</span>
 
 @DebugOnlyNoCoverage
 @ExperimentalMaterial3Api
@@ -112,9 +116,20 @@ fun SpotListUi(
 @Preview(&quot;list night&quot;, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewDonationPlacePane() {
-<span class="fc" id="L115">    AppTheme {</span>
-<span class="nc bnc" id="L116" title="All 4 branches missed.">        SpotListUi(list = PreviewSample.spots)</span>
-<span class="nc" id="L117">    }</span>
+<span class="fc" id="L119">    AppTheme {</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">        SpotListUi(list = PreviewSample.spots)</span>
+<span class="nc" id="L121">    }</span>
+}
+
+@DebugOnlyNoCoverage
+@ExperimentalMaterial3Api
+@Preview(&quot;list with ads&quot;, showSystemUi = true)
+@Preview(&quot;list night with ads&quot;, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun PreviewDonationPlacePaneWithAds() {
+<span class="fc" id="L130">    AppTheme {</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">        SpotListUi(list = PreviewSample.spots, showAds = true)</span>
+<span class="nc" id="L132">    }</span>
 }
 
 @Composable
@@ -122,58 +137,58 @@ private fun CityPane(
     list: List&lt;SpotList&gt;,
     onCityClick: (SpotList) -&gt; Unit,
     modifier: Modifier,
-<span class="nc" id="L125">    selected: Int = 0,</span>
-<span class="pc bpc" id="L126" title="1 of 2 branches missed.">) {</span>
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">    LazyRow(modifier = modifier.padding(horizontal = 16.dp)) {</span>
-<span class="fc" id="L128">        items(list) { city -&gt;</span>
+<span class="nc" id="L140">    selected: Int = 0,</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">) {</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">    LazyRow(modifier = modifier.padding(horizontal = 16.dp)) {</span>
+<span class="fc" id="L143">        items(list) { city -&gt;</span>
             FilterChipImpl(
                 content = city.cityName ?: city.cityId.toString(),
                 onCheckedChanged = { checked -&gt;
-<span class="nc bnc" id="L132" title="All 2 branches missed.">                    if (checked) onCityClick.invoke(city)</span>
-<span class="nc" id="L133">                },</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">                    if (checked) onCityClick.invoke(city)</span>
+<span class="nc" id="L148">                },</span>
                 checked = selected == city.cityId,
                 modifier = Modifier.padding(end = 8.dp),
             )
         }
-<span class="fc" id="L138">    }</span>
-<span class="fc" id="L139">}</span>
+<span class="fc" id="L153">    }</span>
+<span class="fc" id="L154">}</span>
 
 @Composable
 private fun FilterChipImpl(
     content: String,
     onCheckedChanged: (Boolean) -&gt; Unit,
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="pc bnc" id="L146" title="All 2 branches missed.">    checked: Boolean = false,</span>
-<span class="pc bpc" id="L147" title="19 of 34 branches missed.">) {</span>
-<span class="fc" id="L148">    Button(</span>
-<span class="pc bnc" id="L149" title="All 2 branches missed.">        onClick = { onCheckedChanged.invoke(!checked) },</span>
-<span class="fc" id="L150">        border = BorderStroke(</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (checked) 0.dp else 1.dp,</span>
-<span class="fc bfc" id="L152" title="All 2 branches covered.">            if (checked) Color.Transparent else MaterialTheme.colorScheme.outline,</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="pc bnc" id="L161" title="All 2 branches missed.">    checked: Boolean = false,</span>
+<span class="pc bpc" id="L162" title="19 of 34 branches missed.">) {</span>
+<span class="fc" id="L163">    Button(</span>
+<span class="pc bnc" id="L164" title="All 2 branches missed.">        onClick = { onCheckedChanged.invoke(!checked) },</span>
+<span class="fc" id="L165">        border = BorderStroke(</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            if (checked) 0.dp else 1.dp,</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            if (checked) Color.Transparent else MaterialTheme.colorScheme.outline,</span>
         ),
-<span class="fc" id="L154">        shape = RoundedCornerShape(8.dp),</span>
-<span class="fc" id="L155">        colors = ButtonDefaults.outlinedButtonColors(</span>
-<span class="fc bfc" id="L156" title="All 2 branches covered.">            containerColor = if (checked) {</span>
-<span class="fc" id="L157">                MaterialTheme.colorScheme.secondaryContainer</span>
-<span class="fc" id="L158">            } else {</span>
-<span class="fc" id="L159">                MaterialTheme.colorScheme.surface</span>
+<span class="fc" id="L169">        shape = RoundedCornerShape(8.dp),</span>
+<span class="fc" id="L170">        colors = ButtonDefaults.outlinedButtonColors(</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            containerColor = if (checked) {</span>
+<span class="fc" id="L172">                MaterialTheme.colorScheme.secondaryContainer</span>
+<span class="fc" id="L173">            } else {</span>
+<span class="fc" id="L174">                MaterialTheme.colorScheme.surface</span>
             },
-<span class="fc bfc" id="L161" title="All 2 branches covered.">            contentColor = if (checked) {</span>
-<span class="fc" id="L162">                MaterialTheme.colorScheme.onSecondaryContainer</span>
-<span class="fc" id="L163">            } else {</span>
-<span class="fc" id="L164">                MaterialTheme.colorScheme.onSurfaceVariant</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">            contentColor = if (checked) {</span>
+<span class="fc" id="L177">                MaterialTheme.colorScheme.onSecondaryContainer</span>
+<span class="fc" id="L178">            } else {</span>
+<span class="fc" id="L179">                MaterialTheme.colorScheme.onSurfaceVariant</span>
             },
         ),
-<span class="fc" id="L167">        modifier = modifier,</span>
-<span class="fc" id="L168">    ) {</span>
-<span class="pc bpc" id="L169" title="2 of 4 branches missed.">        Text(content, style = MaterialTheme.typography.labelLarge)</span>
-<span class="fc" id="L170">    }</span>
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">}</span>
+<span class="fc" id="L182">        modifier = modifier,</span>
+<span class="fc" id="L183">    ) {</span>
+<span class="pc bpc" id="L184" title="2 of 4 branches missed.">        Text(content, style = MaterialTheme.typography.labelLarge)</span>
+<span class="fc" id="L185">    }</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">}</span>
 
 @Composable
-<span class="fc" id="L174">private fun SpotPane(list: SpotList, onSpotClick: (SpotInfo) -&gt; Unit, modifier: Modifier) {</span>
-<span class="pc bpc" id="L175" title="1 of 2 branches missed.">    LazyColumn(modifier = modifier) {</span>
-<span class="fc" id="L176">        items(list.locations) { spot -&gt;</span>
+<span class="fc" id="L189">private fun SpotPane(list: SpotList, onSpotClick: (SpotInfo) -&gt; Unit, modifier: Modifier) {</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">    LazyColumn(modifier = modifier) {</span>
+<span class="fc" id="L191">        items(list.locations) { spot -&gt;</span>
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -184,15 +199,15 @@ private fun FilterChipImpl(
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.bodyMedium,
                 )
-<span class="pc" id="L187">                IconButton(onClick = { onSpotClick.invoke(spot) }) {</span>
-<span class="pc bpc" id="L188" title="3 of 4 branches missed.">                    Icon(</span>
-<span class="fc" id="L189">                        Icons.Rounded.OpenInBrowser,</span>
-<span class="fc" id="L190">                        contentDescription = stringResource(id = R.string.action_go_to_website),</span>
-<span class="fc" id="L191">                        tint = MaterialTheme.colorScheme.secondary.copy(alpha = .5f),</span>
-<span class="nc" id="L192">                    )</span>
-<span class="fc" id="L193">                }</span>
+<span class="pc" id="L202">                IconButton(onClick = { onSpotClick.invoke(spot) }) {</span>
+<span class="pc bpc" id="L203" title="3 of 4 branches missed.">                    Icon(</span>
+<span class="fc" id="L204">                        Icons.Rounded.OpenInBrowser,</span>
+<span class="fc" id="L205">                        contentDescription = stringResource(id = R.string.action_go_to_website),</span>
+<span class="fc" id="L206">                        tint = MaterialTheme.colorScheme.secondary.copy(alpha = .5f),</span>
+<span class="nc" id="L207">                    )</span>
+<span class="fc" id="L208">                }</span>
             }
         }
-<span class="fc" id="L196">    }</span>
-<span class="fc" id="L197">}</span>
+<span class="fc" id="L211">    }</span>
+<span class="fc" id="L212">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

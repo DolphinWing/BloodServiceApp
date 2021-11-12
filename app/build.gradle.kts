@@ -44,7 +44,7 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 216
+            versionCode = 218
             versionName = "3.1.0"
             dimension = "mode"
             minSdk = 21
@@ -191,7 +191,18 @@ dependencies {
 
     // play services
     implementation(Libs.Google.PlayServices.core)
+    // check https://developers.google.com/admob/android/quick-start
     implementation(Libs.Google.PlayServices.ads)
+    // For apps targeting Android 12, add WorkManager dependency.
+    constraints {
+        implementation(Libs.AndroidX.work) {
+            because(
+                "androidx.work:work-runtime:2.1.0 pulled from play-services-ads " +
+                    "has a bug using PendingIntent without FLAG_IMMUTABLE or FLAG_MUTABLE and " +
+                    "will fail in apps targeting S+."
+            )
+        }
+    }
     implementation(Libs.AndroidX.work) // ads-lite depends on WorkManager
 
     // Firebase

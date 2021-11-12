@@ -63,6 +63,7 @@ fun SpotListUi(
     onBackPress: (() -> Unit)? = null,
     onCityClick: ((SpotList) -> Unit)? = null,
     onSpotClick: ((SpotInfo) -> Unit)? = null,
+    showAds: Boolean = false,
 ) {
     Scaffold(
         modifier = modifier,
@@ -82,7 +83,7 @@ fun SpotListUi(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(32.dp),
+                        .weight(1f),
                     contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
@@ -102,6 +103,9 @@ fun SpotListUi(
                     modifier = Modifier.weight(1f),
                 )
             }
+            if (showAds) {
+                BannerAds(modifier = Modifier.fillMaxWidth())
+            }
         }
     }
 }
@@ -114,6 +118,17 @@ fun SpotListUi(
 private fun PreviewDonationPlacePane() {
     AppTheme {
         SpotListUi(list = PreviewSample.spots)
+    }
+}
+
+@DebugOnlyNoCoverage
+@ExperimentalMaterial3Api
+@Preview("list with ads", showSystemUi = true)
+@Preview("list night with ads", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun PreviewDonationPlacePaneWithAds() {
+    AppTheme {
+        SpotListUi(list = PreviewSample.spots, showAds = true)
     }
 }
 
