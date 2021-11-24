@@ -33,4 +33,6 @@ allprojects {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+    delete(file("${rootProject.projectDir}/jacoco"))
+    delete(file("${rootProject.projectDir}/dokka"))
 }

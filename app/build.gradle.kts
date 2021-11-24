@@ -8,16 +8,11 @@ plugins {
     id("com.google.gms.google-services") // Google Services Gradle plugin
     id("com.github.ben-manes.versions") version Versions.gradleVersionsPlugin
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
-    id("jacoco")
     id("org.jetbrains.dokka")
     id("com.google.firebase.firebase-perf")
 }
 
-jacoco {
-    toolVersion = Versions.jacoco
-}
-
-apply(from = rootProject.file("jacoco.gradle.kts"))
+apply<CustomJacocoReport>()
 
 android {
     compileSdk = 31
