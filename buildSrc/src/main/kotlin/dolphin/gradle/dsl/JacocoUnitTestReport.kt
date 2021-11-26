@@ -1,3 +1,5 @@
+package dolphin.gradle.dsl
+
 import org.gradle.api.tasks.Input
 
 abstract class JacocoUnitTestReport :
@@ -11,7 +13,7 @@ abstract class JacocoUnitTestReport :
         }
 
     private fun setupFlavor(value: String) {
-        println("setup $value")
+        // println("setup $value")
         dependsOn("test${value}DebugUnitTest")
         extraDependsTest(project, value)
         setupReportConfigs(project, value)

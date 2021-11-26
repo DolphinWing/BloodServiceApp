@@ -1,3 +1,5 @@
+package dolphin.gradle.dsl
+
 import org.gradle.api.tasks.Input
 
 abstract class JacocoCombinedTestReport :

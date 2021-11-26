@@ -14,21 +14,21 @@ object Versions {
 
         const val playServices = "17.6.0"
         const val analytics = "17.0.0"
-        const val ads = "20.4.0"
+        const val ads = "20.5.0"
 
-        const val material: String = "1.5.0-alpha05"
+        const val material: String = "1.5.0-beta01"
     }
 
-    const val okhttp: String = "4.9.2"
+    const val okhttp: String = "4.9.3"
 
     object AndroidX {
-        const val appcompat: String = "1.3.1"
+        const val appcompat: String = "1.4.0"
 
         const val coreKtx: String = "1.7.0"
 
         const val lifecycle: String = "2.4.0"
 
-        const val constraintLayout: String = "2.1.1"
+        const val constraintLayout: String = "2.1.2"
 
         /**
          * https://developer.android.com/jetpack/androidx/releases/activity
@@ -48,7 +48,7 @@ object Versions {
 
         const val browser: String = "1.2.0"
 
-        const val work: String = "2.7.0"
+        const val work: String = "2.7.1"
 
         /**
          * https://developer.android.com/jetpack/androidx/releases/compose
@@ -103,8 +103,8 @@ object Versions {
 
     object Test {
         const val junit = "4.13.2"
-        const val robolectric = "4.6.1"
-        const val mockito = "3.12.4"
+        const val robolectric = "4.7.2"
+        const val mockito = "4.1.0"
     }
 
     /**
@@ -123,6 +123,9 @@ object Versions {
 
 object Libs {
     const val jacoco = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
+
+    const val gradleVersionsPlugin =
+        "com.github.ben-manes:gradle-versions-plugin:${Versions.gradleVersionsPlugin}"
 
     object JetBrains {
         const val coroutinesCore =

@@ -1,3 +1,5 @@
+package dolphin.gradle.dsl
+
 import org.gradle.api.Project
 import org.gradle.api.tasks.Internal
 import org.gradle.testing.jacoco.tasks.JacocoReport

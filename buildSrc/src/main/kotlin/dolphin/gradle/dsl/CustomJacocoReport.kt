@@ -1,5 +1,8 @@
+package dolphin.gradle.dsl
+
 // import com.android.build.api.dsl.ApplicationExtension
 // import com.android.build.api.variant.AndroidComponentsExtension
+import Versions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -49,11 +52,11 @@ class CustomJacocoReport : Plugin<Project> {
                 this.flavor = flavor
             }
             register<JacocoAndroidTestReport>("jacocoAndroidTestReport") {
-                // println("apply JacocoAndroidTestReport")
+                // println("apply dolphin.gradle.dsl.JacocoAndroidTestReport")
                 this.flavor = flavor
             }
             register<JacocoCombinedTestReport>("jacocoCombinedTestReport") {
-                // println("apply JacocoCombinedTestReport")
+                // println("apply dolphin.gradle.dsl.JacocoCombinedTestReport")
                 this.flavor = flavor
             }
             register<JacocoTestReport>("jacocoTestReport") {
