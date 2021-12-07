@@ -2,10 +2,11 @@ package dolphin.android.apps.BloodServiceApp.ui
 
 import android.content.res.Configuration
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,9 @@ import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,6 +47,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -364,13 +369,16 @@ private fun SuggestionChipImpl(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier
-            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-            .height(32.dp)
-            .padding(horizontal = 16.dp),
-        contentAlignment = Alignment.Center,
+    Button(
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        shape = RoundedCornerShape(8.dp),
+        onClick = onClick,
+        modifier = modifier.height(32.dp),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        ),
+        elevation = ButtonDefaults.buttonElevation(1.dp),
     ) {
         Text(content, style = MaterialTheme.typography.labelLarge)
     }
@@ -679,21 +687,25 @@ private fun EventPane(
 
 @Composable
 private fun SpotListPane(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .clickable(onClick = onClick)
-            .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+    CompositionLocalProvider(
+        LocalIndication provides rememberRipple(color = MaterialTheme.colorScheme.secondary),
     ) {
-        Text(
-            stringResource(id = R.string.section3_summary),
-            modifier = Modifier.weight(1f),
-            style = MaterialTheme.typography.titleLarge,
-        )
-        Icon(
-            Icons.Rounded.KeyboardArrowRight,
-            contentDescription = null,
-            tint = Color.LightGray,
-        )
+        Row(
+            modifier = modifier
+                .clickable(onClick = onClick)
+                .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                stringResource(id = R.string.section3_summary),
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.titleLarge,
+            )
+            Icon(
+                Icons.Rounded.KeyboardArrowRight,
+                contentDescription = null,
+                tint = Color.LightGray,
+            )
+        }
     }
 }

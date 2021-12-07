@@ -57,11 +57,16 @@ fun AppTheme(
         colorScheme = colorScheme,
         typography = AppTypography,
     ) {
+//        // https://stackoverflow.com/a/69000913
+//        CompositionLocalProvider(
+//            LocalIndication provides rememberRipple(color = colorScheme.tertiary),
+//        ) {
         Box(
             modifier = Modifier.fillMaxSize(),
             content = content,
             contentAlignment = Alignment.Center, // default alignment
         )
+//        }
     }
 }
 

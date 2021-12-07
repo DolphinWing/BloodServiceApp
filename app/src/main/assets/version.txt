@@ -13,6 +13,9 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2021 DolphinWing.
 ----
+[220] @ 2021-12-07
+    fix clickable background
+
 [219] @ 2021-11-12
     add Firebase Performance
     fix review webpage button

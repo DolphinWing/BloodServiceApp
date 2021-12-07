@@ -180,6 +180,7 @@ private fun FilterChipImpl(
             },
         ),
         modifier = modifier,
+        elevation = ButtonDefaults.buttonElevation(1.dp),
     ) {
         Text(content, style = MaterialTheme.typography.labelLarge)
     }
