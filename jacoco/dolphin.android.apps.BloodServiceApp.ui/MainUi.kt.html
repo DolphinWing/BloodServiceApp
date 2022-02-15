@@ -2,10 +2,11 @@
 
 import android.content.res.Configuration
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,9 @@ import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,6 +47,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -146,90 +151,90 @@ typealias BloodCenterCallback = (BloodCenter.Center) -&gt; Unit
 fun MainUi(
     centers: List&lt;BloodCenter.Center&gt;,
     selected: BloodCenter.Center,
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">    onCenterChange: BloodCenterCallback? = null,</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">    onFacebookClick: BloodCenterCallback? = null,</span>
-<span class="pc bpc" id="L152" title="1 of 2 branches missed.">    onReviewSource: BloodCenterCallback? = null,</span>
-<span class="pc bpc" id="L153" title="1 of 2 branches missed.">    onSpotListClick: BloodCenterCallback? = null,</span>
-<span class="pc bfc" id="L154" title="All 2 branches covered.">    daysList: List&lt;DonateDay&gt; = ArrayList(),</span>
-<span class="fc bfc" id="L155" title="All 2 branches covered.">    storageMap: HashMap&lt;String, Int&gt; = HashMap(),</span>
-<span class="pc bpc" id="L156" title="1 of 2 branches missed.">    enableAddCalendar: Boolean = true,</span>
-<span class="fc bfc" id="L157" title="All 2 branches covered.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L158" title="1 of 2 branches missed.">    enableSearchOnMap: Boolean = true,</span>
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">    onDonorClick: (() -&gt; Unit)? = null,</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">    onSettingsClick: (() -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L162" title="1 of 2 branches missed.">    showReviewPolicy: Boolean = false,</span>
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">    onReviewPolicy: (() -&gt; Unit)? = null,</span>
-<span class="fc" id="L164">    onReviewIgnore: (() -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L165" title="1 of 2 branches missed.">) {</span>
-<span class="pc bpc" id="L166" title="1 of 2 branches missed.">    Scaffold(</span>
-<span class="fc" id="L167">        modifier = modifier,</span>
-<span class="fc" id="L168">        topBar = {</span>
-<span class="pc bpc" id="L169" title="3 of 4 branches missed.">            MediumTopAppBar(</span>
-<span class="fc" id="L170">                title = {</span>
-<span class="pc bpc" id="L171" title="2 of 4 branches missed.">                    Text(selected.name)</span>
-<span class="fc" id="L172">                },</span>
-<span class="fc" id="L173">                actions = {</span>
-<span class="pc bpc" id="L174" title="4 of 6 branches missed.">                    IconButton(onClick = { onFacebookClick?.invoke(selected) }) {</span>
-<span class="pc bpc" id="L175" title="3 of 4 branches missed.">                        Image(</span>
-<span class="fc" id="L176">                            painterResource(id = R.drawable.ic_action_facebook),</span>
-<span class="fc" id="L177">                            contentDescription = stringResource(R.string.action_go_to_facebook),</span>
-<span class="nc" id="L178">                        )</span>
-<span class="pc" id="L179">                    }</span>
-<span class="fc" id="L180">                }</span>
-<span class="nc" id="L181">            )</span>
-<span class="fc" id="L182">        },</span>
-<span class="fc" id="L183">        bottomBar = {</span>
-<span class="pc bpc" id="L184" title="2 of 4 branches missed.">            BottomMainUiBar(</span>
-<span class="pc bnc" id="L185" title="All 2 branches missed.">                onDonorClick = { onDonorClick?.invoke() },</span>
-<span class="pc bnc" id="L186" title="All 2 branches missed.">                onSettingsClick = { onSettingsClick?.invoke() },</span>
-<span class="fc" id="L187">                modifier = Modifier.fillMaxWidth(),</span>
-<span class="nc" id="L188">            )</span>
-<span class="fc" id="L189">        }</span>
-<span class="fc" id="L190">    ) { padding -&gt;</span>
-<span class="pc bpc" id="L191" title="3 of 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
-<span class="pc bpc" id="L192" title="3 of 6 branches missed.">            if (showReviewPolicy) {</span>
-<span class="fc" id="L193">                PrivacyReviewSnackbar(</span>
-<span class="fc" id="L194">                    modifier = Modifier.fillMaxWidth(),</span>
-<span class="fc" id="L195">                    onReviewPolicy = onReviewPolicy,</span>
-<span class="fc" id="L196">                    onReviewIgnore = onReviewIgnore,</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">    onCenterChange: BloodCenterCallback? = null,</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">    onFacebookClick: BloodCenterCallback? = null,</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">    onReviewSource: BloodCenterCallback? = null,</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">    onSpotListClick: BloodCenterCallback? = null,</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">    daysList: List&lt;DonateDay&gt; = ArrayList(),</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">    storageMap: HashMap&lt;String, Int&gt; = HashMap(),</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">    enableAddCalendar: Boolean = true,</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">    enableSearchOnMap: Boolean = true,</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">    onDonorClick: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">    onSettingsClick: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">    showReviewPolicy: Boolean = false,</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">    onReviewPolicy: (() -&gt; Unit)? = null,</span>
+<span class="nc" id="L169">    onReviewIgnore: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">    Scaffold(</span>
+<span class="nc" id="L172">        modifier = modifier,</span>
+<span class="nc" id="L173">        topBar = {</span>
+<span class="nc bnc" id="L174" title="All 4 branches missed.">            MediumTopAppBar(</span>
+<span class="nc" id="L175">                title = {</span>
+<span class="nc bnc" id="L176" title="All 4 branches missed.">                    Text(selected.name)</span>
+<span class="nc" id="L177">                },</span>
+<span class="nc" id="L178">                actions = {</span>
+<span class="nc bnc" id="L179" title="All 6 branches missed.">                    IconButton(onClick = { onFacebookClick?.invoke(selected) }) {</span>
+<span class="nc bnc" id="L180" title="All 4 branches missed.">                        Image(</span>
+<span class="nc" id="L181">                            painterResource(id = R.drawable.ic_action_facebook),</span>
+<span class="nc" id="L182">                            contentDescription = stringResource(R.string.action_go_to_facebook),</span>
+<span class="nc" id="L183">                        )</span>
+<span class="nc" id="L184">                    }</span>
+<span class="nc" id="L185">                }</span>
+<span class="nc" id="L186">            )</span>
+<span class="nc" id="L187">        },</span>
+<span class="nc" id="L188">        bottomBar = {</span>
+<span class="nc bnc" id="L189" title="All 4 branches missed.">            BottomMainUiBar(</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">                onDonorClick = { onDonorClick?.invoke() },</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">                onSettingsClick = { onSettingsClick?.invoke() },</span>
+<span class="nc" id="L192">                modifier = Modifier.fillMaxWidth(),</span>
+<span class="nc" id="L193">            )</span>
+<span class="nc" id="L194">        }</span>
+<span class="nc" id="L195">    ) { padding -&gt;</span>
+<span class="nc bnc" id="L196" title="All 4 branches missed.">        Column(modifier = Modifier.padding(padding)) {</span>
+<span class="nc bnc" id="L197" title="All 6 branches missed.">            if (showReviewPolicy) {</span>
+<span class="nc" id="L198">                PrivacyReviewSnackbar(</span>
+<span class="nc" id="L199">                    modifier = Modifier.fillMaxWidth(),</span>
+<span class="nc" id="L200">                    onReviewPolicy = onReviewPolicy,</span>
+<span class="nc" id="L201">                    onReviewIgnore = onReviewIgnore,</span>
                 )
-<span class="fc" id="L198">            }</span>
-<span class="fc" id="L199">            StoragePane(</span>
-<span class="fc" id="L200">                map = storageMap,</span>
-<span class="fc" id="L201">                modifier = Modifier</span>
-<span class="fc" id="L202">                    .fillMaxWidth()</span>
-<span class="fc" id="L203">                    .padding(vertical = 4.dp, horizontal = 16.dp),</span>
+            }
+<span class="nc" id="L204">            StoragePane(</span>
+<span class="nc" id="L205">                map = storageMap,</span>
+<span class="nc" id="L206">                modifier = Modifier</span>
+<span class="nc" id="L207">                    .fillMaxWidth()</span>
+<span class="nc" id="L208">                    .padding(vertical = 4.dp, horizontal = 16.dp),</span>
             )
 
-<span class="fc" id="L206">            Separator()</span>
-<span class="fc" id="L207">            DayListPane(</span>
-<span class="fc" id="L208">                daysList = daysList,</span>
-<span class="fc" id="L209">                modifier = Modifier.weight(1f),</span>
-<span class="fc" id="L210">                showAddCalendar = enableAddCalendar,</span>
-<span class="fc" id="L211">                onAddCalendar = onAddCalendar,</span>
-<span class="fc" id="L212">                showSearchOnMap = enableSearchOnMap,</span>
-<span class="fc" id="L213">                onSearchOnMap = onSearchOnMap,</span>
-<span class="pc bnc" id="L214" title="All 2 branches missed.">                onReviewSource = { onReviewSource?.invoke(selected) },</span>
+<span class="nc" id="L211">            Separator()</span>
+<span class="nc" id="L212">            DayListPane(</span>
+<span class="nc" id="L213">                daysList = daysList,</span>
+<span class="nc" id="L214">                modifier = Modifier.weight(1f),</span>
+<span class="nc" id="L215">                showAddCalendar = enableAddCalendar,</span>
+<span class="nc" id="L216">                onAddCalendar = onAddCalendar,</span>
+<span class="nc" id="L217">                showSearchOnMap = enableSearchOnMap,</span>
+<span class="nc" id="L218">                onSearchOnMap = onSearchOnMap,</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">                onReviewSource = { onReviewSource?.invoke(selected) },</span>
             )
 
-<span class="fc" id="L217">            Separator()</span>
-<span class="fc" id="L218">            SpotListPane(</span>
-<span class="pc bnc" id="L219" title="All 2 branches missed.">                onClick = { onSpotListClick?.invoke(selected) },</span>
-<span class="fc" id="L220">                modifier = Modifier.fillMaxWidth(),</span>
+<span class="nc" id="L222">            Separator()</span>
+<span class="nc" id="L223">            SpotListPane(</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                onClick = { onSpotListClick?.invoke(selected) },</span>
+<span class="nc" id="L225">                modifier = Modifier.fillMaxWidth(),</span>
             )
 
-<span class="fc" id="L223">            Separator()</span>
-<span class="fc" id="L224">            SwitchCenterPane(</span>
-<span class="fc" id="L225">                list = centers,</span>
-<span class="fc" id="L226">                selected = selected,</span>
-<span class="fc" id="L227">                modifier = Modifier.fillMaxWidth(),</span>
-<span class="pc bnc" id="L228" title="All 2 branches missed.">                onCenterChange = { center -&gt; onCenterChange?.invoke(center) },</span>
-<span class="pc" id="L229">            )</span>
-<span class="pc" id="L230">        }</span>
-<span class="fc" id="L231">    }</span>
-<span class="fc" id="L232">}</span>
+<span class="nc" id="L228">            Separator()</span>
+<span class="nc" id="L229">            SwitchCenterPane(</span>
+<span class="nc" id="L230">                list = centers,</span>
+<span class="nc" id="L231">                selected = selected,</span>
+<span class="nc" id="L232">                modifier = Modifier.fillMaxWidth(),</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">                onCenterChange = { center -&gt; onCenterChange?.invoke(center) },</span>
+<span class="nc" id="L234">            )</span>
+<span class="nc" id="L235">        }</span>
+<span class="nc" id="L236">    }</span>
+<span class="nc" id="L237">}</span>
 
 @DebugOnlyNoCoverage
 @ExperimentalMaterial3Api
@@ -238,14 +243,14 @@ fun MainUi(
 @Preview(&quot;Main Ui Night&quot;, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewMainUi() {
-<span class="fc" id="L241">    AppTheme {</span>
-<span class="nc bnc" id="L242" title="All 4 branches missed.">        MainUi(</span>
-<span class="nc" id="L243">            centers = PreviewSample.centers,</span>
-<span class="nc" id="L244">            selected = PreviewSample.selectedCenter,</span>
-<span class="nc" id="L245">            daysList = PreviewSample.donations,</span>
-<span class="nc" id="L246">            storageMap = PreviewSample.storage(3, 2, 1, 3),</span>
-<span class="nc" id="L247">        )</span>
-<span class="nc" id="L248">    }</span>
+<span class="nc" id="L246">    AppTheme {</span>
+<span class="nc bnc" id="L247" title="All 4 branches missed.">        MainUi(</span>
+<span class="nc" id="L248">            centers = PreviewSample.centers,</span>
+<span class="nc" id="L249">            selected = PreviewSample.selectedCenter,</span>
+<span class="nc" id="L250">            daysList = PreviewSample.donations,</span>
+<span class="nc" id="L251">            storageMap = PreviewSample.storage(3, 2, 1, 3),</span>
+<span class="nc" id="L252">        )</span>
+<span class="nc" id="L253">    }</span>
 }
 
 @DebugOnlyNoCoverage
@@ -255,169 +260,172 @@ private fun PreviewMainUi() {
 @Preview(&quot;Main Ui Night&quot;, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewMainUi2() {
-<span class="fc" id="L258">    AppTheme {</span>
-<span class="nc bnc" id="L259" title="All 4 branches missed.">        MainUi(</span>
-<span class="nc" id="L260">            centers = PreviewSample.centers,</span>
-<span class="nc" id="L261">            selected = PreviewSample.selectedCenter,</span>
-<span class="nc" id="L262">            daysList = PreviewSample.donations,</span>
-<span class="nc" id="L263">            storageMap = PreviewSample.storage(0, 1, 2, 3),</span>
-<span class="nc" id="L264">            enableAddCalendar = false,</span>
-<span class="nc" id="L265">            enableSearchOnMap = false,</span>
-<span class="nc" id="L266">            showReviewPolicy = true,</span>
-<span class="nc" id="L267">        )</span>
-<span class="nc" id="L268">    }</span>
+<span class="nc" id="L263">    AppTheme {</span>
+<span class="nc bnc" id="L264" title="All 4 branches missed.">        MainUi(</span>
+<span class="nc" id="L265">            centers = PreviewSample.centers,</span>
+<span class="nc" id="L266">            selected = PreviewSample.selectedCenter,</span>
+<span class="nc" id="L267">            daysList = PreviewSample.donations,</span>
+<span class="nc" id="L268">            storageMap = PreviewSample.storage(0, 1, 2, 3),</span>
+<span class="nc" id="L269">            enableAddCalendar = false,</span>
+<span class="nc" id="L270">            enableSearchOnMap = false,</span>
+<span class="nc" id="L271">            showReviewPolicy = true,</span>
+<span class="nc" id="L272">        )</span>
+<span class="nc" id="L273">    }</span>
 }
 
 @Composable
 private fun PrivacyReviewSnackbar(
-<span class="pc bpc" id="L273" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L274" title="1 of 2 branches missed.">    onReviewPolicy: (() -&gt; Unit)? = null,</span>
-<span class="nc" id="L275">    onReviewIgnore: (() -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L276" title="14 of 24 branches missed.">) {</span>
-<span class="fc" id="L277">    Row(</span>
-<span class="fc" id="L278">        modifier = modifier</span>
-<span class="fc" id="L279">            .background(MaterialTheme.colorScheme.secondaryContainer)</span>
-<span class="fc" id="L280">            .padding(start = 16.dp),</span>
-<span class="fc" id="L281">        verticalAlignment = Alignment.CenterVertically,</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">    onReviewPolicy: (() -&gt; Unit)? = null,</span>
+<span class="nc" id="L280">    onReviewIgnore: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L281" title="All 24 branches missed.">) {</span>
+<span class="nc" id="L282">    Row(</span>
+<span class="nc" id="L283">        modifier = modifier</span>
+<span class="nc" id="L284">            .background(MaterialTheme.colorScheme.secondaryContainer)</span>
+<span class="nc" id="L285">            .padding(start = 16.dp),</span>
+<span class="nc" id="L286">        verticalAlignment = Alignment.CenterVertically,</span>
     ) {
-<span class="pc bpc" id="L283" title="3 of 4 branches missed.">        Text(</span>
-<span class="fc" id="L284">            stringResource(id = R.string.snackbar_privacy_policy_updated),</span>
-<span class="fc" id="L285">            modifier = Modifier.weight(1f),</span>
-<span class="fc" id="L286">            style = MaterialTheme.typography.bodyMedium,</span>
-<span class="fc" id="L287">            color = MaterialTheme.colorScheme.onSecondaryContainer,</span>
+<span class="nc bnc" id="L288" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L289">            stringResource(id = R.string.snackbar_privacy_policy_updated),</span>
+<span class="nc" id="L290">            modifier = Modifier.weight(1f),</span>
+<span class="nc" id="L291">            style = MaterialTheme.typography.bodyMedium,</span>
+<span class="nc" id="L292">            color = MaterialTheme.colorScheme.onSecondaryContainer,</span>
         )
-<span class="pc bnc" id="L289" title="All 2 branches missed.">        TextButton(onClick = { onReviewIgnore?.invoke() }) {</span>
-<span class="pc bpc" id="L290" title="3 of 4 branches missed.">            Text(stringResource(id = R.string.snackbar_privacy_policy_ignore))</span>
-<span class="fc" id="L291">        }</span>
-<span class="fc" id="L292">        TextButton(</span>
-<span class="pc bnc" id="L293" title="All 2 branches missed.">            onClick = { onReviewPolicy?.invoke() },</span>
-<span class="fc" id="L294">        ) {</span>
-<span class="pc bpc" id="L295" title="3 of 4 branches missed.">            Text(stringResource(id = R.string.snackbar_privacy_policy_review))</span>
-<span class="pc" id="L296">        }</span>
-<span class="pc" id="L297">    }</span>
-<span class="pc bpc" id="L298" title="1 of 2 branches missed.">}</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">        TextButton(onClick = { onReviewIgnore?.invoke() }) {</span>
+<span class="nc bnc" id="L295" title="All 4 branches missed.">            Text(stringResource(id = R.string.snackbar_privacy_policy_ignore))</span>
+<span class="nc" id="L296">        }</span>
+<span class="nc" id="L297">        TextButton(</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">            onClick = { onReviewPolicy?.invoke() },</span>
+<span class="nc" id="L299">        ) {</span>
+<span class="nc bnc" id="L300" title="All 4 branches missed.">            Text(stringResource(id = R.string.snackbar_privacy_policy_review))</span>
+<span class="nc" id="L301">        }</span>
+<span class="nc" id="L302">    }</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">}</span>
 
 @Composable
 private fun BottomMainUiBar(
     onSettingsClick: () -&gt; Unit,
     onDonorClick: () -&gt; Unit,
-<span class="nc" id="L304">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L305" title="14 of 24 branches missed.">) {</span>
-<span class="fc" id="L306">    Row(</span>
-<span class="fc" id="L307">        modifier = modifier</span>
-<span class="fc" id="L308">            .background(MaterialTheme.colorScheme.surfaceVariant)</span>
-<span class="fc" id="L309">            .padding(vertical = 4.dp),</span>
+<span class="nc" id="L309">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L310" title="All 24 branches missed.">) {</span>
+<span class="nc" id="L311">    Row(</span>
+<span class="nc" id="L312">        modifier = modifier</span>
+<span class="nc" id="L313">            .background(MaterialTheme.colorScheme.surfaceVariant)</span>
+<span class="nc" id="L314">            .padding(vertical = 4.dp),</span>
     ) {
-<span class="pc bpc" id="L311" title="3 of 4 branches missed.">        TextButton(onClick = onDonorClick) {</span>
-<span class="pc bpc" id="L312" title="3 of 4 branches missed.">            Text(stringResource(id = R.string.action_go_to_personal))</span>
-<span class="fc" id="L313">        }</span>
-<span class="fc" id="L314">        Spacer(modifier = Modifier.weight(1f))</span>
-<span class="fc" id="L315">        IconButton(onClick = onSettingsClick) {</span>
-<span class="pc bpc" id="L316" title="3 of 4 branches missed.">            Icon(</span>
-<span class="fc" id="L317">                Icons.Rounded.Settings,</span>
-<span class="fc" id="L318">                contentDescription = stringResource(id = R.string.title_activity_settings),</span>
-<span class="nc" id="L319">            )</span>
-<span class="pc" id="L320">        }</span>
-<span class="pc" id="L321">    }</span>
-<span class="pc bpc" id="L322" title="1 of 2 branches missed.">}</span>
+<span class="nc bnc" id="L316" title="All 4 branches missed.">        TextButton(onClick = onDonorClick) {</span>
+<span class="nc bnc" id="L317" title="All 4 branches missed.">            Text(stringResource(id = R.string.action_go_to_personal))</span>
+<span class="nc" id="L318">        }</span>
+<span class="nc" id="L319">        Spacer(modifier = Modifier.weight(1f))</span>
+<span class="nc" id="L320">        IconButton(onClick = onSettingsClick) {</span>
+<span class="nc bnc" id="L321" title="All 4 branches missed.">            Icon(</span>
+<span class="nc" id="L322">                Icons.Rounded.Settings,</span>
+<span class="nc" id="L323">                contentDescription = stringResource(id = R.string.title_activity_settings),</span>
+<span class="nc" id="L324">            )</span>
+<span class="nc" id="L325">        }</span>
+<span class="nc" id="L326">    }</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">}</span>
 
 @ExperimentalFoundationApi
 @Composable
 private fun SwitchCenterPane(
     list: List&lt;BloodCenter.Center&gt;,
     selected: BloodCenter.Center,
-<span class="pc bpc" id="L329" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="nc" id="L330">    onCenterChange: ((BloodCenter.Center) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L331" title="1 of 2 branches missed.">) {</span>
-<span class="fc bfc" id="L332" title="All 4 branches covered.">    val selection = list.filter { c -&gt; c.id != selected.id }</span>
+<span class="nc bnc" id="L334" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc" id="L335">    onCenterChange: ((BloodCenter.Center) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L336" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L337" title="All 4 branches missed.">    val selection = list.filter { c -&gt; c.id != selected.id }</span>
 
-<span class="fc" id="L334">    Row(</span>
-<span class="fc" id="L335">        modifier = modifier.padding(vertical = 8.dp),</span>
-<span class="fc" id="L336">        verticalAlignment = Alignment.CenterVertically,</span>
+<span class="nc" id="L339">    Row(</span>
+<span class="nc" id="L340">        modifier = modifier.padding(vertical = 8.dp),</span>
+<span class="nc" id="L341">        verticalAlignment = Alignment.CenterVertically,</span>
     ) {
-<span class="pc bpc" id="L338" title="3 of 4 branches missed.">        Text(</span>
-<span class="fc" id="L339">            stringResource(id = R.string.section0_summary),</span>
-<span class="fc" id="L340">            modifier = Modifier</span>
-<span class="fc" id="L341">                .background(MaterialTheme.colorScheme.surface)</span>
-<span class="fc" id="L342">                .padding(start = 16.dp, end = 4.dp),</span>
-<span class="fc" id="L343">            style = MaterialTheme.typography.titleMedium,</span>
-<span class="fc" id="L344">            color = MaterialTheme.colorScheme.onSurface,</span>
+<span class="nc bnc" id="L343" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L344">            stringResource(id = R.string.section0_summary),</span>
+<span class="nc" id="L345">            modifier = Modifier</span>
+<span class="nc" id="L346">                .background(MaterialTheme.colorScheme.surface)</span>
+<span class="nc" id="L347">                .padding(start = 16.dp, end = 4.dp),</span>
+<span class="nc" id="L348">            style = MaterialTheme.typography.titleMedium,</span>
+<span class="nc" id="L349">            color = MaterialTheme.colorScheme.onSurface,</span>
         )
-<span class="fc" id="L346">        LazyRow(</span>
-<span class="fc" id="L347">            modifier = Modifier.weight(1f),</span>
-<span class="fc" id="L348">            verticalAlignment = Alignment.CenterVertically,</span>
+<span class="nc" id="L351">        LazyRow(</span>
+<span class="nc" id="L352">            modifier = Modifier.weight(1f),</span>
+<span class="nc" id="L353">            verticalAlignment = Alignment.CenterVertically,</span>
         ) {
-<span class="fc" id="L350">            items(selection) { center -&gt;</span>
+<span class="nc" id="L355">            items(selection) { center -&gt;</span>
                 SuggestionChipImpl(
                     content = center.name,
-<span class="nc bnc" id="L353" title="All 2 branches missed.">                    onClick = { onCenterChange?.invoke(center) },</span>
+<span class="nc bnc" id="L358" title="All 2 branches missed.">                    onClick = { onCenterChange?.invoke(center) },</span>
                     modifier = Modifier.padding(end = 8.dp),
                 )
             }
-<span class="pc" id="L357">        }</span>
-<span class="pc" id="L358">    }</span>
-<span class="fc" id="L359">}</span>
+<span class="nc" id="L362">        }</span>
+<span class="nc" id="L363">    }</span>
+<span class="nc" id="L364">}</span>
 
 @Composable
 private fun SuggestionChipImpl(
     content: String,
     onClick: () -&gt; Unit,
-<span class="nc" id="L365">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L366" title="13 of 24 branches missed.">) {</span>
-<span class="fc" id="L367">    Box(</span>
-<span class="fc" id="L368">        modifier = modifier</span>
-<span class="fc" id="L369">            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))</span>
-<span class="fc" id="L370">            .clickable(onClick = onClick)</span>
-<span class="fc" id="L371">            .height(32.dp)</span>
-<span class="fc" id="L372">            .padding(horizontal = 16.dp),</span>
-<span class="fc" id="L373">        contentAlignment = Alignment.Center,</span>
-    ) {
-<span class="pc bpc" id="L375" title="3 of 4 branches missed.">        Text(content, style = MaterialTheme.typography.labelLarge)</span>
-<span class="pc" id="L376">    }</span>
-<span class="pc bpc" id="L377" title="1 of 2 branches missed.">}</span>
+<span class="nc" id="L370">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L371" title="All 24 branches missed.">) {</span>
+<span class="nc" id="L372">    Button(</span>
+<span class="nc" id="L373">        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),</span>
+<span class="nc" id="L374">        shape = RoundedCornerShape(8.dp),</span>
+<span class="nc" id="L375">        onClick = onClick,</span>
+<span class="nc" id="L376">        modifier = modifier.height(32.dp),</span>
+<span class="nc" id="L377">        colors = ButtonDefaults.outlinedButtonColors(</span>
+<span class="nc" id="L378">            containerColor = MaterialTheme.colorScheme.surface,</span>
+<span class="nc" id="L379">            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,</span>
+        ),
+<span class="nc" id="L381">        elevation = ButtonDefaults.buttonElevation(1.dp),</span>
+<span class="nc" id="L382">    ) {</span>
+<span class="nc bnc" id="L383" title="All 4 branches missed.">        Text(content, style = MaterialTheme.typography.labelLarge)</span>
+<span class="nc" id="L384">    }</span>
+<span class="nc bnc" id="L385" title="All 2 branches missed.">}</span>
 
 @ExperimentalFoundationApi
 @Composable
 private fun StoragePane(
     map: HashMap&lt;String, Int&gt;,
-<span class="pc bpc" id="L383" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="fc" id="L384">    onToolTip: (() -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L385" title="1 of 2 branches missed.">) {</span>
-<span class="fc" id="L386">    val colorMap = arrayOf(</span>
-<span class="fc" id="L387">        Color.Gray,</span>
-<span class="fc" id="L388">        colorResource(id = android.R.color.holo_red_light),</span>
-<span class="fc" id="L389">        colorResource(id = android.R.color.holo_orange_light),</span>
-<span class="fc" id="L390">        colorResource(id = android.R.color.holo_green_light),</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc" id="L392">    onToolTip: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L393" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L394">    val colorMap = arrayOf(</span>
+<span class="nc" id="L395">        Color.Gray,</span>
+<span class="nc" id="L396">        colorResource(id = android.R.color.holo_red_light),</span>
+<span class="nc" id="L397">        colorResource(id = android.R.color.holo_orange_light),</span>
+<span class="nc" id="L398">        colorResource(id = android.R.color.holo_green_light),</span>
     )
     // add semantics to icon
-<span class="fc" id="L393">    val statusMap = stringArrayResource(id = R.array.blood_storage_status)</span>
-<span class="fc" id="L394">    val typeMap = stringArrayResource(id = R.array.blood_type)</span>
+<span class="nc" id="L401">    val statusMap = stringArrayResource(id = R.array.blood_storage_status)</span>
+<span class="nc" id="L402">    val typeMap = stringArrayResource(id = R.array.blood_type)</span>
 
-<span class="fc" id="L396">    Row(</span>
-<span class="fc" id="L397">        modifier = modifier.padding(top = 4.dp, bottom = 4.dp),</span>
+<span class="nc" id="L404">    Row(</span>
+<span class="nc" id="L405">        modifier = modifier.padding(top = 4.dp, bottom = 4.dp),</span>
         // horizontalArrangement = Arrangement.SpaceEvenly,
-<span class="fc" id="L399">        verticalAlignment = Alignment.CenterVertically,</span>
+<span class="nc" id="L407">        verticalAlignment = Alignment.CenterVertically,</span>
     ) {
-<span class="pc bpc" id="L401" title="3 of 4 branches missed.">        Text(</span>
-<span class="fc" id="L402">            stringResource(id = R.string.section1_summary),</span>
-<span class="fc" id="L403">            style = MaterialTheme.typography.titleLarge,</span>
+<span class="nc bnc" id="L409" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L410">            stringResource(id = R.string.section1_summary),</span>
+<span class="nc" id="L411">            style = MaterialTheme.typography.titleLarge,</span>
         )
-<span class="fc" id="L405">        Spacer(modifier = Modifier.requiredWidth(8.dp))</span>
+<span class="nc" id="L413">        Spacer(modifier = Modifier.requiredWidth(8.dp))</span>
 
-<span class="fc" id="L407">        arrayOf(&quot;A&quot;, &quot;B&quot;, &quot;O&quot;, &quot;AB&quot;).forEachIndexed { index, type -&gt;</span>
-<span class="fc" id="L408">            TypeStorageStatusIcon(</span>
-<span class="fc" id="L409">                type = type,</span>
-<span class="fc bfc" id="L410" title="All 2 branches covered.">                color = colorMap[map[type] ?: 0],</span>
-<span class="fc bfc" id="L411" title="All 2 branches covered.">                contentDescription = typeMap[index] + statusMap[map[type] ?: 0],</span>
+<span class="nc" id="L415">        arrayOf(&quot;A&quot;, &quot;B&quot;, &quot;O&quot;, &quot;AB&quot;).forEachIndexed { index, type -&gt;</span>
+<span class="nc" id="L416">            TypeStorageStatusIcon(</span>
+<span class="nc" id="L417">                type = type,</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">                color = colorMap[map[type] ?: 0],</span>
+<span class="nc bnc" id="L419" title="All 2 branches missed.">                contentDescription = typeMap[index] + statusMap[map[type] ?: 0],</span>
             )
-<span class="fc" id="L413">        }</span>
-<span class="pc bpc" id="L414" title="1 of 2 branches missed.">        onToolTip?.let { callback -&gt;</span>
-<span class="pc" id="L415">            IconButton(onClick = callback) {</span>
-<span class="nc bnc" id="L416" title="All 4 branches missed.">                Icon(Icons.Outlined.Info, contentDescription = null, tint = Color.LightGray)</span>
-<span class="nc" id="L417">            }</span>
-<span class="pc" id="L418">        }</span>
-<span class="pc" id="L419">    }</span>
-<span class="fc" id="L420">}</span>
+<span class="nc" id="L421">        }</span>
+<span class="nc bnc" id="L422" title="All 2 branches missed.">        onToolTip?.let { callback -&gt;</span>
+<span class="nc" id="L423">            IconButton(onClick = callback) {</span>
+<span class="nc bnc" id="L424" title="All 4 branches missed.">                Icon(Icons.Outlined.Info, contentDescription = null, tint = Color.LightGray)</span>
+<span class="nc" id="L425">            }</span>
+<span class="nc" id="L426">        }</span>
+<span class="nc" id="L427">    }</span>
+<span class="nc" id="L428">}</span>
 
 @ExperimentalFoundationApi
 @Composable
@@ -425,126 +433,126 @@ private fun TypeStorageStatusIcon(
     type: String,
     color: Color,
     contentDescription: String,
-<span class="pc bpc" id="L428" title="9 of 16 branches missed.">) {</span>
-<span class="fc" id="L429">    val context = LocalContext.current</span>
+<span class="nc bnc" id="L436" title="All 16 branches missed.">) {</span>
+<span class="nc" id="L437">    val context = LocalContext.current</span>
     fun showToast() {
-<span class="nc" id="L431">        Toast.makeText(context, contentDescription, Toast.LENGTH_SHORT).show()</span>
-<span class="nc" id="L432">    }</span>
+<span class="nc" id="L439">        Toast.makeText(context, contentDescription, Toast.LENGTH_SHORT).show()</span>
+<span class="nc" id="L440">    }</span>
 
-<span class="fc" id="L434">    Box(</span>
-<span class="fc" id="L435">        modifier = Modifier</span>
-<span class="fc" id="L436">            .testTag(&quot;bloodType$type&quot;)</span>
-<span class="fc" id="L437">            .padding(horizontal = 8.dp, vertical = 4.dp)</span>
-<span class="fc" id="L438">            .background(color = color, shape = CircleShape)</span>
-<span class="fc" id="L439">            .requiredSize(32.dp)</span>
-<span class="pc" id="L440">            .combinedClickable(enabled = true, onLongClick = { showToast() }, onClick = {})</span>
-<span class="fc" id="L441">            .semantics(mergeDescendants = true) { stateDescription = contentDescription },</span>
-<span class="fc" id="L442">        contentAlignment = Alignment.Center,</span>
+<span class="nc" id="L442">    Box(</span>
+<span class="nc" id="L443">        modifier = Modifier</span>
+<span class="nc" id="L444">            .testTag(&quot;bloodType$type&quot;)</span>
+<span class="nc" id="L445">            .padding(horizontal = 8.dp, vertical = 4.dp)</span>
+<span class="nc" id="L446">            .background(color = color, shape = CircleShape)</span>
+<span class="nc" id="L447">            .requiredSize(32.dp)</span>
+<span class="nc" id="L448">            .combinedClickable(enabled = true, onLongClick = { showToast() }, onClick = {})</span>
+<span class="nc" id="L449">            .semantics(mergeDescendants = true) { stateDescription = contentDescription },</span>
+<span class="nc" id="L450">        contentAlignment = Alignment.Center,</span>
     ) {
-<span class="pc bpc" id="L444" title="3 of 4 branches missed.">        Text(</span>
-<span class="fc" id="L445">            type,</span>
-<span class="fc" id="L446">            modifier = Modifier.clearAndSetSemantics { },</span>
-<span class="fc" id="L447">            fontSize = 16.sp,</span>
-<span class="fc" id="L448">            fontFamily = FontFamily.SansSerif,</span>
-<span class="fc" id="L449">            color = Color.White.copy(alpha = .95f),</span>
-<span class="fc" id="L450">            fontWeight = FontWeight.Bold,</span>
-<span class="pc" id="L451">        )</span>
-<span class="pc" id="L452">    }</span>
-<span class="pc bpc" id="L453" title="1 of 2 branches missed.">}</span>
+<span class="nc bnc" id="L452" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L453">            type,</span>
+<span class="nc" id="L454">            modifier = Modifier.clearAndSetSemantics { },</span>
+<span class="nc" id="L455">            fontSize = 16.sp,</span>
+<span class="nc" id="L456">            fontFamily = FontFamily.SansSerif,</span>
+<span class="nc" id="L457">            color = Color.White.copy(alpha = .95f),</span>
+<span class="nc" id="L458">            fontWeight = FontWeight.Bold,</span>
+<span class="nc" id="L459">        )</span>
+<span class="nc" id="L460">    }</span>
+<span class="nc bnc" id="L461" title="All 2 branches missed.">}</span>
 
 @Composable
 private fun DayListPane(
     daysList: List&lt;DonateDay&gt;,
-<span class="pc bpc" id="L458" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L459" title="1 of 2 branches missed.">    showAddCalendar: Boolean = true,</span>
-<span class="pc bpc" id="L460" title="1 of 2 branches missed.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L461" title="1 of 2 branches missed.">    showSearchOnMap: Boolean = true,</span>
-<span class="pc bpc" id="L462" title="1 of 2 branches missed.">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc" id="L463">    onReviewSource: (() -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L464" title="1 of 2 branches missed.">) {</span>
-<span class="pc" id="L465">    var showMenu by remember { mutableStateOf(false) }</span>
+<span class="nc bnc" id="L466" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L467" title="All 2 branches missed.">    showAddCalendar: Boolean = true,</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L469" title="All 2 branches missed.">    showSearchOnMap: Boolean = true,</span>
+<span class="nc bnc" id="L470" title="All 2 branches missed.">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc" id="L471">    onReviewSource: (() -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L472" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L473">    var showMenu by remember { mutableStateOf(false) }</span>
 
-<span class="fc" id="L467">    Column(modifier = modifier, horizontalAlignment = Alignment.End) {</span>
-<span class="pc bpc" id="L468" title="3 of 4 branches missed.">        Row(</span>
-<span class="fc" id="L469">            modifier = Modifier.fillMaxWidth(),</span>
-<span class="fc" id="L470">            verticalAlignment = Alignment.CenterVertically,</span>
+<span class="nc" id="L475">    Column(modifier = modifier, horizontalAlignment = Alignment.End) {</span>
+<span class="nc bnc" id="L476" title="All 4 branches missed.">        Row(</span>
+<span class="nc" id="L477">            modifier = Modifier.fillMaxWidth(),</span>
+<span class="nc" id="L478">            verticalAlignment = Alignment.CenterVertically,</span>
         ) {
-<span class="pc bpc" id="L472" title="3 of 4 branches missed.">            Text(</span>
-<span class="fc" id="L473">                stringResource(id = R.string.section2_summary),</span>
-<span class="fc" id="L474">                modifier = Modifier</span>
-<span class="fc" id="L475">                    .padding(start = 16.dp, end = 8.dp)</span>
-<span class="fc" id="L476">                    .weight(1f),</span>
-<span class="fc" id="L477">                style = MaterialTheme.typography.titleLarge,</span>
+<span class="nc bnc" id="L480" title="All 4 branches missed.">            Text(</span>
+<span class="nc" id="L481">                stringResource(id = R.string.section2_summary),</span>
+<span class="nc" id="L482">                modifier = Modifier</span>
+<span class="nc" id="L483">                    .padding(start = 16.dp, end = 8.dp)</span>
+<span class="nc" id="L484">                    .weight(1f),</span>
+<span class="nc" id="L485">                style = MaterialTheme.typography.titleLarge,</span>
             )
             // https://foso.github.io/Jetpack-Compose-Playground/material/dropdownmenu/
-<span class="fc" id="L480">            Box(modifier = Modifier.wrapContentSize()) {</span>
-<span class="pc bpc" id="L481" title="3 of 4 branches missed.">                IconButton(onClick = { showMenu = true }) {</span>
-<span class="pc bpc" id="L482" title="3 of 4 branches missed.">                    Icon(</span>
-<span class="fc" id="L483">                        Icons.Rounded.MoreVert,</span>
-<span class="fc" id="L484">                        contentDescription = stringResource(id = R.string.action_more),</span>
-<span class="nc" id="L485">                    )</span>
-<span class="fc" id="L486">                }</span>
-<span class="fc" id="L487">                DropdownMenu(</span>
-<span class="fc" id="L488">                    expanded = showMenu,</span>
-<span class="pc" id="L489">                    onDismissRequest = { showMenu = false },</span>
-<span class="fc" id="L490">                    modifier = Modifier.background(MaterialTheme.colorScheme.surface), // M3</span>
-<span class="fc" id="L491">                ) {</span>
-<span class="nc bnc" id="L492" title="All 4 branches missed.">                    DropdownMenuItem(</span>
-<span class="nc" id="L493">                        onClick = {</span>
-<span class="nc" id="L494">                            showMenu = false</span>
-<span class="nc bnc" id="L495" title="All 2 branches missed.">                            onReviewSource?.invoke()</span>
-<span class="nc" id="L496">                        },</span>
-<span class="fc" id="L497">                    ) {</span>
-<span class="nc bnc" id="L498" title="All 4 branches missed.">                        Text(stringResource(id = R.string.action_go_to_website))</span>
-<span class="nc" id="L499">                    }</span>
-<span class="pc" id="L500">                }</span>
-<span class="pc" id="L501">            }</span>
-<span class="pc" id="L502">        }</span>
+<span class="nc" id="L488">            Box(modifier = Modifier.wrapContentSize()) {</span>
+<span class="nc bnc" id="L489" title="All 4 branches missed.">                IconButton(onClick = { showMenu = true }) {</span>
+<span class="nc bnc" id="L490" title="All 4 branches missed.">                    Icon(</span>
+<span class="nc" id="L491">                        Icons.Rounded.MoreVert,</span>
+<span class="nc" id="L492">                        contentDescription = stringResource(id = R.string.action_more),</span>
+<span class="nc" id="L493">                    )</span>
+<span class="nc" id="L494">                }</span>
+<span class="nc" id="L495">                DropdownMenu(</span>
+<span class="nc" id="L496">                    expanded = showMenu,</span>
+<span class="nc" id="L497">                    onDismissRequest = { showMenu = false },</span>
+<span class="nc" id="L498">                    modifier = Modifier.background(MaterialTheme.colorScheme.surface), // M3</span>
+<span class="nc" id="L499">                ) {</span>
+<span class="nc bnc" id="L500" title="All 4 branches missed.">                    DropdownMenuItem(</span>
+<span class="nc" id="L501">                        onClick = {</span>
+<span class="nc" id="L502">                            showMenu = false</span>
+<span class="nc bnc" id="L503" title="All 2 branches missed.">                            onReviewSource?.invoke()</span>
+<span class="nc" id="L504">                        },</span>
+<span class="nc" id="L505">                    ) {</span>
+<span class="nc bnc" id="L506" title="All 4 branches missed.">                        Text(stringResource(id = R.string.action_go_to_website))</span>
+<span class="nc" id="L507">                    }</span>
+<span class="nc" id="L508">                }</span>
+<span class="nc" id="L509">            }</span>
+<span class="nc" id="L510">        }</span>
 
-<span class="pc bpc" id="L504" title="1 of 2 branches missed.">        if (daysList.isEmpty()) {</span>
-<span class="nc" id="L505">            Box(</span>
-<span class="nc" id="L506">                modifier = Modifier</span>
-<span class="nc" id="L507">                    .fillMaxWidth()</span>
-<span class="nc" id="L508">                    .weight(1f),</span>
-<span class="nc" id="L509">                contentAlignment = Alignment.Center,</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">        if (daysList.isEmpty()) {</span>
+<span class="nc" id="L513">            Box(</span>
+<span class="nc" id="L514">                modifier = Modifier</span>
+<span class="nc" id="L515">                    .fillMaxWidth()</span>
+<span class="nc" id="L516">                    .weight(1f),</span>
+<span class="nc" id="L517">                contentAlignment = Alignment.Center,</span>
             ) {
-<span class="nc bnc" id="L511" title="All 4 branches missed.">                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
-<span class="nc" id="L512">            }</span>
-<span class="fc" id="L513">        } else {</span>
-<span class="fc" id="L514">            DonationPane(</span>
-<span class="fc" id="L515">                donations = daysList,</span>
-<span class="fc" id="L516">                modifier = Modifier</span>
-<span class="fc" id="L517">                    .fillMaxWidth()</span>
-<span class="fc" id="L518">                    .weight(1f),</span>
-<span class="fc" id="L519">                showAddCalendar, onAddCalendar, showSearchOnMap, onSearchOnMap,</span>
+<span class="nc bnc" id="L519" title="All 4 branches missed.">                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)</span>
+<span class="nc" id="L520">            }</span>
+<span class="nc" id="L521">        } else {</span>
+<span class="nc" id="L522">            DonationPane(</span>
+<span class="nc" id="L523">                donations = daysList,</span>
+<span class="nc" id="L524">                modifier = Modifier</span>
+<span class="nc" id="L525">                    .fillMaxWidth()</span>
+<span class="nc" id="L526">                    .weight(1f),</span>
+<span class="nc" id="L527">                showAddCalendar, onAddCalendar, showSearchOnMap, onSearchOnMap,</span>
             )
-<span class="pc" id="L521">        }</span>
-<span class="pc" id="L522">    }</span>
-<span class="fc" id="L523">}</span>
+<span class="nc" id="L529">        }</span>
+<span class="nc" id="L530">    }</span>
+<span class="nc" id="L531">}</span>
 
 @Composable
 private fun DonationPane(
     donations: List&lt;DonateDay&gt;,
-<span class="pc bpc" id="L528" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L529" title="1 of 2 branches missed.">    showAddCalendar: Boolean = true,</span>
-<span class="pc bpc" id="L530" title="1 of 2 branches missed.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L531" title="1 of 2 branches missed.">    showSearchOnMap: Boolean = true,</span>
-<span class="nc" id="L532">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L533" title="1 of 2 branches missed.">) {</span>
-<span class="fc" id="L534">    val list = ArrayList&lt;Any&gt;()</span>
-<span class="fc" id="L535">    donations.forEach { day -&gt;</span>
-<span class="fc" id="L536">        list.add(day)</span>
-<span class="fc bfc" id="L537" title="All 2 branches covered.">        if (day.activityCount &lt;= 0) {</span>
-<span class="fc" id="L538">            list.add(0)</span>
+<span class="nc bnc" id="L536" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L537" title="All 2 branches missed.">    showAddCalendar: Boolean = true,</span>
+<span class="nc bnc" id="L538" title="All 2 branches missed.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L539" title="All 2 branches missed.">    showSearchOnMap: Boolean = true,</span>
+<span class="nc" id="L540">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L541" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L542">    val list = ArrayList&lt;Any&gt;()</span>
+<span class="nc" id="L543">    donations.forEach { day -&gt;</span>
+<span class="nc" id="L544">        list.add(day)</span>
+<span class="nc bnc" id="L545" title="All 2 branches missed.">        if (day.activityCount &lt;= 0) {</span>
+<span class="nc" id="L546">            list.add(0)</span>
         } else {
-<span class="fc" id="L540">            day.activities.forEach { event -&gt;</span>
-<span class="fc" id="L541">                list.add(event)</span>
-<span class="fc" id="L542">            }</span>
+<span class="nc" id="L548">            day.activities.forEach { event -&gt;</span>
+<span class="nc" id="L549">                list.add(event)</span>
+<span class="nc" id="L550">            }</span>
         }
-<span class="fc" id="L544">    }</span>
+<span class="nc" id="L552">    }</span>
 
-<span class="pc bpc" id="L546" title="1 of 2 branches missed.">    LazyColumn(modifier = modifier) {</span>
-<span class="fc" id="L547">        items(list) { item -&gt;</span>
+<span class="nc bnc" id="L554" title="All 2 branches missed.">    LazyColumn(modifier = modifier) {</span>
+<span class="nc" id="L555">        items(list) { item -&gt;</span>
             (item as? DonateDay)?.let { day -&gt;
                 DayPane(day, modifier = Modifier.fillMaxWidth())
             }
@@ -566,135 +574,139 @@ private fun DonationPane(
                 )
             }
         }
-<span class="fc" id="L569">    }</span>
-<span class="fc" id="L570">}</span>
+<span class="nc" id="L577">    }</span>
+<span class="nc" id="L578">}</span>
 
 @Composable
-<span class="pc bpc" id="L573" title="1 of 2 branches missed.">private fun DayPane(day: DonateDay, modifier: Modifier = Modifier) {</span>
-<span class="pc bpc" id="L574" title="1 of 2 branches missed.">    Text(</span>
-<span class="fc" id="L575">        day.dateString,</span>
-<span class="fc" id="L576">        modifier = modifier</span>
-<span class="fc" id="L577">            .background(MaterialTheme.colorScheme.secondary.copy(alpha = .1f))</span>
-<span class="fc" id="L578">            .padding(start = 16.dp, top = 12.dp, bottom = 8.dp, end = 16.dp),</span>
+<span class="nc bnc" id="L581" title="All 2 branches missed.">private fun DayPane(day: DonateDay, modifier: Modifier = Modifier) {</span>
+<span class="nc bnc" id="L582" title="All 2 branches missed.">    Text(</span>
+<span class="nc" id="L583">        day.dateString,</span>
+<span class="nc" id="L584">        modifier = modifier</span>
+<span class="nc" id="L585">            .background(MaterialTheme.colorScheme.secondary.copy(alpha = .1f))</span>
+<span class="nc" id="L586">            .padding(start = 16.dp, top = 12.dp, bottom = 8.dp, end = 16.dp),</span>
     )
-<span class="fc" id="L580">}</span>
+<span class="nc" id="L588">}</span>
 
 @Composable
 private fun EventPane(
     event: DonateActivity,
-<span class="pc bpc" id="L585" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L586" title="1 of 2 branches missed.">    showAddCalendar: Boolean = true,</span>
-<span class="pc bpc" id="L587" title="1 of 2 branches missed.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L588" title="1 of 2 branches missed.">    showSearchOnMap: Boolean = true,</span>
-<span class="nc" id="L589">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
-<span class="pc bpc" id="L590" title="1 of 2 branches missed.">) {</span>
-<span class="fc" id="L591">    val buttonColor = MaterialTheme.colorScheme.secondary.copy(alpha = .5f)</span>
+<span class="nc bnc" id="L593" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L594" title="All 2 branches missed.">    showAddCalendar: Boolean = true,</span>
+<span class="nc bnc" id="L595" title="All 2 branches missed.">    onAddCalendar: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L596" title="All 2 branches missed.">    showSearchOnMap: Boolean = true,</span>
+<span class="nc" id="L597">    onSearchOnMap: ((DonateActivity) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L598" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L599">    val buttonColor = MaterialTheme.colorScheme.secondary.copy(alpha = .5f)</span>
     // See https://developer.android.com/jetpack/compose/accessibility
-<span class="fc" id="L593">    val addLabel = stringResource(id = R.string.action_add_to_calendar)</span>
-<span class="fc" id="L594">    val searchLabel = stringResource(id = R.string.action_search_location)</span>
-<span class="fc" id="L595">    val timeToLabel = stringResource(id = R.string.label_time_to)</span>
+<span class="nc" id="L601">    val addLabel = stringResource(id = R.string.action_add_to_calendar)</span>
+<span class="nc" id="L602">    val searchLabel = stringResource(id = R.string.action_search_location)</span>
+<span class="nc" id="L603">    val timeToLabel = stringResource(id = R.string.label_time_to)</span>
 
-<span class="fc" id="L597">    Row(</span>
-<span class="fc" id="L598">        modifier = modifier</span>
-<span class="fc" id="L599">            .padding(vertical = 6.dp)</span>
-<span class="fc" id="L600">            .semantics(mergeDescendants = true) {</span>
-<span class="fc" id="L601">                customActions = listOf(</span>
-<span class="fc" id="L602">                    CustomAccessibilityAction(addLabel) {</span>
-<span class="nc bnc" id="L603" title="All 4 branches missed.">                        if (showAddCalendar) onAddCalendar?.invoke(event)</span>
-<span class="nc" id="L604">                        showAddCalendar</span>
+<span class="nc" id="L605">    Row(</span>
+<span class="nc" id="L606">        modifier = modifier</span>
+<span class="nc" id="L607">            .padding(vertical = 6.dp)</span>
+<span class="nc" id="L608">            .semantics(mergeDescendants = true) {</span>
+<span class="nc" id="L609">                customActions = listOf(</span>
+<span class="nc" id="L610">                    CustomAccessibilityAction(addLabel) {</span>
+<span class="nc bnc" id="L611" title="All 4 branches missed.">                        if (showAddCalendar) onAddCalendar?.invoke(event)</span>
+<span class="nc" id="L612">                        showAddCalendar</span>
                     },
-<span class="fc" id="L606">                    CustomAccessibilityAction(searchLabel) {</span>
-<span class="nc bnc" id="L607" title="All 4 branches missed.">                        if (showSearchOnMap) onSearchOnMap?.invoke(event)</span>
-<span class="nc" id="L608">                        showSearchOnMap</span>
+<span class="nc" id="L614">                    CustomAccessibilityAction(searchLabel) {</span>
+<span class="nc bnc" id="L615" title="All 4 branches missed.">                        if (showSearchOnMap) onSearchOnMap?.invoke(event)</span>
+<span class="nc" id="L616">                        showSearchOnMap</span>
                     }
                 )
-<span class="fc" id="L611">            },</span>
-<span class="fc" id="L612">        verticalAlignment = Alignment.CenterVertically,</span>
+<span class="nc" id="L619">            },</span>
+<span class="nc" id="L620">        verticalAlignment = Alignment.CenterVertically,</span>
     ) {
-<span class="pc bpc" id="L614" title="3 of 6 branches missed.">        if (showAddCalendar) {</span>
-<span class="fc" id="L615">            Spacer(modifier = Modifier.requiredWidth(4.dp))</span>
-<span class="fc" id="L616">            IconButton(</span>
-<span class="nc bnc" id="L617" title="All 2 branches missed.">                onClick = { onAddCalendar?.invoke(event) },</span>
-<span class="fc" id="L618">                modifier = Modifier.clearAndSetSemantics { }, // merge to Row</span>
-<span class="fc" id="L619">            ) {</span>
-<span class="pc bpc" id="L620" title="2 of 4 branches missed.">                Icon(</span>
-<span class="fc" id="L621">                    Icons.Rounded.Schedule,</span>
-<span class="fc" id="L622">                    contentDescription = addLabel,</span>
-<span class="fc" id="L623">                    tint = buttonColor,</span>
-<span class="fc" id="L624">                    modifier = Modifier.testTag(&quot;calendar&quot;),</span>
-<span class="nc" id="L625">                )</span>
-<span class="fc" id="L626">            }</span>
-<span class="fc" id="L627">        } else {</span>
-<span class="fc" id="L628">            Spacer(modifier = Modifier.requiredWidth(28.dp))</span>
+<span class="nc bnc" id="L622" title="All 6 branches missed.">        if (showAddCalendar) {</span>
+<span class="nc" id="L623">            Spacer(modifier = Modifier.requiredWidth(4.dp))</span>
+<span class="nc" id="L624">            IconButton(</span>
+<span class="nc bnc" id="L625" title="All 2 branches missed.">                onClick = { onAddCalendar?.invoke(event) },</span>
+<span class="nc" id="L626">                modifier = Modifier.clearAndSetSemantics { }, // merge to Row</span>
+<span class="nc" id="L627">            ) {</span>
+<span class="nc bnc" id="L628" title="All 4 branches missed.">                Icon(</span>
+<span class="nc" id="L629">                    Icons.Rounded.Schedule,</span>
+<span class="nc" id="L630">                    contentDescription = addLabel,</span>
+<span class="nc" id="L631">                    tint = buttonColor,</span>
+<span class="nc" id="L632">                    modifier = Modifier.testTag(&quot;calendar&quot;),</span>
+<span class="nc" id="L633">                )</span>
+<span class="nc" id="L634">            }</span>
+<span class="nc" id="L635">        } else {</span>
+<span class="nc" id="L636">            Spacer(modifier = Modifier.requiredWidth(28.dp))</span>
         }
-<span class="fc" id="L630">        Column {</span>
-<span class="pc bpc" id="L631" title="3 of 4 branches missed.">            Spacer(modifier = Modifier.requiredHeight(2.dp))</span>
-<span class="fc" id="L632">            Text(</span>
-<span class="fc" id="L633">                event.startTimeString,</span>
-<span class="fc" id="L634">                style = MaterialTheme.typography.labelMedium,</span>
+<span class="nc" id="L638">        Column {</span>
+<span class="nc bnc" id="L639" title="All 4 branches missed.">            Spacer(modifier = Modifier.requiredHeight(2.dp))</span>
+<span class="nc" id="L640">            Text(</span>
+<span class="nc" id="L641">                event.startTimeString,</span>
+<span class="nc" id="L642">                style = MaterialTheme.typography.labelMedium,</span>
             )
-<span class="fc" id="L636">            Spacer(</span>
-<span class="fc" id="L637">                modifier = Modifier</span>
-<span class="fc" id="L638">                    .requiredHeight(2.dp)</span>
-<span class="fc" id="L639">                    .semantics { stateDescription = timeToLabel }, // add hidden semantics</span>
+<span class="nc" id="L644">            Spacer(</span>
+<span class="nc" id="L645">                modifier = Modifier</span>
+<span class="nc" id="L646">                    .requiredHeight(2.dp)</span>
+<span class="nc" id="L647">                    .semantics { stateDescription = timeToLabel }, // add hidden semantics</span>
             )
-<span class="fc" id="L641">            Text(</span>
-<span class="fc" id="L642">                event.endTimeString,</span>
-<span class="fc" id="L643">                style = MaterialTheme.typography.labelMedium,</span>
-<span class="pc" id="L644">            )</span>
-<span class="pc" id="L645">        }</span>
-<span class="fc" id="L646">        Spacer(modifier = Modifier.requiredWidth(8.dp))</span>
-<span class="fc" id="L647">        Column(modifier = Modifier.weight(1f)) {</span>
-<span class="pc bpc" id="L648" title="3 of 4 branches missed.">            Text(</span>
-<span class="fc" id="L649">                event.name,</span>
-<span class="fc" id="L650">                style = MaterialTheme.typography.titleSmall,</span>
-<span class="fc" id="L651">                overflow = TextOverflow.Ellipsis,</span>
-<span class="fc" id="L652">                maxLines = 1,</span>
+<span class="nc" id="L649">            Text(</span>
+<span class="nc" id="L650">                event.endTimeString,</span>
+<span class="nc" id="L651">                style = MaterialTheme.typography.labelMedium,</span>
+<span class="nc" id="L652">            )</span>
+<span class="nc" id="L653">        }</span>
+<span class="nc" id="L654">        Spacer(modifier = Modifier.requiredWidth(8.dp))</span>
+<span class="nc" id="L655">        Column(modifier = Modifier.weight(1f)) {</span>
+<span class="nc bnc" id="L656" title="All 4 branches missed.">            Text(</span>
+<span class="nc" id="L657">                event.name,</span>
+<span class="nc" id="L658">                style = MaterialTheme.typography.titleSmall,</span>
+<span class="nc" id="L659">                overflow = TextOverflow.Ellipsis,</span>
+<span class="nc" id="L660">                maxLines = 1,</span>
             )
-<span class="fc" id="L654">            Spacer(modifier = Modifier.requiredHeight(4.dp))</span>
-<span class="fc" id="L655">            Text(</span>
-<span class="fc" id="L656">                event.location,</span>
-<span class="fc" id="L657">                style = MaterialTheme.typography.bodySmall,</span>
-<span class="fc" id="L658">                overflow = TextOverflow.Ellipsis,</span>
-<span class="fc" id="L659">                maxLines = 1,</span>
-<span class="pc" id="L660">            )</span>
-<span class="pc" id="L661">        }</span>
-<span class="fc bfc" id="L662" title="All 2 branches covered.">        if (showSearchOnMap) {</span>
-<span class="fc" id="L663">            IconButton(</span>
-<span class="nc bnc" id="L664" title="All 2 branches missed.">                onClick = { onSearchOnMap?.invoke(event) },</span>
-<span class="fc" id="L665">                modifier = Modifier.clearAndSetSemantics { }, // merge to Row</span>
-<span class="fc" id="L666">            ) {</span>
-<span class="pc bpc" id="L667" title="2 of 4 branches missed.">                Icon(</span>
-<span class="fc" id="L668">                    Icons.Rounded.Map,</span>
-<span class="fc" id="L669">                    contentDescription = searchLabel,</span>
-<span class="fc" id="L670">                    tint = buttonColor,</span>
-<span class="fc" id="L671">                    modifier = Modifier.testTag(&quot;map&quot;),</span>
-<span class="nc" id="L672">                )</span>
-<span class="fc" id="L673">            }</span>
-<span class="fc" id="L674">        } else {</span>
-<span class="fc" id="L675">            Spacer(modifier = Modifier.requiredWidth(12.dp))</span>
-<span class="pc" id="L676">        }</span>
-<span class="pc" id="L677">    }</span>
-<span class="fc" id="L678">}</span>
+<span class="nc" id="L662">            Spacer(modifier = Modifier.requiredHeight(4.dp))</span>
+<span class="nc" id="L663">            Text(</span>
+<span class="nc" id="L664">                event.location,</span>
+<span class="nc" id="L665">                style = MaterialTheme.typography.bodySmall,</span>
+<span class="nc" id="L666">                overflow = TextOverflow.Ellipsis,</span>
+<span class="nc" id="L667">                maxLines = 1,</span>
+<span class="nc" id="L668">            )</span>
+<span class="nc" id="L669">        }</span>
+<span class="nc bnc" id="L670" title="All 2 branches missed.">        if (showSearchOnMap) {</span>
+<span class="nc" id="L671">            IconButton(</span>
+<span class="nc bnc" id="L672" title="All 2 branches missed.">                onClick = { onSearchOnMap?.invoke(event) },</span>
+<span class="nc" id="L673">                modifier = Modifier.clearAndSetSemantics { }, // merge to Row</span>
+<span class="nc" id="L674">            ) {</span>
+<span class="nc bnc" id="L675" title="All 4 branches missed.">                Icon(</span>
+<span class="nc" id="L676">                    Icons.Rounded.Map,</span>
+<span class="nc" id="L677">                    contentDescription = searchLabel,</span>
+<span class="nc" id="L678">                    tint = buttonColor,</span>
+<span class="nc" id="L679">                    modifier = Modifier.testTag(&quot;map&quot;),</span>
+<span class="nc" id="L680">                )</span>
+<span class="nc" id="L681">            }</span>
+<span class="nc" id="L682">        } else {</span>
+<span class="nc" id="L683">            Spacer(modifier = Modifier.requiredWidth(12.dp))</span>
+<span class="nc" id="L684">        }</span>
+<span class="nc" id="L685">    }</span>
+<span class="nc" id="L686">}</span>
 
 @Composable
-<span class="pc bpc" id="L681" title="11 of 18 branches missed.">private fun SpotListPane(onClick: () -&gt; Unit, modifier: Modifier = Modifier) {</span>
-<span class="fc" id="L682">    Row(</span>
-<span class="fc" id="L683">        modifier = modifier</span>
-<span class="fc" id="L684">            .clickable(onClick = onClick)</span>
-<span class="fc" id="L685">            .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),</span>
-<span class="fc" id="L686">        verticalAlignment = Alignment.CenterVertically</span>
-    ) {
-<span class="pc bpc" id="L688" title="3 of 4 branches missed.">        Text(</span>
-<span class="fc" id="L689">            stringResource(id = R.string.section3_summary),</span>
-<span class="fc" id="L690">            modifier = Modifier.weight(1f),</span>
-<span class="fc" id="L691">            style = MaterialTheme.typography.titleLarge,</span>
-        )
-<span class="fc" id="L693">        Icon(</span>
-<span class="fc" id="L694">            Icons.Rounded.KeyboardArrowRight,</span>
-<span class="fc" id="L695">            contentDescription = null,</span>
-<span class="fc" id="L696">            tint = Color.LightGray,</span>
-<span class="pc" id="L697">        )</span>
-<span class="pc" id="L698">    }</span>
-<span class="pc bpc" id="L699" title="1 of 2 branches missed.">}</span>
+<span class="nc bnc" id="L689" title="All 18 branches missed.">private fun SpotListPane(onClick: () -&gt; Unit, modifier: Modifier = Modifier) {</span>
+<span class="nc" id="L690">    CompositionLocalProvider(</span>
+<span class="nc" id="L691">        LocalIndication provides rememberRipple(color = MaterialTheme.colorScheme.secondary),</span>
+<span class="nc" id="L692">    ) {</span>
+<span class="nc bnc" id="L693" title="All 4 branches missed.">        Row(</span>
+<span class="nc" id="L694">            modifier = modifier</span>
+<span class="nc" id="L695">                .clickable(onClick = onClick)</span>
+<span class="nc" id="L696">                .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 12.dp),</span>
+<span class="nc" id="L697">            verticalAlignment = Alignment.CenterVertically</span>
+        ) {
+<span class="nc bnc" id="L699" title="All 4 branches missed.">            Text(</span>
+<span class="nc" id="L700">                stringResource(id = R.string.section3_summary),</span>
+<span class="nc" id="L701">                modifier = Modifier.weight(1f),</span>
+<span class="nc" id="L702">                style = MaterialTheme.typography.titleLarge,</span>
+            )
+<span class="nc" id="L704">            Icon(</span>
+<span class="nc" id="L705">                Icons.Rounded.KeyboardArrowRight,</span>
+<span class="nc" id="L706">                contentDescription = null,</span>
+<span class="nc" id="L707">                tint = Color.LightGray,</span>
+<span class="nc" id="L708">            )</span>
+<span class="nc" id="L709">        }</span>
+<span class="nc" id="L710">    }</span>
+<span class="nc bnc" id="L711" title="All 2 branches missed.">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

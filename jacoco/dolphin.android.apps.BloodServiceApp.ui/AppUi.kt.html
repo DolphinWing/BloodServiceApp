@@ -42,28 +42,33 @@ import dolphin.android.util.DebugOnlyNoCoverage
 @SuppressLint(&quot;NewApi&quot;)
 @Composable
 fun AppTheme(
-<span class="pc bfc" id="L45" title="All 2 branches covered.">    dark: Boolean = isSystemInDarkTheme(),</span>
-<span class="pc bnc" id="L46" title="All 4 branches missed.">    dynamic: Boolean = BuildCompat.isAtLeastS(),</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    dark: Boolean = isSystemInDarkTheme(),</span>
+<span class="nc bnc" id="L46" title="All 4 branches missed.">    dynamic: Boolean = BuildCompat.isAtLeastS(),</span>
     content: @Composable BoxScope.() -&gt; Unit
-<span class="pc bpc" id="L48" title="14 of 28 branches missed.">) {</span>
-<span class="fc" id="L49">    val colorScheme = when {</span>
-<span class="fc bfc" id="L50" title="All 4 branches covered.">        dynamic &amp;&amp; dark -&gt; dynamicDarkColorScheme(LocalContext.current)</span>
-<span class="pc bpc" id="L51" title="1 of 4 branches missed.">        dynamic &amp;&amp; !dark -&gt; dynamicLightColorScheme(LocalContext.current)</span>
-<span class="fc bfc" id="L52" title="All 2 branches covered.">        dark -&gt; AppDarkThemeColors</span>
-<span class="fc" id="L53">        else -&gt; AppLightThemeColors</span>
+<span class="nc bnc" id="L48" title="All 28 branches missed.">) {</span>
+<span class="nc" id="L49">    val colorScheme = when {</span>
+<span class="nc bnc" id="L50" title="All 4 branches missed.">        dynamic &amp;&amp; dark -&gt; dynamicDarkColorScheme(LocalContext.current)</span>
+<span class="nc bnc" id="L51" title="All 4 branches missed.">        dynamic &amp;&amp; !dark -&gt; dynamicLightColorScheme(LocalContext.current)</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        dark -&gt; AppDarkThemeColors</span>
+<span class="nc" id="L53">        else -&gt; AppLightThemeColors</span>
     }
 
-<span class="fc" id="L56">    MaterialTheme(</span>
-<span class="fc" id="L57">        colorScheme = colorScheme,</span>
-<span class="fc" id="L58">        typography = AppTypography,</span>
-<span class="fc" id="L59">    ) {</span>
-<span class="pc bpc" id="L60" title="2 of 4 branches missed.">        Box(</span>
-<span class="fc" id="L61">            modifier = Modifier.fillMaxSize(),</span>
-<span class="fc" id="L62">            content = content,</span>
-<span class="fc" id="L63">            contentAlignment = Alignment.Center, // default alignment</span>
-<span class="nc" id="L64">        )</span>
-<span class="fc" id="L65">    }</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">}</span>
+<span class="nc" id="L56">    MaterialTheme(</span>
+<span class="nc" id="L57">        colorScheme = colorScheme,</span>
+<span class="nc" id="L58">        typography = AppTypography,</span>
+<span class="nc" id="L59">    ) {</span>
+//        // https://stackoverflow.com/a/69000913
+//        CompositionLocalProvider(
+//            LocalIndication provides rememberRipple(color = colorScheme.tertiary),
+//        ) {
+<span class="nc bnc" id="L64" title="All 4 branches missed.">        Box(</span>
+<span class="nc" id="L65">            modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L66">            content = content,</span>
+<span class="nc" id="L67">            contentAlignment = Alignment.Center, // default alignment</span>
+        )
+<span class="nc" id="L69">//        }</span>
+<span class="nc" id="L70">    }</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">}</span>
 
 /**
  * Common separator.
@@ -75,20 +80,20 @@ fun AppTheme(
  */
 @Composable
 fun Separator(
-<span class="fc bfc" id="L78" title="All 2 branches covered.">    modifier: Modifier = Modifier,</span>
-<span class="fc" id="L79">    horizontalPadding: Dp = 8.dp,</span>
-<span class="fc" id="L80">    verticalPadding: Dp = 4.dp,</span>
-<span class="pc bnc" id="L81" title="All 6 branches missed.">    color: Color = MaterialTheme.colorScheme.outline.copy(alpha = .25f),</span>
-<span class="pc bpc" id="L82" title="18 of 34 branches missed.">) {</span>
-<span class="fc" id="L83">    Spacer(</span>
-<span class="fc" id="L84">        modifier = modifier</span>
-<span class="fc" id="L85">            .fillMaxWidth()</span>
-<span class="fc" id="L86">            .padding(horizontal = horizontalPadding)</span>
-<span class="fc" id="L87">            .background(color)</span>
-<span class="fc" id="L88">            .requiredHeight(1.dp)</span>
-<span class="fc" id="L89">            .padding(vertical = verticalPadding)</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc" id="L84">    horizontalPadding: Dp = 8.dp,</span>
+<span class="nc" id="L85">    verticalPadding: Dp = 4.dp,</span>
+<span class="nc bnc" id="L86" title="All 6 branches missed.">    color: Color = MaterialTheme.colorScheme.outline.copy(alpha = .25f),</span>
+<span class="nc bnc" id="L87" title="All 34 branches missed.">) {</span>
+<span class="nc" id="L88">    Spacer(</span>
+<span class="nc" id="L89">        modifier = modifier</span>
+<span class="nc" id="L90">            .fillMaxWidth()</span>
+<span class="nc" id="L91">            .padding(horizontal = horizontalPadding)</span>
+<span class="nc" id="L92">            .background(color)</span>
+<span class="nc" id="L93">            .requiredHeight(1.dp)</span>
+<span class="nc" id="L94">            .padding(vertical = verticalPadding)</span>
     )
-<span class="pc bfc" id="L91" title="All 2 branches covered.">}</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">}</span>
 
 /**
  * App UI callbacks
@@ -113,7 +118,7 @@ interface AppUiCallback :
 }
 
 enum class UiState {
-<span class="fc" id="L116">    Welcome, Main, Settings, Spots</span>
+<span class="fc" id="L121">    Welcome, Main, Settings, Spots</span>
 }
 
 /**
@@ -132,83 +137,83 @@ fun AppUiPane(
     model: AppDataModel,
     center: BloodCenter,
     callback: AppUiCallback,
-<span class="nc" id="L135">    modifier: Modifier = Modifier,</span>
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">) {</span>
-<span class="pc bpc" id="L137" title="1 of 2 branches missed.">    AppTheme(dark = model.darkMode.collectAsState().value) {</span>
-<span class="pc bpc" id="L138" title="2 of 4 branches missed.">        val selected = model.center.observeAsState()</span>
-<span class="fc" id="L139">        val maps = model.storageMap.collectAsState()</span>
-<span class="fc" id="L140">        val days = model.daysList.collectAsState()</span>
-<span class="fc" id="L141">        val cities = model.spotList.collectAsState()</span>
-<span class="fc" id="L142">        val city = model.city.collectAsState()</span>
-<span class="fc" id="L143">        val review = model.showPrivacyReview.collectAsState()</span>
-<span class="fc" id="L144">        val ads = model.showAds.collectAsState()</span>
+<span class="nc" id="L140">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">    AppTheme(dark = model.darkMode.collectAsState().value) {</span>
+<span class="nc bnc" id="L143" title="All 4 branches missed.">        val selected = model.center.observeAsState()</span>
+<span class="nc" id="L144">        val maps = model.storageMap.collectAsState()</span>
+<span class="nc" id="L145">        val days = model.daysList.collectAsState()</span>
+<span class="nc" id="L146">        val cities = model.spotList.collectAsState()</span>
+<span class="nc" id="L147">        val city = model.city.collectAsState()</span>
+<span class="nc" id="L148">        val review = model.showPrivacyReview.collectAsState()</span>
+<span class="nc" id="L149">        val ads = model.showAds.collectAsState()</span>
 
-<span class="fc" id="L146">        Crossfade(</span>
-<span class="fc" id="L147">            targetState = model.uiState.observeAsState().value,</span>
-<span class="fc" id="L148">            modifier = modifier</span>
-<span class="fc" id="L149">        ) { state -&gt;</span>
-<span class="pc bpc" id="L150" title="8 of 11 branches missed.">            when (state) {</span>
+<span class="nc" id="L151">        Crossfade(</span>
+<span class="nc" id="L152">            targetState = model.uiState.observeAsState().value,</span>
+<span class="nc" id="L153">            modifier = modifier</span>
+<span class="nc" id="L154">        ) { state -&gt;</span>
+<span class="nc bnc" id="L155" title="All 11 branches missed.">            when (state) {</span>
                 UiState.Welcome -&gt;
-<span class="fc" id="L152">                    WelcomeUi(</span>
-<span class="fc" id="L153">                        list = center.values(),</span>
-<span class="nc" id="L154">                        onComplete = { index -&gt; callback.reviewComplete(center.values()[index]) },</span>
-<span class="fc" id="L155">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L156">                        onReview = { callback.reviewPrivacy() },</span>
-<span class="nc" id="L157">                        onSource = { callback.reviewSource(center.main()) },</span>
+<span class="nc" id="L157">                    WelcomeUi(</span>
+<span class="nc" id="L158">                        list = center.values(),</span>
+<span class="nc" id="L159">                        onComplete = { index -&gt; callback.reviewComplete(center.values()[index]) },</span>
+<span class="nc" id="L160">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L161">                        onReview = { callback.reviewPrivacy() },</span>
+<span class="nc" id="L162">                        onSource = { callback.reviewSource(center.main()) },</span>
                     )
 
                 UiState.Main -&gt;
-<span class="nc" id="L161">                    MainUi(</span>
-<span class="nc" id="L162">                        centers = center.values(),</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">                        selected = selected.value ?: center.main(),</span>
-<span class="nc" id="L164">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L165">                        daysList = days.value,</span>
-<span class="nc" id="L166">                        storageMap = maps.value,</span>
-<span class="nc" id="L167">                        onCenterChange = { c -&gt; callback.changeBloodCenter(c) },</span>
-<span class="nc" id="L168">                        onAddCalendar = { event -&gt; callback.addToCalendar(event) },</span>
-<span class="nc" id="L169">                        enableAddCalendar = callback.enableAddToCalendar(),</span>
-<span class="nc" id="L170">                        onSearchOnMap = { event -&gt; callback.searchOnMaps(event) },</span>
-<span class="nc" id="L171">                        enableSearchOnMap = callback.enableSearchOnMap(),</span>
-<span class="nc" id="L172">                        onSpotListClick = { c -&gt; callback.showSpotList(c) },</span>
-<span class="nc" id="L173">                        onDonorClick = { callback.showDonorInfo() },</span>
-<span class="nc" id="L174">                        onSettingsClick = { model.changeUiState(UiState.Settings) },</span>
-<span class="nc" id="L175">                        onReviewSource = { c -&gt; callback.reviewSource(c) },</span>
-<span class="nc" id="L176">                        onFacebookClick = { c -&gt; callback.showFacebookPages(c) },</span>
+<span class="nc" id="L166">                    MainUi(</span>
+<span class="nc" id="L167">                        centers = center.values(),</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">                        selected = selected.value ?: center.main(),</span>
+<span class="nc" id="L169">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L170">                        daysList = days.value,</span>
+<span class="nc" id="L171">                        storageMap = maps.value,</span>
+<span class="nc" id="L172">                        onCenterChange = { c -&gt; callback.changeBloodCenter(c) },</span>
+<span class="nc" id="L173">                        onAddCalendar = { event -&gt; callback.addToCalendar(event) },</span>
+<span class="nc" id="L174">                        enableAddCalendar = callback.enableAddToCalendar(),</span>
+<span class="nc" id="L175">                        onSearchOnMap = { event -&gt; callback.searchOnMaps(event) },</span>
+<span class="nc" id="L176">                        enableSearchOnMap = callback.enableSearchOnMap(),</span>
+<span class="nc" id="L177">                        onSpotListClick = { c -&gt; callback.showSpotList(c) },</span>
+<span class="nc" id="L178">                        onDonorClick = { callback.showDonorInfo() },</span>
+<span class="nc" id="L179">                        onSettingsClick = { model.changeUiState(UiState.Settings) },</span>
+<span class="nc" id="L180">                        onReviewSource = { c -&gt; callback.reviewSource(c) },</span>
+<span class="nc" id="L181">                        onFacebookClick = { c -&gt; callback.showFacebookPages(c) },</span>
                         onReviewIgnore = {
-<span class="nc bnc" id="L178" title="All 2 branches missed.">                            callback.reviewComplete(selected.value ?: center.main())</span>
-<span class="nc" id="L179">                        },</span>
-<span class="nc" id="L180">                        onReviewPolicy = { callback.reviewPrivacy() },</span>
-<span class="nc" id="L181">                        showReviewPolicy = review.value,</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                            callback.reviewComplete(selected.value ?: center.main())</span>
+<span class="nc" id="L184">                        },</span>
+<span class="nc" id="L185">                        onReviewPolicy = { callback.reviewPrivacy() },</span>
+<span class="nc" id="L186">                        showReviewPolicy = review.value,</span>
                     )
 
                 UiState.Spots -&gt;
-<span class="nc" id="L185">                    SpotListUi(</span>
-<span class="nc" id="L186">                        list = cities.value,</span>
-<span class="nc" id="L187">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L188">                        onBackPress = { callback.pressBack() },</span>
-<span class="nc" id="L189">                        onSpotClick = { info -&gt; callback.showSpotInfo(info) },</span>
-<span class="nc" id="L190">                        onCityClick = { c -&gt; model.changeCity(c.cityId) },</span>
-<span class="nc" id="L191">                        selectedCity = city.value,</span>
-<span class="nc" id="L192">                        showAds = ads.value,</span>
+<span class="nc" id="L190">                    SpotListUi(</span>
+<span class="nc" id="L191">                        list = cities.value,</span>
+<span class="nc" id="L192">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L193">                        onBackPress = { callback.pressBack() },</span>
+<span class="nc" id="L194">                        onSpotClick = { info -&gt; callback.showSpotInfo(info) },</span>
+<span class="nc" id="L195">                        onCityClick = { c -&gt; model.changeCity(c.cityId) },</span>
+<span class="nc" id="L196">                        selectedCity = city.value,</span>
+<span class="nc" id="L197">                        showAds = ads.value,</span>
                     )
 
                 UiState.Settings -&gt;
-<span class="nc" id="L196">                    SettingsUi(</span>
-<span class="nc" id="L197">                        modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L198">                        onBackPress = { callback.pressBack() },</span>
-<span class="nc" id="L199">                        version = callback.versionInfo(),</span>
-<span class="nc" id="L200">                        onReview = { title, asset -&gt; callback.showAssetInDialog(title, asset) },</span>
-<span class="nc" id="L201">                        showChangeLog = callback.enableVersionSummary(),</span>
-<span class="nc" id="L202">                        showAds = ads.value,</span>
-<span class="nc" id="L203">                        onToggleAds = { checked -&gt; callback.toggleAds(checked) }</span>
+<span class="nc" id="L201">                    SettingsUi(</span>
+<span class="nc" id="L202">                        modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L203">                        onBackPress = { callback.pressBack() },</span>
+<span class="nc" id="L204">                        version = callback.versionInfo(),</span>
+<span class="nc" id="L205">                        onReview = { title, asset -&gt; callback.showAssetInDialog(title, asset) },</span>
+<span class="nc" id="L206">                        showChangeLog = callback.enableVersionSummary(),</span>
+<span class="nc" id="L207">                        showAds = ads.value,</span>
+<span class="nc" id="L208">                        onToggleAds = { checked -&gt; callback.toggleAds(checked) }</span>
                     )
 
                 else -&gt;
-<span class="nc" id="L207">                    LoadingAppUi(Modifier.fillMaxSize())</span>
-<span class="nc" id="L208">            }</span>
-<span class="pc" id="L209">        }</span>
-<span class="fc" id="L210">    }</span>
-<span class="fc" id="L211">}</span>
+<span class="nc" id="L212">                    LoadingAppUi(Modifier.fillMaxSize())</span>
+<span class="nc" id="L213">            }</span>
+<span class="nc" id="L214">        }</span>
+<span class="nc" id="L215">    }</span>
+<span class="nc" id="L216">}</span>
 
 /**
  * A data collection for compose preview and debug.

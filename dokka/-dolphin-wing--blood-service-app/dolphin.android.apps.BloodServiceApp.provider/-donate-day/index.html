@@ -2,28 +2,35 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>DonateDay</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">DolphinWing-BloodServiceApp</a></div>
+      <div></div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":app:dokkaHtml/main">main</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="DolphinWing-BloodServiceApp::dolphin.android.apps.BloodServiceApp.provider/DonateDay///PointingToDeclaration//1745091852">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">DolphinWing-BloodServiceApp</a>/<a href="../index.html">dolphin.android.apps.BloodServiceApp.provider</a>/<a href="index.html">DonateDay</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":app:dokkaHtml/main">main</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="DolphinWing-BloodServiceApp::dolphin.android.apps.BloodServiceApp.provider/DonateDay///PointingToDeclaration//1745091852">
+          <div class="breadcrumbs"><a href="../../../index.html">DolphinWing-BloodServiceApp</a>/<a href="../index.html">dolphin.android.apps.BloodServiceApp.provider</a>/<a href="index.html">DonateDay</a></div>
           <div class="cover ">
             <h1 class="cover"><span>Donate</span><wbr></wbr><span><span>Day</span></span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace">class <a href="index.html">DonateDay</a>(activities: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../-donate-activity/index.html">DonateActivity</a>&gt;)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Donation activities in a day.</p></div></div>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">DonateDay</a><span class="token punctuation">(</span>activities<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-donate-activity/index.html">DonateActivity</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Donation activities in a day.</p></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
@@ -32,15 +39,16 @@
               <div class="table" data-togglable="Constructors"><a data-name="-105898585%2FConstructors%2F1745091852" anchor-label="DonateDay" id="-105898585%2FConstructors%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-donate-day.html">DonateDay</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-105898585%2FConstructors%2F1745091852"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-donate-day.html"><span>Donate</span><wbr></wbr><span><span>Day</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-105898585%2FConstructors%2F1745091852"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">main</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace">fun <a href="-donate-day.html">DonateDay</a>(activities: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../-donate-activity/index.html">DonateActivity</a>&gt;)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-donate-day.html"><span class="token function">DonateDay</span></a><span class="token punctuation">(</span>activities<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-donate-activity/index.html">DonateActivity</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -50,26 +58,17 @@
               <div class="table" data-togglable="Functions"><a data-name="1153794724%2FFunctions%2F1745091852" anchor-label="setDate" id="1153794724%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="set-date.html"><span>set</span><wbr></wbr><span><span>Date</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1153794724%2FFunctions%2F1745091852"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="set-date.html"><span>set</span><wbr></wbr><span><span>Date</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1153794724%2FFunctions%2F1745091852"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">main</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="set-date.html"><span class="token function">setDate</span></a><span class="token punctuation">(</span>calendar<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/util/Calendar.html">Calendar</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Set date</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="set-date.html"><span class="token function">setDate</span></a><span class="token punctuation">(</span>year<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span>monthOfJava<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span>dayOfMonth<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace">fun <a href="set-date.html">setDate</a>(calendar: <a href="https://developer.android.com/reference/kotlin/java/util/Calendar.html">Calendar</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Set date</p></div></div>
-<div class="divergent-group" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace">fun <a href="set-date.html">setDate</a>(year: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>, monthOfJava: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>, dayOfMonth: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
@@ -78,15 +77,16 @@
               <div class="table" data-togglable="Properties"><a data-name="643556997%2FProperties%2F1745091852" anchor-label="activities" id="643556997%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="activities.html">activities</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="643556997%2FProperties%2F1745091852"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="activities.html">activities</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="643556997%2FProperties%2F1745091852"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">main</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="643556997%2FProperties%2F1745091852" anchor-label="activities" id="643556997%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace">val <a href="activities.html">activities</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../-donate-activity/index.html">DonateActivity</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="643556997%2FProperties%2F1745091852" anchor-label="activities" id="643556997%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">activity list of today</p></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="643556997%2FProperties%2F1745091852" anchor-label="activities" id="643556997%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="activities.html">activities</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-donate-activity/index.html">DonateActivity</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="643556997%2FProperties%2F1745091852" anchor-label="activities" id="643556997%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">activity list of today</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -94,15 +94,16 @@
 <a data-name="1449422408%2FProperties%2F1745091852" anchor-label="activityCount" id="1449422408%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="activity-count.html">activityCount</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1449422408%2FProperties%2F1745091852"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="activity-count.html">activityCount</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1449422408%2FProperties%2F1745091852"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">main</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="1449422408%2FProperties%2F1745091852" anchor-label="activityCount" id="1449422408%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace">val <a href="activity-count.html">activityCount</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1449422408%2FProperties%2F1745091852" anchor-label="activityCount" id="1449422408%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">activity count</p></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="1449422408%2FProperties%2F1745091852" anchor-label="activityCount" id="1449422408%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="activity-count.html">activityCount</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1449422408%2FProperties%2F1745091852" anchor-label="activityCount" id="1449422408%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">activity count</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -110,15 +111,16 @@
 <a data-name="-2037938861%2FProperties%2F1745091852" anchor-label="dateString" id="-2037938861%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="date-string.html">dateString</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2037938861%2FProperties%2F1745091852"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="date-string.html">dateString</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2037938861%2FProperties%2F1745091852"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">main</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="-2037938861%2FProperties%2F1745091852" anchor-label="dateString" id="-2037938861%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace">val <a href="date-string.html">dateString</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-2037938861%2FProperties%2F1745091852" anchor-label="dateString" id="-2037938861%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">date string</p></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="-2037938861%2FProperties%2F1745091852" anchor-label="dateString" id="-2037938861%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="date-string.html">dateString</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-2037938861%2FProperties%2F1745091852" anchor-label="dateString" id="-2037938861%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">date string</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -126,15 +128,16 @@
 <a data-name="403142693%2FProperties%2F1745091852" anchor-label="isFuture" id="403142693%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="is-future.html">isFuture</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="403142693%2FProperties%2F1745091852"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="is-future.html">isFuture</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="403142693%2FProperties%2F1745091852"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">main</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="403142693%2FProperties%2F1745091852" anchor-label="isFuture" id="403142693%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace">val <a href="is-future.html">isFuture</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="403142693%2FProperties%2F1745091852" anchor-label="isFuture" id="403142693%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">Indicate if the time is in the future.</p></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="403142693%2FProperties%2F1745091852" anchor-label="isFuture" id="403142693%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="is-future.html">isFuture</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="403142693%2FProperties%2F1745091852" anchor-label="isFuture" id="403142693%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">Indicate if the time is in the future.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -142,15 +145,16 @@
 <a data-name="-1111425574%2FProperties%2F1745091852" anchor-label="timeInMillis" id="-1111425574%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="time-in-millis.html">timeInMillis</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1111425574%2FProperties%2F1745091852"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="time-in-millis.html">timeInMillis</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1111425574%2FProperties%2F1745091852"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">main</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="-1111425574%2FProperties%2F1745091852" anchor-label="timeInMillis" id="-1111425574%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace">val <a href="time-in-millis.html">timeInMillis</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1111425574%2FProperties%2F1745091852" anchor-label="timeInMillis" id="-1111425574%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">date time in milliseconds</p></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main" data-active="" data-toggle=":app:dokkaHtml/main">main</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/main"><a data-name="-1111425574%2FProperties%2F1745091852" anchor-label="timeInMillis" id="-1111425574%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="time-in-millis.html">timeInMillis</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1111425574%2FProperties%2F1745091852" anchor-label="timeInMillis" id="-1111425574%2FProperties%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a><p class="paragraph">date time in milliseconds</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -159,7 +163,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>

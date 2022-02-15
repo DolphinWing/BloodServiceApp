@@ -2,28 +2,35 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>AppUiCallback</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">DolphinWing-BloodServiceApp</a></div>
+      <div></div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":app:dokkaHtml/compose">compose</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="DolphinWing-BloodServiceApp::dolphin.android.apps.BloodServiceApp.ui/AppUiCallback///PointingToDeclaration//527234092">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">DolphinWing-BloodServiceApp</a>/<a href="../index.html">dolphin.android.apps.BloodServiceApp.ui</a>/<a href="index.html">AppUiCallback</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":app:dokkaHtml/compose">compose</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="DolphinWing-BloodServiceApp::dolphin.android.apps.BloodServiceApp.ui/AppUiCallback///PointingToDeclaration//527234092">
+          <div class="breadcrumbs"><a href="../../../index.html">DolphinWing-BloodServiceApp</a>/<a href="../index.html">dolphin.android.apps.BloodServiceApp.ui</a>/<a href="index.html">AppUiCallback</a></div>
           <div class="cover ">
             <h1 class="cover"><span>App</span><wbr></wbr><span>Ui</span><wbr></wbr><span><span>Callback</span></span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">interface <a href="index.html">AppUiCallback</a> : <a href="../-welcome-ui-callback/index.html">WelcomeUiCallback</a>, <a href="../-main-ui-callback/index.html">MainUiCallback</a>, <a href="../-spot-list-ui-callback/index.html">SpotListUiCallback</a>, <a href="../-settings-ui-callback/index.html">SettingsUiCallback</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">App UI callbacks</p></div></div>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">AppUiCallback</a> : <a href="../-welcome-ui-callback/index.html">WelcomeUiCallback</a>, <a href="../-main-ui-callback/index.html">MainUiCallback</a>, <a href="../-spot-list-ui-callback/index.html">SpotListUiCallback</a>, <a href="../-settings-ui-callback/index.html">SettingsUiCallback</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">App UI callbacks</p></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
@@ -32,340 +39,289 @@
               <div class="table" data-togglable="Functions"><a data-name="-15361252%2FFunctions%2F527234092" anchor-label="addToCalendar" id="-15361252%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/add-to-calendar.html"><span>add</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Calendar</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-15361252%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/add-to-calendar.html"><span>add</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Calendar</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-15361252%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/add-to-calendar.html"><span class="token function">addToCalendar</span></a><span class="token punctuation">(</span>event<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Add donation event to phone calendar.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/add-to-calendar.html">addToCalendar</a>(event: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Add donation event to phone calendar.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-156921663%2FFunctions%2F527234092" anchor-label="changeBloodCenter" id="-156921663%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/change-blood-center.html"><span>change</span><wbr></wbr><span>Blood</span><wbr></wbr><span><span>Center</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-156921663%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/change-blood-center.html"><span>change</span><wbr></wbr><span>Blood</span><wbr></wbr><span><span>Center</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-156921663%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/change-blood-center.html"><span class="token function">changeBloodCenter</span></a><span class="token punctuation">(</span>center<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Change to another blood center.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/change-blood-center.html">changeBloodCenter</a>(center: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Change to another blood center.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1329694077%2FFunctions%2F527234092" anchor-label="enableAddToCalendar" id="1329694077%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/enable-add-to-calendar.html"><span>enable</span><wbr></wbr><span>Add</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Calendar</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1329694077%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/enable-add-to-calendar.html"><span>enable</span><wbr></wbr><span>Add</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Calendar</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1329694077%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/enable-add-to-calendar.html"><span class="token function">enableAddToCalendar</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Enable or disable add to phone calendar.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/enable-add-to-calendar.html">enableAddToCalendar</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Enable or disable add to phone calendar.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1084579710%2FFunctions%2F527234092" anchor-label="enableSearchOnMap" id="-1084579710%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/enable-search-on-map.html"><span>enable</span><wbr></wbr><span>Search</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Map</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1084579710%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/enable-search-on-map.html"><span>enable</span><wbr></wbr><span>Search</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Map</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1084579710%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/enable-search-on-map.html"><span class="token function">enableSearchOnMap</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Enable or disable search on maps.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/enable-search-on-map.html">enableSearchOnMap</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Enable or disable search on maps.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="488595871%2FFunctions%2F527234092" anchor-label="enableVersionSummary" id="488595871%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-settings-ui-callback/enable-version-summary.html"><span>enable</span><wbr></wbr><span>Version</span><wbr></wbr><span><span>Summary</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="488595871%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-settings-ui-callback/enable-version-summary.html"><span>enable</span><wbr></wbr><span>Version</span><wbr></wbr><span><span>Summary</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="488595871%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-settings-ui-callback/enable-version-summary.html"><span class="token function">enableVersionSummary</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Enable or disable if we can read change logs.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-settings-ui-callback/enable-version-summary.html">enableVersionSummary</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Enable or disable if we can read change logs.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1724374926%2FFunctions%2F527234092" anchor-label="pressBack" id="1724374926%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="press-back.html"><span>press</span><wbr></wbr><span><span>Back</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1724374926%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="press-back.html"><span>press</span><wbr></wbr><span><span>Back</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1724374926%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="press-back.html"><span class="token function">pressBack</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Callback when user press BACK button on UI.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="press-back.html">pressBack</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Callback when user press BACK button on UI.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="954828158%2FFunctions%2F527234092" anchor-label="reviewComplete" id="954828158%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-welcome-ui-callback/review-complete.html"><span>review</span><wbr></wbr><span><span>Complete</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="954828158%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-welcome-ui-callback/review-complete.html"><span>review</span><wbr></wbr><span><span>Complete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="954828158%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-welcome-ui-callback/review-complete.html"><span class="token function">reviewComplete</span></a><span class="token punctuation">(</span>center<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Review and accept privacy policy.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-welcome-ui-callback/review-complete.html">reviewComplete</a>(center: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Review and accept privacy policy.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1561874073%2FFunctions%2F527234092" anchor-label="reviewPrivacy" id="-1561874073%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-welcome-ui-callback/review-privacy.html"><span>review</span><wbr></wbr><span><span>Privacy</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1561874073%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-welcome-ui-callback/review-privacy.html"><span>review</span><wbr></wbr><span><span>Privacy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1561874073%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-welcome-ui-callback/review-privacy.html"><span class="token function">reviewPrivacy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Review privacy policy.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-welcome-ui-callback/review-privacy.html">reviewPrivacy</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Review privacy policy.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1999114021%2FFunctions%2F527234092" anchor-label="reviewSource" id="-1999114021%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="review-source.html"><span>review</span><wbr></wbr><span><span>Source</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1999114021%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="review-source.html"><span>review</span><wbr></wbr><span><span>Source</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1999114021%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="review-source.html"><span class="token function">reviewSource</span></a><span class="token punctuation">(</span>center<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Review data source in a browser</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="review-source.html">reviewSource</a>(center: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Review data source in a browser</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-830744502%2FFunctions%2F527234092" anchor-label="searchOnMaps" id="-830744502%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/search-on-maps.html"><span>search</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Maps</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-830744502%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/search-on-maps.html"><span>search</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Maps</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-830744502%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/search-on-maps.html"><span class="token function">searchOnMaps</span></a><span class="token punctuation">(</span>event<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Search location on Google Maps.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/search-on-maps.html">searchOnMaps</a>(event: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Search location on Google Maps.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1418473965%2FFunctions%2F527234092" anchor-label="showAssetInDialog" id="1418473965%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-settings-ui-callback/show-asset-in-dialog.html"><span>show</span><wbr></wbr><span>Asset</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Dialog</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1418473965%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-settings-ui-callback/show-asset-in-dialog.html"><span>show</span><wbr></wbr><span>Asset</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Dialog</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1418473965%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-settings-ui-callback/show-asset-in-dialog.html"><span class="token function">showAssetInDialog</span></a><span class="token punctuation">(</span><span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/StringRes.html"><span class="token annotation">StringRes</span></a> </span>title<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span>asset<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Show asset file content in a dialog.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-settings-ui-callback/show-asset-in-dialog.html">showAssetInDialog</a>(<span>@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/StringRes.html">StringRes</a> </span>title: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>, asset: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Show asset file content in a dialog.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="689640093%2FFunctions%2F527234092" anchor-label="showDonorInfo" id="689640093%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/show-donor-info.html"><span>show</span><wbr></wbr><span>Donor</span><wbr></wbr><span><span>Info</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="689640093%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/show-donor-info.html"><span>show</span><wbr></wbr><span>Donor</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="689640093%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/show-donor-info.html"><span class="token function">showDonorInfo</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Show donor info web page in a browser.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/show-donor-info.html">showDonorInfo</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Show donor info web page in a browser.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1333941249%2FFunctions%2F527234092" anchor-label="showFacebookPages" id="-1333941249%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/show-facebook-pages.html"><span>show</span><wbr></wbr><span>Facebook</span><wbr></wbr><span><span>Pages</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1333941249%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/show-facebook-pages.html"><span>show</span><wbr></wbr><span>Facebook</span><wbr></wbr><span><span>Pages</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1333941249%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/show-facebook-pages.html"><span class="token function">showFacebookPages</span></a><span class="token punctuation">(</span>center<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Show Facebook Pages in browser.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/show-facebook-pages.html">showFacebookPages</a>(center: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Show Facebook Pages in browser.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="242680304%2FFunctions%2F527234092" anchor-label="showSpotInfo" id="242680304%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-spot-list-ui-callback/show-spot-info.html"><span>show</span><wbr></wbr><span>Spot</span><wbr></wbr><span><span>Info</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="242680304%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-spot-list-ui-callback/show-spot-info.html"><span>show</span><wbr></wbr><span>Spot</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="242680304%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-spot-list-ui-callback/show-spot-info.html"><span class="token function">showSpotInfo</span></a><span class="token punctuation">(</span>info<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Show spot info in browser.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-spot-list-ui-callback/show-spot-info.html">showSpotInfo</a>(info: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Show spot info in browser.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-340619531%2FFunctions%2F527234092" anchor-label="showSpotList" id="-340619531%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-main-ui-callback/show-spot-list.html"><span>show</span><wbr></wbr><span>Spot</span><wbr></wbr><span><span>List</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-340619531%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-main-ui-callback/show-spot-list.html"><span>show</span><wbr></wbr><span>Spot</span><wbr></wbr><span><span>List</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-340619531%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-main-ui-callback/show-spot-list.html"><span class="token function">showSpotList</span></a><span class="token punctuation">(</span>center<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Show donation spot list in cities.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-main-ui-callback/show-spot-list.html">showSpotList</a>(center: <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Show donation spot list in cities.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1409274285%2FFunctions%2F527234092" anchor-label="toggleAds" id="-1409274285%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-settings-ui-callback/toggle-ads.html"><span>toggle</span><wbr></wbr><span><span>Ads</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1409274285%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-settings-ui-callback/toggle-ads.html"><span>toggle</span><wbr></wbr><span><span>Ads</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1409274285%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-settings-ui-callback/toggle-ads.html"><span class="token function">toggleAds</span></a><span class="token punctuation">(</span>checked<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Enable or disable mobile ads</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-settings-ui-callback/toggle-ads.html">toggleAds</a>(checked: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">Enable or disable mobile ads</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1747832484%2FFunctions%2F527234092" anchor-label="versionInfo" id="1747832484%2FFunctions%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-settings-ui-callback/version-info.html"><span>version</span><wbr></wbr><span><span>Info</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1747832484%2FFunctions%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-settings-ui-callback/version-info.html"><span>version</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1747832484%2FFunctions%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag jvm-like">compose</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark jvm-like" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose" data-active="" data-toggle=":app:dokkaHtml/compose">compose</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-settings-ui-callback/version-info.html"><span class="token function">versionInfo</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">App version info.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/compose"><div class="symbol monospace">abstract fun <a href="../-settings-ui-callback/version-info.html">versionInfo</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<div class="brief "><p class="paragraph">App version info.</p></div></div>
-</div>
                     </div>
                   </div>
                 </div>
@@ -374,7 +330,9 @@
               <div class="table" data-togglable="Inheritors"><a data-name="1507887859%2FInheritors%2F527234092" anchor-label="MainActivity" id="1507887859%2FInheritors%2F527234092" data-filterable-set=":app:dokkaHtml/compose"></a>
                 <div class="table-row" data-filterable-current=":app:dokkaHtml/compose" data-filterable-set=":app:dokkaHtml/compose">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../dolphin.android.apps.BloodServiceApp/-main-activity/index.html">MainActivity</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1507887859%2FInheritors%2F527234092"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../dolphin.android.apps.BloodServiceApp/-main-activity/index.html">MainActivity</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1507887859%2FInheritors%2F527234092"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div></div>
@@ -384,7 +342,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>

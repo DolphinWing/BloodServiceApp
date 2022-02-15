@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrefsDataStore.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.provider</a> &gt; <span class="el_source">PrefsDataStore.kt</span></div><h1>PrefsDataStore.kt</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package dolphin.android.apps.BloodServiceApp.provider</span>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrefsDataStore.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">dolphin.android.apps.BloodServiceApp.provider</a> &gt; <span class="el_source">PrefsDataStore.kt</span></div><h1>PrefsDataStore.kt</h1><pre class="source lang-java linenums"><span class="nc" id="L1">package dolphin.android.apps.BloodServiceApp.provider</span>
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 // At the top level of your kotlin file:
-<span class="fc" id="L15">val Context.dataStore: DataStore&lt;Preferences&gt; by preferencesDataStore(name = &quot;settings&quot;)</span>
+<span class="nc" id="L15">val Context.dataStore: DataStore&lt;Preferences&gt; by preferencesDataStore(name = &quot;settings&quot;)</span>
 
 /**
  * Use DataStore Preferences.
@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.map
      *
      * @param context Android Context
      */
-<span class="fc" id="L33">    constructor(context: Context) : this(context.dataStore)</span>
+<span class="nc" id="L33">    constructor(context: Context) : this(context.dataStore)</span>
 
 <span class="fc" id="L35">    private val keyCenterId = intPreferencesKey(&quot;near_by_center&quot;)</span>
 
@@ -48,9 +48,9 @@ import kotlinx.coroutines.flow.map
      * @param id blood center id
      */
     suspend fun changeCenter(id: Int) {
-<span class="fc" id="L51">        dataStore.edit { settings -&gt;</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        dataStore.edit { settings -&gt;</span>
 <span class="fc" id="L52">            settings[keyCenterId] = id</span>
-<span class="fc" id="L53">        }</span>
+<span class="pc" id="L53">        }</span>
 <span class="fc" id="L54">    }</span>
 
 <span class="fc" id="L56">    private val keyPolicyCode = longPreferencesKey(&quot;private_policy&quot;)</span>
@@ -68,9 +68,9 @@ import kotlinx.coroutines.flow.map
      * @param code new policy code
      */
     suspend fun updatePolicyCode(code: Long) {
-<span class="fc" id="L71">        dataStore.edit { settings -&gt;</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        dataStore.edit { settings -&gt;</span>
 <span class="fc" id="L72">            settings[keyPolicyCode] = code</span>
-<span class="fc" id="L73">        }</span>
+<span class="pc" id="L73">        }</span>
 <span class="fc" id="L74">    }</span>
 
 <span class="fc" id="L76">    private val keyMobileAds = booleanPreferencesKey(&quot;enable_adview&quot;)</span>
@@ -78,7 +78,7 @@ import kotlinx.coroutines.flow.map
     /**
      * A flag to show/hide mobile ads in app.
      */
-<span class="fc" id="L81">    val mobileAds: Flow&lt;Boolean&gt; = dataStore.data.map { preferences -&gt;</span>
+<span class="pc" id="L81">    val mobileAds: Flow&lt;Boolean&gt; = dataStore.data.map { preferences -&gt;</span>
         preferences[keyMobileAds] ?: true
     }
 
@@ -88,7 +88,7 @@ import kotlinx.coroutines.flow.map
      * @param enabled true if user allows mobile ads in app
      */
     suspend fun toggleAds(enabled: Boolean) {
-<span class="nc" id="L91">        dataStore.edit { settings -&gt;</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        dataStore.edit { settings -&gt;</span>
 <span class="nc" id="L92">            settings[keyMobileAds] = enabled</span>
 <span class="nc" id="L93">        }</span>
 <span class="nc" id="L94">    }</span>
