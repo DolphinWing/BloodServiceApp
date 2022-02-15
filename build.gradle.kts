@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
         classpath(Libs.Google.gradleBuildTool)
@@ -12,6 +12,7 @@ buildscript {
         classpath(Libs.jacoco)
         classpath(Libs.JetBrains.dokka)
         classpath(Libs.Firebase.performance) // Performance Monitoring plugin
+        classpath(Libs.gradleVersionsPlugin)
     }
 }
 

@@ -4,15 +4,15 @@ import java.net.URL
 plugins {
     id("com.android.application")
     kotlin("android")
-    // kotlin("android.extensions")
     id("com.google.gms.google-services") // Google Services Gradle plugin
-    id("com.github.ben-manes.versions") version Versions.gradleVersionsPlugin
+    id("com.github.ben-manes.versions") // version Versions.gradleVersionsPlugin
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradle
     id("org.jetbrains.dokka")
     id("com.google.firebase.firebase-perf")
+    // id("version.gradle")
 }
 
-apply<CustomJacocoReport>()
+apply<dolphin.gradle.dsl.CustomJacocoReport>()
 
 android {
     compileSdk = 31
@@ -48,8 +48,8 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 219
-            versionName = "3.1.0"
+            versionCode = 221
+            versionName = "3.1.2"
             dimension = "mode"
             minSdk = 21
         }
@@ -62,7 +62,7 @@ android {
     }
 
     lint {
-        disable("PackageName")
+        disable.add("PackageName") // disable("PackageName")
     }
 
     // maybe https://github.com/evant/gradle-retrolambda
@@ -202,8 +202,8 @@ dependencies {
         implementation(Libs.AndroidX.work) {
             because(
                 "androidx.work:work-runtime:2.1.0 pulled from play-services-ads " +
-                    "has a bug using PendingIntent without FLAG_IMMUTABLE or FLAG_MUTABLE and " +
-                    "will fail in apps targeting S+."
+                    "has a bug using PendingIntent without FLAG_IMMUTABLE or FLAG_MUTABLE " +
+                    "and will fail in apps targeting S+."
             )
         }
     }

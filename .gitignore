@@ -7,7 +7,7 @@
 /build
 *.iml
 library/MyUtilsLibrary/build/
-.idea/vcs.xml
+#.idea/vcs.xml
 
 #https://github.com/github/gitignore/blob/master/Android.gitignore
 # IntelliJ
