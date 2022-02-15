@@ -9,26 +9,26 @@ object Versions {
     const val jacoco = "0.8.7"
 
     object Google {
-        const val gradleBuildTool = "7.0.3"
+        const val gradleBuildTool = "7.1.1"
         const val services: String = "4.3.10"
 
-        const val playServices = "17.6.0"
+        const val playServices = "18.0.1"
         const val analytics = "17.0.0"
         const val ads = "20.5.0"
 
-        const val material: String = "1.5.0-beta01"
+        const val material: String = "1.5.0"
     }
 
     const val okhttp: String = "4.9.3"
 
     object AndroidX {
-        const val appcompat: String = "1.4.0"
+        const val appcompat: String = "1.4.1"
 
         const val coreKtx: String = "1.7.0"
 
-        const val lifecycle: String = "2.4.0"
+        const val lifecycle: String = "2.4.1"
 
-        const val constraintLayout: String = "2.1.2"
+        const val constraintLayout: String = "2.1.3"
 
         /**
          * https://developer.android.com/jetpack/androidx/releases/activity
@@ -42,7 +42,7 @@ object Versions {
 
         const val recyclerView: String = "1.2.1"
 
-        const val preference: String = "1.1.1"
+        const val preference: String = "1.2.0"
 
         const val swipeRefreshLayout = "1.1.0"
 
@@ -53,8 +53,8 @@ object Versions {
         /**
          * https://developer.android.com/jetpack/androidx/releases/compose
          */
-        const val compose = "1.0.5"
-        const val composeMaterial3 = "1.0.0-alpha01"
+        const val compose = "1.1.0"
+        const val composeMaterial3 = "1.0.0-alpha05"
 
         /**
          * https://developer.android.com/topic/libraries/architecture/datastore
@@ -63,13 +63,13 @@ object Versions {
     }
 
     object Firebase {
-        const val bom: String = "29.0.0"
+        const val bom: String = "29.1.0"
 
         const val core: String = "19.0.0"
         const val analytics: String = "19.0.0"
         const val config: String = "21.0.0"
 
-        const val performance: String = "1.4.0"
+        const val performance: String = "1.4.1"
     }
 
     object FlexibleAdapter {
@@ -78,13 +78,13 @@ object Versions {
     }
 
     object JetBrains {
-        const val kotlinLib = "1.5.31"
-        const val coroutines = "1.5.2"
+        const val kotlinLib = "1.6.10"
+        const val coroutines = "1.6.0"
 
         /**
          * https://github.com/Kotlin/dokka
          */
-        const val dokka = "1.5.31"
+        const val dokka = "1.6.10"
     }
 
     /**
@@ -99,12 +99,12 @@ object Versions {
      * ./gradlew :app:ktlintComposeSourceSetCheck
      * ./gradlew runKtlintFormatOverFlexibleSourceSet
      */
-    const val ktlintGradle = "10.2.0"
+    const val ktlintGradle = "10.2.1"
 
     object Test {
         const val junit = "4.13.2"
-        const val robolectric = "4.7.2"
-        const val mockito = "4.1.0"
+        const val robolectric = "4.7.3"
+        const val mockito = "4.3.1"
     }
 
     /**

@@ -13,6 +13,11 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2021 DolphinWing.
 ----
+[221] @ 2022-02-15
+    AGP 7.1.1 (Android Studio Bumblebee)
+    Compose 1.1.0
+    other dependency update
+
 [220] @ 2021-12-07
     fix clickable background
 

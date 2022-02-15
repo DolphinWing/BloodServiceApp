@@ -48,8 +48,8 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 220
-            versionName = "3.1.1"
+            versionCode = 221
+            versionName = "3.1.2"
             dimension = "mode"
             minSdk = 21
         }
@@ -62,7 +62,7 @@ android {
     }
 
     lint {
-        disable("PackageName")
+        disable.add("PackageName") // disable("PackageName")
     }
 
     // maybe https://github.com/evant/gradle-retrolambda
