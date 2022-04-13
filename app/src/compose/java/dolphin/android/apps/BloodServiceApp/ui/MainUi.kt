@@ -26,8 +26,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
@@ -38,6 +36,8 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -498,13 +498,14 @@ private fun DayListPane(
                     modifier = Modifier.background(MaterialTheme.colorScheme.surface), // M3
                 ) {
                     DropdownMenuItem(
+                        text = {
+                            Text(stringResource(id = R.string.action_go_to_website))
+                        },
                         onClick = {
                             showMenu = false
                             onReviewSource?.invoke()
                         },
-                    ) {
-                        Text(stringResource(id = R.string.action_go_to_website))
-                    }
+                    )
                 }
             }
         }

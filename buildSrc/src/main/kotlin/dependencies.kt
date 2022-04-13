@@ -9,12 +9,12 @@ object Versions {
     const val jacoco = "0.8.7"
 
     object Google {
-        const val gradleBuildTool = "7.1.1"
+        const val gradleBuildTool = "7.1.3"
         const val services: String = "4.3.10"
 
         const val playServices = "18.0.1"
         const val analytics = "17.0.0"
-        const val ads = "20.5.0"
+        const val ads = "20.6.0"
 
         const val material: String = "1.5.0"
     }
@@ -53,8 +53,8 @@ object Versions {
         /**
          * https://developer.android.com/jetpack/androidx/releases/compose
          */
-        const val compose = "1.1.0"
-        const val composeMaterial3 = "1.0.0-alpha05"
+        const val compose = "1.1.1"
+        const val composeMaterial3 = "1.0.0-alpha09"
 
         /**
          * https://developer.android.com/topic/libraries/architecture/datastore
@@ -63,7 +63,7 @@ object Versions {
     }
 
     object Firebase {
-        const val bom: String = "29.1.0"
+        const val bom: String = "29.3.0"
 
         const val core: String = "19.0.0"
         const val analytics: String = "19.0.0"
@@ -79,7 +79,7 @@ object Versions {
 
     object JetBrains {
         const val kotlinLib = "1.6.10"
-        const val coroutines = "1.6.0"
+        const val coroutines = "1.6.1"
 
         /**
          * https://github.com/Kotlin/dokka
@@ -104,7 +104,7 @@ object Versions {
     object Test {
         const val junit = "4.13.2"
         const val robolectric = "4.7.3"
-        const val mockito = "4.3.1"
+        const val mockito = "4.4.0"
     }
 
     /**
