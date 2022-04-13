@@ -15,5 +15,5 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 * [jacoco report](https://dolphinwing.github.io/BloodServiceApp/jacoco/index.html)
 * [dokka](https://dolphinwing.github.io/BloodServiceApp/dokka/index.html)
 
-[![License: MIT](https://img.shields.io/github/license/DolphinWing/BloodServiceApp)](https://opensource.org/licenses/MIT) Copyright (c) 2021 DolphinWing
+[![License: MIT](https://img.shields.io/github/license/DolphinWing/BloodServiceApp)](https://opensource.org/licenses/MIT) Copyright (c) 2022 DolphinWing
 

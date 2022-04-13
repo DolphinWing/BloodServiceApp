@@ -108,13 +108,6 @@ interface AppUiCallback :
      * Callback when user press BACK button on UI.
      */
     fun pressBack()
-
-    /**
-     * Review data source in a browser
-     *
-     * @param center target blood center
-     */
-    fun reviewSource(center: BloodCenter.Center)
 }
 
 enum class UiState {
@@ -155,11 +148,10 @@ fun AppUiPane(
             when (state) {
                 UiState.Welcome ->
                     WelcomeUi(
+                        mainCenter = center.main(),
                         list = center.values(),
-                        onComplete = { index -> callback.reviewComplete(center.values()[index]) },
+                        callback = callback,
                         modifier = Modifier.fillMaxSize(),
-                        onReview = { callback.reviewPrivacy() },
-                        onSource = { callback.reviewSource(center.main()) },
                     )
 
                 UiState.Main ->
@@ -167,22 +159,13 @@ fun AppUiPane(
                         centers = center.values(),
                         selected = selected.value ?: center.main(),
                         modifier = Modifier.fillMaxSize(),
+                        callback = callback,
+                        reviewCallback = callback,
                         daysList = days.value,
                         storageMap = maps.value,
-                        onCenterChange = { c -> callback.changeBloodCenter(c) },
-                        onAddCalendar = { event -> callback.addToCalendar(event) },
                         enableAddCalendar = callback.enableAddToCalendar(),
-                        onSearchOnMap = { event -> callback.searchOnMaps(event) },
                         enableSearchOnMap = callback.enableSearchOnMap(),
-                        onSpotListClick = { c -> callback.showSpotList(c) },
-                        onDonorClick = { callback.showDonorInfo() },
                         onSettingsClick = { model.changeUiState(UiState.Settings) },
-                        onReviewSource = { c -> callback.reviewSource(c) },
-                        onFacebookClick = { c -> callback.showFacebookPages(c) },
-                        onReviewIgnore = {
-                            callback.reviewComplete(selected.value ?: center.main())
-                        },
-                        onReviewPolicy = { callback.reviewPrivacy() },
                         showReviewPolicy = review.value,
                     )
 
@@ -220,6 +203,8 @@ fun AppUiPane(
  */
 @DebugOnlyNoCoverage
 object PreviewSample {
+    val mainCenter = BloodCenter.Center(name = "Main Center")
+
     val selectedCenter = BloodCenter.Center(
         name = "Tainan Center",
         id = 5,

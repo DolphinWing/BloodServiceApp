@@ -62,6 +62,13 @@ interface WelcomeUiCallback {
      * @param center selected blood center
      */
     fun reviewComplete(center: BloodCenter.Center)
+
+    /**
+     * Review data source in a browser
+     *
+     * @param center target blood center
+     */
+    fun reviewSource(center: BloodCenter.Center)
 }
 
 /**
@@ -70,11 +77,10 @@ interface WelcomeUiCallback {
 @ExperimentalMaterial3Api
 @Composable
 fun WelcomeUi(
+    mainCenter: BloodCenter.Center,
     list: List<BloodCenter.Center>,
-    onComplete: (Int) -> Unit,
+    callback: WelcomeUiCallback,
     modifier: Modifier = Modifier,
-    onSource: (() -> Unit)? = null,
-    onReview: (() -> Unit)? = null,
 ) {
     var selected by remember { mutableStateOf(3) }
 
@@ -94,7 +100,7 @@ fun WelcomeUi(
         },
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            WelcomeText(onClick = onSource)
+            WelcomeText(onClick = { callback.reviewSource(mainCenter) })
             WelcomeCenterSelectionUi(
                 list = list,
                 selected = selected,
@@ -103,8 +109,8 @@ fun WelcomeUi(
             )
             Spacer(modifier = Modifier.weight(1f))
             PrivacyPolicyPane(
-                onAccept = { onComplete.invoke(selected) },
-                onReview = onReview,
+                onAccept = { callback.reviewComplete(list[selected]) },
+                onReview = { callback.reviewPrivacy() },
             )
             Spacer(modifier = Modifier.requiredHeight(32.dp))
         }
@@ -285,8 +291,18 @@ private fun PrivacyPolicyPane(
 private fun PreviewWelcomeUi() {
     AppTheme {
         WelcomeUi(
+            mainCenter = PreviewSample.mainCenter,
             list = PreviewSample.centers,
-            onComplete = {},
+            callback = object : WelcomeUiCallback {
+                override fun reviewPrivacy() {
+                }
+
+                override fun reviewComplete(center: BloodCenter.Center) {
+                }
+
+                override fun reviewSource(center: BloodCenter.Center) {
+                }
+            },
         )
     }
 }
