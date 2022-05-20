@@ -38,11 +38,6 @@
                 android:minHeight="640dp"
                 tools:targetApi="n" />
         </activity>
-
-        <!-- Compose androidTest -->
-        <activity
-            android:name="androidx.activity.ComponentActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

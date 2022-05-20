@@ -33,7 +33,11 @@ class WelcomeUiAndroidTest {
     @Test
     fun welcome() {
         composeTestRule.setContent {
-            WelcomeUi(list = center.values(), onComplete = {})
+            WelcomeUi(
+                mainCenter = center.main(),
+                list = center.values(),
+                callback = DummyWelcomeUiCallback(),
+            )
         }
         composeTestRule.assertTextDisplayed(getString(R.string.app_name))
     }
@@ -43,6 +47,18 @@ class WelcomeUiAndroidTest {
         composeTestRule.setContent {
             LoadingAppUi()
         }
+        composeTestRule.waitForIdle()
         composeTestRule.tag("loading").assertIsDisplayed()
+    }
+}
+
+private class DummyWelcomeUiCallback : WelcomeUiCallback {
+    override fun reviewPrivacy() {
+    }
+
+    override fun reviewComplete(center: BloodCenter.Center) {
+    }
+
+    override fun reviewSource(center: BloodCenter.Center) {
     }
 }

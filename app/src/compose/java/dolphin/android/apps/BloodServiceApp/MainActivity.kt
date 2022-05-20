@@ -14,6 +14,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +41,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+@ExperimentalMaterial3WindowSizeClassApi
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 class MainActivity : AppCompatActivity(), AppUiCallback {
@@ -70,6 +73,9 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
             LaunchedEffect(Unit) {
                 changeToDarkMode(dark)
             }
+
+            val windowSize = calculateWindowSizeClass(activity = this)
+            Log.v(TAG, "size = ${windowSize.widthSizeClass}")
 
             AppUiPane(
                 model = model,

@@ -1,12 +1,13 @@
 package dolphin.android.tests
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -15,35 +16,27 @@ import org.junit.Rule
 /**
  * Basic implementation to setup/clean Coroutine test.
  * See https://www.wwt.com/article/testing-android-datastore
+ * https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test
  */
 @ExperimentalCoroutinesApi
+@DelicateCoroutinesApi
 abstract class CoroutineTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected val testCoroutineScope = TestCoroutineScope(testDispatcher)
+    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun setupDispatcherScope() {
-        Dispatchers.setMain(testDispatcher)
+        Dispatchers.setMain(mainThreadSurrogate)
     }
 
     @After
     fun cleanupDispatcherScope() {
         Dispatchers.resetMain()
+        mainThreadSurrogate.close()
     }
 
-    @After
-    fun cleanupCoroutines() {
-        testDispatcher.cleanupTestCoroutines()
-        testDispatcher.resumeDispatcher()
-    }
-
-    fun runCoroutuneTest(block: suspend TestCoroutineScope.() -> Unit) =
-        testCoroutineScope.runBlockingTest(block)
+    fun runCoroutineTest(block: suspend TestScope.() -> Unit) = runTest(testBody = block)
 }

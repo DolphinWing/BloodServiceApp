@@ -145,7 +145,7 @@ abstract class CustomJacocoTask(
         reports {
             xml.required.set(false)
             csv.required.set(false)
-            html.destination = project.file("${project.rootProject.projectDir}/jacoco")
+            html.outputLocation.set(project.file("${project.rootProject.projectDir}/jacoco"))
         }
 
         sourceDirectories.setFrom(project.files(sourceDirectory(project, flavor)))

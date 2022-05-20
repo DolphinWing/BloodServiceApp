@@ -13,6 +13,9 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2022 DolphinWing.
 ----
+[224] @ 2022-05-20
+    upgrade gradle and libs
+
 [223] @ 2022-04-13
     refactor code structure: move callbacks to interface
     change blood center by Dialog instead of LazyRow and suggestion chips

@@ -8,6 +8,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
@@ -19,6 +20,7 @@ import java.io.File
  * Basic implementation of setup/clean DataStore test.
  * See https://www.wwt.com/article/testing-android-datastore
  */
+@DelicateCoroutinesApi
 @ExperimentalCoroutinesApi
 abstract class DataStoreTest : CoroutineTest() {
     private lateinit var preferencesScope: CoroutineScope
@@ -28,7 +30,7 @@ abstract class DataStoreTest : CoroutineTest() {
 
     @Before
     fun createDatastore() {
-        preferencesScope = CoroutineScope(testDispatcher + Job())
+        preferencesScope = CoroutineScope(/*testDispatcher +*/ Job())
 
         dataStore = PreferenceDataStoreFactory.create(scope = preferencesScope) {
             InstrumentationRegistry.getInstrumentation().targetContext.preferencesDataStoreFile(

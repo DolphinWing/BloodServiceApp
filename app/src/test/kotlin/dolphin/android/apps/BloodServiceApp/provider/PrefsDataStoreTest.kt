@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.lifecycle.asLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dolphin.android.tests.DataStoreTest
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
@@ -14,6 +15,7 @@ import org.robolectric.annotation.Config
 /**
  * See [https://www.wwt.com/article/testing-android-datastore]
  */
+@DelicateCoroutinesApi
 @ExperimentalCoroutinesApi
 @Config(sdk = [Build.VERSION_CODES.R])
 @RunWith(AndroidJUnit4::class)
@@ -26,7 +28,7 @@ class PrefsDataStoreTest : DataStoreTest() {
     }
 
     @Test
-    fun `change to taipei`() = runCoroutuneTest {
+    fun `change to taipei`() = runCoroutineTest {
         prefs.changeCenter(2)
         prefs.centerId.asLiveData().observeForever { actual ->
             Assert.assertEquals(2, actual)
@@ -34,7 +36,7 @@ class PrefsDataStoreTest : DataStoreTest() {
     }
 
     @Test
-    fun `change to hsinchu`() = runCoroutuneTest {
+    fun `change to hsinchu`() = runCoroutineTest {
         prefs.changeCenter(3)
         prefs.centerId.asLiveData().observeForever { actual ->
             Assert.assertEquals(3, actual)
@@ -42,14 +44,14 @@ class PrefsDataStoreTest : DataStoreTest() {
     }
 
     @Test
-    fun `policy code default`() = runCoroutuneTest {
+    fun `policy code default`() = runCoroutineTest {
         prefs.policyCode.asLiveData().observeForever { actual ->
             Assert.assertEquals(0, actual)
         }
     }
 
     @Test
-    fun `change policy code`() = runCoroutuneTest {
+    fun `change policy code`() = runCoroutineTest {
         prefs.updatePolicyCode(20211110)
         prefs.policyCode.asLiveData().observeForever { actual ->
             Assert.assertEquals(20211110, actual)

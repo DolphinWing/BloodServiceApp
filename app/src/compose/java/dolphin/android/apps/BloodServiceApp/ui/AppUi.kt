@@ -132,6 +132,7 @@ fun AppUiPane(
     callback: AppUiCallback,
     modifier: Modifier = Modifier,
 ) {
+
     AppTheme(dark = model.darkMode.collectAsState().value) {
         val selected = model.center.observeAsState()
         val maps = model.storageMap.collectAsState()

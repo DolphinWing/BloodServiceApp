@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
@@ -175,20 +176,22 @@ private fun WelcomeCenterSelectionUi(
 ) {
     Column(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.tertiaryContainer)
+            .background(MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(4.dp))
             .padding(4.dp),
     ) {
         Text(
             stringResource(id = R.string.choose_near_by_blood_center),
             style = MaterialTheme.typography.bodyMedium,
             // fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 8.dp),
         )
-        Spacer(modifier = Modifier.requiredHeight(8.dp))
+        Spacer(modifier = Modifier.requiredHeight(4.dp))
         list.forEachIndexed { index, center ->
             Row(
                 modifier = Modifier
                     .clickable { onSelectedChange.invoke(index) }
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (index == selected) {

@@ -37,14 +37,14 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun ready() = runCoroutuneTest {
+    fun ready() = runCoroutineTest {
         model.ready.observeForever { actual ->
             Assert.assertFalse(actual)
         }
     }
 
     @Test
-    fun postReady() = runCoroutuneTest {
+    fun postReady() = runCoroutineTest {
         model.ready.postValue(true)
         model.ready.observeForever { actual ->
             Assert.assertTrue(actual)
@@ -52,14 +52,14 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun darkMode() = runCoroutuneTest {
+    fun darkMode() = runCoroutineTest {
         model.darkMode.asLiveData().observeForever { actual ->
             Assert.assertFalse(actual)
         }
     }
 
     @Test
-    fun changeDarkMode() = runCoroutuneTest {
+    fun changeDarkMode() = runCoroutineTest {
         model.darkMode.emit(true)
         model.darkMode.asLiveData().observeForever { actual ->
             Assert.assertTrue(actual)
@@ -67,14 +67,14 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun noPrivacyUpdate() = runCoroutuneTest {
+    fun noPrivacyUpdate() = runCoroutineTest {
         model.showPrivacyReview.asLiveData().observeForever { actual ->
             Assert.assertFalse(actual)
         }
     }
 
     @Test
-    fun reviewPrivacy() = runCoroutuneTest {
+    fun reviewPrivacy() = runCoroutineTest {
         model.showPrivacyReview.emit(true)
         model.showPrivacyReview.asLiveData().observeForever { actual ->
             Assert.assertTrue(actual)
@@ -87,7 +87,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun changeUiState() = runCoroutuneTest {
+    fun changeUiState() = runCoroutineTest {
         model.changeUiState(UiState.Welcome)
         model.uiState.observeForever { actual ->
             Assert.assertEquals(UiState.Welcome, actual)
@@ -96,28 +96,28 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun warmUp() = runCoroutuneTest {
+    fun warmUp() = runCoroutineTest {
         model.init(parser).asLiveData().observeForever { actual ->
             Assert.assertTrue(actual) // always true
         }
     }
 
     @Test
-    fun getStorageData() = runCoroutuneTest {
+    fun getStorageData() = runCoroutineTest {
         model.getStorageData(parser).asLiveData().observeForever { result ->
             Assert.assertFalse(result)
         }
     }
 
     @Test
-    fun getStorageDataRefresh() = runCoroutuneTest {
+    fun getStorageDataRefresh() = runCoroutineTest {
         model.getStorageData(parser, true).asLiveData().observeForever { result ->
             Assert.assertFalse(result)
         }
     }
 
     @Test
-    fun getStorageDataCache() = runCoroutuneTest {
+    fun getStorageDataCache() = runCoroutineTest {
         repeat(2) {
             model.getStorageData(parser).asLiveData().observeForever { result ->
                 Assert.assertFalse(result)
@@ -126,7 +126,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun getStorageDataCacheRefresh() = runCoroutuneTest {
+    fun getStorageDataCacheRefresh() = runCoroutineTest {
         repeat(2) {
             model.getStorageData(parser, true).asLiveData().observeForever { result ->
                 Assert.assertFalse(result)
@@ -135,7 +135,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun storageMap() = runCoroutuneTest {
+    fun storageMap() = runCoroutineTest {
         model.getStorageData(parser, centerId = center.taipei().id)
         model.storageMap.asLiveData().observeForever { map ->
             Assert.assertTrue(map.isNotEmpty())
@@ -143,14 +143,14 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun getDonationData() = runCoroutuneTest {
+    fun getDonationData() = runCoroutineTest {
         model.getDonationData(parser, center.tainan().id).asLiveData().observeForever { result ->
             Assert.assertFalse(result)
         }
     }
 
     @Test
-    fun getDonationDataCache() = runCoroutuneTest {
+    fun getDonationDataCache() = runCoroutineTest {
         repeat(2) {
             model.getDonationData(parser).asLiveData().observeForever { result ->
                 Assert.assertFalse(result)
@@ -159,7 +159,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun getDonationDataCity() = runCoroutuneTest {
+    fun getDonationDataCity() = runCoroutineTest {
         model.changeCity(center.taichung().id)
         model.city.asLiveData().observeForever { }
         model.getDonationData(parser).asLiveData().observeForever { result ->
@@ -168,7 +168,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun daysList() = runCoroutuneTest {
+    fun daysList() = runCoroutineTest {
         model.getDonationData(parser, center.taichung().id)
         model.daysList.asLiveData().observeForever { days ->
             Assert.assertTrue(days.isNotEmpty())
@@ -177,14 +177,14 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun getSpotListData() = runCoroutuneTest {
+    fun getSpotListData() = runCoroutineTest {
         model.getSpotListData(parser, center.kaohsiung().id).asLiveData().observeForever { result ->
             Assert.assertFalse(result)
         }
     }
 
     @Test
-    fun getSpotListDataCache() = runCoroutuneTest {
+    fun getSpotListDataCache() = runCoroutineTest {
         repeat(2) {
             model.getSpotListData(parser).asLiveData().observeForever { result ->
                 Assert.assertFalse(result)
@@ -193,7 +193,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun getSpotListDataCity() = runCoroutuneTest {
+    fun getSpotListDataCity() = runCoroutineTest {
         model.changeCity(center.taipei().id)
         model.city.asLiveData().observeForever { }
         model.getSpotListData(parser).asLiveData().observeForever { result ->
@@ -202,7 +202,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun spotList() = runCoroutuneTest {
+    fun spotList() = runCoroutineTest {
         model.getSpotListData(parser, center.kaohsiung().id)
         model.spotList.asLiveData().observeForever { list ->
             Assert.assertTrue(list.isNotEmpty())
@@ -210,7 +210,7 @@ class AppDataModelTest : CoroutineTest() {
     }
 
     @Test
-    fun changeCity() = runCoroutuneTest {
+    fun changeCity() = runCoroutineTest {
         model.changeCity(center.hsinchu().id)
         model.city.asLiveData().observeForever { id ->
             Assert.assertEquals(center.hsinchu().id, id)

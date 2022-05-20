@@ -34,7 +34,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isTestCoverageEnabled = true
+            isTestCoverageEnabled = false /* FIXME: jacoco cause runtime crash */
 
             // Set this flag to 'false' to disable @AddTrace annotation processing and automatic
             // HTTP/S network request monitoring for a specific build variant at compile time
@@ -240,10 +240,12 @@ dependencies {
     implementation(Libs.AndroidX.Compose.layout)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.material3)
+    implementation(Libs.AndroidX.Compose.material3window)
     implementation(Libs.AndroidX.Compose.materialIcons)
     implementation(Libs.AndroidX.Compose.uiTooling)
-    androidTestImplementation(Libs.AndroidXTest.uiTest)
-    androidTestImplementation(Libs.AndroidXTest.uiJunitTest)
+    androidTestImplementation(Libs.AndroidXTest.Compose.test)
+    androidTestImplementation(Libs.AndroidXTest.Compose.junit)
+    debugImplementation(Libs.AndroidXTest.Compose.manifest)
     androidTestImplementation(Libs.AndroidXTest.core)
     androidTestImplementation(Libs.AndroidXTest.junit)
 
@@ -257,6 +259,8 @@ dependencies {
     testImplementation(Libs.AndroidXTest.rules)
     testImplementation(Libs.AndroidXTest.runner)
     testImplementation(Libs.AndroidXTest.archCore)
+
+    // implementation("org.jacoco:org.jacoco.agent:${Versions.jacoco}:runtime")
 }
 
 // https://github.com/jlleitschuh/ktlint-gradle

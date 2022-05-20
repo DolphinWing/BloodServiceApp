@@ -6,17 +6,21 @@ object Versions {
     /**
      * https://www.jacoco.org/jacoco/trunk/doc/changes.html
      */
-    const val jacoco = "0.8.7"
+    const val jacoco = "0.8.8"
 
     object Google {
-        const val gradleBuildTool = "7.1.3"
+        const val gradleBuildTool = "7.2.0"
+
+        /**
+         * https://developers.google.com/android/guides/google-services-plugin
+         */
         const val services: String = "4.3.10"
 
         const val playServices = "18.0.1"
         const val analytics = "17.0.0"
         const val ads = "20.6.0"
 
-        const val material: String = "1.5.0"
+        const val material: String = "1.6.0"
     }
 
     const val okhttp: String = "4.9.3"
@@ -53,8 +57,8 @@ object Versions {
         /**
          * https://developer.android.com/jetpack/androidx/releases/compose
          */
-        const val compose = "1.1.1"
-        const val composeMaterial3 = "1.0.0-alpha09"
+        const val compose = "1.2.0-beta02"
+        const val composeMaterial3 = "1.0.0-alpha12"
 
         /**
          * https://developer.android.com/topic/libraries/architecture/datastore
@@ -63,7 +67,7 @@ object Versions {
     }
 
     object Firebase {
-        const val bom: String = "29.3.0"
+        const val bom: String = "30.0.1"
 
         const val core: String = "19.0.0"
         const val analytics: String = "19.0.0"
@@ -78,13 +82,13 @@ object Versions {
     }
 
     object JetBrains {
-        const val kotlinLib = "1.6.10"
+        const val kotlinLib = "1.6.21"
         const val coroutines = "1.6.1"
 
         /**
          * https://github.com/Kotlin/dokka
          */
-        const val dokka = "1.6.10"
+        const val dokka = "1.6.21"
     }
 
     /**
@@ -99,12 +103,12 @@ object Versions {
      * ./gradlew :app:ktlintComposeSourceSetCheck
      * ./gradlew runKtlintFormatOverFlexibleSourceSet
      */
-    const val ktlintGradle = "10.2.1"
+    const val ktlintGradle = "10.3.0"
 
     object Test {
         const val junit = "4.13.2"
-        const val robolectric = "4.7.3"
-        const val mockito = "4.4.0"
+        const val robolectric = "4.8.1"
+        const val mockito = "4.5.1"
     }
 
     /**
@@ -232,6 +236,8 @@ object Libs {
             const val material = "androidx.compose.material:material:${Versions.AndroidX.compose}"
             const val material3 =
                 "androidx.compose.material3:material3:${Versions.AndroidX.composeMaterial3}"
+            const val material3window =
+                "androidx.compose.material3:material3-window-size-class:${Versions.AndroidX.composeMaterial3}"
             const val materialIcons =
                 "androidx.compose.material:material-icons-extended:${Versions.AndroidX.compose}"
             const val materialRipple =
@@ -289,8 +295,10 @@ object Libs {
         // https://developer.android.com/jetpack/androidx/releases/arch-core
         const val archCore = "androidx.arch.core:core-testing:${Versions.AndroidXTest.archCore}"
 
-        // compose
-        const val uiTest = "androidx.compose.ui:ui-test:${Versions.AndroidX.compose}"
-        const val uiJunitTest = "androidx.compose.ui:ui-test-junit4:${Versions.AndroidX.compose}"
+        object Compose {
+            const val test = "androidx.compose.ui:ui-test:${Versions.AndroidX.compose}"
+            const val junit = "androidx.compose.ui:ui-test-junit4:${Versions.AndroidX.compose}"
+            const val manifest = "androidx.compose.ui:ui-test-manifest:${Versions.AndroidX.compose}"
+        }
     }
 }
