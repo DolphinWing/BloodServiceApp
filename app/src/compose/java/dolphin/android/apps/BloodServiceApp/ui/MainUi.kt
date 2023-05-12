@@ -201,7 +201,7 @@ fun MainUi(
 
             Separator()
             SpotListPane(
-                onClick = { callback?.changeBloodCenter(selected) },
+                onClick = { callback?.showSpotList(selected) },
                 modifier = Modifier.fillMaxWidth(),
             )
 

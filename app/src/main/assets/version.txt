@@ -13,6 +13,14 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2022 DolphinWing.
 ----
+[225] @ 2023-05-12
+    upgrade gradle and libs: targeting sdk 33
+        AGP 8.0.1
+        Compose 1.4.7
+        Kotlin 1.8.21
+        jdk 17
+        gradle 8.1.1
+
 [224] @ 2022-05-20
     upgrade gradle and libs
 

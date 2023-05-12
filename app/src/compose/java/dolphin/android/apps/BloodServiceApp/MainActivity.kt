@@ -37,7 +37,6 @@ import dolphin.android.util.PackageUtils
 import dolphin.android.util.readFromAssets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -272,6 +271,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun showSpotList(center: BloodCenter.Center) {
+        Log.d(TAG, "show spot list: ${center.id}")
         querySpotList(center.id)
         model.changeUiState(UiState.Spots)
     }
@@ -340,7 +340,7 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
     }
 
     override fun enableVersionSummary(): Boolean {
-        return BuildConfig.DEBUG || Firebase.remoteConfig.getBoolean("enable_change_log_summary")
+        return /*BuildConfig.DEBUG ||*/ Firebase.remoteConfig.getBoolean("enable_change_log_summary")
     }
 
     override fun toggleAds(checked: Boolean) {

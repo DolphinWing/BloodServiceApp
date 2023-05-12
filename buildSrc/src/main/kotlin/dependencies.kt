@@ -6,45 +6,54 @@ object Versions {
     /**
      * https://www.jacoco.org/jacoco/trunk/doc/changes.html
      */
-    const val jacoco = "0.8.8"
+    const val jacoco = "0.8.10"
 
     object Google {
-        const val gradleBuildTool = "7.2.0"
+        const val gradleBuildTool = "8.0.1"
 
         /**
          * https://developers.google.com/android/guides/google-services-plugin
          */
-        const val services: String = "4.3.10"
+        const val services: String = "4.3.15"
 
-        const val playServices = "18.0.1"
-        const val analytics = "17.0.0"
-        const val ads = "20.6.0"
+        /**
+         * https://developers.google.com/android/guides/setup
+         */
+        const val playServices = "18.2.0"
+        const val analytics = "18.0.2"
+        const val ads = "22.0.0"
 
-        const val material: String = "1.6.0"
+        const val material: String = "1.9.0"
     }
 
-    const val okhttp: String = "4.9.3"
+    const val okhttp: String = "4.11.0"
 
     object AndroidX {
-        const val appcompat: String = "1.4.1"
-
-        const val coreKtx: String = "1.7.0"
-
-        const val lifecycle: String = "2.4.1"
-
-        const val constraintLayout: String = "2.1.3"
-
         /**
          * https://developer.android.com/jetpack/androidx/releases/activity
          */
-        const val activity = "1.4.0"
+        const val activity = "1.7.1"
+
+        const val appcompat: String = "1.6.1"
+
+        /**
+         * https://developer.android.com/jetpack/androidx/releases/compose
+         */
+        const val compose = "1.4.7"
+        const val conposeBom = "2023.05.01"
+
+        const val coreKtx: String = "1.10.1"
+
+        const val constraintLayout: String = "2.1.4"
+
+        const val lifecycle: String = "2.6.1"
 
         /**
          * https://developer.android.com/jetpack/androidx/releases/fragment
          */
         const val fragment = "1.3.6"
 
-        const val recyclerView: String = "1.2.1"
+        const val recyclerView: String = "1.3.0"
 
         const val preference: String = "1.2.0"
 
@@ -52,13 +61,7 @@ object Versions {
 
         const val browser: String = "1.2.0"
 
-        const val work: String = "2.7.1"
-
-        /**
-         * https://developer.android.com/jetpack/androidx/releases/compose
-         */
-        const val compose = "1.2.0-beta02"
-        const val composeMaterial3 = "1.0.0-alpha12"
+        const val work: String = "2.8.1"
 
         /**
          * https://developer.android.com/topic/libraries/architecture/datastore
@@ -66,14 +69,20 @@ object Versions {
         const val datastore = "1.0.0"
     }
 
+    /**
+     * https://firebase.google.com/docs/android/learn-more
+     */
     object Firebase {
-        const val bom: String = "30.0.1"
+        const val bom: String = "32.0.0"
 
-        const val core: String = "19.0.0"
-        const val analytics: String = "19.0.0"
-        const val config: String = "21.0.0"
+//        const val core: String = "19.0.0"
+//        const val analytics: String = "19.0.0"
+//        const val config: String = "21.0.0"
 
-        const val performance: String = "1.4.1"
+        /**
+         * https://firebase.google.com/docs/perf-mon/get-started-android
+         */
+        const val performance: String = "1.4.2"
     }
 
     object FlexibleAdapter {
@@ -82,20 +91,20 @@ object Versions {
     }
 
     object JetBrains {
-        const val kotlinLib = "1.6.21"
-        const val coroutines = "1.6.1"
+        const val kotlinLib = "1.8.21"
+        const val coroutines = "1.7.0"
 
         /**
          * https://github.com/Kotlin/dokka
          */
-        const val dokka = "1.6.21"
+        const val dokka = "1.8.10"
     }
 
     /**
      * https://github.com/ben-manes/gradle-versions-plugin
      * ./gradlew dependencyUpdates
      */
-    const val gradleVersionsPlugin = "0.39.0"
+    const val gradleVersionsPlugin = "0.46.0"
 
     /**
      * https://github.com/jlleitschuh/ktlint-gradle
@@ -103,12 +112,13 @@ object Versions {
      * ./gradlew :app:ktlintComposeSourceSetCheck
      * ./gradlew runKtlintFormatOverFlexibleSourceSet
      */
-    const val ktlintGradle = "10.3.0"
+    const val ktlintGradle = "11.3.2"
 
     object Test {
         const val junit = "4.13.2"
-        const val robolectric = "4.8.1"
-        const val mockito = "4.5.1"
+        const val robolectric = "4.10.2"
+        const val mockito = "5.3.1"
+        const val mockitoInline = "5.2.0"
     }
 
     /**
@@ -116,12 +126,13 @@ object Versions {
      * https://maven.google.com/web/index.html
      */
     object AndroidXTest {
-        const val core = "1.4.0"
-        const val junit = "1.1.3"
+        const val core = "1.5.0"
+        const val runner = "1.5.2"
+        const val junit = "1.1.5"
         const val espresso = "3.4.0"
 
         // https://developer.android.com/jetpack/androidx/releases/arch-core
-        const val archCore = "2.1.0"
+        const val archCore = "2.2.0"
     }
 }
 
@@ -216,34 +227,23 @@ object Libs {
 
         // Compose
         object Compose {
-            const val runtime = "androidx.compose.runtime:runtime:${Versions.AndroidX.compose}"
-            const val livedata =
-                "androidx.compose.runtime:runtime-livedata:${Versions.AndroidX.compose}"
+//            const val runtime = "androidx.compose.runtime:runtime:${Versions.AndroidX.compose}"
+//            const val livedata =
+//                "androidx.compose.runtime:runtime-livedata:${Versions.AndroidX.compose}"
 
             const val activity =
                 "androidx.activity:activity-compose:${Versions.AndroidX.activity}"
             const val lifecycle =
                 "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.lifecycle}"
 
-            const val core = "androidx.compose.ui:ui:${Versions.AndroidX.compose}"
-            const val compiler = "androidx.compose.compiler:compiler:${Versions.AndroidX.compose}"
+//            const val compiler = "androidx.compose.compiler:compiler:${Versions.AndroidX.compose}"
+//
+//            const val foundation =
+//                "androidx.compose.foundation:foundation:${Versions.AndroidX.compose}"
+//            const val layout =
+//                "androidx.compose.foundation:foundation-layout:${Versions.AndroidX.compose}"
 
-            const val foundation =
-                "androidx.compose.foundation:foundation:${Versions.AndroidX.compose}"
-            const val layout =
-                "androidx.compose.foundation:foundation-layout:${Versions.AndroidX.compose}"
-
-            const val material = "androidx.compose.material:material:${Versions.AndroidX.compose}"
-            const val material3 =
-                "androidx.compose.material3:material3:${Versions.AndroidX.composeMaterial3}"
-            const val material3window =
-                "androidx.compose.material3:material3-window-size-class:${Versions.AndroidX.composeMaterial3}"
-            const val materialIcons =
-                "androidx.compose.material:material-icons-extended:${Versions.AndroidX.compose}"
-            const val materialRipple =
-                "androidx.compose.material:material-ripple:${Versions.AndroidX.compose}"
-
-            const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.AndroidX.compose}"
+//            const val materialRipple = "androidx.compose.material:material-ripple"
         }
 
         const val datastore =
@@ -255,11 +255,11 @@ object Libs {
 
         const val bom: String = "$firebase:firebase-bom:${Versions.Firebase.bom}"
 
-        const val core: String = "$firebase:firebase-core:${Versions.Firebase.core}"
-
-        const val analytics: String = "$firebase:firebase-analytics:${Versions.Firebase.analytics}"
-
-        const val remoteConfig: String = "$firebase:firebase-config:${Versions.Firebase.config}"
+//        const val core: String = "$firebase:firebase-core:${Versions.Firebase.core}"
+//
+//        const val analytics: String = "$firebase:firebase-analytics-ktx"
+//
+//        const val remoteConfig: String = "$firebase:firebase-config:${Versions.Firebase.config}"
 
         // Performance Monitoring plugin
         const val performance: String = "$firebase:perf-plugin:${Versions.Firebase.performance}"
@@ -282,13 +282,13 @@ object Libs {
         const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
 
         const val mockito = "org.mockito:mockito-core:${Versions.Test.mockito}"
-        const val mockitoInline = "org.mockito:mockito-inline:${Versions.Test.mockito}"
+        const val mockitoInline = "org.mockito:mockito-inline:${Versions.Test.mockitoInline}"
     }
 
     object AndroidXTest {
         const val core = "androidx.test:core-ktx:${Versions.AndroidXTest.core}"
         const val rules = "androidx.test:rules:${Versions.AndroidXTest.core}"
-        const val runner = "androidx.test:runner:${Versions.AndroidXTest.core}"
+        const val runner = "androidx.test:runner:${Versions.AndroidXTest.runner}"
 
         const val junit = "androidx.test.ext:junit-ktx:${Versions.AndroidXTest.junit}"
 

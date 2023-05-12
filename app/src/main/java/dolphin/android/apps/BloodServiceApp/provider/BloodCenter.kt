@@ -78,12 +78,12 @@ class BloodCenter(context: Context) {
 
     fun taichung(): Center = Center(3, this)
 
-    fun tainan(): Center = Center(4, this)
+//    fun tainan(): Center = Center(4, this)
 
-    fun kaohsiung(): Center = Center(5, this)
+    fun kaohsiung(): Center = Center(4, this)
 
     fun values(): List<Center> = arrayListOf(
-        taipei(), hsinchu(), taichung(), tainan(), kaohsiung(),
+        taipei(), hsinchu(), taichung(), /*tainan(),*/ kaohsiung(),
     )
 
     fun find(id: Int): Center = values().find { c -> id == c.id } ?: main()

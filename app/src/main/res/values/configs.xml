@@ -17,7 +17,7 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
-        <item>5</item>
+        <!--<item>5</item>-->
         <item>6</item>
         <!--<item>7</item>-->
     </integer-array>
@@ -28,7 +28,7 @@
         <item>taipeiblood:262897963732105</item>
         <item>scblood:108096985986769</item>
         <item>tcblood:223119054413668</item>
-        <item>tnblood:150539295008812</item>
+        <!--<item>tnblood:150539295008812</item>-->
         <item>TBSFksblood:255030234579199</item>
         <!--<item>Hualienblood:151343784959694</item>-->
     </string-array>
@@ -39,7 +39,7 @@
         <item>http://www.tp.blood.org.tw/Internet/taipei/LocationMap.aspx?spotID=68</item>
         <item>http://www.sc.blood.org.tw/Internet/hsinchu/LocationMap.aspx?spotID=2</item>
         <item>http://www.tc.blood.org.tw/Internet/Taichung/LocationMap.aspx?spotID=3</item>
-        <item>http://www.tn.blood.org.tw/Internet/Tainan/LocationMap.aspx?spotID=4</item>
+        <!--<item>http://www.tn.blood.org.tw/Internet/Tainan/LocationMap.aspx?spotID=4</item>-->
         <item>http://www.ks.blood.org.tw/Internet/Kaohsiung/LocationMap.aspx?spotID=174</item>
         <!--<item>http://www.ha.blood.org.tw/Internet/Hualian/LocationMap.aspx?spotID=6</item>-->
     </string-array>
@@ -51,8 +51,8 @@
         <item>13,14,12,32,31</item>
         <item>16,17,15,18</item>
         <item>19,21,22,33</item>
-        <item>26,23,24</item>
-        <item>27,29,34,30</item>
+        <!--<item>26,23,24</item>-->
+        <item>27,26,23,24,29,34,30</item>
         <!--<item>31</item>-->
     </string-array>
 

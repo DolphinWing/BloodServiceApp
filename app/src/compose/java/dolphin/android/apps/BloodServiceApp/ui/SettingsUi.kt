@@ -295,7 +295,7 @@ fun BannerAds(modifier: Modifier = Modifier) {
         AndroidView(
             factory = { context ->
                 AdView(context).apply {
-                    adSize = AdSize.BANNER
+                    setAdSize(AdSize.BANNER)
                     adUnitId = admobAppId
                     loadAd(AdRequest.Builder().build())
                 }

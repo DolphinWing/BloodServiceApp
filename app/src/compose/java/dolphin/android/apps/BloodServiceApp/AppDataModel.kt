@@ -60,7 +60,7 @@ class AppDataModel(private val savedState: SavedStateHandle) : ViewModel() {
     var state: UiState
         get() = uiState.value ?: UiState.Main
         private set(value) {
-            savedState.set(KEY_UI_STATE, value)
+            savedState[KEY_UI_STATE] = value
         }
 
     /**

@@ -15,12 +15,13 @@ plugins {
 apply<dolphin.gradle.dsl.CustomJacocoReport>()
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     // buildToolsVersion("31.0.0")
+    namespace = "dolphin.android.apps.BloodServiceApp"
 
     defaultConfig {
         applicationId = "dolphin.android.apps.BloodServiceApp"
-        targetSdk = 31
+        targetSdk = 33
         resourceConfigurations.addAll(arrayOf("zh_TW"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,10 +32,14 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             isTestCoverageEnabled = false
+//            enableUnitTestCoverage(false)
+//            enableAndroidTestCoverage(false)
         }
         getByName("debug") {
             isMinifyEnabled = false
             isTestCoverageEnabled = false /* FIXME: jacoco cause runtime crash */
+//            enableUnitTestCoverage(false)
+//            enableAndroidTestCoverage(false)
 
             // Set this flag to 'false' to disable @AddTrace annotation processing and automatic
             // HTTP/S network request monitoring for a specific build variant at compile time
@@ -48,8 +53,8 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 223
-            versionName = "3.1.3"
+            versionCode = 225
+            versionName = "3.3.0"
             dimension = "mode"
             minSdk = 21
         }
@@ -65,11 +70,11 @@ android {
         disable.add("PackageName") // disable("PackageName")
     }
 
-    // maybe https://github.com/evant/gradle-retrolambda
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+//    // maybe https://github.com/evant/gradle-retrolambda
+//    compileOptions {
+//        sourceCompatibility = JavaVersion.VERSION_1_8
+//        targetCompatibility = JavaVersion.VERSION_1_8
+//    }
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
@@ -104,7 +109,7 @@ android {
 }
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -230,24 +235,25 @@ dependencies {
     testImplementation(Libs.JetBrains.coroutinesTest)
 
     /* Jetpack Compose */
-    implementation(Libs.AndroidX.Compose.compiler)
-    implementation(Libs.AndroidX.Compose.runtime)
-    implementation(Libs.AndroidX.Compose.livedata)
+    implementation(platform("androidx.compose:compose-bom:${Versions.AndroidX.conposeBom}"))
+//    implementation(Libs.AndroidX.Compose.compiler)
+//    implementation(Libs.AndroidX.Compose.runtime)
+    implementation("androidx.compose.runtime:runtime-livedata")
     implementation(Libs.AndroidX.Compose.activity)
     implementation(Libs.AndroidX.Compose.lifecycle)
-    implementation(Libs.AndroidX.Compose.core)
-    implementation(Libs.AndroidX.Compose.foundation)
-    implementation(Libs.AndroidX.Compose.layout)
-    implementation(Libs.AndroidX.Compose.material)
-    implementation(Libs.AndroidX.Compose.material3)
-    implementation(Libs.AndroidX.Compose.material3window)
-    implementation(Libs.AndroidX.Compose.materialIcons)
-    implementation(Libs.AndroidX.Compose.uiTooling)
-    androidTestImplementation(Libs.AndroidXTest.Compose.test)
-    androidTestImplementation(Libs.AndroidXTest.Compose.junit)
-    debugImplementation(Libs.AndroidXTest.Compose.manifest)
-    androidTestImplementation(Libs.AndroidXTest.core)
-    androidTestImplementation(Libs.AndroidXTest.junit)
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.foundation:foundation")
+//    implementation(Libs.AndroidX.Compose.layout)
+    implementation("androidx.compose.material:material")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation("androidx.compose.material:material-icons-extended")
+    // Android Studio Preview support
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    // UI Tests
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // unit test
     testImplementation(Libs.Test.junit)
@@ -259,6 +265,9 @@ dependencies {
     testImplementation(Libs.AndroidXTest.rules)
     testImplementation(Libs.AndroidXTest.runner)
     testImplementation(Libs.AndroidXTest.archCore)
+    androidTestImplementation(Libs.AndroidXTest.Compose.test)
+    androidTestImplementation(Libs.AndroidXTest.Compose.junit)
+    androidTestImplementation(Libs.AndroidXTest.core)
 
     // implementation("org.jacoco:org.jacoco.agent:${Versions.jacoco}:runtime")
 }

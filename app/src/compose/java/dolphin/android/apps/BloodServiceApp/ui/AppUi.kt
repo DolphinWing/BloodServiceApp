@@ -207,10 +207,10 @@ object PreviewSample {
     val mainCenter = BloodCenter.Center(name = "Main Center")
 
     val selectedCenter = BloodCenter.Center(
-        name = "Tainan Center",
-        id = 5,
-        cityIds = "26,23,24",
-        cities = "Tainan and Chiayi",
+        name = "Kao Center",
+        id = 6,
+        cityIds = "27,29,34,30",
+        cities = "Southern Taiwan",
     )
 
     val centers = listOf(
@@ -233,12 +233,6 @@ object PreviewSample {
             cities = "Central Taiwan",
         ),
         selectedCenter,
-        BloodCenter.Center(
-            name = "Kao Center",
-            id = 6,
-            cityIds = "27,29,34,30",
-            cities = "Southern Taiwan",
-        )
     )
 
     fun storage(a: Int = 3, b: Int = 3, o: Int = 3, ab: Int = 3): HashMap<String, Int> =
