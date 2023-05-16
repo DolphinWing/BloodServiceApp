@@ -24,25 +24,25 @@
                 <a href='http://www.blood.org.tw/Internet/main/docList.aspx?uid=7971' data-ajax='false' class='blood_dictionay_BT'>血液小百科</a>
 				
 				
-                <a href='../main/docList.aspx?uid=7530&pid=6377' class='love_blood_BT' data-ajax="false">愛的故事</a>
-                
-                <a href='List.aspx?uid=6429&pid=9' target='' class='medsin_BT'><img src='http://intra.blood.org.tw/upload/31d07bd4-1121-4329-85fa-a75b4078a0bd.gif' alt='國血製劑益康'   border='0' id='medsin_BT' onmouseout='this.src="http://intra.blood.org.tw/upload/31d07bd4-1121-4329-85fa-a75b4078a0bd.gif"' onblur='this.src="http://intra.blood.org.tw/upload/31d07bd4-1121-4329-85fa-a75b4078a0bd.gif"' onmouseover='this.src="http://intra.blood.org.tw/upload/8802f6b1-1c4f-4b82-bc4f-018f0b89d585.gif"' onfocus='this.src="http://intra.blood.org.tw/upload/8802f6b1-1c4f-4b82-bc4f-018f0b89d585.gif"'/></a>
-				
+
+
+                <a href='List.aspx?uid=6429&pid=9' target='' class='medsin_BT'><img src='https://intra.blood.org.tw/upload/31d07bd4-1121-4329-85fa-a75b4078a0bd.gif' alt='國血製劑益康'   border='0' id='medsin_BT' onmouseout='this.src="https://intra.blood.org.tw/upload/31d07bd4-1121-4329-85fa-a75b4078a0bd.gif"' onblur='this.src="https://intra.blood.org.tw/upload/31d07bd4-1121-4329-85fa-a75b4078a0bd.gif"' onmouseover='this.src="https://intra.blood.org.tw/upload/8802f6b1-1c4f-4b82-bc4f-018f0b89d585.gif"' onfocus='this.src="https://intra.blood.org.tw/upload/8802f6b1-1c4f-4b82-bc4f-018f0b89d585.gif"'/></a>
+
                 <a href='https://www.cdc.gov.tw/Category/Page/gH7NyWhq3ulASakaq5DDIQ' target='_blank' class='AIDS_stop_BT'>愛滋病全國匿名篩檢點</a>
-		
+
 		<a href='http://intra.blood.org.tw/upload/30週年特刊_網頁版_1090717.pdf' data-ajax='false' target='_blank' class='anniversary30_BT'>台灣血液基金會成立30週年紀念</a>
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
             </div>
             <div id="tool_blood_cube">
                 <img src="images/tool_blood_title.gif" width="163" height="37" alt="血液庫存量" class="title" />
                 <br /><center><a><font size="2" color="red">（全血＋紅血球）</font></a></center>
                 <div>
-                    
+
                     <div class="fade">
                         <div class='Storage' style='display: none;'>
                                             <div id='StorageHeader'>
@@ -54,11 +54,11 @@
                                                 </div>
                                                 <div id='StorageB'>
                                                     <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
-                                                </div> 
-                                                <div id='StorageO'> 
+                                                </div>
+                                                <div id='StorageO'>
                                                     <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
                                                 </div>
-                                                <div id='StorageAB'> 
+                                                <div id='StorageAB'>
                                                     <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
                                                 </div>
                                             </div>
@@ -68,16 +68,16 @@
                                             </div>
                                             <div><!--血型圖片-->
                                                 <div id='StorageA'>
-                                                    <div class='StorageCondition'><img src='images/StorageIcon001.jpg' alt='庫存量4日以下' border='0' /></div>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
                                                 </div>
                                                 <div id='StorageB'>
-                                                    <div class='StorageCondition'><img src='images/StorageIcon001.jpg' alt='庫存量4日以下' border='0' /></div>
-                                                </div> 
-                                                <div id='StorageO'> 
-                                                    <div class='StorageCondition'><img src='images/StorageIcon001.jpg' alt='庫存量4日以下' border='0' /></div>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
                                                 </div>
-                                                <div id='StorageAB'> 
-                                                    <div class='StorageCondition'><img src='images/StorageIcon001.jpg' alt='庫存量4日以下' border='0' /></div>
+                                                <div id='StorageO'>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
+                                                </div>
+                                                <div id='StorageAB'>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
                                                 </div>
                                             </div>
                                         </div><div class='Storage' style='display: none;'>
@@ -86,34 +86,16 @@
                                             </div>
                                             <div><!--血型圖片-->
                                                 <div id='StorageA'>
-                                                    <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
-                                                </div>
-                                                <div id='StorageB'>
-                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
-                                                </div> 
-                                                <div id='StorageO'> 
-                                                    <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
-                                                </div>
-                                                <div id='StorageAB'> 
-                                                    <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
-                                                </div>
-                                            </div>
-                                        </div><div class='Storage' style='display: none;'>
-                                            <div id='StorageHeader'>
-                                                    <a href='http://www.tn.blood.org.tw/Internet/Tainan/' target='_blank' class='hotnews'>台南捐血中心</a>
-                                            </div>
-                                            <div><!--血型圖片-->
-                                                <div id='StorageA'>
                                                     <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
                                                 </div>
                                                 <div id='StorageB'>
-                                                    <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
-                                                </div> 
-                                                <div id='StorageO'> 
-                                                    <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
                                                 </div>
-                                                <div id='StorageAB'> 
-                                                    <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
+                                                <div id='StorageO'>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
+                                                </div>
+                                                <div id='StorageAB'>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
                                                 </div>
                                             </div>
                                         </div><div class='Storage' style='display: none;'>
@@ -126,12 +108,12 @@
                                                 </div>
                                                 <div id='StorageB'>
                                                     <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
-                                                </div> 
-                                                <div id='StorageO'> 
+                                                </div>
+                                                <div id='StorageO'>
                                                     <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
                                                 </div>
-                                                <div id='StorageAB'> 
-                                                    <div class='StorageCondition'><img src='images/StorageIcon002.jpg' alt='庫存量4到7日' border='0' /></div>
+                                                <div id='StorageAB'>
+                                                    <div class='StorageCondition'><img src='images/StorageIcon003.jpg' alt='庫存量7日以上' border='0' /></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,12 +136,12 @@
                         </tr>
                         <tr>
                             <td colspan="3" valign="top">
-                                <img id="ctl00_contentPlaceHolder1_chart_blood" src="/Internet/main/ChartImg.axd?i=charts_0/chart_0_9.png&amp;g=c74448c9a443406a890577abfa3a6326" alt="血液庫存量" style="height:120px;width:185px;border-width:0px;" />
+                                <img id="ctl00_contentPlaceHolder1_chart_blood" src="/Internet/main/ChartImg.axd?i=charts_0/chart_0_13.png&amp;g=903b1124309640d48e5d24ac8b0548b0" alt="血液庫存量" style="height:120px;width:185px;border-width:0px;" />
                             </td>
-                            
+
                         </tr>
                     </table>
-                    <span style="font-size:0.906em;float:right;margin: 7px 9px 0 0;">最新更新時間：2021年11月05日 08時10分</span>
+                    <span style="font-size:0.906em;float:right;margin: 7px 9px 0 0;">最新更新時間：2023年05月16日 08時00分</span>
                 </div>
             </div>
             <div class="tool_danger">
@@ -176,61 +158,4 @@
                     </tr>
                 </table>
             </div>
-            
-            <img src="images/tool_right_bottom.gif" width="195" height="27" alt="*" class="tool_right_bottom" /></div>
-        <div id="blood-table">
-            <table border="0" cellspacing="0" cellpadding="10">
-              <tr>
-                <th scope="col"><img src="images/bloodStorageTitle.jpg" alt="最新血液" style="float:left;" /><span style="float:right;">最新更新時間：2021年11月05日 08時10分</span></th>
-              </tr>
-            </table>
-            <table border="0" cellpadding="5" cellspacing="0">
-              <tr>
-                <th scope="col"></th>
-                <th scope="col" class="blood-table-location"><a href="http://www.tp.blood.org.tw/Internet/taipei/index.aspx" target="_blank">台北</a></th>
-                <th scope="col" class="blood-table-location"><a href="http://www.sc.blood.org.tw/Internet/hsinchu/index.aspx" target="_blank">新竹</a></th>
-                <th scope="col" class="blood-table-location"><a href="http://www.tc.blood.org.tw/Internet/Taichung/index.aspx" target="_blank">台中</a></th>
-                <th scope="col" class="blood-table-location"><a href="http://www.tn.blood.org.tw/Internet/Tainan/index.aspx" target="_blank">台南</a></th>
-                <th scope="col" class="blood-table-location"><a href="http://www.ks.blood.org.tw/Internet/Kaohsiung/index.aspx" target="_blank">高雄</a></th>
-              </tr>
-              <tr>
-                                            <th scope='row'>A型</th>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon001.png' alt='庫存量4日以下' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon003.png' alt='庫存量7日以上' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                          </tr>
-                                          <tr>
-                                            <th scope='row'>B型</th>
-                                            <td><img src='images/StorageIcon003.png' alt='庫存量7日以上' border='0' /></td>
-                                            <td><img src='images/StorageIcon001.png' alt='庫存量4日以下' border='0' /></td>
-                                            <td><img src='images/StorageIcon003.png' alt='庫存量7日以上' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                          </tr>
-                                          <tr>
-                                            <th scope='row'>O型</th>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon001.png' alt='庫存量4日以下' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                          </tr>
-                                          <tr>
-                                            <th scope='row'>AB型</th>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon001.png' alt='庫存量4日以下' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                            <td><img src='images/StorageIcon002.png' alt='庫存量4到7日' border='0' /></td>
-                                          </tr>
-            </table>
-            <table border="0" cellspacing="6" cellpadding="0">
-              <tr>
-                <th scope="row"><img src="images/redblood.jpg" alt="red_blood_display" /></th>
-                <td><img src="images/yellowblood.jpg" alt="yellow_bloood_display" /></td>
-                <td><img src="images/greenblood.jpg" alt="green_blood_display" /></td>
-              </tr>
-            </table>
-        </div>
+

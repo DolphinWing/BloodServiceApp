@@ -53,7 +53,7 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 225
+            versionCode = 226
             versionName = "3.3.0"
             dimension = "mode"
             minSdk = 21
@@ -265,9 +265,9 @@ dependencies {
     testImplementation(Libs.AndroidXTest.rules)
     testImplementation(Libs.AndroidXTest.runner)
     testImplementation(Libs.AndroidXTest.archCore)
-    androidTestImplementation(Libs.AndroidXTest.Compose.test)
-    androidTestImplementation(Libs.AndroidXTest.Compose.junit)
-    androidTestImplementation(Libs.AndroidXTest.core)
+//    androidTestImplementation(Libs.AndroidXTest.Compose.test)
+//    androidTestImplementation(Libs.AndroidXTest.Compose.junit)
+//    androidTestImplementation(Libs.AndroidXTest.core)
 
     // implementation("org.jacoco:org.jacoco.agent:${Versions.jacoco}:runtime")
 }

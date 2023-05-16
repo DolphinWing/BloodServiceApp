@@ -77,9 +77,7 @@ function __doPostBack(eventTarget, eventArgument) {
 	<option selected="selected" value="2">台北捐血中心</option>
 	<option value="3">新竹捐血中心</option>
 	<option value="4">台中捐血中心</option>
-	<option value="5">台南捐血中心</option>
 	<option value="6">高雄捐血中心</option>
-	<option value="7">花蓮捐血中心</option>
 
 </select>
 </div>

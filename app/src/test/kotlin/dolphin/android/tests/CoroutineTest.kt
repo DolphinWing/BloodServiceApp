@@ -1,10 +1,13 @@
 package dolphin.android.tests
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -38,5 +41,8 @@ abstract class CoroutineTest {
         mainThreadSurrogate.close()
     }
 
-    fun runCoroutineTest(block: suspend TestScope.() -> Unit) = runTest(testBody = block)
+    fun runCoroutineTest(block: suspend CoroutineScope.() -> Unit) = runTest(testBody = block)
+//        runBlocking {
+//            launch(Dispatchers.Main, block = block)
+//        }
 }

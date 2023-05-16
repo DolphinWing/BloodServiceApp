@@ -184,7 +184,7 @@ class BloodDataParser(
                 order.add(cityId)
 
                 var html = reader.readDonationSpotList(id, cityId, bloodCenter.stationsUrl(cityId))
-                if (html.contains("CalendarContentRight")) {
+                if (html.contains("CalendarContentRight") && html.contains("ShortCutBox")) {
                     html = html.substring(
                         html.indexOf("CalendarContentRight"),
                         html.indexOf("ShortCutBox")

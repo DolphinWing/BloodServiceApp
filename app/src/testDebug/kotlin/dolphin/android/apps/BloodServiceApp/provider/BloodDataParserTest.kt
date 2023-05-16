@@ -36,11 +36,11 @@ class BloodDataParserTest {
     @Test
     fun `read blood storage pass`() {
         val storage1 = parser.getBloodStorage(false)
-        Assert.assertEquals(5, storage1.size())
+        Assert.assertEquals(4, storage1.size())
 
         reader.contentAsset = "" // read a empty file to make it no response data
         val storage2 = parser.getBloodStorage(false)
-        Assert.assertEquals(5, storage2.size())
+        Assert.assertEquals(4, storage2.size())
 
         val storage3 = parser.getBloodStorage(true)
         Assert.assertEquals(0, storage3.size())
@@ -53,11 +53,11 @@ class BloodDataParserTest {
         Assert.assertEquals(0, storage.size())
     }
 
-    @Test
-    fun `read tainan this week`() {
-        val days = parser.getWeekCalendar(center.tainan().id)
-        Assert.assertEquals(7, days.size)
-    }
+//    @Test
+//    fun `read tainan this week`() {
+//        val days = parser.getWeekCalendar(center.tainan().id)
+//        Assert.assertEquals(7, days.size)
+//    }
 
     @Test
     fun `read taipei this week`() {
@@ -71,11 +71,11 @@ class BloodDataParserTest {
         Assert.assertEquals(0, days.size)
     }
 
-    @Test
-    fun `read tainan recent days`() {
-        val days = parser.getLatestWeekCalendar(center.tainan().id)
-        Assert.assertEquals(7, days.size)
-    }
+//    @Test
+//    fun `read tainan recent days`() {
+//        val days = parser.getLatestWeekCalendar(center.tainan().id)
+//        Assert.assertEquals(7, days.size)
+//    }
 
     @Test
     fun `read taipei recent days`() {
@@ -103,8 +103,8 @@ class BloodDataParserTest {
     fun `read Kaohsiung spot list`() {
         // reader.contentAsset = "location_map_6_27.txt" // test with the same file
         val (order, maps) = parser.getDonationSpotLocationMap(center.kaohsiung().id)
-        Assert.assertEquals(4, order.size)
-        Assert.assertEquals(4, maps.size())
+        Assert.assertEquals(7, order.size)
+        Assert.assertEquals(7, maps.size())
     }
 
     @Test

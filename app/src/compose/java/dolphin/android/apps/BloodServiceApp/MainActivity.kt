@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -86,6 +87,12 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
 
         setupFirebaseRemoteConfig()
         setupMobileAds()
+        onBackPressedDispatcher.addCallback {
+            when (model.state) {
+                UiState.Spots, UiState.Settings -> model.changeUiState(UiState.Main)
+                else -> { this@MainActivity.finish() } //super.onBackPressed()
+            }
+        }
     }
 
     private fun setupPreDrawListener() {
@@ -161,15 +168,8 @@ class MainActivity : AppCompatActivity(), AppUiCallback {
         }
     }
 
-    override fun onBackPressed() {
-        when (model.state) {
-            UiState.Spots, UiState.Settings -> model.changeUiState(UiState.Main)
-            else -> super.onBackPressed()
-        }
-    }
-
     override fun pressBack() {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
     }
 
     override fun reviewSource(center: BloodCenter.Center) {

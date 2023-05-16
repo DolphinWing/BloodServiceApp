@@ -32,3 +32,6 @@ app/releas
 
 jacoco/
 dokka/
+*.jks
+*.aab
+*.apk

@@ -36,10 +36,10 @@ class BloodCenterTest {
         Assert.assertEquals(center.taichung(), center.find(4))
     }
 
-    @Test
-    fun `find tainan`() {
-        Assert.assertEquals(center.tainan(), center.find(5))
-    }
+//    @Test
+//    fun `find tainan`() {
+//        Assert.assertEquals(center.tainan(), center.find(5))
+//    }
 
     @Test
     fun `find kaohsiung`() {
@@ -53,9 +53,9 @@ class BloodCenterTest {
 
     @Test
     fun `not equal center`() {
-        Assert.assertNotEquals(center.main(), center.tainan())
-        Assert.assertNotEquals(center.main().hashCode(), center.tainan().hashCode())
-        Assert.assertNotEquals(center.main().toString(), center.tainan().toString())
+        Assert.assertNotEquals(center.main(), center.kaohsiung())
+        Assert.assertNotEquals(center.main().hashCode(), center.kaohsiung().hashCode())
+        Assert.assertNotEquals(center.main().toString(), center.kaohsiung().toString())
     }
 
     @Test

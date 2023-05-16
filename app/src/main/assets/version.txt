@@ -13,6 +13,10 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2022 DolphinWing.
 ----
+[226] @ 2023-05-16
+    remove deprecated onBackPressed implementation
+    fix unit tests and android tests
+
 [225] @ 2023-05-12
     upgrade gradle and libs: targeting sdk 33
         AGP 8.0.1

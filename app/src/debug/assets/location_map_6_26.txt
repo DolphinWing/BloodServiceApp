@@ -1,0 +1,118 @@
+view-source:https://www.ks.blood.org.tw/Internet/Kaohsiung/LocationMap.aspx?spotID=174&city_id=26
+
+ <div id="ContentInnerPage">
+        <div id="InnerHeader">
+            <div id="InnerHeaderTitle">
+                哪裡可以捐血
+            </div>
+        </div>
+    </div>
+    <div id="CalendarInnerBox">
+        <div id="CalendarInnerHeader">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="2%" align="left">
+                            <img src="images/HeaderIcon003.jpg" alt="活動行事曆" border="0" />
+                        </td>
+                        <td width="17%" align="left" class="title">
+                            <span class="font005">活動行事曆</span>
+                        </td>
+                        <td width="9%" align="left" class="title">
+                            <a class='font002' href='LocationMap.aspx?spotID=174' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='地圖' border='0' />地圖</a>
+                        </td>
+                        <td width="12%" align="left" class="title">
+                            <a class='font002' href='LocationMonth.aspx?site_id=6' data-ajax='false'><img src='images/SwapIcon001.jpg' alt='行事曆' border='0' />行事曆</a>
+                        </td>
+                        <td width="60%" align="right" class="share">
+                            
+                            
+
+<a href="javascript: void(window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href) +'&t='+encodeURIComponent(document.title)));"><img src="images/IconFB.jpg" alt="facebook" border="0" /></a>
+<a href="javascript: void(window.open('http://www.plurk.com/?qualifier=shares&status='+encodeURIComponent(location.href)+'%20('+encodeURIComponent(document.title)+')'));"><img src="images/IconPL.jpg" alt="plurk" border="0" /></a>
+<a href="javascript: void(window.open('http://twitter.com/home/?status='+encodeURIComponent(location.href)+'%20'+encodeURIComponent(document.title)));"><img src="images/IconTT.jpg" alt="twitter" border="0" /></a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="CalendarInnerContent">
+            <div id="CalendarInnerContentLeft_Map">
+                <div id="CalendarContentMapBox">
+                    <div id="CalendarContentMap">
+                        <iframe id="ctl00_ContentPlaceHolder1_frame_map" width="504" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com.tw/maps?f=q&amp;hl=zh-TW&amp;geocode=&amp;q=%e9%ab%98%e9%9b%84%e5%b8%82%e6%a5%a0%e6%a2%93%e5%8d%80%e9%ab%98%e6%a5%a0%e5%85%ac%e8%b7%af1837%e8%99%9f&amp;z=16&amp;output=embed&amp;t="></iframe>
+                    </div>
+                    <div id="CalendarContentMapInfo">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <li><span class="font009">地址：</span>高雄市楠梓區高楠公路1837號</li>
+                                        <li><span class="font009">電話：</span>07-3641832</li>
+                                        <li><span class="font009">作業時間：</span>08:00-17:00</li>
+                                        <li><span class="font009">備註：</span>歡迎預約分離術捐血/110/8/31前作業時間09:00-20:00</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <img id="ctl00_ContentPlaceHolder1_img_qrCode" src="https://chart.googleapis.com/chart?chs=112x92&amp;cht=qr&amp;chl=https%3a%2f%2fwww.ks.blood.org.tw%2fInternet%2fKaohsiung%2fLocationMap.aspx%3fspotID%3d174%26city_id%3d26&amp;choe=UTF-8&amp;chld=M|0" alt="行動條碼圖片" style="height:84px;width:97px;border-width:0px;" />
+                                </td>
+                                <td valign="top" align ="left" class="MAPicon">
+                                    <ul>
+                                        <li>
+                                            <img src="images/CalendarContentMapIcon01.jpg" alt="捐血中心" border="0" />
+                                            楠梓捐血室
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="CalendarContentRight">
+                
+                <div id="SelectCity">
+                    <select name="ctl00$ContentPlaceHolder1$ddl_SelectCity" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$ddl_SelectCity\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_ddl_SelectCity" class="SelectCity">
+	<option selected="selected" value="27">高雄市</option>
+	<option value="26">臺南市</option>
+	<option value="29">屏東縣</option>
+	<option value="34">澎湖縣</option>
+	<option value="23">嘉義市</option>
+	<option value="30">臺東縣</option>
+	<option value="24">嘉義縣</option>
+
+</select>
+				</div>
+
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader001.jpg" alt="固定捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=375&cityID=27' data-ajax='false'> 五甲捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=27&cityID=27' data-ajax='false'> 左營捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=107&cityID=27' data-ajax='false'> 岡山捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=108&cityID=27' data-ajax='false'> 前金捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=344&cityID=27' data-ajax='false'> 苓雅捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=316&cityID=27' data-ajax='false'> 捷運鳳山捐血室</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=174&cityID=27' data-ajax='false'> 楠梓捐血室</a></td></tr></table>
+                </div>
+                <div id="InnerLocation001">
+                    <div>
+                        <img src="images/LocationInnerHeader002.jpg" alt="巡迴捐血點" border="0" />
+                    </div>
+                    <table border='0' cellspacing='1' cellpadding='0' width='90%'><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=384&cityID=27' data-ajax='false'> 【大社區】大社農會前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=237&cityID=27' data-ajax='false'> 【大寮區】愛國超來後鳳林店前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=173&cityID=27' data-ajax='false'> 【小港區】小港區公所前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=230&cityID=27' data-ajax='false'> 【仁武區】仁武區公所前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=229&cityID=27' data-ajax='false'> 【六龜區】六龜中學前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=227&cityID=27' data-ajax='false'> 【甲仙區】甲仙國小前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=238&cityID=27' data-ajax='false'> 【林園區】林園王公廟前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=386&cityID=27' data-ajax='false'> 【阿蓮區】紫微殿廣場</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=231&cityID=27' data-ajax='false'> 【美濃區】美濃區公所前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=385&cityID=27' data-ajax='false'> 【湖內區】湖內慈濟宮前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=240&cityID=27' data-ajax='false'> 【路竹區】路竹區公所前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=232&cityID=27' data-ajax='false'> 【旗山區】旗山中山公園前</a></td></tr><tr><td width='10%' align='center'><img src='images/ListIcon004.jpg' alt='小圖' border='0' /></td><td width='90%'><a class='font002' href='LocationMap.aspx?spotID=175&cityID=27' data-ajax='false'> 【旗津區】原旗津區公所前</a></td></tr></table>
+                </div>
+            </div>
+        </div>
+    </div>
+	    <div id="ShortCutBox">
+        
+
+<div id="ShortCut">
+	<div>
+		<a href="#" onclick="$.mobile.silentScroll(0)" onkeypress="$.mobile.silentScroll(0)"  data-role="button"><img src="images/ShortCutTop.jpg" alt="回最上端" border="0" /></a>
+	</div>
+	<div>
+		<img src="images/ShortCutIcon.jpg" alt="Short Cut" border="0" />
+	</div>
+	<div>
+		<a href="javascript:history.go(-1);"><img src="images/ShortCutPrevious.jpg" alt="回上一頁" border="0" /></a>
+	</div>
+</div>
+
+    </div>
