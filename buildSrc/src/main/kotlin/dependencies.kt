@@ -9,7 +9,7 @@ object Versions {
     const val jacoco = "0.8.10"
 
     object Google {
-        const val gradleBuildTool = "8.0.1"
+        const val gradleBuildTool = "8.1.1"
 
         /**
          * https://developers.google.com/android/guides/google-services-plugin
@@ -19,14 +19,14 @@ object Versions {
         /**
          * https://developers.google.com/android/guides/setup
          */
-        const val playServices = "18.2.0"
+        const val playServices = "18.5.0"
         const val analytics = "18.0.2"
-        const val ads = "22.0.0"
+        const val ads = "23.2.0"
 
         const val material: String = "1.9.0"
     }
 
-    const val okhttp: String = "4.11.0"
+    const val okhttp: String = "4.12.0"
 
     object AndroidX {
         /**
@@ -73,7 +73,7 @@ object Versions {
      * https://firebase.google.com/docs/android/learn-more
      */
     object Firebase {
-        const val bom: String = "32.0.0"
+        const val bom: String = "33.1.2"
 
 //        const val core: String = "19.0.0"
 //        const val analytics: String = "19.0.0"

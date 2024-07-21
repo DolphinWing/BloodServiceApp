@@ -41,7 +41,7 @@ abstract class CustomJacocoTask(
         flavor: String = defaultFlavor,
         modules: Array<String> = sourceModuleList,
     ): List<String> {
-        val variant = flavor.toLowerCase(Locale.ROOT)
+        val variant = flavor.lowercase(Locale.ROOT)
         val sources = ArrayList<String>()
         project.rootProject.subprojects.filter { p ->
             modules.contains(p.name)
@@ -60,7 +60,7 @@ abstract class CustomJacocoTask(
 
     @Suppress("SameParameterValue")
     protected fun jacocoExecFilter(flavor: String = defaultFlavor): Array<String> {
-        val variant = flavor.toLowerCase(Locale.ROOT)
+        val variant = flavor.lowercase(Locale.ROOT)
         return arrayOf(
             "jacoco/test${flavor}DebugUnitTest.exec",
             "outputs/unit_test_code_coverage/${variant}DebugUnitTest/test${flavor}DebugUnitTest.exec",
@@ -84,7 +84,7 @@ abstract class CustomJacocoTask(
 
     @Suppress("SameParameterValue")
     private fun classDirectory(project: Project, flavor: String = defaultFlavor): List<Any> {
-        val variant = flavor.toLowerCase(Locale.ROOT)
+        val variant = flavor.lowercase(Locale.ROOT)
         val classes = ArrayList<Any>()
         project.rootProject.subprojects.filter { p ->
             // p.plugins.hasPlugin("jacoco")

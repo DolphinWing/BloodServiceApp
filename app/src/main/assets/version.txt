@@ -13,6 +13,10 @@ This is a gradle project. You should use Android Studio Arctic Fox or above.
 
 This project is under MIT License. Copyright (c) 2022 DolphinWing.
 ----
+[227] @ 2024-07-21
+    android sdk 35 and other dependencies upgrade
+    not everything latest because I don't want to spend too much time on it
+
 [226] @ 2023-05-16
     remove deprecated onBackPressed implementation
     fix unit tests and android tests

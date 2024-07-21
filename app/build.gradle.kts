@@ -15,13 +15,13 @@ plugins {
 apply<dolphin.gradle.dsl.CustomJacocoReport>()
 
 android {
-    compileSdk = 33
+    compileSdk = 35
     // buildToolsVersion("31.0.0")
     namespace = "dolphin.android.apps.BloodServiceApp"
 
     defaultConfig {
         applicationId = "dolphin.android.apps.BloodServiceApp"
-        targetSdk = 33
+        targetSdk = 35
         resourceConfigurations.addAll(arrayOf("zh_TW"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,13 +31,13 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            isTestCoverageEnabled = false
+            enableUnitTestCoverage = false
 //            enableUnitTestCoverage(false)
 //            enableAndroidTestCoverage(false)
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isTestCoverageEnabled = false /* FIXME: jacoco cause runtime crash */
+            enableUnitTestCoverage = false /* FIXME: jacoco cause runtime crash */
 //            enableUnitTestCoverage(false)
 //            enableAndroidTestCoverage(false)
 
@@ -53,8 +53,8 @@ android {
     flavorDimensions.add("mode")
     productFlavors {
         create("compose") {
-            versionCode = 226
-            versionName = "3.3.0"
+            versionCode = 227
+            versionName = "3.3.1"
             dimension = "mode"
             minSdk = 21
         }
